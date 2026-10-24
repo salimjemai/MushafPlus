@@ -24,9 +24,18 @@ import 'features/settings/translation_picker_screen.dart';
 import 'state/providers.dart';
 import 'widgets/surah_number_badge.dart';
 
-final _router = GoRouter(
-  initialLocation: '/',
-  routes: [
+/// The route the platform asked for at startup (a web deep link such as
+/// `#/hadith/muslim`). Captured in main() before the splash screen can reset
+/// the browser URL to "/".
+String initialRouteAtStartup = '/';
+
+GoRouter? _routerInstance;
+GoRouter get _router => _routerInstance ??= GoRouter(
+      initialLocation: initialRouteAtStartup.startsWith('/') ? initialRouteAtStartup : '/',
+      routes: _routes,
+    );
+
+final _routes = <RouteBase>[
     ShellRoute(
       builder: (context, state, child) => HomeShell(child: child),
       routes: [
@@ -118,8 +127,7 @@ final _router = GoRouter(
         return ReaderScreen(surahNumber: n.clamp(1, 114), initialAyah: ayah);
       },
     ),
-  ],
-);
+  ];
 
 class QuranPlusApp extends ConsumerWidget {
   const QuranPlusApp({super.key});

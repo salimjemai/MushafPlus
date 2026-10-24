@@ -6,7 +6,10 @@ import 'app.dart';
 import 'data/storage.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+  // Remember the deep link the platform opened us with (web hash route, app
+  // link) before any widget can replace it.
+  initialRouteAtStartup = binding.platformDispatcher.defaultRouteName;
   tzdata.initializeTimeZones();
   await Storage.init();
   runApp(const ProviderScope(child: QuranPlusApp()));
