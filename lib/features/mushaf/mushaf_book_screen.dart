@@ -58,7 +58,9 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
   void _onScrollPositions() {
     final positions = _positions.itemPositions.value;
     if (positions.isEmpty) return;
-    final top = positions.where((p) => p.itemTrailingEdge > 0.3).fold<int?>(null, (m, p) => m == null || p.index < m ? p.index : m);
+    final top = positions
+        .where((p) => p.itemTrailingEdge > 0.3)
+        .fold<int?>(null, (m, p) => m == null || p.index < m ? p.index : m);
     if (top != null && top + 1 != _page) {
       setState(() => _page = top + 1);
       _markRead(_page);
@@ -76,7 +78,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
     return c.maxWidth >= 900 ? MushafLayout.book : MushafLayout.flip;
   }
 
-  Future<void> _goTo(int page, MushafLayout layout, {bool animate = true}) async {
+  Future<void> _goTo(int page, MushafLayout layout,
+      {bool animate = true}) async {
     page = page.clamp(1, QuranRepository.totalPages);
     _programmatic = true;
     setState(() => _page = page);
@@ -84,21 +87,26 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
       case MushafLayout.scroll:
         if (_scroll.isAttached) {
           if (animate) {
-            await _scroll.scrollTo(index: page - 1, duration: const Duration(milliseconds: 400));
+            await _scroll.scrollTo(
+                index: page - 1, duration: const Duration(milliseconds: 400));
           } else {
             _scroll.jumpTo(index: page - 1);
           }
         }
       case MushafLayout.flip:
         if (animate && _flip!.hasClients) {
-          await _flip!.animateToPage(page - 1, duration: const Duration(milliseconds: 450), curve: Curves.easeInOutCubic);
+          await _flip!.animateToPage(page - 1,
+              duration: const Duration(milliseconds: 450),
+              curve: Curves.easeInOutCubic);
         } else if (_flip!.hasClients) {
           _flip!.jumpToPage(page - 1);
         }
       case MushafLayout.book:
       case MushafLayout.auto:
         if (animate && _book!.hasClients) {
-          await _book!.animateToPage(_spreadOf(page), duration: const Duration(milliseconds: 550), curve: Curves.easeInOutCubic);
+          await _book!.animateToPage(_spreadOf(page),
+              duration: const Duration(milliseconds: 550),
+              curve: Curves.easeInOutCubic);
         } else if (_book!.hasClients) {
           _book!.jumpToPage(_spreadOf(page));
         }
@@ -114,7 +122,11 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
     final settings = ref.watch(settingsProvider);
     final scheme = Theme.of(context).colorScheme;
     final ayahs = repo.ayahsOfPage(_page);
-    final surahNames = ayahs.map((a) => a.surah).toSet().map((s) => repo.surah(s).englishName).join(' · ');
+    final surahNames = ayahs
+        .map((a) => a.surah)
+        .toSet()
+        .map((s) => repo.surah(s).englishName)
+        .join(' · ');
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -131,21 +143,27 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () => context.canPop() ? context.pop() : context.go('/'),
+              onPressed: () =>
+                  context.canPop() ? context.pop() : context.go('/'),
             ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(surahNames, maxLines: 1, overflow: TextOverflow.ellipsis),
                 Text(l.pageJuz(_page, ayahs.first.juz),
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: scheme.onSurfaceVariant)),
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: scheme.onSurfaceVariant)),
               ],
             ),
             actions: [
               IconButton(
                 tooltip: l.playThisPage,
                 icon: const Icon(Icons.play_circle_outline),
-                onPressed: () => ref.read(audioProvider.notifier).playAyah(ayahs.first.number, until: ayahs.last.number),
+                onPressed: () => ref
+                    .read(audioProvider.notifier)
+                    .playAyah(ayahs.first.number, until: ayahs.last.number),
               ),
               PopupMenuButton<MushafLayout>(
                 tooltip: l.mushafLayout,
@@ -156,13 +174,19 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
                 }),
                 onSelected: (v) {
                   ref.read(settingsProvider.notifier).setMushafLayout(v);
-                  WidgetsBinding.instance.addPostFrameCallback((_) => _goTo(_page, v == MushafLayout.auto ? _layout(constraints) : v, animate: false));
+                  WidgetsBinding.instance.addPostFrameCallback((_) => _goTo(
+                      _page, v == MushafLayout.auto ? _layout(constraints) : v,
+                      animate: false));
                 },
                 itemBuilder: (_) => [
-                  _layoutItem(MushafLayout.auto, Icons.auto_awesome_outlined, l.layoutAutomatic, settings.mushafLayout),
-                  _layoutItem(MushafLayout.scroll, Icons.swap_vert, l.layoutScroll, settings.mushafLayout),
-                  _layoutItem(MushafLayout.flip, Icons.auto_stories_outlined, l.layoutFlip, settings.mushafLayout),
-                  _layoutItem(MushafLayout.book, Icons.menu_book_outlined, l.layoutBook, settings.mushafLayout),
+                  _layoutItem(MushafLayout.auto, Icons.auto_awesome_outlined,
+                      l.layoutAutomatic, settings.mushafLayout),
+                  _layoutItem(MushafLayout.scroll, Icons.swap_vert,
+                      l.layoutScroll, settings.mushafLayout),
+                  _layoutItem(MushafLayout.flip, Icons.auto_stories_outlined,
+                      l.layoutFlip, settings.mushafLayout),
+                  _layoutItem(MushafLayout.book, Icons.menu_book_outlined,
+                      l.layoutBook, settings.mushafLayout),
                 ],
               ),
               IconButton(
@@ -193,7 +217,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
     );
   }
 
-  PopupMenuItem<MushafLayout> _layoutItem(MushafLayout v, IconData icon, String label, MushafLayout current) {
+  PopupMenuItem<MushafLayout> _layoutItem(
+      MushafLayout v, IconData icon, String label, MushafLayout current) {
     return PopupMenuItem(
       value: v,
       child: ListTile(
@@ -219,29 +244,40 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
           constraints: const BoxConstraints(maxWidth: 640),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: MushafPage(page: i + 1, onAyahTap: (a) => showAyahActions(context, ref, a)),
+            child: MushafPage(
+                page: i + 1,
+                onAyahTap: (a) => showAyahActions(context, ref, a)),
           ),
         ),
       ),
     );
   }
 
+  // The book's geometry is fixed regardless of the interface language: page
+  // views and the page bar are laid out left-to-right, with `reverse` giving
+  // the Arabic reading order (next page comes from the left).
+
   Widget _flipLayout() {
-    return PageView.builder(
-      controller: _flip,
-      reverse: true, // next page comes from the left, like an Arabic book
-      itemCount: QuranRepository.totalPages,
-      onPageChanged: (i) {
-        if (_programmatic) return;
-        setState(() => _page = i + 1);
-        _markRead(_page);
-      },
-      itemBuilder: (context, i) => _Flipping(
-        controller: _flip!,
-        index: i,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-          child: _FitPage(page: i + 1, onAyahTap: (a) => showAyahActions(context, ref, a)),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: PageView.builder(
+        controller: _flip,
+        reverse: true, // next page comes from the left, like an Arabic book
+        itemCount: QuranRepository.totalPages,
+        onPageChanged: (i) {
+          if (_programmatic) return;
+          setState(() => _page = i + 1);
+          _markRead(_page);
+        },
+        itemBuilder: (context, i) => _Flipping(
+          controller: _flip!,
+          index: i,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+            child: _FitPage(
+                page: i + 1,
+                onAyahTap: (a) => showAyahActions(context, ref, a)),
+          ),
         ),
       ),
     );
@@ -249,37 +285,45 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
 
   Widget _bookLayout(BoxConstraints constraints) {
     final spreads = (QuranRepository.totalPages / 2).ceil();
-    return PageView.builder(
-      controller: _book,
-      reverse: true,
-      itemCount: spreads,
-      onPageChanged: (k) {
-        if (_programmatic) return;
-        setState(() => _page = k * 2 + 1);
-        _markRead(_page);
-      },
-      itemBuilder: (context, k) {
-        final right = k * 2 + 1;
-        final left = right + 1;
-        return _Flipping(
-          controller: _book!,
-          index: k,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: left <= QuranRepository.totalPages
-                      ? _FitPage(page: left, onAyahTap: (a) => showAyahActions(context, ref, a))
-                      : const SizedBox.shrink(),
-                ),
-                _Spine(),
-                Expanded(child: _FitPage(page: right, onAyahTap: (a) => showAyahActions(context, ref, a))),
-              ],
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: PageView.builder(
+        controller: _book,
+        reverse: true,
+        itemCount: spreads,
+        onPageChanged: (k) {
+          if (_programmatic) return;
+          setState(() => _page = k * 2 + 1);
+          _markRead(_page);
+        },
+        itemBuilder: (context, k) {
+          final right = k * 2 + 1;
+          final left = right + 1;
+          return _Flipping(
+            controller: _book!,
+            index: k,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: left <= QuranRepository.totalPages
+                        ? _FitPage(
+                            page: left,
+                            onAyahTap: (a) => showAyahActions(context, ref, a))
+                        : const SizedBox.shrink(),
+                  ),
+                  _Spine(),
+                  Expanded(
+                      child: _FitPage(
+                          page: right,
+                          onAyahTap: (a) => showAyahActions(context, ref, a))),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -309,15 +353,21 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
                   ActionChip(
                     label: Text(context.l10n.juzN(j.number)),
                     visualDensity: VisualDensity.compact,
-                    onPressed: () => Navigator.pop(context, repo.ayah(j.startAyah).page),
+                    onPressed: () =>
+                        Navigator.pop(context, repo.ayah(j.startAyah).page),
                   ),
               ],
             ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.cancel)),
-          FilledButton(onPressed: () => Navigator.pop(context, int.tryParse(controller.text)), child: Text(context.l10n.open)),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(context.l10n.cancel)),
+          FilledButton(
+              onPressed: () =>
+                  Navigator.pop(context, int.tryParse(controller.text)),
+              child: Text(context.l10n.open)),
         ],
       ),
     );
@@ -329,7 +379,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
 /// A page-turn feel: the page rotates slightly around its spine edge while
 /// being dragged, with a soft shadow.
 class _Flipping extends StatelessWidget {
-  const _Flipping({required this.controller, required this.index, required this.child});
+  const _Flipping(
+      {required this.controller, required this.index, required this.child});
   final PageController controller;
   final int index;
   final Widget child;
@@ -341,7 +392,8 @@ class _Flipping extends StatelessWidget {
       builder: (context, _) {
         double delta = 0;
         if (controller.hasClients && controller.position.haveDimensions) {
-          delta = (controller.page ?? controller.initialPage.toDouble()) - index;
+          delta =
+              (controller.page ?? controller.initialPage.toDouble()) - index;
         }
         final t = delta.clamp(-1.0, 1.0);
         final angle = -t * math.pi / 2 * 0.35;
@@ -376,8 +428,9 @@ class _Spine extends StatelessWidget {
   }
 }
 
-/// Scales a whole page down so it always fits the available frame, like a
-/// printed page (no inner scrolling).
+/// A page with the proportions of a printed Mushaf (about 2:3), as large as
+/// the frame allows; the text block is scaled to fill it, so every page shows
+/// in full with no inner scrolling.
 class _FitPage extends StatelessWidget {
   const _FitPage({required this.page, required this.onAyahTap});
   final int page;
@@ -385,11 +438,10 @@ class _FitPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.contain,
-      child: SizedBox(
-        width: 460,
-        child: MushafPage(page: page, onAyahTap: onAyahTap),
+    return Center(
+      child: AspectRatio(
+        aspectRatio: MushafPage.pageAspect,
+        child: MushafPage(page: page, onAyahTap: onAyahTap, fitToPage: true),
       ),
     );
   }
@@ -398,13 +450,28 @@ class _FitPage extends StatelessWidget {
 /// One printed Mushaf page: ornamental frame, running head (surah / juz),
 /// the ayahs of the page with surah banners, and the page number.
 class MushafPage extends ConsumerWidget {
-  const MushafPage({super.key, required this.page, required this.onAyahTap});
+  const MushafPage(
+      {super.key,
+      required this.page,
+      required this.onAyahTap,
+      this.fitToPage = false});
   final int page;
   final ValueChanged<Ayah> onAyahTap;
+
+  /// When true the page has a bounded height and the text is scaled to fill it.
+  final bool fitToPage;
+
+  /// Width : height of a printed page.
+  static const pageAspect = 0.68;
+
+  /// Logical width the text is laid out at before scaling (about nine words
+  /// per line, like the Madani Mushaf).
+  static const layoutWidth = 540.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final repo = ref.quran;
+    final settings = ref.watch(settingsProvider);
     final ayahs = repo.ayahsOfPage(page);
     final dark = Theme.of(context).brightness == Brightness.dark;
     final paper = dark ? const Color(0xFF1C1A15) : const Color(0xFFFDF6E3);
@@ -420,12 +487,41 @@ class MushafPage extends ConsumerWidget {
       }
     }
     final headSurah = repo.surah(ayahs.last.surah);
+    final textStyle = fitToPage
+        ? ArabicStyles.ayah(context, font: settings.arabicFont)
+            .copyWith(fontSize: 27, height: 1.95, color: ink)
+        : null;
+
+    final body = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final g in groups) ...[
+          if (g.first.numberInSurah == 1)
+            _Banner(surah: repo.surah(g.first.surah), frame: frame, ink: ink),
+          _InkTheme(
+            ink: ink,
+            child: MushafText(
+              key: ValueKey('mp$page-${g.first.surah}'),
+              ayahs: g,
+              onAyahTap: onAyahTap,
+              style: textStyle,
+            ),
+          ),
+        ],
+      ],
+    );
 
     return Container(
       decoration: BoxDecoration(
         color: paper,
         borderRadius: BorderRadius.circular(6),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: dark ? 0.5 : 0.18), blurRadius: 14, offset: const Offset(0, 6))],
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withValues(alpha: dark ? 0.5 : 0.18),
+              blurRadius: 14,
+              offset: const Offset(0, 6))
+        ],
       ),
       padding: const EdgeInsets.all(10),
       child: Container(
@@ -435,34 +531,49 @@ class MushafPage extends ConsumerWidget {
         ),
         padding: const EdgeInsets.all(4),
         child: Container(
-          decoration: BoxDecoration(border: Border.all(color: frame.withValues(alpha: 0.5), width: 0.8)),
+          decoration: BoxDecoration(
+              border:
+                  Border.all(color: frame.withValues(alpha: 0.5), width: 0.8)),
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 10),
           child: DefaultTextStyle(
             style: TextStyle(color: ink),
             child: Column(
+              mainAxisSize: fitToPage ? MainAxisSize.max : MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   children: [
                     Text('الجزء ${toArabicDigits(ayahs.first.juz)}',
-                        style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 14, color: ink.withValues(alpha: 0.75))),
+                        style: TextStyle(
+                            fontFamily: ArabicStyles.nameFont,
+                            fontSize: 14,
+                            color: ink.withValues(alpha: 0.75))),
                     const Spacer(),
                     Text(headSurah.name,
-                        style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 15, color: ink.withValues(alpha: 0.85))),
+                        style: TextStyle(
+                            fontFamily: ArabicStyles.nameFont,
+                            fontSize: 15,
+                            color: ink.withValues(alpha: 0.85))),
                   ],
                 ),
                 Divider(color: frame.withValues(alpha: 0.5), height: 14),
-                for (final g in groups) ...[
-                  if (g.first.numberInSurah == 1) _Banner(surah: repo.surah(g.first.surah), frame: frame, ink: ink),
-                  _InkTheme(
-                    ink: ink,
-                    child: MushafText(key: ValueKey('mp$page-${g.first.surah}'), ayahs: g, onAyahTap: onAyahTap),
-                  ),
-                ],
+                if (fitToPage)
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(width: layoutWidth, child: body),
+                    ),
+                  )
+                else
+                  body,
                 const SizedBox(height: 8),
                 Center(
                   child: Text(toArabicDigits(page),
-                      style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 16, color: ink.withValues(alpha: 0.8))),
+                      style: TextStyle(
+                          fontFamily: ArabicStyles.nameFont,
+                          fontSize: 16,
+                          color: ink.withValues(alpha: 0.8))),
                 ),
               ],
             ),
@@ -483,7 +594,8 @@ class _InkTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Theme(
-      data: theme.copyWith(colorScheme: theme.colorScheme.copyWith(onSurface: ink)),
+      data: theme.copyWith(
+          colorScheme: theme.colorScheme.copyWith(onSurface: ink)),
       child: child,
     );
   }
@@ -504,17 +616,31 @@ class _Banner extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             decoration: BoxDecoration(
-              border: Border.symmetric(horizontal: BorderSide(color: frame, width: 1.2)),
+              border: Border.symmetric(
+                  horizontal: BorderSide(color: frame, width: 1.2)),
               color: frame.withValues(alpha: 0.08),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('۞', style: TextStyle(fontFamily: ArabicStyles.nameFont, color: frame, fontSize: 18)),
+                Text('۞',
+                    style: TextStyle(
+                        fontFamily: ArabicStyles.nameFont,
+                        color: frame,
+                        fontSize: 18)),
                 const SizedBox(width: 12),
-                Text(surah.name, style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 24, fontWeight: FontWeight.w700, color: ink)),
+                Text(surah.name,
+                    style: TextStyle(
+                        fontFamily: ArabicStyles.nameFont,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: ink)),
                 const SizedBox(width: 12),
-                Text('۞', style: TextStyle(fontFamily: ArabicStyles.nameFont, color: frame, fontSize: 18)),
+                Text('۞',
+                    style: TextStyle(
+                        fontFamily: ArabicStyles.nameFont,
+                        color: frame,
+                        fontSize: 18)),
               ],
             ),
           ),
@@ -523,7 +649,11 @@ class _Banner extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4),
               child: Text(bismillah,
                   textDirection: TextDirection.rtl,
-                  style: TextStyle(fontFamily: ArabicStyles.quranFont, fontSize: 24, height: 1.8, color: ink)),
+                  style: TextStyle(
+                      fontFamily: ArabicStyles.quranFont,
+                      fontSize: 24,
+                      height: 1.8,
+                      color: ink)),
             ),
         ],
       ),
@@ -532,7 +662,8 @@ class _Banner extends StatelessWidget {
 }
 
 class _PageBar extends StatelessWidget {
-  const _PageBar({required this.page, required this.onChanged, required this.onGoTo});
+  const _PageBar(
+      {required this.page, required this.onChanged, required this.onGoTo});
   final int page;
   final ValueChanged<int> onChanged;
   final VoidCallback onGoTo;
@@ -546,26 +677,42 @@ class _PageBar extends StatelessWidget {
         top: false,
         child: Container(
           height: 56,
-          decoration: BoxDecoration(border: Border(top: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.5)))),
-          child: Row(
-            children: [
-              IconButton(tooltip: context.l10n.previousPage, onPressed: page > 1 ? () => onChanged(page - 1) : null, icon: const Icon(Icons.chevron_left)),
-              Expanded(
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Slider(
-                    value: page.toDouble(),
-                    min: 1,
-                    max: QuranRepository.totalPages.toDouble(),
-                    divisions: QuranRepository.totalPages - 1,
-                    label: '$page',
-                    onChanged: (v) => onChanged(v.round()),
+          decoration: BoxDecoration(
+              border: Border(
+                  top: BorderSide(
+                      color: scheme.outlineVariant.withValues(alpha: 0.5)))),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Row(
+              children: [
+                IconButton(
+                    tooltip: context.l10n.previousPage,
+                    onPressed: page > 1 ? () => onChanged(page - 1) : null,
+                    icon: const Icon(Icons.chevron_left)),
+                Expanded(
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Slider(
+                      value: page.toDouble(),
+                      min: 1,
+                      max: QuranRepository.totalPages.toDouble(),
+                      divisions: QuranRepository.totalPages - 1,
+                      label: '$page',
+                      onChanged: (v) => onChanged(v.round()),
+                    ),
                   ),
                 ),
-              ),
-              TextButton(onPressed: onGoTo, child: Text('$page / ${QuranRepository.totalPages}')),
-              IconButton(tooltip: context.l10n.nextPage, onPressed: page < QuranRepository.totalPages ? () => onChanged(page + 1) : null, icon: const Icon(Icons.chevron_right)),
-            ],
+                TextButton(
+                    onPressed: onGoTo,
+                    child: Text('$page / ${QuranRepository.totalPages}')),
+                IconButton(
+                    tooltip: context.l10n.nextPage,
+                    onPressed: page < QuranRepository.totalPages
+                        ? () => onChanged(page + 1)
+                        : null,
+                    icon: const Icon(Icons.chevron_right)),
+              ],
+            ),
           ),
         ),
       ),

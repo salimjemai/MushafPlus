@@ -63,6 +63,7 @@ class MushafText extends ConsumerStatefulWidget {
     required this.ayahs,
     required this.onAyahTap,
     this.initialSelected,
+    this.style,
   });
 
   final List<Ayah> ayahs;
@@ -70,6 +71,9 @@ class MushafText extends ConsumerStatefulWidget {
 
   /// Global number of the ayah to highlight initially.
   final int? initialSelected;
+
+  /// Base text style; defaults to the reader's Arabic style from settings.
+  final TextStyle? style;
 
   @override
   ConsumerState<MushafText> createState() => _MushafTextState();
@@ -123,7 +127,7 @@ class _MushafTextState extends ConsumerState<MushafText> {
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsProvider);
     final scheme = Theme.of(context).colorScheme;
-    final base = ArabicStyles.ayah(context, scale: settings.arabicScale, font: settings.arabicFont);
+    final base = widget.style ?? ArabicStyles.ayah(context, scale: settings.arabicScale, font: settings.arabicFont);
     final playingAyah = ref.watch(audioProvider.select((a) => a.ayah));
 
     return Text.rich(
