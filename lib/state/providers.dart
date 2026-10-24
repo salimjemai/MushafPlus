@@ -74,6 +74,9 @@ final surahWordsProvider =
 
 enum ReaderMode { translation, mushaf }
 
+/// How the Mushaf book is laid out.
+enum MushafLayout { auto, scroll, flip, book }
+
 @immutable
 class AppSettings {
   const AppSettings({
@@ -89,6 +92,7 @@ class AppSettings {
     this.reciter = defaultReciterId,
     this.tafsirId = defaultTafsirId,
     this.hadithLanguage = 'eng',
+    this.mushafLayout = MushafLayout.auto,
   });
 
   final ThemeMode themeMode;
@@ -103,6 +107,7 @@ class AppSettings {
   final String reciter;
   final int tafsirId;
   final String hadithLanguage;
+  final MushafLayout mushafLayout;
 
   static const maxTranslations = 4;
 
@@ -119,6 +124,7 @@ class AppSettings {
     String? reciter,
     int? tafsirId,
     String? hadithLanguage,
+    MushafLayout? mushafLayout,
   }) {
     return AppSettings(
       themeMode: themeMode ?? this.themeMode,
@@ -133,6 +139,7 @@ class AppSettings {
       reciter: reciter ?? this.reciter,
       tafsirId: tafsirId ?? this.tafsirId,
       hadithLanguage: hadithLanguage ?? this.hadithLanguage,
+      mushafLayout: mushafLayout ?? this.mushafLayout,
     );
   }
 
@@ -149,6 +156,7 @@ class AppSettings {
         'reciter': reciter,
         'tafsirId': tafsirId,
         'hadithLanguage': hadithLanguage,
+        'mushafLayout': mushafLayout.index,
       };
 
   factory AppSettings.fromMap(Map<dynamic, dynamic> m) {
@@ -166,6 +174,7 @@ class AppSettings {
       reciter: (m['reciter'] as String?) ?? d.reciter,
       tafsirId: (m['tafsirId'] as int?) ?? d.tafsirId,
       hadithLanguage: (m['hadithLanguage'] as String?) ?? d.hadithLanguage,
+      mushafLayout: MushafLayout.values[((m['mushafLayout'] as int?) ?? 0).clamp(0, MushafLayout.values.length - 1)],
     );
   }
 }
@@ -196,6 +205,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setReciter(String id) => _update(state.copyWith(reciter: id));
   void setTafsirId(int id) => _update(state.copyWith(tafsirId: id));
   void setHadithLanguage(String l) => _update(state.copyWith(hadithLanguage: l));
+  void setMushafLayout(MushafLayout l) => _update(state.copyWith(mushafLayout: l));
 
   /// Adds or removes a translation edition. Returns false when the limit is hit.
   bool toggleTranslation(String edition) {

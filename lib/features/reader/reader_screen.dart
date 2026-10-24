@@ -13,9 +13,7 @@ import '../../state/providers.dart';
 import '../../widgets/mini_player.dart';
 import '../../widgets/surah_number_badge.dart';
 import '../home/surah_list_screen.dart';
-import 'ayah_actions.dart';
 import 'ayah_card.dart';
-import 'mushaf_view.dart';
 import 'reader_settings_sheet.dart';
 
 class ReaderScreen extends ConsumerStatefulWidget {
@@ -133,17 +131,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         ),
         actions: [
           IconButton(
-            tooltip: settings.readerMode == ReaderMode.mushaf
-                ? 'Switch to translation view'
-                : 'Switch to Mushaf view',
-            icon: Icon(settings.readerMode == ReaderMode.mushaf
-                ? Icons.view_agenda_outlined
-                : Icons.auto_stories_outlined),
-            onPressed: () => ref.read(settingsProvider.notifier).setReaderMode(
-                  settings.readerMode == ReaderMode.mushaf
-                      ? ReaderMode.translation
-                      : ReaderMode.mushaf,
-                ),
+            tooltip: 'Open the Mushaf book at this surah',
+            icon: const Icon(Icons.auto_stories_outlined),
+            onPressed: () => context.go('/mushaf?page=${surah.startPage}'),
           ),
           IconButton(
             tooltip: 'Translations',
@@ -162,7 +152,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 case 'memorize':
                   context.go('/memorize/${surah.number}');
                 case 'page':
-                  context.go('/page/${surah.startPage}');
+                  context.go('/mushaf?page=${surah.startPage}');
                 case 'play':
                   ref.read(audioProvider.notifier).playSurah(surah.number);
               }
@@ -170,7 +160,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             itemBuilder: (context) => const [
               PopupMenuItem(value: 'play', child: ListTile(leading: Icon(Icons.play_arrow), title: Text('Play surah'))),
               PopupMenuItem(value: 'memorize', child: ListTile(leading: Icon(Icons.psychology_outlined), title: Text('Memorize this surah'))),
-              PopupMenuItem(value: 'page', child: ListTile(leading: Icon(Icons.auto_stories), title: Text('Open in page view'))),
+              PopupMenuItem(value: 'page', child: ListTile(leading: Icon(Icons.auto_stories), title: Text('Open in Mushaf book'))),
             ],
           ),
         ],
@@ -178,15 +168,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 860),
-          child: settings.readerMode == ReaderMode.mushaf
-              ? MushafView(
-                  key: ValueKey('mushaf-${surah.number}'),
-                  surah: surah,
-                  ayahs: ayahs,
-                  initialAyah: widget.initialAyah,
-                  onAyahTap: (a) => showAyahActions(context, ref, a),
-                )
-              : ScrollablePositionedList.builder(
+          child: ScrollablePositionedList.builder(
                   key: ValueKey('list-${surah.number}'),
                   itemScrollController: _itemScroll,
                   itemPositionsListener: _positions,
@@ -337,7 +319,7 @@ class _SurahNavBar extends ConsumerWidget {
                       ),
               ),
               TextButton(
-                onPressed: () => context.go('/page/${surah.startPage}'),
+                onPressed: () => context.go('/mushaf?page=${surah.startPage}'),
                 child: Text(
                   'Juz ${surah.startJuz} · Page ${surah.startPage}',
                   style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),

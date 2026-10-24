@@ -161,7 +161,7 @@ class SettingsScreen extends ConsumerWidget {
                       showSelectedIcon: false,
                       segments: const [
                         ButtonSegment(value: ReaderMode.translation, label: Text('Translation')),
-                        ButtonSegment(value: ReaderMode.mushaf, label: Text('Mushaf')),
+                        ButtonSegment(value: ReaderMode.mushaf, label: Text('Mushaf book')),
                       ],
                       selected: {s.readerMode},
                       onSelectionChanged: (v) => n.setReaderMode(v.first),

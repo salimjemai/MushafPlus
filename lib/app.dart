@@ -13,7 +13,7 @@ import 'features/plan/plan_screen.dart';
 import 'features/prayer/masjid_edit_screen.dart';
 import 'features/prayer/monthly_timetable_screen.dart';
 import 'features/prayer/prayer_screen.dart';
-import 'features/reader/page_reader_screen.dart';
+import 'features/mushaf/mushaf_book_screen.dart';
 import 'features/reader/reader_screen.dart';
 import 'features/search/search_screen.dart';
 import 'features/settings/offline_packs_screen.dart';
@@ -90,11 +90,15 @@ final _router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/page/:n',
+      path: '/mushaf',
       builder: (c, s) {
-        final n = int.tryParse(s.pathParameters['n'] ?? '') ?? 1;
-        return PageReaderScreen(page: n.clamp(1, QuranRepository.totalPages));
+        final n = int.tryParse(s.uri.queryParameters['page'] ?? '') ?? 1;
+        return MushafBookScreen(initialPage: n.clamp(1, QuranRepository.totalPages));
       },
+    ),
+    GoRoute(
+      path: '/page/:n',
+      redirect: (c, s) => '/mushaf?page=${s.pathParameters['n']}',
     ),
     GoRoute(
       path: '/surah/:n',

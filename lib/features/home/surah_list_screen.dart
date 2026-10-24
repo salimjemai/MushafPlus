@@ -118,7 +118,14 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                     child: Center(child: Text('No surah matches your search.')),
                   ),
                 for (final s in surahs) ...[
-                  SurahTile(surah: s, onTap: () => context.go('/surah/${s.number}')),
+                  SurahTile(
+                    surah: s,
+                    onTap: () => context.go(
+                      ref.read(settingsProvider).readerMode == ReaderMode.mushaf
+                          ? '/mushaf?page=${s.startPage}'
+                          : '/surah/${s.number}',
+                    ),
+                  ),
                   const SizedBox(height: 8),
                 ],
               ] else if (_tab == _Tab.juz) ...[
@@ -286,7 +293,7 @@ class _PageGrid extends ConsumerWidget {
                 ActionChip(
                   label: Text('$p'),
                   visualDensity: VisualDensity.compact,
-                  onPressed: () => context.go('/page/$p'),
+                  onPressed: () => context.go('/mushaf?page=$p'),
                 ),
             ],
           ),
