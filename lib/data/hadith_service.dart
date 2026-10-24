@@ -43,10 +43,10 @@ class HadithSection {
   int get count => last >= first ? last - first + 1 : 0;
 
   factory HadithSection.fromJson(Map<String, dynamic> j) => HadithSection(
-        number: j['n'] as int,
+        number: (j['n'] as num).toInt(),
         name: j['name'] as String,
-        first: j['first'] as int,
-        last: j['last'] as int,
+        first: (j['first'] as num).floor(),
+        last: (j['last'] as num).floor(),
       );
 }
 
@@ -59,7 +59,8 @@ class Hadith {
     required this.reference,
   });
 
-  final int number;
+  /// Hadith number; a few are fractional in the source (e.g. 3604.1).
+  final num number;
   final String arabic;
   final String text;
   final List<String> grades;
@@ -69,7 +70,7 @@ class Hadith {
       {'n': number, 'a': arabic, 't': text, 'g': grades, 'r': reference};
 
   factory Hadith.fromJson(Map<dynamic, dynamic> j) => Hadith(
-        number: j['n'] as int,
+        number: j['n'] as num,
         arabic: (j['a'] as String?) ?? '',
         text: (j['t'] as String?) ?? '',
         grades: ((j['g'] as List?) ?? const []).cast<String>(),
@@ -125,7 +126,7 @@ class HadithService {
           return cached.map((h) => Hadith.fromJson(h as Map)).toList(growable: false);
         }
         final arabic = await _fetchSection('ara-$book', section);
-        final translated = lang == 'ara' ? <int, Map<String, dynamic>>{} : await _fetchSection('$lang-$book', section);
+        final translated = lang == 'ara' ? <num, Map<String, dynamic>>{} : await _fetchSection('$lang-$book', section);
         final result = <Hadith>[];
         for (final e in arabic.entries) {
           final t = translated[e.key];
@@ -151,7 +152,7 @@ class HadithService {
     });
   }
 
-  Future<Map<int, Map<String, dynamic>>> _fetchSection(String edition, int section) async {
+  Future<Map<num, Map<String, dynamic>>> _fetchSection(String edition, int section) async {
     final uri = Uri.parse('$cdn/editions/$edition/sections/$section.min.json');
     var res = await _client.get(uri).timeout(const Duration(seconds: 25));
     if (res.statusCode == 404) {
@@ -161,11 +162,11 @@ class HadithService {
     }
     if (res.statusCode != 200) throw HadithException('Server returned ${res.statusCode}');
     final body = jsonDecode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
-    final out = <int, Map<String, dynamic>>{};
+    final out = <num, Map<String, dynamic>>{};
     for (final h in body['hadiths'] as List) {
       final m = h as Map<String, dynamic>;
       final n = m['hadithnumber'];
-      out[n is int ? n : (n as num).toInt()] = m;
+      out[n is num ? n : num.tryParse('$n') ?? 0] = m;
     }
     return out;
   }
