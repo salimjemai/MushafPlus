@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
 import 'ayah_actions.dart';
@@ -37,6 +38,9 @@ class AyahCard extends ConsumerWidget {
     final settings = ref.watch(settingsProvider);
     final bookmarked =
         ref.watch(bookmarksProvider.select((list) => list.any((b) => b.ayahNumber == ayah.number)));
+    final audio = ref.watch(audioProvider.select(
+      (a) => (current: a.ayah == ayah.number, playing: a.ayah == ayah.number && a.playing, loading: a.ayah == ayah.number && a.loading),
+    ));
     final scheme = Theme.of(context).colorScheme;
 
     return AnimatedContainer(
@@ -48,6 +52,13 @@ class AyahCard extends ConsumerWidget {
             : null,
       ),
       child: Card(
+        color: audio.current ? scheme.primary.withValues(alpha: 0.08) : null,
+        shape: audio.current
+            ? RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(color: scheme.primary, width: 1.5),
+              )
+            : null,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
           child: Column(
@@ -64,6 +75,26 @@ class AyahCard extends ConsumerWidget {
                       child: Icon(Icons.self_improvement, size: 18, color: scheme.secondary),
                     ),
                   const Spacer(),
+                  IconButton(
+                    tooltip: audio.playing ? 'Pause' : 'Play from this ayah',
+                    visualDensity: VisualDensity.compact,
+                    icon: audio.loading
+                        ? const SizedBox(
+                            width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                        : Icon(
+                            audio.playing ? Icons.pause_circle : Icons.play_circle_outline,
+                            size: 22,
+                            color: audio.current ? scheme.primary : null,
+                          ),
+                    onPressed: () {
+                      final ctrl = ref.read(audioProvider.notifier);
+                      if (audio.current) {
+                        ctrl.toggle();
+                      } else {
+                        ctrl.playAyah(ayah.number);
+                      }
+                    },
+                  ),
                   IconButton(
                     tooltip: 'Word by word',
                     visualDensity: VisualDensity.compact,

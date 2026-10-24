@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/arabic_utils.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
 import 'reader_screen.dart';
 
@@ -59,6 +60,7 @@ class _MushafViewState extends ConsumerState<MushafView> {
     final settings = ref.watch(settingsProvider);
     final scheme = Theme.of(context).colorScheme;
     final base = ArabicStyles.ayah(context, scale: settings.arabicScale, font: settings.arabicFont);
+    final playingAyah = ref.watch(audioProvider.select((a) => a.ayah));
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
@@ -75,11 +77,15 @@ class _MushafViewState extends ConsumerState<MushafView> {
                       TextSpan(
                         text: widget.ayahs[i].text,
                         recognizer: _recognizers[i],
-                        style: _selected == widget.ayahs[i].numberInSurah
+                        style: playingAyah == widget.ayahs[i].number
                             ? base.copyWith(
-                                backgroundColor: scheme.secondary.withValues(alpha: 0.22),
+                                backgroundColor: scheme.primary.withValues(alpha: 0.22),
                               )
-                            : base,
+                            : _selected == widget.ayahs[i].numberInSurah
+                                ? base.copyWith(
+                                    backgroundColor: scheme.secondary.withValues(alpha: 0.22),
+                                  )
+                                : base,
                       ),
                       TextSpan(
                         text: ' ${ayahEndMarker(widget.ayahs[i].numberInSurah)} ',

@@ -1,0 +1,140 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../core/theme.dart';
+import '../data/reciters.dart';
+import '../state/audio_controller.dart';
+import '../state/providers.dart';
+
+/// Compact recitation controls shown at the bottom while audio is active.
+class MiniPlayer extends ConsumerWidget {
+  const MiniPlayer({super.key, this.showLocation = true});
+
+  /// Whether to show the surah/ayah text as a tappable link to the reader.
+  final bool showLocation;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final audio = ref.watch(audioProvider);
+    if (!audio.isActive) return const SizedBox.shrink();
+
+    final repo = ref.quran;
+    final ayah = repo.ayah(audio.ayah!);
+    final surah = repo.surah(ayah.surah);
+    final reciter = reciterById(ref.watch(settingsProvider).reciter);
+    final scheme = Theme.of(context).colorScheme;
+    final ctrl = ref.read(audioProvider.notifier);
+    final progress = audio.duration.inMilliseconds == 0
+        ? 0.0
+        : (audio.position.inMilliseconds / audio.duration.inMilliseconds).clamp(0.0, 1.0);
+
+    return Material(
+      color: scheme.surfaceContainerHigh,
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 3,
+              child: LinearProgressIndicator(
+                value: audio.loading ? null : progress,
+                backgroundColor: scheme.outlineVariant.withValues(alpha: 0.3),
+                color: AppColors.gold,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 4, 4, 4),
+              child: Row(
+                children: [
+                  Icon(Icons.graphic_eq, color: scheme.primary, size: 20),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: InkWell(
+                      onTap: showLocation
+                          ? () => context.go('/surah/${surah.number}?ayah=${ayah.numberInSurah}')
+                          : null,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '${surah.englishName} · Ayah ${ayah.numberInSurah}'
+                            '${audio.loop ? ' · loop' : ''}',
+                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            audio.error ?? reciter.name,
+                            style: TextStyle(
+                              fontSize: 11.5,
+                              color: audio.error != null ? scheme.error : scheme.onSurfaceVariant,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Previous ayah',
+                    icon: const Icon(Icons.skip_previous),
+                    onPressed: ctrl.previous,
+                  ),
+                  IconButton.filled(
+                    tooltip: audio.playing ? 'Pause' : 'Play',
+                    icon: audio.loading
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                          )
+                        : Icon(audio.playing ? Icons.pause : Icons.play_arrow),
+                    onPressed: ctrl.toggle,
+                  ),
+                  IconButton(
+                    tooltip: 'Next ayah',
+                    icon: const Icon(Icons.skip_next),
+                    onPressed: ctrl.next,
+                  ),
+                  IconButton(
+                    tooltip: 'Stop',
+                    icon: const Icon(Icons.close),
+                    onPressed: ctrl.stop,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Dropdown to choose the reciter; reloads the current ayah if one is playing.
+class ReciterDropdown extends ConsumerWidget {
+  const ReciterDropdown({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final id = ref.watch(settingsProvider.select((s) => s.reciter));
+    return DropdownButton<String>(
+      value: reciters.any((r) => r.id == id) ? id : defaultReciterId,
+      underline: const SizedBox.shrink(),
+      isExpanded: false,
+      items: [
+        for (final r in reciters)
+          DropdownMenuItem(value: r.id, child: Text(r.name, overflow: TextOverflow.ellipsis)),
+      ],
+      onChanged: (v) {
+        if (v == null) return;
+        ref.read(settingsProvider.notifier).setReciter(v);
+        ref.read(audioProvider.notifier).reciterChanged();
+      },
+    );
+  }
+}

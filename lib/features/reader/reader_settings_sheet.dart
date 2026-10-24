@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/arabic_utils.dart';
 import '../../core/theme.dart';
 import '../../state/providers.dart';
+import '../../widgets/mini_player.dart';
 
 /// Quick reading settings available from the reader's app bar.
 Future<void> showReaderSettings(BuildContext context) {
@@ -71,6 +72,12 @@ class _ReaderSettingsSheet extends ConsumerWidget {
             onSelectionChanged: (v) => n.setArabicFont(v.first),
           ),
           const SizedBox(height: 8),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.record_voice_over_outlined),
+            title: const Text('Reciter'),
+            trailing: const ReciterDropdown(),
+          ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: const Text('Show transliteration'),

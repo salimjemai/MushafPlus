@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/quran_repository.dart';
+import '../data/reciters.dart';
 import '../data/storage.dart';
 import '../data/translation_service.dart';
 import '../data/word_by_word_service.dart';
@@ -63,6 +64,7 @@ class AppSettings {
     this.translations = const [TranslationService.defaultEdition],
     this.readerMode = ReaderMode.translation,
     this.arabicFont = ArabicStyles.quranFont,
+    this.reciter = defaultReciterId,
   });
 
   final ThemeMode themeMode;
@@ -74,6 +76,7 @@ class AppSettings {
   final List<String> translations;
   final ReaderMode readerMode;
   final String arabicFont;
+  final String reciter;
 
   static const maxTranslations = 4;
 
@@ -87,6 +90,7 @@ class AppSettings {
     List<String>? translations,
     ReaderMode? readerMode,
     String? arabicFont,
+    String? reciter,
   }) {
     return AppSettings(
       themeMode: themeMode ?? this.themeMode,
@@ -98,6 +102,7 @@ class AppSettings {
       translations: translations ?? this.translations,
       readerMode: readerMode ?? this.readerMode,
       arabicFont: arabicFont ?? this.arabicFont,
+      reciter: reciter ?? this.reciter,
     );
   }
 
@@ -111,6 +116,7 @@ class AppSettings {
         'translations': translations,
         'readerMode': readerMode.index,
         'arabicFont': arabicFont,
+        'reciter': reciter,
       };
 
   factory AppSettings.fromMap(Map<dynamic, dynamic> m) {
@@ -125,6 +131,7 @@ class AppSettings {
       translations: (m['translations'] as List?)?.cast<String>() ?? d.translations,
       readerMode: ReaderMode.values[(m['readerMode'] as int?) ?? d.readerMode.index],
       arabicFont: (m['arabicFont'] as String?) ?? d.arabicFont,
+      reciter: (m['reciter'] as String?) ?? d.reciter,
     );
   }
 }
@@ -152,6 +159,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setWordLanguage(String v) => _update(state.copyWith(wordLanguage: v));
   void setReaderMode(ReaderMode m) => _update(state.copyWith(readerMode: m));
   void setArabicFont(String f) => _update(state.copyWith(arabicFont: f));
+  void setReciter(String id) => _update(state.copyWith(reciter: id));
 
   /// Adds or removes a translation edition. Returns false when the limit is hit.
   bool toggleTranslation(String edition) {

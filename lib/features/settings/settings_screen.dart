@@ -6,6 +6,7 @@ import '../../core/arabic_utils.dart';
 import '../../core/theme.dart';
 import '../../data/storage.dart';
 import '../../state/providers.dart';
+import '../../widgets/mini_player.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -103,6 +104,23 @@ class SettingsScreen extends ConsumerWidget {
                       divisions: 7,
                       label: '${(s.translationScale * 100).round()}%',
                       onChanged: n.setTranslationScale,
+                    ),
+                  ),
+                ],
+              ),
+              _Section(
+                title: 'Recitation',
+                children: [
+                  const ListTile(
+                    leading: Icon(Icons.record_voice_over_outlined),
+                    title: Text('Reciter'),
+                    trailing: ReciterDropdown(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                    child: Text(
+                      'Audio streams verse by verse from the islamic.network CDN. Tap play on any ayah, or "Play surah" in the surah header.',
+                      style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4),
                     ),
                   ),
                 ],

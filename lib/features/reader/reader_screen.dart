@@ -8,7 +8,9 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../core/arabic_utils.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
+import '../../widgets/mini_player.dart';
 import '../../widgets/surah_number_badge.dart';
 import '../home/surah_list_screen.dart';
 import 'ayah_actions.dart';
@@ -80,6 +82,19 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final surah = repo.surah(widget.surahNumber);
     final ayahs = repo.ayahsOfSurah(surah.number);
     final settings = ref.watch(settingsProvider);
+
+    // Follow the recitation: scroll to the ayah being played.
+    ref.listen<int?>(audioProvider.select((a) => a.ayah), (prev, next) {
+      if (next == null || next == prev) return;
+      final a = repo.ayah(next);
+      if (a.surah != surah.number || !_itemScroll.isAttached) return;
+      _itemScroll.scrollTo(
+        index: a.numberInSurah,
+        alignment: 0.08,
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.easeInOut,
+      );
+    });
 
     final translations = <TranslationSource>[
       for (final id in settings.translations)
@@ -177,7 +192,13 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 ),
         ),
       ),
-      bottomNavigationBar: _SurahNavBar(surah: surah),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const MiniPlayer(showLocation: false),
+          _SurahNavBar(surah: surah),
+        ],
+      ),
     );
 
     return LayoutBuilder(
@@ -197,12 +218,16 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   }
 }
 
-class SurahHeader extends StatelessWidget {
+class SurahHeader extends ConsumerWidget {
   const SurahHeader({super.key, required this.surah});
   final Surah surah;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final playingThis = ref.watch(audioProvider.select((a) {
+      final n = a.ayah;
+      return a.playing && n != null && n >= surah.startAyah && n < surah.startAyah + surah.numberOfAyahs;
+    }));
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 16),
       child: PatternPanel(
@@ -243,6 +268,19 @@ class SurahHeader extends StatelessWidget {
                 ),
               ),
             ],
+            const SizedBox(height: 12),
+            FilledButton.tonalIcon(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.white.withValues(alpha: 0.14),
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () {
+                final ctrl = ref.read(audioProvider.notifier);
+                playingThis ? ctrl.pause() : ctrl.playSurah(surah.number);
+              },
+              icon: Icon(playingThis ? Icons.pause : Icons.play_arrow),
+              label: Text(playingThis ? 'Pause recitation' : 'Play surah'),
+            ),
           ],
         ),
       ),

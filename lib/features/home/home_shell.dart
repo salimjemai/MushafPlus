@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../widgets/mini_player.dart';
+
 /// Adaptive navigation: bottom bar on phones, rail on tablets/desktop/web.
 class HomeShell extends StatelessWidget {
   const HomeShell({super.key, required this.child});
@@ -55,20 +57,27 @@ class HomeShell extends StatelessWidget {
                 Expanded(child: child),
               ],
             ),
+            bottomNavigationBar: const MiniPlayer(),
           );
         }
         return Scaffold(
           body: child,
-          bottomNavigationBar: NavigationBar(
-            selectedIndex: index,
-            onDestinationSelected: (i) => context.go(_destinations[i].path),
-            destinations: [
-              for (final d in _destinations)
-                NavigationDestination(
-                  icon: Icon(d.icon),
-                  selectedIcon: Icon(d.selected),
-                  label: d.label,
-                ),
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const MiniPlayer(),
+              NavigationBar(
+                selectedIndex: index,
+                onDestinationSelected: (i) => context.go(_destinations[i].path),
+                destinations: [
+                  for (final d in _destinations)
+                    NavigationDestination(
+                      icon: Icon(d.icon),
+                      selectedIcon: Icon(d.selected),
+                      label: d.label,
+                    ),
+                ],
+              ),
             ],
           ),
         );
