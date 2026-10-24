@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../data/translation_service.dart';
 import '../../state/providers.dart';
 
@@ -48,7 +49,7 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
     }
 
     if (tasks.isEmpty) {
-      setState(() => _status = 'Everything selected is already available offline.');
+      setState(() => _status = context.l10n.everythingOffline);
       return;
     }
 
@@ -57,7 +58,7 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
       _cancel = false;
       _failed = 0;
       _progress = 0;
-      _status = 'Starting…';
+      _status = context.l10n.starting;
     });
 
     // Run a few downloads concurrently to keep it quick without hammering the APIs.
@@ -87,10 +88,10 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
     setState(() {
       _running = false;
       _status = _cancel
-          ? 'Cancelled after $done of ${tasks.length}.'
+          ? context.l10n.downloadCancelled(done, tasks.length)
           : _failed == 0
-              ? 'Done. ${tasks.length} downloads saved for offline use.'
-              : 'Done with $_failed failed downloads (check your connection and run again).';
+              ? context.l10n.downloadDone(tasks.length)
+              : context.l10n.downloadDoneWithFailures(_failed);
     });
     ref.invalidate(surahTranslationProvider);
     ref.invalidate(surahWordsProvider);
@@ -98,6 +99,7 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final repo = ref.quran;
     final settings = ref.watch(settingsProvider);
     final tr = ref.read(translationServiceProvider);
@@ -120,7 +122,7 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.canPop() ? context.pop() : context.go('/settings'),
         ),
-        title: const Text('Offline packs'),
+        title: Text(l.offlinePacks),
       ),
       body: Center(
         child: ConstrainedBox(
@@ -129,18 +131,17 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
             padding: const EdgeInsets.all(16),
             children: [
               Text(
-                'The Arabic text, English transliteration and three English translations are always offline. '
-                'Download the rest once and read anywhere.',
+                l.offlineIntro,
                 style: TextStyle(color: scheme.onSurfaceVariant, height: 1.5),
               ),
               const SizedBox(height: 16),
               _PackCard(
                 icon: Icons.translate,
-                title: 'Selected translations',
+                title: l.selectedTranslations,
                 subtitle: remoteTranslations.isEmpty
-                    ? 'All selected translations are bundled with the app.'
+                    ? l.allSelectedBundled
                     : '${remoteTranslations.map((e) => repo.edition(e)?.englishName ?? e).join(', ')}\n'
-                        '$cachedTr of $totalTr surah downloads saved',
+                        '${l.surahDownloadsSaved(cachedTr, totalTr)}',
                 progress: totalTr == 0 ? 1 : cachedTr / totalTr,
                 enabled: !_running && remoteTranslations.isNotEmpty && cachedTr < totalTr,
                 onDownload: () => _download(translations: true, words: false),
@@ -148,8 +149,8 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
               const SizedBox(height: 12),
               _PackCard(
                 icon: Icons.segment,
-                title: 'Word by word (${wordByWordLanguages[settings.wordLanguage] ?? settings.wordLanguage})',
-                subtitle: '$cachedWbw of 114 surahs saved · about 8 MB',
+                title: l.wordByWordPack(wordByWordLanguages[settings.wordLanguage] ?? settings.wordLanguage),
+                subtitle: l.surahsSavedSize(cachedWbw),
                 progress: cachedWbw / 114,
                 enabled: !_running && cachedWbw < 114,
                 onDownload: () => _download(translations: false, words: true),
@@ -164,7 +165,7 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'Tafsir is saved automatically for every ayah you open.',
+                          l.tafsirSavedAutomatically,
                           style: TextStyle(color: scheme.onSurfaceVariant),
                         ),
                       ),
@@ -183,7 +184,7 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
                   const SizedBox(height: 8),
                   OutlinedButton(
                     onPressed: () => setState(() => _cancel = true),
-                    child: const Text('Cancel'),
+                    child: Text(l.cancel),
                   ),
                 ],
               ],
@@ -193,11 +194,11 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
                     ? null
                     : () => _download(translations: true, words: true),
                 icon: const Icon(Icons.download),
-                label: const Text('Download everything selected'),
+                label: Text(l.downloadEverything),
               ),
               const SizedBox(height: 8),
               Text(
-                'Bundled editions: ${TranslationService.bundledEditions.map((e) => repo.edition(e)?.englishName ?? e).join(', ')}.',
+                l.bundledEditions(TranslationService.bundledEditions.map((e) => repo.edition(e)?.englishName ?? e).join(', ')),
                 style: TextStyle(fontSize: 12, color: scheme.outline),
               ),
             ],
@@ -243,7 +244,7 @@ class _PackCard extends StatelessWidget {
                 if (complete)
                   Icon(Icons.offline_pin, color: scheme.primary)
                 else
-                  FilledButton.tonal(onPressed: enabled ? onDownload : null, child: const Text('Download')),
+                  FilledButton.tonal(onPressed: enabled ? onDownload : null, child: Text(context.l10n.download)),
               ],
             ),
             const SizedBox(height: 8),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/l10n.dart';
 import '../core/theme.dart';
 import '../data/reciters.dart';
 import '../state/audio_controller.dart';
@@ -60,8 +61,8 @@ class MiniPlayer extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '${surah.englishName} · Ayah ${ayah.numberInSurah}'
-                            '${audio.loop ? ' · loop' : ''}',
+                            '${surah.englishName} · ${context.l10n.ayahN(ayah.numberInSurah)}'
+                            '${audio.loop ? ' · ${context.l10n.loop}' : ''}',
                             style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -80,12 +81,12 @@ class MiniPlayer extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Previous ayah',
+                    tooltip: context.l10n.previousAyah,
                     icon: const Icon(Icons.skip_previous),
                     onPressed: ctrl.previous,
                   ),
                   IconButton.filled(
-                    tooltip: audio.playing ? 'Pause' : 'Play',
+                    tooltip: audio.playing ? context.l10n.pause : context.l10n.play,
                     icon: audio.loading
                         ? const SizedBox(
                             width: 18,
@@ -96,12 +97,12 @@ class MiniPlayer extends ConsumerWidget {
                     onPressed: ctrl.toggle,
                   ),
                   IconButton(
-                    tooltip: 'Next ayah',
+                    tooltip: context.l10n.nextAyah,
                     icon: const Icon(Icons.skip_next),
                     onPressed: ctrl.next,
                   ),
                   IconButton(
-                    tooltip: 'Stop',
+                    tooltip: context.l10n.stop,
                     icon: const Icon(Icons.close),
                     onPressed: ctrl.stop,
                   ),

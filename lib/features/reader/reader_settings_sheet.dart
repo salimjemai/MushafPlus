@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../state/providers.dart';
 import '../../widgets/mini_player.dart';
@@ -22,6 +23,7 @@ class _ReaderSettingsSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final s = ref.watch(settingsProvider);
     final n = ref.read(settingsProvider.notifier);
     final scheme = Theme.of(context).colorScheme;
@@ -32,7 +34,7 @@ class _ReaderSettingsSheet extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Reading settings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+          Text(l.readingSettings, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(16),
@@ -49,14 +51,14 @@ class _ReaderSettingsSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           _SliderRow(
-            label: 'Arabic size',
+            label: l.arabicSize,
             value: s.arabicScale,
             min: 0.7,
             max: 1.8,
             onChanged: n.setArabicScale,
           ),
           _SliderRow(
-            label: 'Translation size',
+            label: l.translationSize,
             value: s.translationScale,
             min: 0.8,
             max: 1.5,
@@ -64,9 +66,9 @@ class _ReaderSettingsSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 4),
           SegmentedButton<String>(
-            segments: const [
-              ButtonSegment(value: ArabicStyles.quranFont, label: Text('Amiri Quran')),
-              ButtonSegment(value: ArabicStyles.nameFont, label: Text('Amiri Naskh')),
+            segments: [
+              ButtonSegment(value: ArabicStyles.quranFont, label: Text(l.amiriQuran)),
+              ButtonSegment(value: ArabicStyles.nameFont, label: Text(l.amiriNaskh)),
             ],
             selected: {s.arabicFont},
             onSelectionChanged: (v) => n.setArabicFont(v.first),
@@ -75,27 +77,27 @@ class _ReaderSettingsSheet extends ConsumerWidget {
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.record_voice_over_outlined),
-            title: const Text('Reciter'),
+            title: Text(l.reciter),
             trailing: const ReciterDropdown(),
           ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Show transliteration'),
-            subtitle: const Text('Latin-script pronunciation under each ayah'),
+            title: Text(l.showTransliteration),
+            subtitle: Text(l.showTransliterationSubtitle),
             value: s.showTransliteration,
             onChanged: n.setShowTransliteration,
           ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Word-by-word mode'),
-            subtitle: const Text('Every word with its transliteration and meaning'),
+            title: Text(l.wordByWordMode),
+            subtitle: Text(l.wordByWordModeSubtitle),
             value: s.wordByWord,
             onChanged: n.setWordByWord,
           ),
           if (s.wordByWord)
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Word meanings language'),
+              title: Text(l.wordMeaningsLanguage),
               trailing: DropdownButton<String>(
                 value: wordByWordLanguages.containsKey(s.wordLanguage) ? s.wordLanguage : 'en',
                 underline: const SizedBox.shrink(),

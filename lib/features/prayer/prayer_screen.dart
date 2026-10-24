@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/masjid.dart';
 import '../../data/prayer_times.dart';
@@ -41,6 +42,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final masjids = ref.watch(masjidsProvider);
     final masjid = ref.watch(selectedMasjidProvider);
     final scheme = Theme.of(context).colorScheme;
@@ -48,7 +50,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
     return Scaffold(
       appBar: AppBar(
         title: masjid == null
-            ? const Text('Prayer times')
+            ? Text(l.prayerTimes)
             : masjids.length > 1
                 ? DropdownButton<String>(
                     value: masjid.id,
@@ -63,12 +65,12 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         actions: [
           if (masjid != null) ...[
             IconButton(
-              tooltip: 'Monthly timetable',
+              tooltip: l.monthlyTimetable,
               icon: const Icon(Icons.calendar_month_outlined),
               onPressed: () => context.push('/prayer/month'),
             ),
             IconButton(
-              tooltip: 'Share today',
+              tooltip: l.shareToday,
               icon: const Icon(Icons.ios_share),
               onPressed: () => Share.share(_todayText(masjid)),
             ),
@@ -83,10 +85,10 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                     _confirmDelete(masjid);
                 }
               },
-              itemBuilder: (_) => const [
-                PopupMenuItem(value: 'edit', child: ListTile(leading: Icon(Icons.edit_outlined), title: Text('Edit masjid'))),
-                PopupMenuItem(value: 'add', child: ListTile(leading: Icon(Icons.add_location_alt_outlined), title: Text('Add another masjid'))),
-                PopupMenuItem(value: 'delete', child: ListTile(leading: Icon(Icons.delete_outline), title: Text('Remove masjid'))),
+              itemBuilder: (_) => [
+                PopupMenuItem(value: 'edit', child: ListTile(leading: const Icon(Icons.edit_outlined), title: Text(l.editMasjid))),
+                PopupMenuItem(value: 'add', child: ListTile(leading: const Icon(Icons.add_location_alt_outlined), title: Text(l.addAnotherMasjid))),
+                PopupMenuItem(value: 'delete', child: ListTile(leading: const Icon(Icons.delete_outline), title: Text(l.removeMasjid))),
               ],
             ),
           ],
@@ -104,6 +106,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   // ---- first run --------------------------------------------------------
 
   Widget _setup(ColorScheme scheme) {
+    final l = context.l10n;
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -113,12 +116,11 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
             children: [
               Text('مواقيت الصلاة', style: ArabicStyles.surahName(context, size: 30, color: AppColors.goldLight)),
               const SizedBox(height: 6),
-              const Text('Prayer times for your masjid',
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
+              Text(l.prayerTimesForMasjid,
+                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
               const SizedBox(height: 8),
               Text(
-                'Enter the masjid\'s full address or ZIP code. It is geocoded to precise coordinates and its time zone, '
-                'then daily prayer, iqama and Jumu\'ah times are generated with the calculation method you choose.',
+                l.prayerIntro,
                 style: TextStyle(color: Colors.white.withValues(alpha: 0.85), height: 1.5),
               ),
             ],
@@ -128,7 +130,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         FilledButton.icon(
           onPressed: () => context.push('/prayer/edit'),
           icon: const Icon(Icons.add_location_alt_outlined),
-          label: const Text('Set up a masjid from its address'),
+          label: Text(l.setUpMasjid),
         ),
         const SizedBox(height: 8),
         OutlinedButton.icon(
@@ -136,12 +138,11 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           icon: _locating
               ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
               : const Icon(Icons.my_location),
-          label: const Text('Use my current location'),
+          label: Text(l.useMyLocation),
         ),
         const SizedBox(height: 16),
         Text(
-          'Calculation methods: ISNA, Muslim World League, Egyptian, Karachi, Umm al-Qura, Gulf, Kuwait, Qatar, '
-          'Singapore, Diyanet, UOIF, Russia, Tehran and Jafari. Asr: Shafi\'i/Maliki/Hanbali or Hanafi.',
+          l.methodsList,
           style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.5),
         ),
       ],
@@ -178,7 +179,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
       ref.read(masjidsProvider.notifier).select(m.id);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not get your location: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.couldNotGetLocation('$e'))));
       }
     } finally {
       if (mounted) setState(() => _locating = false);
@@ -188,12 +189,13 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   // ---- today ------------------------------------------------------------
 
   Widget _today(Masjid masjid, ColorScheme scheme) {
+    final l = context.l10n;
     final now = nowAt(masjid);
     final today = prayerTimesFor(masjid, DateTime(now.year, now.month, now.day));
     final next = today.nextAfter(now);
     final tomorrow = prayerTimesFor(masjid, DateTime(now.year, now.month, now.day + 1));
     final nextTime = next != null ? today[next] : tomorrow[Prayer.fajr];
-    final nextLabel = next?.label ?? 'Fajr (tomorrow)';
+    final nextLabel = next != null ? prayerLabel(context, next) : l.fajrTomorrow;
     final remaining = nextTime.difference(now);
     final hijri = hijriFromGregorian(DateTime(now.year, now.month, now.day), adjustmentDays: masjid.hijriAdjustment);
     final qibla = qiblaDirection(masjid.latitude, masjid.longitude);
@@ -225,7 +227,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                           style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12.5),
                         ),
                         Text(
-                          '${methodById(masjid.methodId).name} · Asr ${masjid.asrHanafi ? 'Hanafi' : 'Shafi\'i'} · ${masjid.timezone}',
+                          '${methodById(masjid.methodId).name} · ${masjid.asrHanafi ? l.asrHanafi : l.asrShafii} · ${masjid.timezone}',
                           style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 11.5),
                         ),
                       ],
@@ -248,7 +250,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        '$nextLabel at ${DateFormat.jm().format(nextTime)} · in ${_fmtDuration(remaining)}',
+                        l.nextPrayerIn(nextLabel, DateFormat.jm().format(nextTime), _fmtDuration(remaining)),
                         style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -285,15 +287,15 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                     children: [
                       Text('الجمعة', style: ArabicStyles.surahName(context, size: 20, color: scheme.primary)),
                       const SizedBox(width: 10),
-                      const Text("Jumu'ah", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                      Text(l.jumuah, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
                       const Spacer(),
                       if (isFriday)
-                        Chip(label: const Text('Today'), visualDensity: VisualDensity.compact, backgroundColor: scheme.primary.withValues(alpha: 0.12)),
+                        Chip(label: Text(l.today), visualDensity: VisualDensity.compact, backgroundColor: scheme.primary.withValues(alpha: 0.12)),
                     ],
                   ),
                   const SizedBox(height: 8),
                   if (masjid.jumuah.isEmpty)
-                    Text('No Jumu\'ah services set. Edit the masjid to add them.',
+                    Text(l.noJumuahSet,
                         style: TextStyle(color: scheme.onSurfaceVariant))
                   else
                     for (var i = 0; i < masjid.jumuah.length; i++)
@@ -303,7 +305,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                         title: Text(formatMinutes(masjid.jumuah[i].minutes), style: const TextStyle(fontWeight: FontWeight.w700)),
                         subtitle: Text([
                           if (masjid.jumuah[i].khutbahMinutes != null)
-                            'Khutbah ${formatMinutes(masjid.jumuah[i].khutbahMinutes!)}',
+                            l.khutbahAt(formatMinutes(masjid.jumuah[i].khutbahMinutes!)),
                           if (masjid.jumuah[i].label.isNotEmpty) masjid.jumuah[i].label,
                         ].join(' · ')),
                       ),
@@ -319,7 +321,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
               child: FilledButton.tonalIcon(
                 onPressed: () => context.push('/prayer/month'),
                 icon: const Icon(Icons.calendar_month_outlined),
-                label: const Text('Monthly timetable'),
+                label: Text(l.monthlyTimetable),
               ),
             ),
             const SizedBox(width: 8),
@@ -327,15 +329,14 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
               child: OutlinedButton.icon(
                 onPressed: () => context.push('/prayer/edit?id=${masjid.id}'),
                 icon: const Icon(Icons.edit_outlined),
-                label: const Text('Edit masjid'),
+                label: Text(l.editMasjid),
               ),
             ),
           ],
         ),
         const SizedBox(height: 8),
         Text(
-          'Times are computed astronomically for ${masjid.latitude.toStringAsFixed(5)}, ${masjid.longitude.toStringAsFixed(5)} '
-          'in the ${masjid.timezone} zone, rounded to the minute. Hijri date is calculated and may differ by a day from local moon sighting.',
+          l.timesFootnote(masjid.latitude.toStringAsFixed(5), masjid.longitude.toStringAsFixed(5), masjid.timezone),
           style: TextStyle(fontSize: 11.5, color: scheme.outline, height: 1.4),
         ),
       ],
@@ -365,11 +366,11 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (c) => AlertDialog(
-        title: Text('Remove ${masjid.name}?'),
-        content: const Text('Its address, calculation settings, iqama and Jumu\'ah times will be deleted.'),
+        title: Text(context.l10n.removeMasjidQuestion(masjid.name)),
+        content: Text(context.l10n.removeMasjidBody),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('Cancel')),
-          FilledButton(onPressed: () => Navigator.pop(c, true), child: const Text('Remove')),
+          TextButton(onPressed: () => Navigator.pop(c, false), child: Text(context.l10n.cancel)),
+          FilledButton(onPressed: () => Navigator.pop(c, true), child: Text(context.l10n.remove)),
         ],
       ),
     );
@@ -403,6 +404,7 @@ class _PrayerRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final color = isNext ? scheme.primary : isPast ? scheme.onSurfaceVariant : scheme.onSurface;
+    final label = prayerLabel(context, prayer);
     return Container(
       decoration: BoxDecoration(
         color: isNext ? scheme.primary.withValues(alpha: 0.08) : null,
@@ -419,7 +421,7 @@ class _PrayerRow extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(prayer.label,
+            child: Text(label,
                 style: TextStyle(fontWeight: isNext ? FontWeight.w800 : FontWeight.w600, color: color, fontSize: 15)),
           ),
           Column(
@@ -428,7 +430,7 @@ class _PrayerRow extends StatelessWidget {
               Text(DateFormat.jm().format(time),
                   style: TextStyle(fontWeight: FontWeight.w700, color: color, fontSize: 16)),
               if (iqama != null)
-                Text('Iqama ${formatMinutes(iqama!)}',
+                Text(context.l10n.iqamaAt(formatMinutes(iqama!)),
                     style: TextStyle(fontSize: 11.5, color: scheme.secondary, fontWeight: FontWeight.w600)),
             ],
           ),
@@ -463,11 +465,21 @@ class _QiblaBadge extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        Text('Qibla ${bearing.round()}°', style: const TextStyle(color: Colors.white, fontSize: 11)),
+        Text(context.l10n.qiblaDegrees(bearing.round()), style: const TextStyle(color: Colors.white, fontSize: 11)),
       ],
     );
   }
 }
+
+/// Localised prayer name.
+String prayerLabel(BuildContext context, Prayer p) => switch (p) {
+      Prayer.fajr => context.l10n.fajr,
+      Prayer.sunrise => context.l10n.sunrise,
+      Prayer.dhuhr => context.l10n.dhuhr,
+      Prayer.asr => context.l10n.asr,
+      Prayer.maghrib => context.l10n.maghrib,
+      Prayer.isha => context.l10n.isha,
+    };
 
 /// Copies text and shows a snackbar.
 Future<void> copyWithToast(BuildContext context, String text, String message) async {

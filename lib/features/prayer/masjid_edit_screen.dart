@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n.dart';
 import '../../data/geocoding_service.dart';
 import '../../data/masjid.dart';
 import '../../data/prayer_times.dart';
 import '../../state/masjid_providers.dart';
+import 'prayer_screen.dart';
 
 /// Create or edit a masjid: address → precise coordinates + time zone,
 /// calculation settings, iqama rules and Jumu'ah services.
@@ -87,12 +89,12 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
         .where((s) => s.isNotEmpty)
         .join(', ');
     if (query.isEmpty) {
-      setState(() => _status = 'Enter at least a ZIP / postal code or a city.');
+      setState(() => _status = context.l10n.enterZipOrCity);
       return;
     }
     setState(() {
       _busy = true;
-      _status = 'Looking up the address…';
+      _status = context.l10n.lookingUpAddress;
       _candidates = const [];
     });
     try {
@@ -102,17 +104,17 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
         if (z != null) results = [z];
       }
       if (results.isEmpty) {
-        setState(() => _status = 'No match. Try adding the city and a 2-letter country code (e.g. US, GB, FR).');
+        setState(() => _status = context.l10n.noMatchTryCountry);
       } else if (results.length == 1) {
         await _apply(results.first);
       } else {
         setState(() {
           _candidates = results;
-          _status = 'Choose the correct location:';
+          _status = context.l10n.chooseLocation;
         });
       }
     } catch (e) {
-      setState(() => _status = 'Lookup failed: $e');
+      setState(() => _status = context.l10n.lookupFailed('$e'));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -122,7 +124,7 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
     setState(() {
       _busy = true;
       _candidates = const [];
-      _status = 'Resolving time zone…';
+      _status = context.l10n.resolvingTimeZone;
       _lat.text = r.latitude.toStringAsFixed(6);
       _lng.text = r.longitude.toStringAsFixed(6);
       if (_city.text.trim().isEmpty && r.city != null) _city.text = r.city!;
@@ -135,12 +137,12 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
       setState(() {
         _tz.text = tzId;
         _located = true;
-        _status = 'Located: ${r.displayName}';
+        _status = context.l10n.located(r.displayName);
       });
     } catch (e) {
       setState(() {
         _located = _tz.text.trim().isNotEmpty;
-        _status = 'Coordinates set, but time zone lookup failed ($e). Enter an IANA zone such as America/New_York.';
+        _status = context.l10n.timeZoneLookupFailed('$e');
       });
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -150,7 +152,7 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
   Future<void> _useDevice() async {
     setState(() {
       _busy = true;
-      _status = 'Getting your position…';
+      _status = context.l10n.gettingPosition;
     });
     try {
       var permission = await Geolocator.checkPermission();
@@ -169,7 +171,7 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
     } catch (e) {
       setState(() {
         _busy = false;
-        _status = 'Could not use device location: $e';
+        _status = context.l10n.couldNotUseDevice('$e');
       });
     }
   }
@@ -181,7 +183,7 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
     final lat = double.tryParse(_lat.text.trim());
     final lng = double.tryParse(_lng.text.trim());
     if (lat == null || lng == null || _tz.text.trim().isEmpty) {
-      setState(() => _status = 'Tap "Find location" first so the coordinates and time zone are set.');
+      setState(() => _status = context.l10n.findLocationFirst);
       return;
     }
     final m = Masjid(
@@ -213,6 +215,7 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
@@ -220,9 +223,9 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.canPop() ? context.pop() : context.go('/prayer'),
         ),
-        title: Text(widget.masjidId == null ? 'Add masjid' : 'Edit masjid'),
+        title: Text(widget.masjidId == null ? l.addMasjid : l.editMasjid),
         actions: [
-          TextButton.icon(onPressed: _busy ? null : _save, icon: const Icon(Icons.check), label: const Text('Save')),
+          TextButton.icon(onPressed: _busy ? null : _save, icon: const Icon(Icons.check), label: Text(l.save)),
         ],
       ),
       body: Center(
@@ -233,33 +236,33 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                _section('Masjid'),
+                _section(l.masjid),
                 TextFormField(
                   controller: _name,
-                  decoration: const InputDecoration(labelText: 'Masjid name', prefixIcon: Icon(Icons.mosque_outlined)),
-                  validator: (v) => (v ?? '').trim().isEmpty ? 'Enter a name' : null,
+                  decoration: InputDecoration(labelText: l.masjidName, prefixIcon: const Icon(Icons.mosque_outlined)),
+                  validator: (v) => (v ?? '').trim().isEmpty ? l.enterAName : null,
                   textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 16),
-                _section('Address'),
-                TextFormField(controller: _street, decoration: const InputDecoration(labelText: 'Street address'), textInputAction: TextInputAction.next),
+                _section(l.address),
+                TextFormField(controller: _street, decoration: InputDecoration(labelText: l.streetAddress), textInputAction: TextInputAction.next),
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Expanded(flex: 3, child: TextFormField(controller: _city, decoration: const InputDecoration(labelText: 'City'))),
+                    Expanded(flex: 3, child: TextFormField(controller: _city, decoration: InputDecoration(labelText: l.city))),
                     const SizedBox(width: 10),
-                    Expanded(flex: 2, child: TextFormField(controller: _state, decoration: const InputDecoration(labelText: 'State / Province'))),
+                    Expanded(flex: 2, child: TextFormField(controller: _state, decoration: InputDecoration(labelText: l.stateProvince))),
                   ],
                 ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Expanded(child: TextFormField(controller: _postal, decoration: const InputDecoration(labelText: 'ZIP / Postal code'))),
+                    Expanded(child: TextFormField(controller: _postal, decoration: InputDecoration(labelText: l.postalCode))),
                     const SizedBox(width: 10),
                     Expanded(
                       child: TextFormField(
                         controller: _country,
-                        decoration: const InputDecoration(labelText: 'Country code (US, GB, FR…)'),
+                        decoration: InputDecoration(labelText: l.countryCode),
                         textCapitalization: TextCapitalization.characters,
                         maxLength: 2,
                         buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
@@ -276,14 +279,14 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
                         icon: _busy
                             ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                             : const Icon(Icons.search),
-                        label: const Text('Find location'),
+                        label: Text(l.findLocation),
                       ),
                     ),
                     const SizedBox(width: 8),
                     OutlinedButton.icon(
                       onPressed: _busy ? null : _useDevice,
                       icon: const Icon(Icons.my_location),
-                      label: const Text('Device GPS'),
+                      label: Text(l.deviceGps),
                     ),
                   ],
                 ),
@@ -303,71 +306,71 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
                   ),
                 const SizedBox(height: 12),
                 ExpansionTile(
-                  title: const Text('Coordinates & time zone'),
-                  subtitle: Text(_located ? '${_lat.text}, ${_lng.text} · ${_tz.text}' : 'Set automatically from the address'),
+                  title: Text(l.coordinatesAndTimeZone),
+                  subtitle: Text(_located ? '${_lat.text}, ${_lng.text} · ${_tz.text}' : l.setAutomatically),
                   tilePadding: EdgeInsets.zero,
                   childrenPadding: const EdgeInsets.only(bottom: 8),
                   children: [
                     Row(
                       children: [
-                        Expanded(child: TextFormField(controller: _lat, decoration: const InputDecoration(labelText: 'Latitude'), keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true))),
+                        Expanded(child: TextFormField(controller: _lat, decoration: InputDecoration(labelText: l.latitude), keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true))),
                         const SizedBox(width: 10),
-                        Expanded(child: TextFormField(controller: _lng, decoration: const InputDecoration(labelText: 'Longitude'), keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true))),
+                        Expanded(child: TextFormField(controller: _lng, decoration: InputDecoration(labelText: l.longitude), keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true))),
                       ],
                     ),
                     const SizedBox(height: 10),
-                    TextFormField(controller: _tz, decoration: const InputDecoration(labelText: 'IANA time zone (e.g. Europe/London)')),
+                    TextFormField(controller: _tz, decoration: InputDecoration(labelText: l.ianaTimeZone)),
                   ],
                 ),
                 const SizedBox(height: 16),
-                _section('Calculation'),
+                _section(l.calculation),
                 DropdownButtonFormField<String>(
                   initialValue: _methodId,
-                  decoration: const InputDecoration(labelText: 'Calculation method'),
+                  decoration: InputDecoration(labelText: l.calculationMethod),
                   items: [for (final m in calculationMethods) DropdownMenuItem(value: m.id, child: Text(m.name))],
                   onChanged: (v) => setState(() => _methodId = v ?? _methodId),
                 ),
                 const SizedBox(height: 10),
                 SegmentedButton<bool>(
-                  segments: const [
-                    ButtonSegment(value: false, label: Text("Asr: Shafi'i / Maliki / Hanbali")),
-                    ButtonSegment(value: true, label: Text('Asr: Hanafi')),
+                  segments: [
+                    ButtonSegment(value: false, label: Text(l.asrShafiiFull)),
+                    ButtonSegment(value: true, label: Text(l.asrHanafiFull)),
                   ],
                   selected: {_asrHanafi},
                   onSelectionChanged: (v) => setState(() => _asrHanafi = v.first),
                 ),
                 const SizedBox(height: 6),
-                _Stepper(label: 'Dhuhr: minutes after zawal', value: _dhuhrOffset, min: 0, max: 30, onChanged: (v) => setState(() => _dhuhrOffset = v)),
-                _Stepper(label: 'Maghrib: minutes after sunset', value: _maghribOffset, min: 0, max: 30, onChanged: (v) => setState(() => _maghribOffset = v)),
+                _Stepper(label: l.dhuhrAfterZawal, value: _dhuhrOffset, min: 0, max: 30, onChanged: (v) => setState(() => _dhuhrOffset = v)),
+                _Stepper(label: l.maghribAfterSunset, value: _maghribOffset, min: 0, max: 30, onChanged: (v) => setState(() => _maghribOffset = v)),
                 ExpansionTile(
-                  title: const Text('Fine-tune each prayer (minutes)'),
+                  title: Text(l.fineTune),
                   tilePadding: EdgeInsets.zero,
                   children: [
                     for (final p in Prayer.values)
                       _Stepper(
-                        label: p.label,
+                        label: prayerLabel(context, p),
                         value: _adjustments[p] ?? 0,
                         min: -30,
                         max: 30,
                         onChanged: (v) => setState(() => _adjustments = {..._adjustments, p: v}),
                       ),
-                    _Stepper(label: 'Hijri date adjustment (days)', value: _hijriAdjustment, min: -2, max: 2, onChanged: (v) => setState(() => _hijriAdjustment = v)),
+                    _Stepper(label: l.hijriAdjustment, value: _hijriAdjustment, min: -2, max: 2, onChanged: (v) => setState(() => _hijriAdjustment = v)),
                   ],
                 ),
                 const SizedBox(height: 16),
-                _section('Iqama'),
+                _section(l.iqama),
                 for (final p in Prayer.values.where((p) => p.isSalah)) _iqamaEditor(p),
                 const SizedBox(height: 16),
-                _section("Jumu'ah services"),
+                _section(l.jumuahServices),
                 for (var i = 0; i < _jumuah.length; i++) _jumuahEditor(i),
                 if (_jumuah.length < 4)
                   OutlinedButton.icon(
                     onPressed: () => setState(() => _jumuah = [..._jumuah, const JumuahService(minutes: 13 * 60 + 30)]),
                     icon: const Icon(Icons.add),
-                    label: Text(_jumuah.isEmpty ? "Add Jumu'ah time" : 'Add another service'),
+                    label: Text(_jumuah.isEmpty ? l.addJumuahTime : l.addAnotherService),
                   ),
                 const SizedBox(height: 24),
-                FilledButton.icon(onPressed: _busy ? null : _save, icon: const Icon(Icons.check), label: const Text('Save masjid')),
+                FilledButton.icon(onPressed: _busy ? null : _save, icon: const Icon(Icons.check), label: Text(l.saveMasjid)),
                 const SizedBox(height: 24),
               ],
             ),
@@ -392,14 +395,14 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
-          SizedBox(width: 70, child: Text(p.label, style: const TextStyle(fontWeight: FontWeight.w600))),
+          SizedBox(width: 70, child: Text(prayerLabel(context, p), style: const TextStyle(fontWeight: FontWeight.w600))),
           Expanded(
             child: SegmentedButton<IqamaMode>(
               showSelectedIcon: false,
-              segments: const [
-                ButtonSegment(value: IqamaMode.none, label: Text('None')),
-                ButtonSegment(value: IqamaMode.fixed, label: Text('Fixed')),
-                ButtonSegment(value: IqamaMode.afterAdhan, label: Text('+ min')),
+              segments: [
+                ButtonSegment(value: IqamaMode.none, label: Text(context.l10n.none)),
+                ButtonSegment(value: IqamaMode.fixed, label: Text(context.l10n.fixed)),
+                ButtonSegment(value: IqamaMode.afterAdhan, label: Text(context.l10n.plusMinutes)),
               ],
               selected: {rule.mode},
               onSelectionChanged: (v) => setState(() => _iqama = {..._iqama, p: rule.copyWith(mode: v.first)}),
@@ -466,13 +469,13 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
                   setState(() => _jumuah[i] = JumuahService(minutes: j.minutes, label: j.label, khutbahMinutes: t.hour * 60 + t.minute));
                 }
               },
-              child: Text(j.khutbahMinutes == null ? 'Khutbah…' : 'Khutbah ${formatMinutes(j.khutbahMinutes!)}', style: const TextStyle(fontSize: 12)),
+              child: Text(j.khutbahMinutes == null ? context.l10n.khutbahPicker : context.l10n.khutbahAt(formatMinutes(j.khutbahMinutes!)), style: const TextStyle(fontSize: 12)),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: TextFormField(
                 initialValue: j.label,
-                decoration: const InputDecoration(hintText: 'Label (language, hall, khateeb)', isDense: true),
+                decoration: InputDecoration(hintText: context.l10n.jumuahLabelHint, isDense: true),
                 onChanged: (v) => _jumuah[i] = JumuahService(minutes: j.minutes, label: v, khutbahMinutes: j.khutbahMinutes),
               ),
             ),

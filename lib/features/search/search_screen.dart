@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/quran_repository.dart';
 import '../../data/translation_service.dart';
@@ -85,7 +86,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Search')),
+      appBar: AppBar(title: Text(context.l10n.search)),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 820),
@@ -99,7 +100,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   onChanged: _onChanged,
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
-                    hintText: 'Arabic, transliteration or English…',
+                    hintText: context.l10n.searchHint,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: _query.isEmpty
                         ? null
@@ -123,7 +124,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               else if (_results.isEmpty)
                 Expanded(
                   child: Center(
-                    child: Text('No ayah matches "$_query"',
+                    child: Text(context.l10n.noAyahMatches(_query),
                         style: TextStyle(color: scheme.onSurfaceVariant)),
                   ),
                 )
@@ -137,7 +138,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8, left: 4),
                           child: Text(
-                            '${_results.length}${_results.length >= 200 ? '+' : ''} results',
+                            context.l10n.resultsCount('${_results.length}${_results.length >= 200 ? '+' : ''}'),
                             style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13),
                           ),
                         );
@@ -179,12 +180,12 @@ class _Hints extends StatelessWidget {
           Icon(Icons.manage_search, size: 56, color: scheme.primary.withValues(alpha: 0.6)),
           const SizedBox(height: 12),
           Text(
-            'Search the whole Quran',
+            context.l10n.searchWholeQuran,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: scheme.onSurface),
           ),
           const SizedBox(height: 6),
           Text(
-            'Type Arabic (with or without harakat), a transliterated phrase, or an English word. Results open the ayah in the reader.',
+            context.l10n.searchHelp,
             textAlign: TextAlign.center,
             style: TextStyle(color: scheme.onSurfaceVariant, height: 1.5),
           ),

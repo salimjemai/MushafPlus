@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/hadith_service.dart';
 import '../../state/providers.dart';
@@ -18,11 +19,12 @@ class HadithBooksScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final books = ref.watch(hadithBooksProvider);
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hadith'),
+        title: Text(l.hadith),
         actions: const [Padding(padding: EdgeInsets.only(right: 8), child: HadithLanguageDropdown())],
       ),
       body: Center(
@@ -33,8 +35,7 @@ class HadithBooksScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
               children: [
                 Text(
-                  'The six canonical collections, Muwatta Malik and three forty-hadith collections, '
-                  'with Arabic and translation. Each chapter downloads once and stays offline.',
+                  l.hadithIntro,
                   style: TextStyle(color: scheme.onSurfaceVariant, height: 1.5, fontSize: 13.5),
                 ),
                 const SizedBox(height: 12),
@@ -44,7 +45,7 @@ class HadithBooksScreen extends ConsumerWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       leading: SurahNumberBadge(number: list.indexOf(b) + 1, size: 42, color: scheme.secondary),
                       title: Text(b.name, style: const TextStyle(fontWeight: FontWeight.w700)),
-                      subtitle: Text('${b.hadithCount} hadiths · ${b.sections.length} chapters'),
+                      subtitle: Text(l.hadithsChapters(b.hadithCount, b.sections.length)),
                       trailing: Text(b.arabic, style: ArabicStyles.surahName(context, size: 18, color: scheme.primary)),
                       onTap: () => context.go('/hadith/${b.id}'),
                     ),
@@ -54,7 +55,7 @@ class HadithBooksScreen extends ConsumerWidget {
               ],
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('Could not load hadith books: $e')),
+            error: (e, _) => Center(child: Text(l.couldNotLoadHadithBooks('$e'))),
           ),
         ),
       ),
@@ -117,7 +118,7 @@ class _HadithBookScreenState extends ConsumerState<HadithBookScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(book.name),
-                Text('${book.hadithCount} hadiths · ${book.sections.length} chapters',
+                Text(context.l10n.hadithsChapters(book.hadithCount, book.sections.length),
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: scheme.onSurfaceVariant)),
               ],
             ),
@@ -131,7 +132,7 @@ class _HadithBookScreenState extends ConsumerState<HadithBookScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
                     child: TextField(
                       onChanged: (v) => setState(() => _query = v),
-                      decoration: const InputDecoration(hintText: 'Find a chapter', prefixIcon: Icon(Icons.search)),
+                      decoration: InputDecoration(hintText: context.l10n.findAChapter, prefixIcon: const Icon(Icons.search)),
                     ),
                   ),
                   Expanded(
@@ -147,7 +148,7 @@ class _HadithBookScreenState extends ConsumerState<HadithBookScreen> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                               leading: SurahNumberBadge(number: s.number, size: 40),
                               title: Text(s.name, style: const TextStyle(fontWeight: FontWeight.w600)),
-                              subtitle: Text(s.count > 0 ? 'Hadiths ${s.first}–${s.last}' : 'Chapter ${s.number}'),
+                              subtitle: Text(s.count > 0 ? context.l10n.hadithsRange(s.first, s.last) : context.l10n.chapterN(s.number)),
                               trailing: const Icon(Icons.chevron_right),
                               onTap: () => context.go('/hadith/${book.id}/${s.number}'),
                             ),
@@ -204,7 +205,7 @@ class _HadithSectionScreenState extends ConsumerState<HadithSectionScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(section?.name ?? 'Chapter ${widget.section}', maxLines: 1, overflow: TextOverflow.ellipsis),
+            Text(section?.name ?? context.l10n.chapterN(widget.section), maxLines: 1, overflow: TextOverflow.ellipsis),
             Text(book?.name ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: scheme.onSurfaceVariant)),
           ],
         ),
@@ -223,12 +224,12 @@ class _HadithSectionScreenState extends ConsumerState<HadithSectionScreen> {
                   children: [
                     Icon(Icons.cloud_off, size: 40, color: scheme.error),
                     const SizedBox(height: 8),
-                    Text('This chapter needs an internet connection the first time.\n$e', textAlign: TextAlign.center),
+                    Text('${context.l10n.chapterNeedsInternet}\n$e', textAlign: TextAlign.center),
                     const SizedBox(height: 12),
                     FilledButton.tonal(
                       onPressed: () => ref.invalidate(
                           hadithSectionProvider((book: widget.bookId, section: widget.section, lang: lang))),
-                      child: const Text('Retry'),
+                      child: Text(context.l10n.retry),
                     ),
                   ],
                 ),
@@ -246,7 +247,7 @@ class _HadithSectionScreenState extends ConsumerState<HadithSectionScreen> {
                     child: TextField(
                       onChanged: (v) => setState(() => _query = v),
                       decoration: InputDecoration(
-                        hintText: 'Search ${list.length} hadiths in this chapter',
+                        hintText: context.l10n.searchHadithsInChapter(list.length),
                         prefixIcon: const Icon(Icons.search),
                       ),
                     ),
@@ -265,14 +266,14 @@ class _HadithSectionScreenState extends ConsumerState<HadithSectionScreen> {
                                   TextButton.icon(
                                     onPressed: () => context.go('/hadith/${widget.bookId}/${sections[idx - 1].number}'),
                                     icon: const Icon(Icons.chevron_left),
-                                    label: const Text('Previous chapter'),
+                                    label: Text(context.l10n.previousChapter),
                                   ),
                                 const Spacer(),
                                 if (idx >= 0 && idx < sections.length - 1)
                                   TextButton.icon(
                                     onPressed: () => context.go('/hadith/${widget.bookId}/${sections[idx + 1].number}'),
                                     icon: const Icon(Icons.chevron_right),
-                                    label: const Text('Next chapter'),
+                                    label: Text(context.l10n.nextChapter),
                                   ),
                               ],
                             ),
@@ -342,16 +343,16 @@ class _HadithCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  tooltip: 'Copy',
+                  tooltip: context.l10n.copy,
                   visualDensity: VisualDensity.compact,
                   icon: const Icon(Icons.copy_outlined, size: 18),
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: _shareText));
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Hadith copied')));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.hadithCopied)));
                   },
                 ),
                 IconButton(
-                  tooltip: 'Share',
+                  tooltip: context.l10n.share,
                   visualDensity: VisualDensity.compact,
                   icon: const Icon(Icons.ios_share, size: 18),
                   onPressed: () => Share.share(_shareText),

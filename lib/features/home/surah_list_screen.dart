@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/quran_repository.dart';
@@ -34,6 +35,7 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final repo = ref.quran;
     final surahs = _filter(repo.surahs, _query);
     final showHero = _query.isEmpty;
@@ -42,21 +44,17 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text('Quran+'),
+            Text(l.appTitle),
             const SizedBox(width: 10),
             Text(
               'ٱلْقُرْآنُ ٱلْكَرِيمُ',
-              style: ArabicStyles.surahName(
-                context,
-                size: 18,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              style: ArabicStyles.surahName(context, size: 18, color: Theme.of(context).colorScheme.primary),
             ),
           ],
         ),
         actions: [
           IconButton(
-            tooltip: 'Search the Quran',
+            tooltip: l.searchTheQuran,
             icon: const Icon(Icons.search),
             onPressed: () => context.go('/search'),
           ),
@@ -83,7 +81,7 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                       controller: _controller,
                       onChanged: (v) => setState(() => _query = v),
                       decoration: InputDecoration(
-                        hintText: 'Find a surah by name, meaning or number',
+                        hintText: l.findSurahHint,
                         prefixIcon: const Icon(Icons.search),
                         suffixIcon: _query.isEmpty
                             ? null
@@ -100,10 +98,10 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                   const SizedBox(width: 10),
                   SegmentedButton<_Tab>(
                     showSelectedIcon: false,
-                    segments: const [
-                      ButtonSegment(value: _Tab.surahs, label: Text('Surah')),
-                      ButtonSegment(value: _Tab.juz, label: Text('Juz')),
-                      ButtonSegment(value: _Tab.pages, label: Text('Page')),
+                    segments: [
+                      ButtonSegment(value: _Tab.surahs, label: Text(l.tabSurah)),
+                      ButtonSegment(value: _Tab.juz, label: Text(l.tabJuz)),
+                      ButtonSegment(value: _Tab.pages, label: Text(l.tabPage)),
                     ],
                     selected: {_tab},
                     onSelectionChanged: (s) => setState(() => _tab = s.first),
@@ -113,9 +111,9 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
               const SizedBox(height: 12),
               if (_tab == _Tab.surahs) ...[
                 if (surahs.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.all(32),
-                    child: Center(child: Text('No surah matches your search.')),
+                  Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Center(child: Text(l.noSurahMatches)),
                   ),
                 for (final s in surahs) ...[
                   SurahTile(
@@ -161,6 +159,9 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
   }
 }
 
+String revelationLabel(BuildContext context, Surah s) =>
+    s.isMeccan ? context.l10n.meccan : context.l10n.medinan;
+
 class SurahTile extends StatelessWidget {
   const SurahTile({
     super.key,
@@ -195,16 +196,14 @@ class SurahTile extends StatelessWidget {
                   children: [
                     Text(
                       surah.englishName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: compact ? 15 : 16,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: compact ? 15 : 16),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       compact
                           ? '${surah.englishNameTranslation} · ${surah.numberOfAyahs}'
-                          : '${surah.englishNameTranslation} · ${surah.numberOfAyahs} ayahs · ${surah.revelationType}',
+                          : context.l10n.surahSubtitle(
+                              surah.englishNameTranslation, surah.numberOfAyahs, revelationLabel(context, surah)),
                       style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -216,11 +215,7 @@ class SurahTile extends StatelessWidget {
               Text(
                 surah.name,
                 textDirection: TextDirection.rtl,
-                style: ArabicStyles.surahName(
-                  context,
-                  size: compact ? 18 : 22,
-                  color: scheme.primary,
-                ),
+                style: ArabicStyles.surahName(context, size: compact ? 18 : 22, color: scheme.primary),
               ),
             ],
           ),
@@ -236,6 +231,7 @@ class _JuzTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final repo = ref.quran;
     final s = repo.surah(juz.startSurah);
     final scheme = Theme.of(context).colorScheme;
@@ -243,10 +239,8 @@ class _JuzTile extends ConsumerWidget {
       child: ListTile(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         leading: SurahNumberBadge(number: juz.number, size: 42, color: scheme.secondary),
-        title: Text('Juz ${juz.number}', style: const TextStyle(fontWeight: FontWeight.w700)),
-        subtitle: Text(
-          'Starts at ${s.englishName}, ayah ${juz.startAyahInSurah} · ${juz.endAyah - juz.startAyah + 1} ayahs',
-        ),
+        title: Text(l.juzN(juz.number), style: const TextStyle(fontWeight: FontWeight.w700)),
+        subtitle: Text(l.juzStartsAt(s.englishName, juz.startAyahInSurah, juz.endAyah - juz.startAyah + 1)),
         trailing: Text(
           toArabicDigits(juz.number),
           style: ArabicStyles.surahName(context, size: 20, color: scheme.secondary),
@@ -276,13 +270,8 @@ class _PageGrid extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(4, 8, 4, 6),
             child: Text(
-              'JUZ ${e.key}',
-              style: TextStyle(
-                fontSize: 11.5,
-                letterSpacing: 1.4,
-                fontWeight: FontWeight.w700,
-                color: scheme.primary,
-              ),
+              context.l10n.juzN(e.key).toUpperCase(),
+              style: TextStyle(fontSize: 11.5, letterSpacing: 1.4, fontWeight: FontWeight.w700, color: scheme.primary),
             ),
           ),
           Wrap(
@@ -308,6 +297,7 @@ class _ContinueReadingCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final repo = ref.quran;
     final last = ref.watch(lastReadProvider);
     final ayah = repo.ayah(last?.ayahNumber ?? 1);
@@ -324,7 +314,7 @@ class _ContinueReadingCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    last == null ? 'START READING' : 'CONTINUE READING',
+                    last == null ? l.startReading : l.continueReading,
                     style: const TextStyle(
                       color: AppColors.goldLight,
                       fontSize: 11,
@@ -335,15 +325,11 @@ class _ContinueReadingCard extends ConsumerWidget {
                   const SizedBox(height: 8),
                   Text(
                     surah.englishName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Ayah ${ayah.numberInSurah} of ${surah.numberOfAyahs} · Juz ${ayah.juz} · Page ${ayah.page}',
+                    l.ayahOfJuzPage(ayah.numberInSurah, surah.numberOfAyahs, ayah.juz, ayah.page),
                     style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 13),
                   ),
                   const SizedBox(height: 14),
@@ -360,10 +346,7 @@ class _ContinueReadingCard extends ConsumerWidget {
               ),
             ),
             const SizedBox(width: 16),
-            Text(
-              surah.name,
-              style: ArabicStyles.surahName(context, size: 28, color: Colors.white),
-            ),
+            Text(surah.name, style: ArabicStyles.surahName(context, size: 28, color: Colors.white)),
           ],
         ),
       ),
@@ -377,11 +360,13 @@ class _TodayCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final stats = ref.watch(readingStatsProvider);
     final lastRead = ref.watch(lastReadProvider)?.ayahNumber ?? 1;
     final scheme = Theme.of(context).colorScheme;
     final plan = stats.plan;
-    final behind = plan == null ? 0 : plan.targetAyahFor(DateTime.now()) - lastRead;
+    final now = DateTime.now();
+    final behind = plan == null ? 0 : plan.targetAyahFor(now) - lastRead;
 
     return Card(
       child: InkWell(
@@ -404,19 +389,19 @@ class _TodayCard extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        const Text('Today', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                        Text(l.today, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
                         const SizedBox(width: 10),
-                        Icon(Icons.local_fire_department, size: 16, color: AppColors.gold),
+                        const Icon(Icons.local_fire_department, size: 16, color: AppColors.gold),
                         Text(' ${stats.streak}', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13)),
                       ],
                     ),
                     const SizedBox(height: 2),
                     Text(
                       plan == null
-                          ? 'Daily goal ${stats.dailyGoal} ayahs · tap to start a khatm plan'
+                          ? l.dailyGoalTapToStartPlan(stats.dailyGoal)
                           : behind <= 0
-                              ? 'Khatm plan: on track · day ${plan.dayNumber(DateTime.now()).clamp(1, plan.days)}/${plan.days}'
-                              : 'Khatm plan: $behind ayahs behind · day ${plan.dayNumber(DateTime.now()).clamp(1, plan.days)}/${plan.days}',
+                              ? l.khatmOnTrack(plan.dayNumber(now).clamp(1, plan.days), plan.days)
+                              : l.khatmBehind(behind, plan.dayNumber(now).clamp(1, plan.days), plan.days),
                       style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -445,7 +430,7 @@ class _VerseOfTheDayCard extends ConsumerWidget {
     final scheme = Theme.of(context).colorScheme;
     final settings = ref.watch(settingsProvider);
     final translation = ref.watch(surahTranslationProvider(
-      (surah: ayah.surah, edition: TranslationService.defaultEdition),
+      (surah: ayah.surah, edition: settings.translations.firstOrNull ?? TranslationService.defaultEdition),
     ));
 
     return Card(
@@ -462,19 +447,11 @@ class _VerseOfTheDayCard extends ConsumerWidget {
                   Icon(Icons.auto_awesome, size: 16, color: scheme.secondary),
                   const SizedBox(width: 6),
                   Text(
-                    'VERSE OF THE DAY',
-                    style: TextStyle(
-                      color: scheme.secondary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1.6,
-                    ),
+                    context.l10n.verseOfTheDay,
+                    style: TextStyle(color: scheme.secondary, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 1.6),
                   ),
                   const Spacer(),
-                  Text(
-                    '${surah.englishName} ${ayah.key}',
-                    style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12),
-                  ),
+                  Text('${surah.englishName} ${ayah.key}', style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12)),
                 ],
               ),
               const SizedBox(height: 10),
@@ -540,9 +517,9 @@ class _SurahSidebarState extends ConsumerState<SurahSidebar> {
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
           child: TextField(
             onChanged: (v) => setState(() => _query = v),
-            decoration: const InputDecoration(
-              hintText: 'Jump to surah',
-              prefixIcon: Icon(Icons.search),
+            decoration: InputDecoration(
+              hintText: context.l10n.jumpToSurah,
+              prefixIcon: const Icon(Icons.search),
               isDense: true,
             ),
           ),

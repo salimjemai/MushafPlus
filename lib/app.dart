@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'core/l10n.dart';
 import 'core/theme.dart';
 import 'data/quran_repository.dart';
 import 'features/bookmarks/bookmarks_screen.dart';
@@ -119,13 +120,18 @@ class QuranPlusApp extends ConsumerWidget {
     final settings = ref.watch(settingsProvider);
     final repo = ref.watch(repositoryProvider);
 
+    final locale = settings.locale == null ? null : Locale(settings.locale!);
+
     return repo.when(
       data: (_) => MaterialApp.router(
-        title: 'Quran+',
+        onGenerateTitle: (context) => context.l10n.appTitle,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
         darkTheme: AppTheme.dark(),
         themeMode: settings.themeMode,
+        locale: locale,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         routerConfig: _router,
       ),
       loading: () => MaterialApp(
@@ -133,28 +139,36 @@ class QuranPlusApp extends ConsumerWidget {
         theme: AppTheme.light(),
         darkTheme: AppTheme.dark(),
         themeMode: settings.themeMode,
+        locale: locale,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: const _Splash(),
       ),
       error: (e, _) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
         darkTheme: AppTheme.dark(),
-        home: Scaffold(
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.error_outline, size: 48),
-                  const SizedBox(height: 12),
-                  Text('Could not load the Quran data.\n$e', textAlign: TextAlign.center),
-                  const SizedBox(height: 16),
-                  FilledButton(
-                    onPressed: () => ref.invalidate(repositoryProvider),
-                    child: const Text('Retry'),
-                  ),
-                ],
+        locale: locale,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Builder(
+          builder: (context) => Scaffold(
+            body: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.error_outline, size: 48),
+                    const SizedBox(height: 12),
+                    Text('${context.l10n.couldNotLoadQuran}\n$e', textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    FilledButton(
+                      onPressed: () => ref.invalidate(repositoryProvider),
+                      child: Text(context.l10n.retry),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

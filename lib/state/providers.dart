@@ -93,6 +93,7 @@ class AppSettings {
     this.tafsirId = defaultTafsirId,
     this.hadithLanguage = 'eng',
     this.mushafLayout = MushafLayout.auto,
+    this.locale,
   });
 
   final ThemeMode themeMode;
@@ -108,6 +109,9 @@ class AppSettings {
   final int tafsirId;
   final String hadithLanguage;
   final MushafLayout mushafLayout;
+
+  /// Interface language code, or null to follow the system.
+  final String? locale;
 
   static const maxTranslations = 4;
 
@@ -125,6 +129,8 @@ class AppSettings {
     int? tafsirId,
     String? hadithLanguage,
     MushafLayout? mushafLayout,
+    String? locale,
+    bool clearLocale = false,
   }) {
     return AppSettings(
       themeMode: themeMode ?? this.themeMode,
@@ -140,6 +146,7 @@ class AppSettings {
       tafsirId: tafsirId ?? this.tafsirId,
       hadithLanguage: hadithLanguage ?? this.hadithLanguage,
       mushafLayout: mushafLayout ?? this.mushafLayout,
+      locale: clearLocale ? null : (locale ?? this.locale),
     );
   }
 
@@ -157,6 +164,7 @@ class AppSettings {
         'tafsirId': tafsirId,
         'hadithLanguage': hadithLanguage,
         'mushafLayout': mushafLayout.index,
+        if (locale != null) 'locale': locale,
       };
 
   factory AppSettings.fromMap(Map<dynamic, dynamic> m) {
@@ -175,6 +183,7 @@ class AppSettings {
       tafsirId: (m['tafsirId'] as int?) ?? d.tafsirId,
       hadithLanguage: (m['hadithLanguage'] as String?) ?? d.hadithLanguage,
       mushafLayout: MushafLayout.values[((m['mushafLayout'] as int?) ?? 0).clamp(0, MushafLayout.values.length - 1)],
+      locale: m['locale'] as String?,
     );
   }
 }
@@ -206,6 +215,8 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setTafsirId(int id) => _update(state.copyWith(tafsirId: id));
   void setHadithLanguage(String l) => _update(state.copyWith(hadithLanguage: l));
   void setMushafLayout(MushafLayout l) => _update(state.copyWith(mushafLayout: l));
+  void setLocale(String? code) =>
+      _update(code == null ? state.copyWith(clearLocale: true) : state.copyWith(locale: code));
 
   /// Adds or removes a translation edition. Returns false when the limit is hit.
   bool toggleTranslation(String edition) {

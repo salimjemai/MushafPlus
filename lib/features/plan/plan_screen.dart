@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/quran_repository.dart';
 import '../../state/providers.dart';
@@ -14,6 +15,7 @@ class PlanScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final stats = ref.watch(readingStatsProvider);
     final repo = ref.quran;
     final lastRead = ref.watch(lastReadProvider)?.ayahNumber ?? 1;
@@ -27,7 +29,7 @@ class PlanScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.canPop() ? context.pop() : context.go('/'),
         ),
-        title: const Text('Reading plan'),
+        title: Text(l.readingPlan),
       ),
       body: Center(
         child: ConstrainedBox(
@@ -48,12 +50,12 @@ class PlanScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Today', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                            Text(l.today, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
                             const SizedBox(height: 4),
                             Text(
                               stats.readToday >= stats.dailyGoal
-                                  ? 'Goal reached, mashaAllah!'
-                                  : '${stats.dailyGoal - stats.readToday} more ayahs to reach your goal',
+                                  ? l.goalReached
+                                  : l.moreAyahsToGoal(stats.dailyGoal - stats.readToday),
                               style: TextStyle(color: scheme.onSurfaceVariant, height: 1.4),
                             ),
                             const SizedBox(height: 10),
@@ -61,7 +63,7 @@ class PlanScreen extends ConsumerWidget {
                               children: [
                                 Icon(Icons.local_fire_department, color: AppColors.gold, size: 20),
                                 const SizedBox(width: 4),
-                                Text('${stats.streak}-day streak', style: const TextStyle(fontWeight: FontWeight.w600)),
+                                Text(l.dayStreak(stats.streak), style: const TextStyle(fontWeight: FontWeight.w600)),
                               ],
                             ),
                           ],
@@ -80,9 +82,9 @@ class PlanScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Daily goal', style: TextStyle(fontWeight: FontWeight.w700)),
+                      Text(l.dailyGoal, style: const TextStyle(fontWeight: FontWeight.w700)),
                       const SizedBox(height: 6),
-                      Text('${stats.dailyGoal} ayahs per day', style: TextStyle(color: scheme.onSurfaceVariant)),
+                      Text(l.ayahsPerDay(stats.dailyGoal), style: TextStyle(color: scheme.onSurfaceVariant)),
                       Slider(
                         value: stats.dailyGoal.toDouble().clamp(5, 300),
                         min: 5,
@@ -96,7 +98,7 @@ class PlanScreen extends ConsumerWidget {
                         children: [
                           for (final g in const [10, 20, 50, 100, 208])
                             ChoiceChip(
-                              label: Text(g == 208 ? '208 (khatm in 30 days)' : '$g'),
+                              label: Text(g == 208 ? l.khatmIn30Days : '$g'),
                               selected: stats.dailyGoal == g,
                               onSelected: (_) => ref.read(readingStatsProvider.notifier).setDailyGoal(g),
                             ),
@@ -115,16 +117,16 @@ class PlanScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Last 7 days', style: TextStyle(fontWeight: FontWeight.w700)),
+                      Text(l.last7Days, style: const TextStyle(fontWeight: FontWeight.w700)),
                       const SizedBox(height: 12),
                       _WeekChart(stats: stats),
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          _Stat(label: 'Ayahs read', value: '${stats.totalAyahsRead}'),
-                          _Stat(label: 'Active days', value: '${stats.activeDays}'),
-                          _Stat(label: 'Memorized', value: '$memorized'),
-                          _Stat(label: 'Quran read', value: '${(lastRead / QuranRepository.totalAyahs * 100).toStringAsFixed(1)}%'),
+                          _Stat(label: l.ayahsRead, value: '${stats.totalAyahsRead}'),
+                          _Stat(label: l.activeDays, value: '${stats.activeDays}'),
+                          _Stat(label: l.memorized, value: '$memorized'),
+                          _Stat(label: l.quranRead, value: '${(lastRead / QuranRepository.totalAyahs * 100).toStringAsFixed(1)}%'),
                         ],
                       ),
                     ],
@@ -226,37 +228,38 @@ class _StartPlanState extends ConsumerState<_StartPlan> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final startAyah = _fromStart ? 1 : widget.lastRead;
     final perDay = ((QuranRepository.totalAyahs - startAyah + 1) / _days).ceil();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Khatm plan', style: TextStyle(fontWeight: FontWeight.w700)),
+        Text(l.khatmPlan, style: const TextStyle(fontWeight: FontWeight.w700)),
         const SizedBox(height: 6),
-        Text('Finish the whole Quran on a schedule. We will tell you the ayah to reach each day.',
+        Text(l.khatmPlanHelp,
             style: TextStyle(color: scheme.onSurfaceVariant, height: 1.4)),
         const SizedBox(height: 12),
         Wrap(
           spacing: 8,
           children: [
             for (final d in const [30, 60, 90, 180, 365])
-              ChoiceChip(label: Text('$d days'), selected: _days == d, onSelected: (_) => setState(() => _days = d)),
+              ChoiceChip(label: Text(l.nDays(d)), selected: _days == d, onSelected: (_) => setState(() => _days = d)),
           ],
         ),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
-          title: const Text('Start from Al-Fatiha'),
-          subtitle: Text(_fromStart ? 'From the beginning' : 'From where you are now'),
+          title: Text(l.startFromFatiha),
+          subtitle: Text(_fromStart ? l.fromTheBeginning : l.fromWhereYouAre),
           value: _fromStart,
           onChanged: (v) => setState(() => _fromStart = v),
         ),
-        Text('About $perDay ayahs a day', style: const TextStyle(fontWeight: FontWeight.w600)),
+        Text(l.aboutAyahsADay(perDay), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 10),
         FilledButton.icon(
           onPressed: () => ref.read(readingStatsProvider.notifier).startPlan(days: _days, startAyah: startAyah),
           icon: const Icon(Icons.flag),
-          label: const Text('Start plan'),
+          label: Text(l.startPlan),
         ),
       ],
     );
@@ -271,6 +274,7 @@ class _PlanStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final now = DateTime.now();
     final target = plan.targetAyahFor(now);
@@ -283,16 +287,16 @@ class _PlanStatus extends ConsumerWidget {
       children: [
         Row(
           children: [
-            const Text('Khatm plan', style: TextStyle(fontWeight: FontWeight.w700)),
+            Text(l.khatmPlan, style: const TextStyle(fontWeight: FontWeight.w700)),
             const Spacer(),
             TextButton(
               onPressed: () => ref.read(readingStatsProvider.notifier).cancelPlan(),
-              child: const Text('End plan'),
+              child: Text(l.endPlan),
             ),
           ],
         ),
         Text(
-          'Day ${day.clamp(1, plan.days)} of ${plan.days} · ends ${DateFormat.yMMMd().format(plan.endDate)} · ${plan.perDay} ayahs/day',
+          l.planStatusLine(day.clamp(1, plan.days), plan.days, DateFormat.yMMMd().format(plan.endDate), plan.perDay),
           style: TextStyle(color: scheme.onSurfaceVariant),
         ),
         const SizedBox(height: 10),
@@ -302,13 +306,15 @@ class _PlanStatus extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          behind <= 0
-              ? 'You are on track${behind < 0 ? ', ${-behind} ayahs ahead' : ''}.'
-              : 'Read $behind more ayahs today to catch up.',
+          behind < 0
+              ? l.onTrackAhead(-behind)
+              : behind == 0
+                  ? l.onTrack
+                  : l.catchUp(behind),
           style: TextStyle(fontWeight: FontWeight.w600, color: behind <= 0 ? scheme.primary : scheme.error),
         ),
         const SizedBox(height: 4),
-        Text("Today's target: ${repo.surah(targetAyah.surah).englishName} ${targetAyah.key}",
+        Text(l.todaysTarget(repo.surah(targetAyah.surah).englishName, targetAyah.key),
             style: TextStyle(color: scheme.onSurfaceVariant)),
         const SizedBox(height: 10),
         FilledButton.tonalIcon(
@@ -317,7 +323,7 @@ class _PlanStatus extends ConsumerWidget {
             context.go('/surah/${a.surah}?ayah=${a.numberInSurah}');
           },
           icon: const Icon(Icons.menu_book),
-          label: const Text('Continue reading'),
+          label: Text(l.continueReadingButton),
         ),
       ],
     );

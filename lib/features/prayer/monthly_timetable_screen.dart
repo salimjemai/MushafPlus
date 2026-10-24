@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/l10n.dart';
 import '../../data/masjid.dart';
 import '../../data/prayer_times.dart';
 import '../../state/masjid_providers.dart';
@@ -24,12 +25,13 @@ class _MonthlyTimetableScreenState extends ConsumerState<MonthlyTimetableScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final masjid = ref.watch(selectedMasjidProvider);
     final scheme = Theme.of(context).colorScheme;
     if (masjid == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Monthly timetable')),
-        body: const Center(child: Text('Set up a masjid first.')),
+        appBar: AppBar(title: Text(l.monthlyTimetable)),
+        body: Center(child: Text(l.setUpMasjidFirst)),
       );
     }
     final days = DateUtils.getDaysInMonth(_month.year, _month.month);
@@ -55,17 +57,17 @@ class _MonthlyTimetableScreenState extends ConsumerState<MonthlyTimetableScreen>
         actions: [
           if (hasIqama)
             IconButton(
-              tooltip: _showIqama ? 'Hide iqama' : 'Show iqama',
+              tooltip: _showIqama ? l.hideIqama : l.showIqama,
               icon: Icon(_showIqama ? Icons.visibility_off_outlined : Icons.visibility_outlined),
               onPressed: () => setState(() => _showIqama = !_showIqama),
             ),
           IconButton(
-            tooltip: 'Copy as CSV',
+            tooltip: l.copyAsCsv,
             icon: const Icon(Icons.table_view_outlined),
-            onPressed: () => copyWithToast(context, _csv(masjid, rows), 'CSV copied — paste into Excel or Sheets'),
+            onPressed: () => copyWithToast(context, _csv(masjid, rows), l.csvCopied),
           ),
           IconButton(
-            tooltip: 'Share as text',
+            tooltip: l.shareAsText,
             icon: const Icon(Icons.ios_share),
             onPressed: () => Share.share(_text(masjid, rows), subject: '${masjid.name} prayer times ${DateFormat.yMMMM().format(_month)}'),
           ),
@@ -85,7 +87,7 @@ class _MonthlyTimetableScreenState extends ConsumerState<MonthlyTimetableScreen>
                 IconButton(onPressed: () => setState(() => _month = DateTime(_month.year, _month.month + 1)), icon: const Icon(Icons.chevron_right)),
                 TextButton(
                   onPressed: () => setState(() => _month = DateTime(now.year, now.month)),
-                  child: const Text('This month'),
+                  child: Text(l.thisMonth),
                 ),
               ],
             ),
@@ -101,8 +103,8 @@ class _MonthlyTimetableScreenState extends ConsumerState<MonthlyTimetableScreen>
                   dataRowMaxHeight: _showIqama && hasIqama ? 52 : 40,
                   columnSpacing: 18,
                   columns: [
-                    const DataColumn(label: Text('Date')),
-                    for (final p in Prayer.values) DataColumn(label: Text(p.label)),
+                    DataColumn(label: Text(l.date)),
+                    for (final p in Prayer.values) DataColumn(label: Text(prayerLabel(context, p))),
                   ],
                   rows: [
                     for (final r in rows)

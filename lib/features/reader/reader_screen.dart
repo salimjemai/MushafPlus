@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../state/audio_controller.dart';
@@ -76,6 +77,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final repo = ref.quran;
     final surah = repo.surah(widget.surahNumber);
     final ayahs = repo.ayahsOfSurah(surah.number);
@@ -112,7 +114,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          tooltip: 'Back to surahs',
+          tooltip: l.back,
           onPressed: () => context.canPop() ? context.pop() : context.go('/'),
         ),
         title: Column(
@@ -120,7 +122,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           children: [
             Text(surah.englishName),
             Text(
-              '${surah.englishNameTranslation} · ${surah.numberOfAyahs} ayahs · ${surah.revelationType}',
+              l.surahSubtitle(surah.englishNameTranslation, surah.numberOfAyahs, revelationLabel(context, surah)),
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -131,22 +133,22 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         ),
         actions: [
           IconButton(
-            tooltip: 'Open the Mushaf book at this surah',
+            tooltip: l.openMushafHere,
             icon: const Icon(Icons.auto_stories_outlined),
             onPressed: () => context.go('/mushaf?page=${surah.startPage}'),
           ),
           IconButton(
-            tooltip: 'Translations',
+            tooltip: l.translations,
             icon: const Icon(Icons.translate),
             onPressed: () => context.push('/settings/translations'),
           ),
           IconButton(
-            tooltip: 'Reading settings',
+            tooltip: l.readingSettings,
             icon: const Icon(Icons.text_fields),
             onPressed: () => showReaderSettings(context),
           ),
           PopupMenuButton<String>(
-            tooltip: 'More',
+            tooltip: l.more,
             onSelected: (v) {
               switch (v) {
                 case 'memorize':
@@ -157,10 +159,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   ref.read(audioProvider.notifier).playSurah(surah.number);
               }
             },
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: 'play', child: ListTile(leading: Icon(Icons.play_arrow), title: Text('Play surah'))),
-              PopupMenuItem(value: 'memorize', child: ListTile(leading: Icon(Icons.psychology_outlined), title: Text('Memorize this surah'))),
-              PopupMenuItem(value: 'page', child: ListTile(leading: Icon(Icons.auto_stories), title: Text('Open in Mushaf book'))),
+            itemBuilder: (context) => [
+              PopupMenuItem(value: 'play', child: ListTile(leading: const Icon(Icons.play_arrow), title: Text(l.playSurah))),
+              PopupMenuItem(value: 'memorize', child: ListTile(leading: const Icon(Icons.psychology_outlined), title: Text(l.memorizeThisSurah))),
+              PopupMenuItem(value: 'page', child: ListTile(leading: const Icon(Icons.auto_stories), title: Text(l.openInMushaf))),
             ],
           ),
         ],
@@ -279,7 +281,7 @@ class SurahHeader extends ConsumerWidget {
                 playingThis ? ctrl.pause() : ctrl.playSurah(surah.number);
               },
               icon: Icon(playingThis ? Icons.pause : Icons.play_arrow),
-              label: Text(playingThis ? 'Pause recitation' : 'Play surah'),
+              label: Text(playingThis ? context.l10n.pauseRecitation : context.l10n.playSurah),
             ),
           ],
         ),
@@ -321,7 +323,7 @@ class _SurahNavBar extends ConsumerWidget {
               TextButton(
                 onPressed: () => context.go('/mushaf?page=${surah.startPage}'),
                 child: Text(
-                  'Juz ${surah.startJuz} · Page ${surah.startPage}',
+                  context.l10n.juzPage(surah.startJuz, surah.startPage),
                   style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
                 ),
               ),

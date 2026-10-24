@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../state/audio_controller.dart';
@@ -36,6 +37,7 @@ class AyahCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final settings = ref.watch(settingsProvider);
     final bookmarked =
         ref.watch(bookmarksProvider.select((list) => list.any((b) => b.ayahNumber == ayah.number)));
@@ -72,12 +74,12 @@ class AyahCard extends ConsumerWidget {
                   const SizedBox(width: 8),
                   if (ayah.sajda)
                     Tooltip(
-                      message: 'Sajdah (prostration) ayah',
+                      message: l.sajdahAyah,
                       child: Icon(Icons.self_improvement, size: 18, color: scheme.secondary),
                     ),
                   const Spacer(),
                   IconButton(
-                    tooltip: audio.playing ? 'Pause' : 'Play from this ayah',
+                    tooltip: audio.playing ? l.pause : l.playFromThisAyah,
                     visualDensity: VisualDensity.compact,
                     icon: audio.loading
                         ? const SizedBox(
@@ -97,19 +99,19 @@ class AyahCard extends ConsumerWidget {
                     },
                   ),
                   IconButton(
-                    tooltip: 'Word by word',
+                    tooltip: l.wordByWord,
                     visualDensity: VisualDensity.compact,
                     icon: const Icon(Icons.segment, size: 20),
                     onPressed: () => showWordByWordSheet(context, ayah),
                   ),
                   IconButton(
-                    tooltip: 'Tafsir',
+                    tooltip: l.tafsir,
                     visualDensity: VisualDensity.compact,
                     icon: const Icon(Icons.auto_stories_outlined, size: 20),
                     onPressed: () => showTafsirSheet(context, ayah),
                   ),
                   IconButton(
-                    tooltip: bookmarked ? 'Remove bookmark' : 'Bookmark',
+                    tooltip: bookmarked ? l.removeBookmark : l.bookmark,
                     visualDensity: VisualDensity.compact,
                     icon: Icon(
                       bookmarked ? Icons.bookmark : Icons.bookmark_border,
@@ -119,7 +121,7 @@ class AyahCard extends ConsumerWidget {
                     onPressed: () => ref.read(bookmarksProvider.notifier).toggle(ayah.number),
                   ),
                   IconButton(
-                    tooltip: 'More',
+                    tooltip: l.more,
                     visualDensity: VisualDensity.compact,
                     icon: const Icon(Icons.more_horiz, size: 20),
                     onPressed: () => showAyahActions(context, ref, ayah),
@@ -204,7 +206,7 @@ class _ArabicBlock extends StatelessWidget {
           plain,
           const SizedBox(height: 4),
           Text(
-            'Word-by-word unavailable offline ($e)',
+            context.l10n.wordByWordOffline('$e'),
             style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.error),
           ),
         ],
@@ -260,14 +262,14 @@ class _TranslationBlock extends ConsumerWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Could not load $label',
+              context.l10n.couldNotLoad(label),
               style: TextStyle(color: scheme.error, fontSize: 13),
             ),
           ),
           TextButton(
             onPressed: () =>
                 ref.invalidate(surahTranslationProvider((surah: surah, edition: source.id))),
-            child: const Text('Retry'),
+            child: Text(context.l10n.retry),
           ),
         ],
       ),

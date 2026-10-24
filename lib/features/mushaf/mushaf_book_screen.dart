@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/quran_repository.dart';
@@ -108,6 +109,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final repo = ref.quran;
     final settings = ref.watch(settingsProvider);
     final scheme = Theme.of(context).colorScheme;
@@ -135,18 +137,18 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(surahNames, maxLines: 1, overflow: TextOverflow.ellipsis),
-                Text('Page $_page · Juz ${ayahs.first.juz}',
+                Text(l.pageJuz(_page, ayahs.first.juz),
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: scheme.onSurfaceVariant)),
               ],
             ),
             actions: [
               IconButton(
-                tooltip: 'Play this page',
+                tooltip: l.playThisPage,
                 icon: const Icon(Icons.play_circle_outline),
                 onPressed: () => ref.read(audioProvider.notifier).playAyah(ayahs.first.number, until: ayahs.last.number),
               ),
               PopupMenuButton<MushafLayout>(
-                tooltip: 'Layout',
+                tooltip: l.mushafLayout,
                 icon: Icon(switch (layout) {
                   MushafLayout.scroll => Icons.swap_vert,
                   MushafLayout.flip => Icons.auto_stories_outlined,
@@ -157,14 +159,14 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
                   WidgetsBinding.instance.addPostFrameCallback((_) => _goTo(_page, v == MushafLayout.auto ? _layout(constraints) : v, animate: false));
                 },
                 itemBuilder: (_) => [
-                  _layoutItem(MushafLayout.auto, Icons.auto_awesome_outlined, 'Automatic', settings.mushafLayout),
-                  _layoutItem(MushafLayout.scroll, Icons.swap_vert, 'Single page, scroll down', settings.mushafLayout),
-                  _layoutItem(MushafLayout.flip, Icons.auto_stories_outlined, 'Single page, flip', settings.mushafLayout),
-                  _layoutItem(MushafLayout.book, Icons.menu_book_outlined, 'Two pages, flip', settings.mushafLayout),
+                  _layoutItem(MushafLayout.auto, Icons.auto_awesome_outlined, l.layoutAutomatic, settings.mushafLayout),
+                  _layoutItem(MushafLayout.scroll, Icons.swap_vert, l.layoutScroll, settings.mushafLayout),
+                  _layoutItem(MushafLayout.flip, Icons.auto_stories_outlined, l.layoutFlip, settings.mushafLayout),
+                  _layoutItem(MushafLayout.book, Icons.menu_book_outlined, l.layoutBook, settings.mushafLayout),
                 ],
               ),
               IconButton(
-                tooltip: 'Reading settings',
+                tooltip: l.readingSettings,
                 icon: const Icon(Icons.text_fields),
                 onPressed: () => showReaderSettings(context),
               ),
@@ -287,7 +289,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
     final result = await showDialog<int>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Go to'),
+        title: Text(context.l10n.goTo),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -295,7 +297,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
               controller: controller,
               autofocus: true,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Page (1–604)'),
+              decoration: InputDecoration(labelText: context.l10n.pageRange),
               onSubmitted: (v) => Navigator.pop(context, int.tryParse(v)),
             ),
             const SizedBox(height: 12),
@@ -305,7 +307,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
               children: [
                 for (final j in repo.juzs)
                   ActionChip(
-                    label: Text('Juz ${j.number}'),
+                    label: Text(context.l10n.juzN(j.number)),
                     visualDensity: VisualDensity.compact,
                     onPressed: () => Navigator.pop(context, repo.ayah(j.startAyah).page),
                   ),
@@ -314,8 +316,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-          FilledButton(onPressed: () => Navigator.pop(context, int.tryParse(controller.text)), child: const Text('Open')),
+          TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.cancel)),
+          FilledButton(onPressed: () => Navigator.pop(context, int.tryParse(controller.text)), child: Text(context.l10n.open)),
         ],
       ),
     );
@@ -547,7 +549,7 @@ class _PageBar extends StatelessWidget {
           decoration: BoxDecoration(border: Border(top: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.5)))),
           child: Row(
             children: [
-              IconButton(tooltip: 'Previous page', onPressed: page > 1 ? () => onChanged(page - 1) : null, icon: const Icon(Icons.chevron_left)),
+              IconButton(tooltip: context.l10n.previousPage, onPressed: page > 1 ? () => onChanged(page - 1) : null, icon: const Icon(Icons.chevron_left)),
               Expanded(
                 child: Directionality(
                   textDirection: TextDirection.rtl,
@@ -562,7 +564,7 @@ class _PageBar extends StatelessWidget {
                 ),
               ),
               TextButton(onPressed: onGoTo, child: Text('$page / ${QuranRepository.totalPages}')),
-              IconButton(tooltip: 'Next page', onPressed: page < QuranRepository.totalPages ? () => onChanged(page + 1) : null, icon: const Icon(Icons.chevron_right)),
+              IconButton(tooltip: context.l10n.nextPage, onPressed: page < QuranRepository.totalPages ? () => onChanged(page + 1) : null, icon: const Icon(Icons.chevron_right)),
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../state/audio_controller.dart';
@@ -45,7 +46,7 @@ class MushafView extends ConsumerWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'Tap any ayah for translation, transliteration, tafsir and word-by-word.',
+            context.l10n.tapAyahHint,
             style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
           ),
         ],

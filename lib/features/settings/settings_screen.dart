@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/storage.dart';
 import '../../state/providers.dart';
@@ -13,17 +14,16 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
     final s = ref.watch(settingsProvider);
     final n = ref.read(settingsProvider.notifier);
     final repo = ref.quran;
     final scheme = Theme.of(context).colorScheme;
 
-    final selectedNames = s.translations
-        .map((id) => repo.edition(id)?.englishName ?? id)
-        .join(', ');
+    final selectedNames = s.translations.map((id) => repo.edition(id)?.englishName ?? id).join(', ');
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(l.settings)),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 820),
@@ -31,10 +31,10 @@ class SettingsScreen extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
             children: [
               _Section(
-                title: 'Appearance',
+                title: l.appearance,
                 children: [
                   ListTile(
-                    title: const Text('Theme'),
+                    title: Text(l.theme),
                     trailing: SegmentedButton<ThemeMode>(
                       showSelectedIcon: false,
                       segments: const [
@@ -47,12 +47,25 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                   ),
                   ListTile(
-                    title: const Text('Arabic font'),
+                    leading: const Icon(Icons.language),
+                    title: Text(l.language),
+                    trailing: DropdownButton<String>(
+                      value: appLanguages.containsKey(s.locale) ? s.locale : 'system',
+                      underline: const SizedBox.shrink(),
+                      items: [
+                        DropdownMenuItem(value: 'system', child: Text(l.systemDefault)),
+                        for (final e in appLanguages.entries) DropdownMenuItem(value: e.key, child: Text(e.value)),
+                      ],
+                      onChanged: (v) => n.setLocale(v == 'system' ? null : v),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(l.arabicFont),
                     trailing: SegmentedButton<String>(
                       showSelectedIcon: false,
-                      segments: const [
-                        ButtonSegment(value: ArabicStyles.quranFont, label: Text('Amiri Quran')),
-                        ButtonSegment(value: ArabicStyles.nameFont, label: Text('Amiri')),
+                      segments: [
+                        ButtonSegment(value: ArabicStyles.quranFont, label: Text(l.amiriQuran)),
+                        ButtonSegment(value: ArabicStyles.nameFont, label: Text(l.amiriNaskh)),
                       ],
                       selected: {s.arabicFont},
                       onSelectionChanged: (v) => n.setArabicFont(v.first),
@@ -85,7 +98,7 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                   ),
                   ListTile(
-                    title: const Text('Arabic size'),
+                    title: Text(l.arabicSize),
                     subtitle: Slider(
                       value: s.arabicScale.clamp(0.7, 1.8),
                       min: 0.7,
@@ -96,7 +109,7 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                   ),
                   ListTile(
-                    title: const Text('Translation size'),
+                    title: Text(l.translationSize),
                     subtitle: Slider(
                       value: s.translationScale.clamp(0.8, 1.5),
                       min: 0.8,
@@ -109,40 +122,39 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
               _Section(
-                title: 'Recitation',
+                title: l.recitation,
                 children: [
-                  const ListTile(
-                    leading: Icon(Icons.record_voice_over_outlined),
-                    title: Text('Reciter'),
-                    trailing: ReciterDropdown(),
+                  ListTile(
+                    leading: const Icon(Icons.record_voice_over_outlined),
+                    title: Text(l.reciter),
+                    trailing: const ReciterDropdown(),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                     child: Text(
-                      'Audio streams verse by verse from everyayah.com. Tap play on any ayah, or "Play surah" in the surah header.',
+                      l.recitationHelp,
                       style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4),
                     ),
                   ),
                 ],
               ),
               _Section(
-                title: 'Reading',
+                title: l.reading,
                 children: [
                   SwitchListTile(
-                    title: const Text('Show transliteration'),
-                    subtitle: const Text('Latin-script pronunciation under each ayah'),
+                    title: Text(l.showTransliteration),
+                    subtitle: Text(l.showTransliterationSubtitle),
                     value: s.showTransliteration,
                     onChanged: n.setShowTransliteration,
                   ),
                   SwitchListTile(
-                    title: const Text('Word-by-word mode'),
-                    subtitle: const Text(
-                        'Show each word with its transliteration and meaning (downloads once per surah)'),
+                    title: Text(l.wordByWordMode),
+                    subtitle: Text(l.wordByWordSettingSubtitle),
                     value: s.wordByWord,
                     onChanged: n.setWordByWord,
                   ),
                   ListTile(
-                    title: const Text('Word meanings language'),
+                    title: Text(l.wordMeaningsLanguage),
                     trailing: DropdownButton<String>(
                       value: wordByWordLanguages.containsKey(s.wordLanguage) ? s.wordLanguage : 'en',
                       underline: const SizedBox.shrink(),
@@ -156,12 +168,12 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                   ),
                   ListTile(
-                    title: const Text('Default view'),
+                    title: Text(l.defaultView),
                     trailing: SegmentedButton<ReaderMode>(
                       showSelectedIcon: false,
-                      segments: const [
-                        ButtonSegment(value: ReaderMode.translation, label: Text('Translation')),
-                        ButtonSegment(value: ReaderMode.mushaf, label: Text('Mushaf book')),
+                      segments: [
+                        ButtonSegment(value: ReaderMode.translation, label: Text(l.viewTranslation)),
+                        ButtonSegment(value: ReaderMode.mushaf, label: Text(l.viewMushafBook)),
                       ],
                       selected: {s.readerMode},
                       onSelectionChanged: (v) => n.setReaderMode(v.first),
@@ -170,15 +182,13 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
               _Section(
-                title: 'Languages',
+                title: l.languages,
                 children: [
                   ListTile(
                     leading: const Icon(Icons.translate),
-                    title: const Text('Translations'),
+                    title: Text(l.translations),
                     subtitle: Text(
-                      s.translations.isEmpty
-                          ? 'Arabic only — tap to add translations'
-                          : selectedNames,
+                      s.translations.isEmpty ? l.arabicOnlyTapToAdd : selectedNames,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -188,38 +198,38 @@ class SettingsScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                     child: Text(
-                      '${repo.editions.where((e) => e.type == 'translation').length} translations in '
-                      '${repo.translationLanguages.length} languages are available. '
-                      'Each one is downloaded the first time you open a surah and kept offline.',
+                      l.translationsAvailable(
+                        repo.editions.where((e) => e.type == 'translation').length,
+                        repo.translationLanguages.length,
+                      ),
                       style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4),
                     ),
                   ),
                 ],
               ),
               _Section(
-                title: 'Storage',
+                title: l.storage,
                 children: [
                   ListTile(
                     leading: const Icon(Icons.download_for_offline_outlined),
-                    title: const Text('Offline packs'),
-                    subtitle: const Text('Download translations and word-by-word for the whole Quran'),
+                    title: Text(l.offlinePacks),
+                    subtitle: Text(l.offlinePacksSubtitle),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () => context.go('/settings/offline'),
                   ),
                   ListTile(
                     leading: const Icon(Icons.cleaning_services_outlined),
-                    title: const Text('Clear downloaded data'),
-                    subtitle: Text('${Storage.cache.length} cached surah downloads'),
+                    title: Text(l.clearDownloadedData),
+                    subtitle: Text(l.cachedDownloads(Storage.cache.length)),
                     onTap: () async {
                       final ok = await showDialog<bool>(
                         context: context,
                         builder: (c) => AlertDialog(
-                          title: const Text('Clear downloaded data?'),
-                          content: const Text(
-                              'Translations and word-by-word data will be downloaded again when needed. Bookmarks and settings are kept.'),
+                          title: Text(l.clearDownloadedDataQuestion),
+                          content: Text(l.clearDownloadedDataBody),
                           actions: [
-                            TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('Cancel')),
-                            FilledButton(onPressed: () => Navigator.pop(c, true), child: const Text('Clear')),
+                            TextButton(onPressed: () => Navigator.pop(c, false), child: Text(l.cancel)),
+                            FilledButton(onPressed: () => Navigator.pop(c, true), child: Text(l.clear)),
                           ],
                         ),
                       );
@@ -228,8 +238,7 @@ class SettingsScreen extends ConsumerWidget {
                         ref.invalidate(surahTranslationProvider);
                         ref.invalidate(surahWordsProvider);
                         if (context.mounted) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(content: Text('Downloaded data cleared')));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.downloadedDataCleared)));
                         }
                       }
                     },
@@ -237,19 +246,17 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
               _Section(
-                title: 'About',
+                title: l.about,
                 children: [
-                  const ListTile(
-                    leading: Icon(Icons.menu_book_outlined),
-                    title: Text('Quran+'),
-                    subtitle: Text('Version 1.0.0 · Built with Flutter'),
+                  ListTile(
+                    leading: const Icon(Icons.menu_book_outlined),
+                    title: Text(l.appTitle),
+                    subtitle: Text(l.versionBuiltWith),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                     child: Text(
-                      'Arabic text: Tanzil Uthmani edition. Translations and transliteration: '
-                      'Al Quran Cloud (alquran.cloud). Word-by-word data: Quran.com. '
-                      'Fonts: Amiri & Amiri Quran (SIL Open Font License).',
+                      l.credits,
                       style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4),
                     ),
                   ),

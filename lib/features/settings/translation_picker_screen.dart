@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../data/models.dart';
 import '../../state/providers.dart';
 
@@ -50,9 +51,9 @@ class _TranslationPickerScreenState extends ConsumerState<TranslationPickerScree
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Translations'),
+            Text(context.l10n.translations),
             Text(
-              '${settings.translations.length} of ${AppSettings.maxTranslations} selected',
+              context.l10n.selectedOfMax(settings.translations.length, AppSettings.maxTranslations),
               style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
             ),
           ],
@@ -67,9 +68,9 @@ class _TranslationPickerScreenState extends ConsumerState<TranslationPickerScree
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
                 child: TextField(
                   onChanged: (v) => setState(() => _query = v),
-                  decoration: const InputDecoration(
-                    hintText: 'Search a language or translator',
-                    prefixIcon: Icon(Icons.search),
+                  decoration: InputDecoration(
+                    hintText: context.l10n.searchLanguageOrTranslator,
+                    prefixIcon: const Icon(Icons.search),
                   ),
                 ),
               ),
@@ -122,8 +123,8 @@ class _TranslationPickerScreenState extends ConsumerState<TranslationPickerScree
                         ),
                         title: Text(languageName(lang), style: const TextStyle(fontWeight: FontWeight.w700)),
                         subtitle: Text(
-                          '${editions.length} translation${editions.length == 1 ? '' : 's'}'
-                          '${selectedHere > 0 ? ' · $selectedHere selected' : ''}',
+                          '${context.l10n.nTranslations(editions.length)}'
+                          '${selectedHere > 0 ? ' · ${context.l10n.nSelected(selectedHere)}' : ''}',
                         ),
                         children: [
                           for (final e in editions)
@@ -136,7 +137,7 @@ class _TranslationPickerScreenState extends ConsumerState<TranslationPickerScree
                               ),
                               secondary: e.isRtl
                                   ? Tooltip(
-                                      message: 'Right-to-left script',
+                                      message: context.l10n.rightToLeftScript,
                                       child: Icon(Icons.format_textdirection_r_to_l,
                                           size: 18, color: scheme.onSurfaceVariant),
                                     )
@@ -147,8 +148,7 @@ class _TranslationPickerScreenState extends ConsumerState<TranslationPickerScree
                                     .toggleTranslation(e.identifier);
                                 if (!ok) {
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text(
-                                        'You can show up to ${AppSettings.maxTranslations} translations at once. Remove one first.'),
+                                    content: Text(context.l10n.translationLimit(AppSettings.maxTranslations)),
                                   ));
                                 }
                               },

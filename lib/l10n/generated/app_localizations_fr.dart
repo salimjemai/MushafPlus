@@ -1,0 +1,1048 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for French (`fr`).
+class AppLocalizationsFr extends AppLocalizations {
+  AppLocalizationsFr([String locale = 'fr']) : super(locale);
+
+  @override
+  String get appTitle => 'Quran+';
+
+  @override
+  String get navRead => 'Lire';
+
+  @override
+  String get navHadith => 'Hadith';
+
+  @override
+  String get navPrayer => 'Prière';
+
+  @override
+  String get navSaved => 'Favoris';
+
+  @override
+  String get navSettings => 'Réglages';
+
+  @override
+  String get search => 'Rechercher';
+
+  @override
+  String get searchTheQuran => 'Rechercher dans le Coran';
+
+  @override
+  String get cancel => 'Annuler';
+
+  @override
+  String get open => 'Ouvrir';
+
+  @override
+  String get apply => 'Appliquer';
+
+  @override
+  String get save => 'Enregistrer';
+
+  @override
+  String get retry => 'Réessayer';
+
+  @override
+  String get copy => 'Copier';
+
+  @override
+  String get share => 'Partager';
+
+  @override
+  String get clear => 'Effacer';
+
+  @override
+  String get remove => 'Supprimer';
+
+  @override
+  String get download => 'Télécharger';
+
+  @override
+  String get more => 'Plus';
+
+  @override
+  String get back => 'Retour';
+
+  @override
+  String get loading => 'Chargement…';
+
+  @override
+  String get couldNotLoadQuran => 'Impossible de charger les données du Coran.';
+
+  @override
+  String get continueReading => 'CONTINUER LA LECTURE';
+
+  @override
+  String get startReading => 'COMMENCER LA LECTURE';
+
+  @override
+  String ayahOfJuzPage(int ayah, int total, int juz, int page) {
+    return 'Verset $ayah sur $total · Juz $juz · Page $page';
+  }
+
+  @override
+  String get verseOfTheDay => 'VERSET DU JOUR';
+
+  @override
+  String get today => 'Aujourd\'hui';
+
+  @override
+  String dailyGoalTapToStartPlan(int goal) {
+    return 'Objectif quotidien $goal versets · touchez pour démarrer un plan de khatm';
+  }
+
+  @override
+  String khatmOnTrack(int day, int days) {
+    return 'Plan de khatm : dans les temps · jour $day/$days';
+  }
+
+  @override
+  String khatmBehind(int behind, int day, int days) {
+    return 'Plan de khatm : $behind versets de retard · jour $day/$days';
+  }
+
+  @override
+  String get findSurahHint => 'Trouver une sourate par nom, sens ou numéro';
+
+  @override
+  String get tabSurah => 'Sourate';
+
+  @override
+  String get tabJuz => 'Juz';
+
+  @override
+  String get tabPage => 'Page';
+
+  @override
+  String get noSurahMatches =>
+      'Aucune sourate ne correspond à votre recherche.';
+
+  @override
+  String surahSubtitle(String meaning, int count, String type) {
+    return '$meaning · $count versets · $type';
+  }
+
+  @override
+  String get meccan => 'Mecquoise';
+
+  @override
+  String get medinan => 'Médinoise';
+
+  @override
+  String juzN(int n) {
+    return 'Juz $n';
+  }
+
+  @override
+  String juzStartsAt(String surah, int ayah, int count) {
+    return 'Commence à $surah, verset $ayah · $count versets';
+  }
+
+  @override
+  String get jumpToSurah => 'Aller à une sourate';
+
+  @override
+  String pageN(int n) {
+    return 'Page $n';
+  }
+
+  @override
+  String get backToSurahs => 'Retour aux sourates';
+
+  @override
+  String get openMushafHere => 'Ouvrir le Mushaf à cette sourate';
+
+  @override
+  String get translations => 'Traductions';
+
+  @override
+  String get readingSettings => 'Réglages de lecture';
+
+  @override
+  String get playSurah => 'Écouter la sourate';
+
+  @override
+  String get pauseRecitation => 'Mettre en pause';
+
+  @override
+  String get memorizeThisSurah => 'Mémoriser cette sourate';
+
+  @override
+  String get openInMushaf => 'Ouvrir dans le Mushaf';
+
+  @override
+  String juzPage(int juz, int page) {
+    return 'Juz $juz · Page $page';
+  }
+
+  @override
+  String get wordByWord => 'Mot à mot';
+
+  @override
+  String get tafsir => 'Tafsir';
+
+  @override
+  String get bookmark => 'Marquer';
+
+  @override
+  String get removeBookmark => 'Retirer le marque-page';
+
+  @override
+  String get bookmarkThisAyah => 'Marquer ce verset';
+
+  @override
+  String get play => 'Lecture';
+
+  @override
+  String get pause => 'Pause';
+
+  @override
+  String get playFromThisAyah => 'Écouter à partir de ce verset';
+
+  @override
+  String get sajdahAyah => 'Verset de prosternation (sajda)';
+
+  @override
+  String couldNotLoad(String name) {
+    return 'Impossible de charger $name';
+  }
+
+  @override
+  String wordByWordOffline(String error) {
+    return 'Mot à mot indisponible hors ligne ($error)';
+  }
+
+  @override
+  String ayahN(int n) {
+    return 'Verset $n';
+  }
+
+  @override
+  String get wordByWordSubtitle => 'Translittération et sens de chaque mot';
+
+  @override
+  String get tafsirSubtitle => 'Commentaire d\'Ibn Kathir et d\'autres';
+
+  @override
+  String get playRecitationFromHere => 'Écouter la récitation à partir d\'ici';
+
+  @override
+  String get memorizeFromHere => 'Mémoriser à partir d\'ici';
+
+  @override
+  String get memorizeSubtitle =>
+      'Masquer les mots, les révéler un à un, répéter la récitation';
+
+  @override
+  String get ayahCopied => 'Verset copié';
+
+  @override
+  String wordN(int n) {
+    return 'Mot $n';
+  }
+
+  @override
+  String get wordByWordNeedsInternet =>
+      'Le mot à mot nécessite une connexion Internet la première fois.';
+
+  @override
+  String get tafsirNeedsInternet =>
+      'Le tafsir nécessite une connexion Internet la première fois.';
+
+  @override
+  String get viaQuranCom => 'via Quran.com';
+
+  @override
+  String get reciter => 'Récitateur';
+
+  @override
+  String get arabicSize => 'Taille de l\'arabe';
+
+  @override
+  String get translationSize => 'Taille de la traduction';
+
+  @override
+  String get amiriQuran => 'Amiri Quran';
+
+  @override
+  String get amiriNaskh => 'Amiri Naskh';
+
+  @override
+  String get showTransliteration => 'Afficher la translittération';
+
+  @override
+  String get showTransliterationSubtitle =>
+      'Prononciation en lettres latines sous chaque verset';
+
+  @override
+  String get wordByWordMode => 'Mode mot à mot';
+
+  @override
+  String get wordByWordModeSubtitle =>
+      'Chaque mot avec sa translittération et son sens';
+
+  @override
+  String get wordMeaningsLanguage => 'Langue du sens des mots';
+
+  @override
+  String get tapAyahHint =>
+      'Touchez un verset pour la traduction, la translittération, le tafsir et le mot à mot.';
+
+  @override
+  String get previousAyah => 'Verset précédent';
+
+  @override
+  String get nextAyah => 'Verset suivant';
+
+  @override
+  String get stop => 'Arrêter';
+
+  @override
+  String get loop => 'boucle';
+
+  @override
+  String get searchHint => 'Arabe, translittération ou anglais…';
+
+  @override
+  String get searchWholeQuran => 'Rechercher dans tout le Coran';
+
+  @override
+  String get searchHelp =>
+      'Saisissez de l\'arabe (avec ou sans harakat), une phrase translittérée ou un mot anglais. Les résultats ouvrent le verset dans le lecteur.';
+
+  @override
+  String noAyahMatches(String query) {
+    return 'Aucun verset ne correspond à « $query »';
+  }
+
+  @override
+  String resultsCount(String count) {
+    return '$count résultats';
+  }
+
+  @override
+  String get savedAyahs => 'Versets enregistrés';
+
+  @override
+  String get noBookmarksYet => 'Aucun marque-page';
+
+  @override
+  String get noBookmarksHelp =>
+      'Touchez l\'icône marque-page sur un verset pendant la lecture pour l\'enregistrer ici.';
+
+  @override
+  String get settings => 'Réglages';
+
+  @override
+  String get appearance => 'Apparence';
+
+  @override
+  String get theme => 'Thème';
+
+  @override
+  String get arabicFont => 'Police arabe';
+
+  @override
+  String get language => 'Langue de l\'application';
+
+  @override
+  String get systemDefault => 'Langue du système';
+
+  @override
+  String get recitation => 'Récitation';
+
+  @override
+  String get recitationHelp =>
+      'L\'audio est diffusé verset par verset depuis everyayah.com. Touchez lecture sur un verset ou « Écouter la sourate » dans l\'en-tête.';
+
+  @override
+  String get reading => 'Lecture';
+
+  @override
+  String get wordByWordSettingSubtitle =>
+      'Afficher chaque mot avec sa translittération et son sens (téléchargé une fois par sourate)';
+
+  @override
+  String get defaultView => 'Vue par défaut';
+
+  @override
+  String get viewTranslation => 'Traduction';
+
+  @override
+  String get viewMushafBook => 'Mushaf';
+
+  @override
+  String get languages => 'Langues';
+
+  @override
+  String get arabicOnlyTapToAdd =>
+      'Arabe seul — touchez pour ajouter des traductions';
+
+  @override
+  String translationsAvailable(int count, int languages) {
+    return '$count traductions en $languages langues sont disponibles. Chacune est téléchargée à la première ouverture d\'une sourate et conservée hors ligne.';
+  }
+
+  @override
+  String get storage => 'Stockage';
+
+  @override
+  String get offlinePacks => 'Packs hors ligne';
+
+  @override
+  String get offlinePacksSubtitle =>
+      'Télécharger les traductions et le mot à mot pour tout le Coran';
+
+  @override
+  String get clearDownloadedData => 'Effacer les données téléchargées';
+
+  @override
+  String cachedDownloads(int count) {
+    return '$count sourates téléchargées';
+  }
+
+  @override
+  String get clearDownloadedDataQuestion =>
+      'Effacer les données téléchargées ?';
+
+  @override
+  String get clearDownloadedDataBody =>
+      'Les traductions et le mot à mot seront retéléchargés au besoin. Les marque-pages et réglages sont conservés.';
+
+  @override
+  String get downloadedDataCleared => 'Données téléchargées effacées';
+
+  @override
+  String get about => 'À propos';
+
+  @override
+  String get versionBuiltWith => 'Version 1.0.0 · Réalisé avec Flutter';
+
+  @override
+  String get credits =>
+      'Texte arabe : édition Tanzil Uthmani. Traductions et translittération : Al Quran Cloud. Mot à mot et tafsir : Quran.com. Récitation : EveryAyah.com. Hadith : fawazahmed0/hadith-api. Polices : Amiri et Amiri Quran (licence SIL).';
+
+  @override
+  String selectedOfMax(int selected, int max) {
+    return '$selected sur $max sélectionnées';
+  }
+
+  @override
+  String get searchLanguageOrTranslator =>
+      'Rechercher une langue ou un traducteur';
+
+  @override
+  String nTranslations(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count traductions',
+      one: '1 traduction',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nSelected(int count) {
+    return '$count sélectionnées';
+  }
+
+  @override
+  String get rightToLeftScript => 'Écriture de droite à gauche';
+
+  @override
+  String translationLimit(int max) {
+    return 'Vous pouvez afficher au plus $max traductions à la fois. Retirez-en une d\'abord.';
+  }
+
+  @override
+  String get offlineIntro =>
+      'Le texte arabe, la translittération anglaise et trois traductions anglaises sont toujours hors ligne. Téléchargez le reste une fois et lisez partout.';
+
+  @override
+  String get selectedTranslations => 'Traductions sélectionnées';
+
+  @override
+  String get allSelectedBundled =>
+      'Toutes les traductions sélectionnées sont incluses dans l\'application.';
+
+  @override
+  String surahDownloadsSaved(int done, int total) {
+    return '$done sur $total sourates enregistrées';
+  }
+
+  @override
+  String wordByWordPack(String language) {
+    return 'Mot à mot ($language)';
+  }
+
+  @override
+  String surahsSavedSize(int done) {
+    return '$done sur 114 sourates enregistrées · environ 8 Mo';
+  }
+
+  @override
+  String get tafsirSavedAutomatically =>
+      'Le tafsir est enregistré automatiquement pour chaque verset ouvert.';
+
+  @override
+  String get downloadEverything => 'Tout télécharger';
+
+  @override
+  String bundledEditions(String names) {
+    return 'Éditions incluses : $names.';
+  }
+
+  @override
+  String get everythingOffline =>
+      'Tout ce qui est sélectionné est déjà disponible hors ligne.';
+
+  @override
+  String downloadDone(int count) {
+    return 'Terminé. $count téléchargements enregistrés pour le hors ligne.';
+  }
+
+  @override
+  String downloadDoneWithFailures(int failed) {
+    return 'Terminé avec $failed échecs (vérifiez la connexion et relancez).';
+  }
+
+  @override
+  String downloadCancelled(int done, int total) {
+    return 'Annulé après $done sur $total.';
+  }
+
+  @override
+  String get starting => 'Démarrage…';
+
+  @override
+  String get memorize => 'Mémoriser';
+
+  @override
+  String memorizeHeader(String surah, int from, int to, int done, int total) {
+    return '$surah · Versets $from–$to · $done/$total mémorisés';
+  }
+
+  @override
+  String get changeRange => 'Changer la plage';
+
+  @override
+  String wordsRevealed(int revealed, int total) {
+    return '$revealed / $total mots';
+  }
+
+  @override
+  String get nextWord => 'Mot suivant';
+
+  @override
+  String get revealAll => 'Tout révéler';
+
+  @override
+  String get hideAll => 'Tout masquer';
+
+  @override
+  String get transliteration => 'Translittération';
+
+  @override
+  String get translation => 'Traduction';
+
+  @override
+  String get memorized => 'Mémorisé';
+
+  @override
+  String get markAsMemorized => 'Marquer comme mémorisé';
+
+  @override
+  String get listenAndRepeat => 'Écouter et répéter';
+
+  @override
+  String get repeatEachAyah => 'Répéter chaque verset';
+
+  @override
+  String get loopTheRange => 'Boucler la plage';
+
+  @override
+  String playRange(int from, int to) {
+    return 'Écouter $from–$to';
+  }
+
+  @override
+  String get thisAyah => 'Ce verset';
+
+  @override
+  String get ayahRange => 'Plage de versets';
+
+  @override
+  String fromToOf(int from, int to, int total) {
+    return 'De $from à $to sur $total';
+  }
+
+  @override
+  String get readingPlan => 'Plan de lecture';
+
+  @override
+  String get goalReached => 'Objectif atteint, macha\'Allah !';
+
+  @override
+  String moreAyahsToGoal(int count) {
+    return 'Encore $count versets pour atteindre votre objectif';
+  }
+
+  @override
+  String dayStreak(int days) {
+    return 'Série de $days jours';
+  }
+
+  @override
+  String get dailyGoal => 'Objectif quotidien';
+
+  @override
+  String ayahsPerDay(int count) {
+    return '$count versets par jour';
+  }
+
+  @override
+  String get khatmIn30Days => '208 (khatm en 30 jours)';
+
+  @override
+  String get last7Days => '7 derniers jours';
+
+  @override
+  String get ayahsRead => 'Versets lus';
+
+  @override
+  String get activeDays => 'Jours actifs';
+
+  @override
+  String get quranRead => 'Coran lu';
+
+  @override
+  String get khatmPlan => 'Plan de khatm';
+
+  @override
+  String get khatmPlanHelp =>
+      'Terminez tout le Coran selon un calendrier. Nous vous indiquerons le verset à atteindre chaque jour.';
+
+  @override
+  String nDays(int n) {
+    return '$n jours';
+  }
+
+  @override
+  String get startFromFatiha => 'Commencer à Al-Fatiha';
+
+  @override
+  String get fromTheBeginning => 'Depuis le début';
+
+  @override
+  String get fromWhereYouAre => 'Depuis votre position actuelle';
+
+  @override
+  String aboutAyahsADay(int count) {
+    return 'Environ $count versets par jour';
+  }
+
+  @override
+  String get startPlan => 'Démarrer le plan';
+
+  @override
+  String get endPlan => 'Terminer le plan';
+
+  @override
+  String planStatusLine(int day, int days, String date, int perDay) {
+    return 'Jour $day sur $days · fin le $date · $perDay versets/jour';
+  }
+
+  @override
+  String get onTrack => 'Vous êtes dans les temps.';
+
+  @override
+  String onTrackAhead(int count) {
+    return 'Vous êtes dans les temps, $count versets d\'avance.';
+  }
+
+  @override
+  String catchUp(int count) {
+    return 'Lisez $count versets de plus aujourd\'hui pour rattraper.';
+  }
+
+  @override
+  String todaysTarget(String surah, String key) {
+    return 'Objectif du jour : $surah $key';
+  }
+
+  @override
+  String get continueReadingButton => 'Continuer la lecture';
+
+  @override
+  String get hadith => 'Hadith';
+
+  @override
+  String get hadithIntro =>
+      'Les six recueils canoniques, le Muwatta de Malik et trois recueils de quarante hadiths, en arabe avec traduction. Chaque chapitre est téléchargé une fois et reste hors ligne.';
+
+  @override
+  String hadithsChapters(int hadiths, int chapters) {
+    return '$hadiths hadiths · $chapters chapitres';
+  }
+
+  @override
+  String couldNotLoadHadithBooks(String error) {
+    return 'Impossible de charger les recueils : $error';
+  }
+
+  @override
+  String get findAChapter => 'Trouver un chapitre';
+
+  @override
+  String hadithsRange(int first, int last) {
+    return 'Hadiths $first–$last';
+  }
+
+  @override
+  String chapterN(int n) {
+    return 'Chapitre $n';
+  }
+
+  @override
+  String get chapterNeedsInternet =>
+      'Ce chapitre nécessite une connexion Internet la première fois.';
+
+  @override
+  String searchHadithsInChapter(int count) {
+    return 'Rechercher parmi $count hadiths de ce chapitre';
+  }
+
+  @override
+  String get previousChapter => 'Chapitre précédent';
+
+  @override
+  String get nextChapter => 'Chapitre suivant';
+
+  @override
+  String get hadithCopied => 'Hadith copié';
+
+  @override
+  String get prayerTimes => 'Horaires de prière';
+
+  @override
+  String get prayerTimesForMasjid => 'Horaires de prière pour votre mosquée';
+
+  @override
+  String get prayerIntro =>
+      'Saisissez l\'adresse complète ou le code postal de la mosquée. Elle est géolocalisée avec précision avec son fuseau horaire, puis les horaires de prière, d\'iqama et de Jumu\'ah sont générés selon la méthode de calcul choisie.';
+
+  @override
+  String get setUpMasjid => 'Configurer une mosquée à partir de son adresse';
+
+  @override
+  String get useMyLocation => 'Utiliser ma position actuelle';
+
+  @override
+  String get methodsList =>
+      'Méthodes de calcul : ISNA, Ligue islamique mondiale, Égypte, Karachi, Umm al-Qura, Golfe, Koweït, Qatar, Singapour, Diyanet, UOIF, Russie, Téhéran et Jafari. Asr : shafiite/malikite/hanbalite ou hanafite.';
+
+  @override
+  String couldNotGetLocation(String error) {
+    return 'Impossible d\'obtenir votre position : $error';
+  }
+
+  @override
+  String get monthlyTimetable => 'Calendrier mensuel';
+
+  @override
+  String get shareToday => 'Partager aujourd\'hui';
+
+  @override
+  String get editMasjid => 'Modifier la mosquée';
+
+  @override
+  String get addAnotherMasjid => 'Ajouter une autre mosquée';
+
+  @override
+  String get removeMasjid => 'Supprimer la mosquée';
+
+  @override
+  String removeMasjidQuestion(String name) {
+    return 'Supprimer $name ?';
+  }
+
+  @override
+  String get removeMasjidBody =>
+      'Son adresse, ses réglages de calcul, ses horaires d\'iqama et de Jumu\'ah seront supprimés.';
+
+  @override
+  String nextPrayerIn(String prayer, String time, String duration) {
+    return '$prayer à $time · dans $duration';
+  }
+
+  @override
+  String get fajrTomorrow => 'Fajr (demain)';
+
+  @override
+  String get jumuah => 'Jumu\'ah';
+
+  @override
+  String get noJumuahSet =>
+      'Aucune prière du vendredi définie. Modifiez la mosquée pour en ajouter.';
+
+  @override
+  String khutbahAt(String time) {
+    return 'Khutba $time';
+  }
+
+  @override
+  String iqamaAt(String time) {
+    return 'Iqama $time';
+  }
+
+  @override
+  String timesFootnote(String lat, String lng, String tz) {
+    return 'Horaires calculés astronomiquement pour $lat, $lng dans le fuseau $tz, arrondis à la minute. La date hégirienne est calculée et peut différer d\'un jour de l\'observation locale.';
+  }
+
+  @override
+  String qiblaDegrees(int degrees) {
+    return 'Qibla $degrees°';
+  }
+
+  @override
+  String get asrShafii => 'Asr shafiite';
+
+  @override
+  String get asrHanafi => 'Asr hanafite';
+
+  @override
+  String get fajr => 'Fajr';
+
+  @override
+  String get sunrise => 'Lever du soleil';
+
+  @override
+  String get dhuhr => 'Dhuhr';
+
+  @override
+  String get asr => 'Asr';
+
+  @override
+  String get maghrib => 'Maghrib';
+
+  @override
+  String get isha => 'Isha';
+
+  @override
+  String get addMasjid => 'Ajouter une mosquée';
+
+  @override
+  String get masjid => 'Mosquée';
+
+  @override
+  String get masjidName => 'Nom de la mosquée';
+
+  @override
+  String get enterAName => 'Saisissez un nom';
+
+  @override
+  String get address => 'Adresse';
+
+  @override
+  String get streetAddress => 'Rue';
+
+  @override
+  String get city => 'Ville';
+
+  @override
+  String get stateProvince => 'Région / Province';
+
+  @override
+  String get postalCode => 'Code postal';
+
+  @override
+  String get countryCode => 'Code pays (US, GB, FR…)';
+
+  @override
+  String get findLocation => 'Localiser';
+
+  @override
+  String get deviceGps => 'GPS de l\'appareil';
+
+  @override
+  String get coordinatesAndTimeZone => 'Coordonnées et fuseau horaire';
+
+  @override
+  String get setAutomatically => 'Définis automatiquement d\'après l\'adresse';
+
+  @override
+  String get latitude => 'Latitude';
+
+  @override
+  String get longitude => 'Longitude';
+
+  @override
+  String get ianaTimeZone => 'Fuseau IANA (ex. Europe/Paris)';
+
+  @override
+  String get calculation => 'Calcul';
+
+  @override
+  String get calculationMethod => 'Méthode de calcul';
+
+  @override
+  String get asrShafiiFull => 'Asr : shafiite / malikite / hanbalite';
+
+  @override
+  String get asrHanafiFull => 'Asr : hanafite';
+
+  @override
+  String get dhuhrAfterZawal => 'Dhuhr : minutes après le zénith';
+
+  @override
+  String get maghribAfterSunset => 'Maghrib : minutes après le coucher';
+
+  @override
+  String get fineTune => 'Ajuster chaque prière (minutes)';
+
+  @override
+  String get hijriAdjustment => 'Ajustement de la date hégirienne (jours)';
+
+  @override
+  String get iqama => 'Iqama';
+
+  @override
+  String get jumuahServices => 'Prières du vendredi';
+
+  @override
+  String get addJumuahTime => 'Ajouter un horaire de Jumu\'ah';
+
+  @override
+  String get addAnotherService => 'Ajouter une autre prière';
+
+  @override
+  String get saveMasjid => 'Enregistrer la mosquée';
+
+  @override
+  String get none => 'Aucune';
+
+  @override
+  String get fixed => 'Fixe';
+
+  @override
+  String get plusMinutes => '+ min';
+
+  @override
+  String get khutbahPicker => 'Khutba…';
+
+  @override
+  String get jumuahLabelHint => 'Libellé (langue, salle, imam)';
+
+  @override
+  String get enterZipOrCity =>
+      'Saisissez au moins un code postal ou une ville.';
+
+  @override
+  String get lookingUpAddress => 'Recherche de l\'adresse…';
+
+  @override
+  String get noMatchTryCountry =>
+      'Aucun résultat. Ajoutez la ville et un code pays à 2 lettres (ex. US, GB, FR).';
+
+  @override
+  String get chooseLocation => 'Choisissez le bon emplacement :';
+
+  @override
+  String lookupFailed(String error) {
+    return 'Échec de la recherche : $error';
+  }
+
+  @override
+  String get resolvingTimeZone => 'Détermination du fuseau horaire…';
+
+  @override
+  String located(String name) {
+    return 'Localisé : $name';
+  }
+
+  @override
+  String timeZoneLookupFailed(String error) {
+    return 'Coordonnées définies, mais échec du fuseau horaire ($error). Saisissez un fuseau IANA comme Europe/Paris.';
+  }
+
+  @override
+  String get gettingPosition => 'Obtention de votre position…';
+
+  @override
+  String couldNotUseDevice(String error) {
+    return 'Impossible d\'utiliser la position de l\'appareil : $error';
+  }
+
+  @override
+  String get findLocationFirst =>
+      'Touchez « Localiser » d\'abord pour définir les coordonnées et le fuseau horaire.';
+
+  @override
+  String get setUpMasjidFirst => 'Configurez d\'abord une mosquée.';
+
+  @override
+  String get hideIqama => 'Masquer l\'iqama';
+
+  @override
+  String get showIqama => 'Afficher l\'iqama';
+
+  @override
+  String get copyAsCsv => 'Copier en CSV';
+
+  @override
+  String get csvCopied => 'CSV copié — collez-le dans Excel ou Sheets';
+
+  @override
+  String get shareAsText => 'Partager en texte';
+
+  @override
+  String get thisMonth => 'Ce mois-ci';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get mushafLayout => 'Mise en page';
+
+  @override
+  String get layoutAutomatic => 'Automatique';
+
+  @override
+  String get layoutScroll => 'Une page, défilement vertical';
+
+  @override
+  String get layoutFlip => 'Une page, feuilleter';
+
+  @override
+  String get layoutBook => 'Deux pages, feuilleter';
+
+  @override
+  String get playThisPage => 'Écouter cette page';
+
+  @override
+  String get goToPage => 'Aller à la page';
+
+  @override
+  String get goTo => 'Aller à';
+
+  @override
+  String get pageRange => 'Page (1–604)';
+
+  @override
+  String get previousPage => 'Page précédente';
+
+  @override
+  String get nextPage => 'Page suivante';
+
+  @override
+  String pageJuz(int page, int juz) {
+    return 'Page $page · Juz $juz';
+  }
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../state/providers.dart';
@@ -135,7 +136,7 @@ void _showWordDetails(BuildContext context, QuranWord word, String font) {
             ),
             const SizedBox(height: 16),
             Text(
-              'Word ${word.position}',
+              context.l10n.wordN(word.position),
               style: TextStyle(fontSize: 12, color: scheme.outline),
             ),
           ],
@@ -185,10 +186,10 @@ class _WordByWordSheet extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Word by word',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                  Text(context.l10n.wordByWord,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                   Text(
-                    '${surah.englishName} · Ayah ${ayah.numberInSurah}',
+                    '${surah.englishName} · ${context.l10n.ayahN(ayah.numberInSurah)}',
                     style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13),
                   ),
                 ],
@@ -227,7 +228,7 @@ class _WordByWordSheet extends ConsumerWidget {
                 Icon(Icons.cloud_off, color: scheme.error, size: 36),
                 const SizedBox(height: 8),
                 Text(
-                  'Word-by-word data needs an internet connection the first time.\n$e',
+                  '${context.l10n.wordByWordNeedsInternet}\n$e',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 12),
@@ -235,7 +236,7 @@ class _WordByWordSheet extends ConsumerWidget {
                   onPressed: () => ref.invalidate(
                     surahWordsProvider((surah: ayah.surah, lang: settings.wordLanguage)),
                   ),
-                  child: const Text('Retry'),
+                  child: Text(context.l10n.retry),
                 ),
               ],
             ),

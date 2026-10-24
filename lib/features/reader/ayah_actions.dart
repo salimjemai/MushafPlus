@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../state/audio_controller.dart';
@@ -55,6 +56,7 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
             bookmarksProvider.select((l) => l.any((b) => b.ayahNumber == ayah.number)),
           );
           final settings = ref.watch(settingsProvider);
+          final l = context.l10n;
           final scheme = Theme.of(context).colorScheme;
           final translation = ref.watch(surahTranslationProvider(
             (surah: ayah.surah, edition: settings.translations.firstOrNull ?? 'en.sahih'),
@@ -67,7 +69,7 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '${surah.englishName} · Ayah ${ayah.numberInSurah}',
+                  '${surah.englishName} · ${l.ayahN(ayah.numberInSurah)}',
                   style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13),
                 ),
                 const SizedBox(height: 10),
@@ -99,7 +101,7 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                 ListTile(
                   leading: Icon(bookmarked ? Icons.bookmark : Icons.bookmark_border,
                       color: bookmarked ? scheme.secondary : null),
-                  title: Text(bookmarked ? 'Remove bookmark' : 'Bookmark this ayah'),
+                  title: Text(bookmarked ? l.removeBookmark : l.bookmarkThisAyah),
                   onTap: () {
                     ref.read(bookmarksProvider.notifier).toggle(ayah.number);
                     Navigator.of(sheetContext).pop();
@@ -107,8 +109,8 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                 ),
                 ListTile(
                   leading: const Icon(Icons.segment),
-                  title: const Text('Word by word'),
-                  subtitle: const Text('Transliteration and meaning of every word'),
+                  title: Text(l.wordByWord),
+                  subtitle: Text(l.wordByWordSubtitle),
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     showWordByWordSheet(context, ayah);
@@ -116,8 +118,8 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                 ),
                 ListTile(
                   leading: const Icon(Icons.auto_stories_outlined),
-                  title: const Text('Tafsir'),
-                  subtitle: const Text('Commentary from Ibn Kathir and others'),
+                  title: Text(l.tafsir),
+                  subtitle: Text(l.tafsirSubtitle),
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     showTafsirSheet(context, ayah);
@@ -125,7 +127,7 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                 ),
                 ListTile(
                   leading: const Icon(Icons.play_circle_outline),
-                  title: const Text('Play recitation from here'),
+                  title: Text(l.playRecitationFromHere),
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     ref.read(audioProvider.notifier).playAyah(ayah.number);
@@ -133,8 +135,8 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                 ),
                 ListTile(
                   leading: const Icon(Icons.psychology_outlined),
-                  title: const Text('Memorize from here'),
-                  subtitle: const Text('Hide words, reveal one by one, loop the recitation'),
+                  title: Text(l.memorizeFromHere),
+                  subtitle: Text(l.memorizeSubtitle),
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     context.go('/memorize/${ayah.surah}?from=${ayah.numberInSurah}');
@@ -142,19 +144,19 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                 ),
                 ListTile(
                   leading: const Icon(Icons.copy_outlined),
-                  title: const Text('Copy'),
+                  title: Text(l.copy),
                   onTap: () async {
                     await Clipboard.setData(ClipboardData(text: composeAyahText(ref, ayah)));
                     if (sheetContext.mounted) {
                       Navigator.of(sheetContext).pop();
                       ScaffoldMessenger.maybeOf(context)
-                          ?.showSnackBar(const SnackBar(content: Text('Ayah copied')));
+                          ?.showSnackBar(SnackBar(content: Text(l.ayahCopied)));
                     }
                   },
                 ),
                 ListTile(
                   leading: const Icon(Icons.ios_share),
-                  title: const Text('Share'),
+                  title: Text(l.share),
                   onTap: () {
                     final text = composeAyahText(ref, ayah);
                     Navigator.of(sheetContext).pop();

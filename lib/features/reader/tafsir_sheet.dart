@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/tafsir_service.dart';
@@ -46,9 +47,9 @@ class TafsirSheet extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Tafsir', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                  Text(context.l10n.tafsir, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                   Text(
-                    '${surah.englishName} · Ayah ${ayah.numberInSurah}',
+                    '${surah.englishName} · ${context.l10n.ayahN(ayah.numberInSurah)}',
                     style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13),
                   ),
                 ],
@@ -82,19 +83,19 @@ class TafsirSheet extends ConsumerWidget {
             children: [
               Icon(Icons.cloud_off, color: scheme.error, size: 36),
               const SizedBox(height: 8),
-              Text('Tafsir needs an internet connection the first time.\n$e',
+              Text('${context.l10n.tafsirNeedsInternet}\n$e',
                   textAlign: TextAlign.center),
               const SizedBox(height: 12),
               FilledButton.tonal(
                 onPressed: () => ref.invalidate(tafsirProvider((id: source.id, key: ayah.key))),
-                child: const Text('Retry'),
+                child: Text(context.l10n.retry),
               ),
             ],
           ),
         ),
         const SizedBox(height: 12),
         Text(
-          '${source.name} · ${source.author} · ${languageName(source.language)} · via Quran.com',
+          '${source.name} · ${source.author} · ${languageName(source.language)} · ${context.l10n.viaQuranCom}',
           style: TextStyle(fontSize: 11.5, color: scheme.outline),
         ),
       ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/translation_service.dart';
@@ -51,6 +52,7 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final repo = ref.quran;
     final surah = repo.surah(widget.surah);
     final ayah = repo.ayahAt(surah.number, _current);
@@ -85,16 +87,16 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Memorize'),
+            Text(l.memorize),
             Text(
-              '${surah.englishName} · Ayahs $_from–$_to · $rangeDone/${_to - _from + 1} memorized',
+              l.memorizeHeader(surah.englishName, _from, _to, rangeDone, _to - _from + 1),
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: scheme.onSurfaceVariant),
             ),
           ],
         ),
         actions: [
           IconButton(
-            tooltip: 'Change range',
+            tooltip: l.changeRange,
             icon: const Icon(Icons.tune),
             onPressed: () => _pickRange(context, surah),
           ),
@@ -141,7 +143,7 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
                           SurahNumberBadge(number: _current, size: 36),
                           const Spacer(),
                           Text(
-                            '$_revealed / ${words.length} words',
+                            l.wordsRevealed(_revealed, words.length),
                             style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
                           ),
                         ],
@@ -187,23 +189,23 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
                                 ? () => setState(() => _revealed++)
                                 : null,
                             icon: const Icon(Icons.visibility_outlined, size: 18),
-                            label: const Text('Next word'),
+                            label: Text(l.nextWord),
                           ),
                           OutlinedButton(
                             onPressed: () => setState(() => _revealed = words.length),
-                            child: const Text('Reveal all'),
+                            child: Text(l.revealAll),
                           ),
                           OutlinedButton(
                             onPressed: () => setState(() => _revealed = 0),
-                            child: const Text('Hide all'),
+                            child: Text(l.hideAll),
                           ),
                           FilterChip(
-                            label: const Text('Transliteration'),
+                            label: Text(l.transliteration),
                             selected: _showTransliteration,
                             onSelected: (v) => setState(() => _showTransliteration = v),
                           ),
                           FilterChip(
-                            label: const Text('Translation'),
+                            label: Text(l.translation),
                             selected: _showTranslation,
                             onSelected: (v) => setState(() => _showTranslation = v),
                           ),
@@ -234,7 +236,7 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
               Row(
                 children: [
                   IconButton.outlined(
-                    tooltip: 'Previous ayah',
+                    tooltip: l.previousAyah,
                     onPressed: _current > _from ? () => _go(_current - 1) : null,
                     icon: const Icon(Icons.chevron_left),
                   ),
@@ -247,12 +249,12 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
                       ),
                       onPressed: () => ref.read(memorizedProvider.notifier).toggle(ayah.number),
                       icon: Icon(isMemorized ? Icons.check_circle : Icons.circle_outlined),
-                      label: Text(isMemorized ? 'Memorized' : 'Mark as memorized'),
+                      label: Text(isMemorized ? l.memorized : l.markAsMemorized),
                     ),
                   ),
                   const SizedBox(width: 8),
                   IconButton.outlined(
-                    tooltip: 'Next ayah',
+                    tooltip: l.nextAyah,
                     onPressed: _current < _to ? () => _go(_current + 1) : null,
                     icon: const Icon(Icons.chevron_right),
                   ),
@@ -271,7 +273,7 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
                         children: [
                           Icon(Icons.repeat, color: scheme.primary),
                           const SizedBox(width: 10),
-                          const Text('Listen & repeat', style: TextStyle(fontWeight: FontWeight.w700)),
+                          Text(l.listenAndRepeat, style: const TextStyle(fontWeight: FontWeight.w700)),
                           const Spacer(),
                           const ReciterDropdown(),
                         ],
@@ -279,7 +281,7 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          const Text('Repeat each ayah'),
+                          Text(l.repeatEachAyah),
                           const SizedBox(width: 12),
                           SegmentedButton<int>(
                             showSelectedIcon: false,
@@ -296,7 +298,7 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
                       ),
                       SwitchListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: const Text('Loop the range'),
+                        title: Text(l.loopTheRange),
                         value: _loop,
                         onChanged: (v) => setState(() => _loop = v),
                       ),
@@ -310,7 +312,7 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
                                   loop: _loop,
                                 ),
                             icon: const Icon(Icons.play_arrow),
-                            label: Text('Play $_from–$_to'),
+                            label: Text(l.playRange(_from, _to)),
                           ),
                           const SizedBox(width: 8),
                           OutlinedButton.icon(
@@ -321,7 +323,7 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
                                   loop: _loop,
                                 ),
                             icon: const Icon(Icons.replay),
-                            label: const Text('This ayah'),
+                            label: Text(l.thisAyah),
                           ),
                         ],
                       ),
@@ -344,11 +346,11 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialog) => AlertDialog(
-          title: const Text('Ayah range'),
+          title: Text(context.l10n.ayahRange),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('From $from to $to of ${surah.numberOfAyahs}'),
+              Text(context.l10n.fromToOf(from, to, surah.numberOfAyahs)),
               RangeSlider(
                 values: RangeValues(from.toDouble(), to.toDouble()),
                 min: 1,
@@ -363,8 +365,8 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
             ],
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
-            FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Apply')),
+            TextButton(onPressed: () => Navigator.pop(context, false), child: Text(context.l10n.cancel)),
+            FilledButton(onPressed: () => Navigator.pop(context, true), child: Text(context.l10n.apply)),
           ],
         ),
       ),
