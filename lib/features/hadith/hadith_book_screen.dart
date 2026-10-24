@@ -28,21 +28,89 @@ class HadithBookReaderScreen extends ConsumerStatefulWidget {
 
 /// Characters of text per printed page; a hadith longer than this gets a
 /// page of its own and is scaled down.
-const _pageBudget = 1500;
+const _pageBudget = 1700.0;
+const _arabicWeight = 1.4;
+const _arabicChunk = 600;
+const _textChunk = 900;
 
-List<List<Hadith>> paginateHadiths(List<Hadith> hadiths, {int budget = _pageBudget}) {
-  final pages = <List<Hadith>>[];
-  var current = <Hadith>[];
-  var used = 0;
+/// A piece of a hadith placed on a page: a run of its Arabic or of its
+/// translation. Long hadiths are split into several blocks so pages stay
+/// evenly filled; [continued] marks a block that carries on from the
+/// previous page and [continues] one that goes on to the next.
+class HadithBlock {
+  const HadithBlock({
+    required this.hadith,
+    this.arabic = '',
+    this.text = '',
+    this.continued = false,
+    this.continues = false,
+  });
+  final Hadith hadith;
+  final String arabic;
+  final String text;
+  final bool continued;
+  final bool continues;
+
+  double get weight => arabic.length * _arabicWeight + text.length + (continued ? 10 : 70);
+}
+
+/// Splits [s] into pieces of at most [max] characters at word boundaries.
+List<String> _chunk(String s, int max) {
+  final out = <String>[];
+  var rest = s.trim();
+  while (rest.length > max) {
+    var cut = rest.lastIndexOf(' ', max);
+    if (cut < max ~/ 2) cut = max;
+    out.add(rest.substring(0, cut).trim());
+    rest = rest.substring(cut).trim();
+  }
+  if (rest.isNotEmpty || out.isEmpty) out.add(rest);
+  return out;
+}
+
+List<List<HadithBlock>> paginateHadiths(List<Hadith> hadiths, {double budget = _pageBudget}) {
+  final blocks = <HadithBlock>[];
   for (final h in hadiths) {
-    final w = h.arabic.length + h.text.length + 80;
-    if (current.isNotEmpty && used + w > budget) {
+    final units = <({String arabic, String text})>[
+      for (final a in (h.arabic.isEmpty ? const <String>[] : _chunk(h.arabic, _arabicChunk))) (arabic: a, text: ''),
+      for (final t in (h.text.isEmpty ? const <String>[] : _chunk(h.text, _textChunk))) (arabic: '', text: t),
+    ];
+    if (units.isEmpty) units.add((arabic: '', text: ''));
+    for (var i = 0; i < units.length; i++) {
+      blocks.add(HadithBlock(
+        hadith: h,
+        arabic: units[i].arabic,
+        text: units[i].text,
+        continued: i > 0,
+        continues: i < units.length - 1,
+      ));
+    }
+  }
+
+  // Merge consecutive blocks of one hadith on the same page back together,
+  // so a hadith that fits is shown as one piece.
+  final pages = <List<HadithBlock>>[];
+  var current = <HadithBlock>[];
+  var used = 0.0;
+  for (final b in blocks) {
+    if (current.isNotEmpty && used + b.weight > budget) {
       pages.add(current);
-      current = <Hadith>[];
+      current = <HadithBlock>[];
       used = 0;
     }
-    current.add(h);
-    used += w;
+    final last = current.isNotEmpty ? current.last : null;
+    if (last != null && identical(last.hadith, b.hadith)) {
+      current[current.length - 1] = HadithBlock(
+        hadith: b.hadith,
+        arabic: [last.arabic, b.arabic].where((s) => s.isNotEmpty).join(' '),
+        text: [last.text, b.text].where((s) => s.isNotEmpty).join(' '),
+        continued: last.continued,
+        continues: b.continues,
+      );
+    } else {
+      current.add(b);
+    }
+    used += b.weight;
   }
   if (current.isNotEmpty) pages.add(current);
   return pages.isEmpty ? [const []] : pages;
@@ -200,7 +268,7 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
                     key: ValueKey('hp-${section.number}-$i-$lang'),
                     book: book,
                     section: section,
-                    hadiths: pages[i],
+                    blocks: pages[i],
                     pageNumber: i + 1,
                     totalPages: pages.length,
                     lang: lang,
@@ -483,7 +551,7 @@ class _HadithPaperPage extends StatelessWidget {
     super.key,
     required this.book,
     required this.section,
-    required this.hadiths,
+    required this.blocks,
     required this.pageNumber,
     required this.totalPages,
     required this.lang,
@@ -493,7 +561,7 @@ class _HadithPaperPage extends StatelessWidget {
 
   final HadithBook book;
   final HadithSection section;
-  final List<Hadith> hadiths;
+  final List<HadithBlock> blocks;
   final int pageNumber;
   final int totalPages;
   final String lang;
@@ -531,36 +599,39 @@ class _HadithPaperPage extends StatelessWidget {
               ),
             ),
           ),
-        for (final h in hadiths)
+        for (final b in blocks)
           Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+            padding: EdgeInsets.only(bottom: b.continues ? 4 : 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  children: [
-                    Text('${h.number}', style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.gold)),
-                    if (h.grades.isNotEmpty) ...[
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(h.grades.take(2).join(', '),
-                            maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 10, color: ink.withValues(alpha: 0.6))),
-                      ),
+                if (!b.continued)
+                  Row(
+                    children: [
+                      Text('${b.hadith.number}', style: const TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.gold)),
+                      if (b.hadith.grades.isNotEmpty) ...[
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(b.hadith.grades.take(2).join(', '),
+                              maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 10, color: ink.withValues(alpha: 0.6))),
+                        ),
+                      ],
                     ],
-                  ],
-                ),
-                if (h.arabic.isNotEmpty)
+                  )
+                else
+                  Text('${b.hadith.number} …', style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 11, color: AppColors.gold.withValues(alpha: 0.7))),
+                if (b.arabic.isNotEmpty)
                   Text(
-                    h.arabic,
+                    b.arabic + (b.continues && b.text.isEmpty ? ' …' : ''),
                     textDirection: TextDirection.rtl,
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 19, height: 1.8, color: ink),
                   ),
-                if (h.text.isNotEmpty)
+                if (b.text.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      h.text,
+                      b.text + (b.continues ? ' …' : ''),
                       textDirection: rtl ? TextDirection.rtl : TextDirection.ltr,
                       textAlign: rtl ? TextAlign.right : TextAlign.left,
                       style: TextStyle(
