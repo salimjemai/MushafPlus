@@ -42,7 +42,8 @@ tool/gen_assets.mjs     Regenerates assets/data from the quran.db SQLite file + 
 ## Data sources & credits
 
 - Arabic text (Tanzil Uthmani), ayah transliteration and translations: [Al Quran Cloud API](https://alquran.cloud/api)
-- Word-by-word transliteration and meanings: [Quran.com API v4](https://api-docs.quran.com)
+- Word-by-word transliteration, meanings and tafsir: [Quran.com API v4](https://api-docs.quran.com)
+- Verse-by-verse recitation audio: [EveryAyah.com](https://everyayah.com)
 - Fonts: [Amiri](https://github.com/aliftype/amiri) by Khaled Hosny (SIL Open Font License)
 
 Regenerate the bundled data (requires Node 22+):

@@ -7,9 +7,11 @@ import 'data/quran_repository.dart';
 import 'features/bookmarks/bookmarks_screen.dart';
 import 'features/home/home_shell.dart';
 import 'features/home/surah_list_screen.dart';
+import 'features/memorize/memorize_screen.dart';
 import 'features/reader/page_reader_screen.dart';
 import 'features/reader/reader_screen.dart';
 import 'features/search/search_screen.dart';
+import 'features/settings/offline_packs_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/settings/translation_picker_screen.dart';
 import 'state/providers.dart';
@@ -32,9 +34,24 @@ final _router = GoRouter(
               path: 'translations',
               builder: (c, s) => const TranslationPickerScreen(),
             ),
+            GoRoute(
+              path: 'offline',
+              builder: (c, s) => const OfflinePacksScreen(),
+            ),
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: '/memorize/:n',
+      builder: (c, s) {
+        final n = (int.tryParse(s.pathParameters['n'] ?? '') ?? 1).clamp(1, 114);
+        return MemorizeScreen(
+          surah: n,
+          from: int.tryParse(s.uri.queryParameters['from'] ?? ''),
+          to: int.tryParse(s.uri.queryParameters['to'] ?? ''),
+        );
+      },
     ),
     GoRoute(
       path: '/page/:n',

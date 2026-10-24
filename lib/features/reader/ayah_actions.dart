@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../core/theme.dart';
@@ -128,6 +129,15 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     ref.read(audioProvider.notifier).playAyah(ayah.number);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.psychology_outlined),
+                  title: const Text('Memorize from here'),
+                  subtitle: const Text('Hide words, reveal one by one, loop the recitation'),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    context.go('/memorize/${ayah.surah}?from=${ayah.numberInSurah}');
                   },
                 ),
                 ListTile(

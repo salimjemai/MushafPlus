@@ -119,7 +119,7 @@ class SettingsScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                     child: Text(
-                      'Audio streams verse by verse from the islamic.network CDN. Tap play on any ayah, or "Play surah" in the surah header.',
+                      'Audio streams verse by verse from everyayah.com. Tap play on any ayah, or "Play surah" in the surah header.',
                       style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4),
                     ),
                   ),
@@ -199,6 +199,13 @@ class SettingsScreen extends ConsumerWidget {
               _Section(
                 title: 'Storage',
                 children: [
+                  ListTile(
+                    leading: const Icon(Icons.download_for_offline_outlined),
+                    title: const Text('Offline packs'),
+                    subtitle: const Text('Download translations and word-by-word for the whole Quran'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.go('/settings/offline'),
+                  ),
                   ListTile(
                     leading: const Icon(Icons.cleaning_services_outlined),
                     title: const Text('Clear downloaded data'),

@@ -108,6 +108,11 @@ class AudioController extends Notifier<AudioState> {
 
   Reciter get _reciter => reciterById(ref.read(settingsProvider).reciter);
 
+  String _urlFor(int globalAyah) {
+    final a = ref.read(repositoryProvider).requireValue.ayah(globalAyah);
+    return _reciter.ayahUrl(a.surah, a.numberInSurah);
+  }
+
   /// Plays a single ayah; continues to the end of its surah afterwards.
   Future<void> playAyah(int globalAyah, {int? until}) async {
     final repo = ref.read(repositoryProvider).requireValue;
@@ -143,7 +148,7 @@ class AudioController extends Notifier<AudioState> {
     try {
       await _player.stop();
       if (token != _token) return;
-      await _player.play(UrlSource(_reciter.ayahUrl(globalAyah)));
+      await _player.play(UrlSource(_urlFor(globalAyah)));
     } catch (e) {
       if (token != _token) return;
       state = state.copyWith(loading: false, playing: false, error: 'Could not play audio ($e)');
@@ -155,7 +160,7 @@ class AudioController extends Notifier<AudioState> {
     try {
       await _player.stop();
       if (token != _token) return;
-      await _player.play(UrlSource(_reciter.ayahUrl(state.ayah!)));
+      await _player.play(UrlSource(_urlFor(state.ayah!)));
     } catch (_) {}
   }
 

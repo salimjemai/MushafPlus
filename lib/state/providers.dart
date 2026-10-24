@@ -262,6 +262,27 @@ class LastReadNotifier extends Notifier<LastRead?> {
 final lastReadProvider =
     NotifierProvider<LastReadNotifier, LastRead?>(LastReadNotifier.new);
 
+/// Global ayah numbers the user has marked as memorised.
+class MemorizedNotifier extends Notifier<Set<int>> {
+  static const _key = 'memorized';
+
+  @override
+  Set<int> build() {
+    final v = Storage.settings.get(_key);
+    if (v is List) return v.cast<int>().toSet();
+    return {};
+  }
+
+  void toggle(int ayahNumber) {
+    final next = {...state};
+    if (!next.remove(ayahNumber)) next.add(ayahNumber);
+    state = next;
+    Storage.settings.put(_key, next.toList()..sort());
+  }
+}
+
+final memorizedProvider = NotifierProvider<MemorizedNotifier, Set<int>>(MemorizedNotifier.new);
+
 /// Deterministic "verse of the day" (changes once per day).
 final verseOfTheDayProvider = Provider<int>((ref) {
   final now = DateTime.now();

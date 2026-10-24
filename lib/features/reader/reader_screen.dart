@@ -155,6 +155,24 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             icon: const Icon(Icons.text_fields),
             onPressed: () => showReaderSettings(context),
           ),
+          PopupMenuButton<String>(
+            tooltip: 'More',
+            onSelected: (v) {
+              switch (v) {
+                case 'memorize':
+                  context.go('/memorize/${surah.number}');
+                case 'page':
+                  context.go('/page/${surah.startPage}');
+                case 'play':
+                  ref.read(audioProvider.notifier).playSurah(surah.number);
+              }
+            },
+            itemBuilder: (context) => const [
+              PopupMenuItem(value: 'play', child: ListTile(leading: Icon(Icons.play_arrow), title: Text('Play surah'))),
+              PopupMenuItem(value: 'memorize', child: ListTile(leading: Icon(Icons.psychology_outlined), title: Text('Memorize this surah'))),
+              PopupMenuItem(value: 'page', child: ListTile(leading: Icon(Icons.auto_stories), title: Text('Open in page view'))),
+            ],
+          ),
         ],
       ),
       body: Center(
