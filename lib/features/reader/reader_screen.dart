@@ -1,0 +1,305 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../../core/arabic_utils.dart';
+import '../../core/theme.dart';
+import '../../data/models.dart';
+import '../../state/providers.dart';
+import '../../widgets/surah_number_badge.dart';
+import '../home/surah_list_screen.dart';
+import 'ayah_actions.dart';
+import 'ayah_card.dart';
+import 'mushaf_view.dart';
+import 'reader_settings_sheet.dart';
+
+class ReaderScreen extends ConsumerStatefulWidget {
+  const ReaderScreen({super.key, required this.surahNumber, this.initialAyah});
+
+  final int surahNumber;
+  final int? initialAyah;
+
+  @override
+  ConsumerState<ReaderScreen> createState() => _ReaderScreenState();
+}
+
+class _ReaderScreenState extends ConsumerState<ReaderScreen> {
+  final _itemScroll = ItemScrollController();
+  final _positions = ItemPositionsListener.create();
+  Timer? _throttle;
+  int? _highlighted;
+
+  @override
+  void initState() {
+    super.initState();
+    _highlighted = widget.initialAyah;
+    _positions.itemPositions.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final repo = ref.quran;
+      final s = repo.surah(widget.surahNumber);
+      final a = (widget.initialAyah ?? 1).clamp(1, s.numberOfAyahs);
+      ref.read(lastReadProvider.notifier).set(s.startAyah + a - 1);
+      if (_highlighted != null) {
+        Future.delayed(const Duration(seconds: 3), () {
+          if (mounted) setState(() => _highlighted = null);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _positions.itemPositions.removeListener(_onScroll);
+    _throttle?.cancel();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_throttle?.isActive ?? false) return;
+    _throttle = Timer(const Duration(milliseconds: 800), () {
+      if (!mounted) return;
+      final positions = _positions.itemPositions.value;
+      if (positions.isEmpty) return;
+      // First item whose leading edge is on screen (index 0 is the header).
+      final visible = positions.where((p) => p.itemTrailingEdge > 0.08).toList()
+        ..sort((a, b) => a.index.compareTo(b.index));
+      if (visible.isEmpty) return;
+      final index = visible.first.index;
+      if (index < 1) return;
+      final s = ref.quran.surah(widget.surahNumber);
+      ref.read(lastReadProvider.notifier).set(s.startAyah + index - 1);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final repo = ref.quran;
+    final surah = repo.surah(widget.surahNumber);
+    final ayahs = repo.ayahsOfSurah(surah.number);
+    final settings = ref.watch(settingsProvider);
+
+    final translations = <TranslationSource>[
+      for (final id in settings.translations)
+        TranslationSource(
+          id: id,
+          edition: repo.edition(id),
+          value: ref.watch(surahTranslationProvider((surah: surah.number, edition: id))),
+        ),
+    ];
+    final words = settings.wordByWord
+        ? ref.watch(surahWordsProvider((surah: surah.number, lang: settings.wordLanguage)))
+        : null;
+
+    final initialIndex = (widget.initialAyah ?? 0).clamp(0, surah.numberOfAyahs);
+
+    final reader = Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          tooltip: 'Back to surahs',
+          onPressed: () => context.canPop() ? context.pop() : context.go('/'),
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(surah.englishName),
+            Text(
+              '${surah.englishNameTranslation} · ${surah.numberOfAyahs} ayahs · ${surah.revelationType}',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            tooltip: settings.readerMode == ReaderMode.mushaf
+                ? 'Switch to translation view'
+                : 'Switch to Mushaf view',
+            icon: Icon(settings.readerMode == ReaderMode.mushaf
+                ? Icons.view_agenda_outlined
+                : Icons.auto_stories_outlined),
+            onPressed: () => ref.read(settingsProvider.notifier).setReaderMode(
+                  settings.readerMode == ReaderMode.mushaf
+                      ? ReaderMode.translation
+                      : ReaderMode.mushaf,
+                ),
+          ),
+          IconButton(
+            tooltip: 'Translations',
+            icon: const Icon(Icons.translate),
+            onPressed: () => context.push('/settings/translations'),
+          ),
+          IconButton(
+            tooltip: 'Reading settings',
+            icon: const Icon(Icons.text_fields),
+            onPressed: () => showReaderSettings(context),
+          ),
+        ],
+      ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 860),
+          child: settings.readerMode == ReaderMode.mushaf
+              ? MushafView(
+                  key: ValueKey('mushaf-${surah.number}'),
+                  surah: surah,
+                  ayahs: ayahs,
+                  initialAyah: widget.initialAyah,
+                  onAyahTap: (a) => showAyahActions(context, ref, a),
+                )
+              : ScrollablePositionedList.builder(
+                  key: ValueKey('list-${surah.number}'),
+                  itemScrollController: _itemScroll,
+                  itemPositionsListener: _positions,
+                  initialScrollIndex: initialIndex,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                  itemCount: ayahs.length + 1,
+                  itemBuilder: (context, i) {
+                    if (i == 0) return SurahHeader(surah: surah);
+                    final ayah = ayahs[i - 1];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: AyahCard(
+                        ayah: ayah,
+                        transliteration: repo.transliterationOf(ayah.number),
+                        translations: translations,
+                        words: words,
+                        highlighted: _highlighted == ayah.numberInSurah,
+                      ),
+                    );
+                  },
+                ),
+        ),
+      ),
+      bottomNavigationBar: _SurahNavBar(surah: surah),
+    );
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 1000) return reader;
+        return Scaffold(
+          body: Row(
+            children: [
+              SizedBox(width: 320, child: SurahSidebar(selected: surah.number)),
+              const VerticalDivider(width: 1),
+              Expanded(child: reader),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SurahHeader extends StatelessWidget {
+  const SurahHeader({super.key, required this.surah});
+  final Surah surah;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, bottom: 16),
+      child: PatternPanel(
+        padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SurahNumberBadge(
+                  number: surah.number,
+                  size: 40,
+                  color: AppColors.goldLight,
+                  textColor: Colors.white,
+                ),
+                const SizedBox(width: 14),
+                Text(
+                  surah.name,
+                  style: ArabicStyles.surahName(context, size: 34, color: Colors.white),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '${surah.englishName} · ${surah.englishNameTranslation}',
+              style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 13),
+            ),
+            if (surah.hasBismillahHeader) ...[
+              const SizedBox(height: 14),
+              Text(
+                bismillah,
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(
+                  fontFamily: ArabicStyles.quranFont,
+                  fontSize: 28,
+                  color: AppColors.goldLight,
+                  height: 1.8,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SurahNavBar extends ConsumerWidget {
+  const _SurahNavBar({required this.surah});
+  final Surah surah;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final repo = ref.quran;
+    final prev = surah.number > 1 ? repo.surah(surah.number - 1) : null;
+    final next = surah.number < 114 ? repo.surah(surah.number + 1) : null;
+    final scheme = Theme.of(context).colorScheme;
+    return Material(
+      color: scheme.surface,
+      child: SafeArea(
+        top: false,
+        child: Container(
+          height: 56,
+          decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.5))),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: prev == null
+                    ? const SizedBox.shrink()
+                    : TextButton.icon(
+                        onPressed: () => context.go('/surah/${prev.number}'),
+                        icon: const Icon(Icons.chevron_left),
+                        label: Text(prev.englishName, overflow: TextOverflow.ellipsis),
+                      ),
+              ),
+              Text(
+                'Juz ${surah.startJuz} · Page ${surah.startPage}',
+                style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
+              ),
+              Expanded(
+                child: next == null
+                    ? const SizedBox.shrink()
+                    : Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextButton.icon(
+                          onPressed: () => context.go('/surah/${next.number}'),
+                          icon: const Icon(Icons.chevron_left),
+                          label: Text(next.englishName, overflow: TextOverflow.ellipsis),
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
