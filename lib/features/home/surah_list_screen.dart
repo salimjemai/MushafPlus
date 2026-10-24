@@ -5,11 +5,12 @@ import 'package:go_router/go_router.dart';
 import '../../core/arabic_utils.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../data/quran_repository.dart';
 import '../../data/translation_service.dart';
 import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
 
-enum _Tab { surahs, juz }
+enum _Tab { surahs, juz, pages }
 
 class SurahListScreen extends ConsumerStatefulWidget {
   const SurahListScreen({super.key});
@@ -91,6 +92,7 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                     segments: const [
                       ButtonSegment(value: _Tab.surahs, label: Text('Surah')),
                       ButtonSegment(value: _Tab.juz, label: Text('Juz')),
+                      ButtonSegment(value: _Tab.pages, label: Text('Page')),
                     ],
                     selected: {_tab},
                     onSelectionChanged: (s) => setState(() => _tab = s.first),
@@ -108,11 +110,13 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                   SurahTile(surah: s, onTap: () => context.go('/surah/${s.number}')),
                   const SizedBox(height: 8),
                 ],
-              ] else ...[
+              ] else if (_tab == _Tab.juz) ...[
                 for (final j in repo.juzs) ...[
                   _JuzTile(juz: j),
                   const SizedBox(height: 8),
                 ],
+              ] else ...[
+                const _PageGrid(),
               ],
             ],
           ),
@@ -231,6 +235,52 @@ class _JuzTile extends ConsumerWidget {
         ),
         onTap: () => context.go('/surah/${juz.startSurah}?ayah=${juz.startAyahInSurah}'),
       ),
+    );
+  }
+}
+
+/// All 604 Mushaf pages grouped by juz.
+class _PageGrid extends ConsumerWidget {
+  const _PageGrid();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final repo = ref.quran;
+    final scheme = Theme.of(context).colorScheme;
+    final byJuz = <int, List<int>>{};
+    for (var p = 1; p <= QuranRepository.totalPages; p++) {
+      byJuz.putIfAbsent(repo.ayah(repo.pageStarts[p - 1]).juz, () => []).add(p);
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final e in byJuz.entries) ...[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 8, 4, 6),
+            child: Text(
+              'JUZ ${e.key}',
+              style: TextStyle(
+                fontSize: 11.5,
+                letterSpacing: 1.4,
+                fontWeight: FontWeight.w700,
+                color: scheme.primary,
+              ),
+            ),
+          ),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              for (final p in e.value)
+                ActionChip(
+                  label: Text('$p'),
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () => context.go('/page/$p'),
+                ),
+            ],
+          ),
+        ],
+      ],
     );
   }
 }

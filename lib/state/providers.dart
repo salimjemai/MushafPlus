@@ -6,6 +6,7 @@ import '../data/models.dart';
 import '../data/quran_repository.dart';
 import '../data/reciters.dart';
 import '../data/storage.dart';
+import '../data/tafsir_service.dart';
 import '../data/translation_service.dart';
 import '../data/word_by_word_service.dart';
 
@@ -20,6 +21,15 @@ final translationServiceProvider =
 
 final wordByWordServiceProvider =
     Provider<WordByWordService>((ref) => WordByWordService(cache: Storage.cache));
+
+final tafsirServiceProvider =
+    Provider<TafsirService>((ref) => TafsirService(cache: Storage.cache));
+
+typedef TafsirKey = ({int id, String key});
+
+final tafsirProvider = FutureProvider.family<String, TafsirKey>((ref, k) {
+  return ref.watch(tafsirServiceProvider).forAyah(k.id, k.key);
+});
 
 extension QuranRefX on WidgetRef {
   /// The loaded repository. Only call once the app shell is shown.
@@ -65,6 +75,7 @@ class AppSettings {
     this.readerMode = ReaderMode.translation,
     this.arabicFont = ArabicStyles.quranFont,
     this.reciter = defaultReciterId,
+    this.tafsirId = defaultTafsirId,
   });
 
   final ThemeMode themeMode;
@@ -77,6 +88,7 @@ class AppSettings {
   final ReaderMode readerMode;
   final String arabicFont;
   final String reciter;
+  final int tafsirId;
 
   static const maxTranslations = 4;
 
@@ -91,6 +103,7 @@ class AppSettings {
     ReaderMode? readerMode,
     String? arabicFont,
     String? reciter,
+    int? tafsirId,
   }) {
     return AppSettings(
       themeMode: themeMode ?? this.themeMode,
@@ -103,6 +116,7 @@ class AppSettings {
       readerMode: readerMode ?? this.readerMode,
       arabicFont: arabicFont ?? this.arabicFont,
       reciter: reciter ?? this.reciter,
+      tafsirId: tafsirId ?? this.tafsirId,
     );
   }
 
@@ -117,6 +131,7 @@ class AppSettings {
         'readerMode': readerMode.index,
         'arabicFont': arabicFont,
         'reciter': reciter,
+        'tafsirId': tafsirId,
       };
 
   factory AppSettings.fromMap(Map<dynamic, dynamic> m) {
@@ -132,6 +147,7 @@ class AppSettings {
       readerMode: ReaderMode.values[(m['readerMode'] as int?) ?? d.readerMode.index],
       arabicFont: (m['arabicFont'] as String?) ?? d.arabicFont,
       reciter: (m['reciter'] as String?) ?? d.reciter,
+      tafsirId: (m['tafsirId'] as int?) ?? d.tafsirId,
     );
   }
 }
@@ -160,6 +176,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setReaderMode(ReaderMode m) => _update(state.copyWith(readerMode: m));
   void setArabicFont(String f) => _update(state.copyWith(arabicFont: f));
   void setReciter(String id) => _update(state.copyWith(reciter: id));
+  void setTafsirId(int id) => _update(state.copyWith(tafsirId: id));
 
   /// Adds or removes a translation edition. Returns false when the limit is hit.
   bool toggleTranslation(String edition) {

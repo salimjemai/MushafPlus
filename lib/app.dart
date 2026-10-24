@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'core/theme.dart';
+import 'data/quran_repository.dart';
 import 'features/bookmarks/bookmarks_screen.dart';
 import 'features/home/home_shell.dart';
 import 'features/home/surah_list_screen.dart';
+import 'features/reader/page_reader_screen.dart';
 import 'features/reader/reader_screen.dart';
 import 'features/search/search_screen.dart';
 import 'features/settings/settings_screen.dart';
@@ -33,6 +35,13 @@ final _router = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: '/page/:n',
+      builder: (c, s) {
+        final n = int.tryParse(s.pathParameters['n'] ?? '') ?? 1;
+        return PageReaderScreen(page: n.clamp(1, QuranRepository.totalPages));
+      },
     ),
     GoRoute(
       path: '/surah/:n',

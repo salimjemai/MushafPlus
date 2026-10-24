@@ -16,6 +16,7 @@ class QuranRepository {
     required this.transliteration,
     required this.editions,
     required this.juzs,
+    required this.pageStarts,
   });
 
   final List<Surah> surahs;
@@ -24,7 +25,11 @@ class QuranRepository {
   final List<Edition> editions;
   final List<Juz> juzs;
 
+  /// Global number of the first ayah on each Mushaf page (index = page - 1).
+  final List<int> pageStarts;
+
   static const totalAyahs = 6236;
+  static const totalPages = 604;
 
   static Future<QuranRepository> load() async {
     final raw = await Future.wait([
@@ -79,13 +84,30 @@ class QuranRepository {
       startAyahInSurah: s.numberInSurah,
     ));
 
+    final pageStarts = <int>[];
+    int? currentPage;
+    for (final a in ayahs) {
+      if (a.page != currentPage) {
+        currentPage = a.page;
+        pageStarts.add(a.number);
+      }
+    }
+
     return QuranRepository._(
       surahs: surahs,
       ayahs: ayahs,
       transliteration: translit,
       editions: editions,
       juzs: juzs,
+      pageStarts: pageStarts,
     );
+  }
+
+  /// All ayahs printed on Mushaf [page] (1..604), in order.
+  List<Ayah> ayahsOfPage(int page) {
+    final start = pageStarts[page - 1];
+    final end = page < pageStarts.length ? pageStarts[page] : ayahs.length + 1;
+    return ayahs.sublist(start - 1, end - 1);
   }
 
   Surah surah(int number) => surahs[number - 1];

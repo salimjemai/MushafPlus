@@ -318,9 +318,12 @@ class _SurahNavBar extends ConsumerWidget {
                         label: Text(prev.englishName, overflow: TextOverflow.ellipsis),
                       ),
               ),
-              Text(
-                'Juz ${surah.startJuz} · Page ${surah.startPage}',
-                style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
+              TextButton(
+                onPressed: () => context.go('/page/${surah.startPage}'),
+                child: Text(
+                  'Juz ${surah.startJuz} · Page ${surah.startPage}',
+                  style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
+                ),
               ),
               Expanded(
                 child: next == null

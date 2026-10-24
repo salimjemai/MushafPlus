@@ -5,7 +5,9 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
+import 'tafsir_sheet.dart';
 import 'word_by_word_view.dart';
 
 /// Builds a shareable plain-text version of the ayah using whatever
@@ -109,6 +111,23 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     showWordByWordSheet(context, ayah);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.auto_stories_outlined),
+                  title: const Text('Tafsir'),
+                  subtitle: const Text('Commentary from Ibn Kathir and others'),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    showTafsirSheet(context, ayah);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.play_circle_outline),
+                  title: const Text('Play recitation from here'),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    ref.read(audioProvider.notifier).playAyah(ayah.number);
                   },
                 ),
                 ListTile(

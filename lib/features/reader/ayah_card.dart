@@ -7,6 +7,7 @@ import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
 import 'ayah_actions.dart';
+import 'tafsir_sheet.dart';
 import 'word_by_word_view.dart';
 
 /// One selected translation edition and its (async) text for the current surah.
@@ -100,6 +101,12 @@ class AyahCard extends ConsumerWidget {
                     visualDensity: VisualDensity.compact,
                     icon: const Icon(Icons.segment, size: 20),
                     onPressed: () => showWordByWordSheet(context, ayah),
+                  ),
+                  IconButton(
+                    tooltip: 'Tafsir',
+                    visualDensity: VisualDensity.compact,
+                    icon: const Icon(Icons.auto_stories_outlined, size: 20),
+                    onPressed: () => showTafsirSheet(context, ayah),
                   ),
                   IconButton(
                     tooltip: bookmarked ? 'Remove bookmark' : 'Bookmark',
