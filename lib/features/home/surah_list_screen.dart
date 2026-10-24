@@ -54,6 +54,13 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Search the Quran',
+            icon: const Icon(Icons.search),
+            onPressed: () => context.go('/search'),
+          ),
+        ],
       ),
       body: Center(
         child: ConstrainedBox(

@@ -10,6 +10,9 @@ import 'features/home/home_shell.dart';
 import 'features/home/surah_list_screen.dart';
 import 'features/memorize/memorize_screen.dart';
 import 'features/plan/plan_screen.dart';
+import 'features/prayer/masjid_edit_screen.dart';
+import 'features/prayer/monthly_timetable_screen.dart';
+import 'features/prayer/prayer_screen.dart';
 import 'features/reader/page_reader_screen.dart';
 import 'features/reader/reader_screen.dart';
 import 'features/search/search_screen.dart';
@@ -47,6 +50,17 @@ final _router = GoRouter(
           ],
         ),
         GoRoute(path: '/bookmarks', builder: (c, s) => const BookmarksScreen()),
+        GoRoute(
+          path: '/prayer',
+          builder: (c, s) => const PrayerScreen(),
+          routes: [
+            GoRoute(
+              path: 'edit',
+              builder: (c, s) => MasjidEditScreen(masjidId: s.uri.queryParameters['id']),
+            ),
+            GoRoute(path: 'month', builder: (c, s) => const MonthlyTimetableScreen()),
+          ],
+        ),
         GoRoute(
           path: '/settings',
           builder: (c, s) => const SettingsScreen(),

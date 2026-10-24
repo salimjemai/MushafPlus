@@ -7,11 +7,13 @@ class Storage {
   static late final Box settings;
   static late final Box bookmarks;
   static late final Box cache;
+  static late final Box masjids;
 
   static Future<void> init() async {
     await Hive.initFlutter('quran_plus');
     settings = await Hive.openBox('settings');
     bookmarks = await Hive.openBox('bookmarks');
     cache = await Hive.openBox('cache');
+    masjids = await Hive.openBox('masjids');
   }
 }
