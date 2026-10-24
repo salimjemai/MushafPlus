@@ -32,8 +32,12 @@ class HadithBookReaderScreen extends ConsumerStatefulWidget {
 // of 19px Arabic (~1575 chars), so Arabic characters weigh ~2.6x.
 const _pageBudget = 4000.0;
 const _arabicWeight = 2.6;
-const _arabicChunk = 700;
+const _arabicChunk = 1200; // raw characters, roughly 700 visible letters
 const _textChunk = 1300;
+
+/// Tashkeel and other combining marks take no horizontal space.
+final _combiningMarks = RegExp('[ؐ-ًؚ-ٰٟۖ-ۭ]');
+int _visibleLength(String s) => s.replaceAll(_combiningMarks, '').length;
 
 /// A piece of a hadith placed on a page: a run of its Arabic or of its
 /// translation. Long hadiths are split into several blocks so pages stay
@@ -53,7 +57,7 @@ class HadithBlock {
   final bool continued;
   final bool continues;
 
-  double get weight => arabic.length * _arabicWeight + text.length + (continued ? 10 : 70);
+  double get weight => _visibleLength(arabic) * _arabicWeight + text.length + (continued ? 10 : 70);
 }
 
 /// Splits [s] into pieces of at most [max] characters at word boundaries.
