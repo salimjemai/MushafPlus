@@ -28,10 +28,12 @@ class HadithBookReaderScreen extends ConsumerStatefulWidget {
 
 /// Characters of text per printed page; a hadith longer than this gets a
 /// page of its own and is scaled down.
-const _pageBudget = 1700.0;
-const _arabicWeight = 1.4;
-const _arabicChunk = 600;
-const _textChunk = 900;
+// A page holds about 38 lines of 13px translation (~4200 chars) or 21 lines
+// of 19px Arabic (~1575 chars), so Arabic characters weigh ~2.6x.
+const _pageBudget = 4000.0;
+const _arabicWeight = 2.6;
+const _arabicChunk = 700;
+const _textChunk = 1300;
 
 /// A piece of a hadith placed on a page: a run of its Arabic or of its
 /// translation. Long hadiths are split into several blocks so pages stay
