@@ -12,7 +12,9 @@ import '../../data/models.dart';
 import '../../data/quran_repository.dart';
 import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
+import '../../widgets/book_spread.dart';
 import '../../widgets/mini_player.dart';
+import '../../widgets/mushaf_cover.dart';
 import '../reader/ayah_actions.dart';
 import '../reader/mushaf_view.dart';
 import '../reader/reader_settings_sheet.dart';
@@ -30,10 +32,13 @@ class MushafBookScreen extends ConsumerStatefulWidget {
 class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
   late int _page = widget.initialPage.clamp(1, QuranRepository.totalPages);
   PageController? _flip; // one page per view
-  PageController? _book; // two pages per view
+  final _book = BookSpreadController(); // two-page book
   final _scroll = ItemScrollController();
   final _positions = ItemPositionsListener.create();
   bool _programmatic = false;
+
+  /// The book starts closed on its cover when opened at the first page.
+  late bool _closed = widget.initialPage <= 1;
 
   /// Spread k shows pages 2k+1 (right) and 2k+2 (left).
   int _spreadOf(int page) => (page - 1) ~/ 2;
@@ -42,7 +47,6 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
   void initState() {
     super.initState();
     _flip = PageController(initialPage: _page - 1);
-    _book = PageController(initialPage: _spreadOf(_page));
     _positions.itemPositions.addListener(_onScrollPositions);
     WidgetsBinding.instance.addPostFrameCallback((_) => _markRead(_page));
   }
@@ -51,7 +55,6 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
   void dispose() {
     _positions.itemPositions.removeListener(_onScrollPositions);
     _flip?.dispose();
-    _book?.dispose();
     super.dispose();
   }
 
@@ -103,12 +106,11 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
         }
       case MushafLayout.book:
       case MushafLayout.auto:
-        if (animate && _book!.hasClients) {
-          await _book!.animateToPage(_spreadOf(page),
-              duration: const Duration(milliseconds: 550),
-              curve: Curves.easeInOutCubic);
-        } else if (_book!.hasClients) {
-          _book!.jumpToPage(_spreadOf(page));
+        _closed = false;
+        if (animate) {
+          await _book.animateTo(_spreadOf(page));
+        } else {
+          _book.jumpTo(_spreadOf(page));
         }
     }
     _programmatic = false;
@@ -285,44 +287,44 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
 
   Widget _bookLayout(BoxConstraints constraints) {
     final spreads = (QuranRepository.totalPages / 2).ceil();
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: PageView.builder(
-        controller: _book,
-        reverse: true,
-        itemCount: spreads,
-        onPageChanged: (k) {
-          if (_programmatic) return;
-          setState(() => _page = k * 2 + 1);
-          _markRead(_page);
-        },
-        itemBuilder: (context, k) {
-          final right = k * 2 + 1;
-          final left = right + 1;
-          return _Flipping(
-            controller: _book!,
-            index: k,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: left <= QuranRepository.totalPages
-                        ? _FitPage(
-                            page: left,
-                            onAyahTap: (a) => showAyahActions(context, ref, a))
-                        : const SizedBox.shrink(),
-                  ),
-                  _Spine(),
-                  Expanded(
-                      child: _FitPage(
-                          page: right,
-                          onAyahTap: (a) => showAyahActions(context, ref, a))),
-                ],
-              ),
-            ),
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    Widget? pageAt(int page) => page < 1 || page > QuranRepository.totalPages
+        ? null
+        : MushafPage(
+            key: ValueKey('book-$page'),
+            page: page,
+            onAyahTap: (a) => showAyahActions(context, ref, a),
+            fitToPage: true,
           );
-        },
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: dark
+              ? const [Color(0xFF0B100E), Color(0xFF161D19)]
+              : const [Color(0xFFEDE6D6), Color(0xFFD9CFBC)],
+        ),
+      ),
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: BookSpreadView(
+          key: const ValueKey('mushaf-book'),
+          controller: _book,
+          spreadCount: spreads,
+          initialSpread: _closed ? -1 : _spreadOf(_page),
+          cover: const MushafCover(subtitle: 'QURAN+'),
+          leftPage: (k) => pageAt(k * 2 + 2),
+          rightPage: (k) => pageAt(k * 2 + 1),
+          onSpreadChanged: (k) {
+            setState(() {
+              _closed = k < 0;
+              if (k >= 0) _page = k * 2 + 1;
+            });
+            if (k >= 0) _markRead(_page);
+          },
+        ),
       ),
     );
   }
@@ -405,25 +407,6 @@ class _Flipping extends StatelessWidget {
           child: Opacity(opacity: 1 - t.abs() * 0.25, child: child),
         );
       },
-    );
-  }
-}
-
-class _Spine extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final dark = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      width: 14,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.black.withValues(alpha: dark ? 0.0 : 0.0),
-            Colors.black.withValues(alpha: dark ? 0.6 : 0.22),
-            Colors.black.withValues(alpha: dark ? 0.0 : 0.0),
-          ],
-        ),
-      ),
     );
   }
 }

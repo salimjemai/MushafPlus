@@ -1035,4 +1035,53 @@ class AppLocalizationsAr extends AppLocalizations {
   String pageJuz(int page, int juz) {
     return 'الصفحة $page · الجزء $juz';
   }
+
+  @override
+  String get library => 'المكتبة';
+
+  @override
+  String get openBook => 'فتح الكتاب';
+
+  @override
+  String get tableOfContents => 'الفهرس';
+
+  @override
+  String chapterPage(int chapter, int page, int total) {
+    return 'الباب $chapter · الصفحة $page / $total';
+  }
+
+  @override
+  String get listView => 'عرض القائمة';
+
+  @override
+  String get downloadPdf => 'تنزيل PDF';
+
+  @override
+  String get downloadChapterPdf => 'تنزيل هذا الباب بصيغة PDF';
+
+  @override
+  String get downloadBookPdf => 'تنزيل الكتاب كاملًا بصيغة PDF';
+
+  @override
+  String preparingPdf(int done, int total) {
+    return 'جارٍ جلب الأبواب… $done / $total';
+  }
+
+  @override
+  String get renderingPdf => 'جارٍ إنشاء ملف PDF…';
+
+  @override
+  String pdfFailed(String error) {
+    return 'تعذّر إنشاء ملف PDF: $error';
+  }
+
+  @override
+  String hadithsCount(int count) {
+    return '$count حديث';
+  }
+
+  @override
+  String byAuthor(String author) {
+    return 'تأليف $author';
+  }
 }

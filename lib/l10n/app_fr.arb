@@ -294,5 +294,18 @@
   "pageRange": "Page (1–604)",
   "previousPage": "Page précédente",
   "nextPage": "Page suivante",
-  "pageJuz": "Page {page} · Juz {juz}"
+  "pageJuz": "Page {page} · Juz {juz}",
+  "library": "Bibliothèque",
+  "openBook": "Ouvrir le livre",
+  "tableOfContents": "Sommaire",
+  "chapterPage": "Chapitre {chapter} · Page {page} / {total}",
+  "listView": "Vue liste",
+  "downloadPdf": "Télécharger en PDF",
+  "downloadChapterPdf": "Télécharger ce chapitre en PDF",
+  "downloadBookPdf": "Télécharger tout le livre en PDF",
+  "preparingPdf": "Récupération des chapitres… {done} / {total}",
+  "renderingPdf": "Génération du PDF…",
+  "pdfFailed": "Impossible de créer le PDF : {error}",
+  "hadithsCount": "{count} hadiths",
+  "byAuthor": "par {author}"
 }

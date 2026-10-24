@@ -294,5 +294,18 @@
   "pageRange": "Halaman (1–604)",
   "previousPage": "Halaman sebelumnya",
   "nextPage": "Halaman berikutnya",
-  "pageJuz": "Halaman {page} · Juz {juz}"
+  "pageJuz": "Halaman {page} · Juz {juz}",
+  "library": "Perpustakaan",
+  "openBook": "Buka kitab",
+  "tableOfContents": "Daftar isi",
+  "chapterPage": "Bab {chapter} · Halaman {page} / {total}",
+  "listView": "Tampilan daftar",
+  "downloadPdf": "Unduh PDF",
+  "downloadChapterPdf": "Unduh bab ini sebagai PDF",
+  "downloadBookPdf": "Unduh seluruh kitab sebagai PDF",
+  "preparingPdf": "Mengambil bab… {done} / {total}",
+  "renderingPdf": "Membuat PDF…",
+  "pdfFailed": "Tidak dapat membuat PDF: {error}",
+  "hadithsCount": "{count} hadis",
+  "byAuthor": "oleh {author}"
 }

@@ -294,5 +294,18 @@
   "pageRange": "صفحہ (1–604)",
   "previousPage": "پچھلا صفحہ",
   "nextPage": "اگلا صفحہ",
-  "pageJuz": "صفحہ {page} · پارہ {juz}"
+  "pageJuz": "صفحہ {page} · پارہ {juz}",
+  "library": "لائبریری",
+  "openBook": "کتاب کھولیں",
+  "tableOfContents": "فہرست",
+  "chapterPage": "باب {chapter} · صفحہ {page} / {total}",
+  "listView": "فہرست کا منظر",
+  "downloadPdf": "PDF ڈاؤن لوڈ کریں",
+  "downloadChapterPdf": "یہ باب PDF میں ڈاؤن لوڈ کریں",
+  "downloadBookPdf": "پوری کتاب PDF میں ڈاؤن لوڈ کریں",
+  "preparingPdf": "ابواب حاصل کیے جا رہے ہیں… {done} / {total}",
+  "renderingPdf": "PDF تیار ہو رہی ہے…",
+  "pdfFailed": "PDF نہیں بن سکی: {error}",
+  "hadithsCount": "{count} احادیث",
+  "byAuthor": "از {author}"
 }

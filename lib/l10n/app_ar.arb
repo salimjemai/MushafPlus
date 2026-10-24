@@ -294,5 +294,18 @@
   "pageRange": "الصفحة (1–604)",
   "previousPage": "الصفحة السابقة",
   "nextPage": "الصفحة التالية",
-  "pageJuz": "الصفحة {page} · الجزء {juz}"
+  "pageJuz": "الصفحة {page} · الجزء {juz}",
+  "library": "المكتبة",
+  "openBook": "فتح الكتاب",
+  "tableOfContents": "الفهرس",
+  "chapterPage": "الباب {chapter} · الصفحة {page} / {total}",
+  "listView": "عرض القائمة",
+  "downloadPdf": "تنزيل PDF",
+  "downloadChapterPdf": "تنزيل هذا الباب بصيغة PDF",
+  "downloadBookPdf": "تنزيل الكتاب كاملًا بصيغة PDF",
+  "preparingPdf": "جارٍ جلب الأبواب… {done} / {total}",
+  "renderingPdf": "جارٍ إنشاء ملف PDF…",
+  "pdfFailed": "تعذّر إنشاء ملف PDF: {error}",
+  "hadithsCount": "{count} حديث",
+  "byAuthor": "تأليف {author}"
 }

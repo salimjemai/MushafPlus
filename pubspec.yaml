@@ -21,6 +21,8 @@ dependencies:
   timezone: ^0.10.0
   geolocator: ^13.0.1
   intl: ^0.20.0
+  pdf: ^3.11.0
+  printing: ^5.13.0
   cupertino_icons: ^1.0.8
 
 dev_dependencies:

@@ -294,5 +294,18 @@
   "pageRange": "Sayfa (1–604)",
   "previousPage": "Önceki sayfa",
   "nextPage": "Sonraki sayfa",
-  "pageJuz": "Sayfa {page} · Cüz {juz}"
+  "pageJuz": "Sayfa {page} · Cüz {juz}",
+  "library": "Kütüphane",
+  "openBook": "Kitabı aç",
+  "tableOfContents": "İçindekiler",
+  "chapterPage": "Bölüm {chapter} · Sayfa {page} / {total}",
+  "listView": "Liste görünümü",
+  "downloadPdf": "PDF indir",
+  "downloadChapterPdf": "Bu bölümü PDF olarak indir",
+  "downloadBookPdf": "Tüm kitabı PDF olarak indir",
+  "preparingPdf": "Bölümler alınıyor… {done} / {total}",
+  "renderingPdf": "PDF oluşturuluyor…",
+  "pdfFailed": "PDF oluşturulamadı: {error}",
+  "hadithsCount": "{count} hadis",
+  "byAuthor": "{author} tarafından"
 }

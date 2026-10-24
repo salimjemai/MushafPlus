@@ -1034,4 +1034,53 @@ class AppLocalizationsUr extends AppLocalizations {
   String pageJuz(int page, int juz) {
     return 'صفحہ $page · پارہ $juz';
   }
+
+  @override
+  String get library => 'لائبریری';
+
+  @override
+  String get openBook => 'کتاب کھولیں';
+
+  @override
+  String get tableOfContents => 'فہرست';
+
+  @override
+  String chapterPage(int chapter, int page, int total) {
+    return 'باب $chapter · صفحہ $page / $total';
+  }
+
+  @override
+  String get listView => 'فہرست کا منظر';
+
+  @override
+  String get downloadPdf => 'PDF ڈاؤن لوڈ کریں';
+
+  @override
+  String get downloadChapterPdf => 'یہ باب PDF میں ڈاؤن لوڈ کریں';
+
+  @override
+  String get downloadBookPdf => 'پوری کتاب PDF میں ڈاؤن لوڈ کریں';
+
+  @override
+  String preparingPdf(int done, int total) {
+    return 'ابواب حاصل کیے جا رہے ہیں… $done / $total';
+  }
+
+  @override
+  String get renderingPdf => 'PDF تیار ہو رہی ہے…';
+
+  @override
+  String pdfFailed(String error) {
+    return 'PDF نہیں بن سکی: $error';
+  }
+
+  @override
+  String hadithsCount(int count) {
+    return '$count احادیث';
+  }
+
+  @override
+  String byAuthor(String author) {
+    return 'از $author';
+  }
 }

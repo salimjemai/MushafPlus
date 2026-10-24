@@ -14,6 +14,7 @@ import '../../widgets/surah_number_badge.dart';
 // Books
 // ---------------------------------------------------------------------------
 
+/// The hadith library: a shelf of book covers; tap one to open it as a book.
 class HadithBooksScreen extends ConsumerWidget {
   const HadithBooksScreen({super.key});
 
@@ -24,35 +25,51 @@ class HadithBooksScreen extends ConsumerWidget {
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(l.hadith),
+        title: Row(
+          children: [
+            Text(l.hadith),
+            const SizedBox(width: 10),
+            Text('المكتبة', style: ArabicStyles.surahName(context, size: 18, color: scheme.primary)),
+          ],
+        ),
         actions: const [Padding(padding: EdgeInsets.only(right: 8), child: HadithLanguageDropdown())],
       ),
       body: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 820),
+          constraints: const BoxConstraints(maxWidth: 980),
           child: books.when(
-            data: (list) => ListView(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-              children: [
-                Text(
-                  l.hadithIntro,
-                  style: TextStyle(color: scheme.onSurfaceVariant, height: 1.5, fontSize: 13.5),
-                ),
-                const SizedBox(height: 12),
-                for (final b in list) ...[
-                  Card(
-                    child: ListTile(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      leading: SurahNumberBadge(number: list.indexOf(b) + 1, size: 42, color: scheme.secondary),
-                      title: Text(b.name, style: const TextStyle(fontWeight: FontWeight.w700)),
-                      subtitle: Text(l.hadithsChapters(b.hadithCount, b.sections.length)),
-                      trailing: Text(b.arabic, style: ArabicStyles.surahName(context, size: 18, color: scheme.primary)),
-                      onTap: () => context.go('/hadith/${b.id}'),
+            data: (list) => LayoutBuilder(
+              builder: (context, constraints) {
+                final columns = (constraints.maxWidth / 190).floor().clamp(2, 5);
+                return CustomScrollView(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+                      sliver: SliverToBoxAdapter(
+                        child: Text(
+                          l.hadithIntro,
+                          style: TextStyle(color: scheme.onSurfaceVariant, height: 1.5, fontSize: 13.5),
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-              ],
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                      sliver: SliverGrid(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: columns,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 18,
+                          childAspectRatio: 0.58,
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                          (context, i) => BookCover(book: list[i], index: i, onTap: () => context.go('/hadith/${list[i].id}')),
+                          childCount: list.length,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (e, _) => Center(child: Text(l.couldNotLoadHadithBooks('$e'))),
@@ -60,6 +77,163 @@ class HadithBooksScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+const _authors = <String, String>{
+  'bukhari': 'Imam al-Bukhari (d. 256 AH)',
+  'muslim': 'Imam Muslim (d. 261 AH)',
+  'nasai': "Imam an-Nasa'i (d. 303 AH)",
+  'abudawud': 'Imam Abu Dawud (d. 275 AH)',
+  'tirmidhi': 'Imam at-Tirmidhi (d. 279 AH)',
+  'ibnmajah': 'Imam Ibn Majah (d. 273 AH)',
+  'malik': 'Imam Malik (d. 179 AH)',
+  'nawawi': 'Imam an-Nawawi (d. 676 AH)',
+  'qudsi': 'Hadith Qudsi',
+  'dehlawi': 'Shah Waliullah Dehlawi (d. 1176 AH)',
+};
+
+const _coverColors = <List<Color>>[
+  [Color(0xFF5A1F1F), Color(0xFF3A1010)], // maroon leather
+  [Color(0xFF14432F), Color(0xFF0B2A1D)], // deep green
+  [Color(0xFF1C2E5A), Color(0xFF101C3A)], // navy
+  [Color(0xFF4A2F14), Color(0xFF2E1C0A)], // brown
+  [Color(0xFF3D1B4F), Color(0xFF26102F)], // plum
+  [Color(0xFF0F3F4A), Color(0xFF082730)], // teal
+  [Color(0xFF5A3A1F), Color(0xFF3A2410)], // tan
+  [Color(0xFF2B2B2B), Color(0xFF151515)], // black
+  [Color(0xFF6B2A15), Color(0xFF43190B)], // rust
+  [Color(0xFF1F3F5A), Color(0xFF10273A)], // steel blue
+];
+
+/// A leather-bound book cover with gold tooling, spine and the title in Arabic.
+class BookCover extends StatelessWidget {
+  const BookCover({super.key, required this.book, required this.index, this.onTap, this.showCaption = true});
+  final HadithBook book;
+  final int index;
+  final VoidCallback? onTap;
+
+  /// Show the title, author and count under the cover (library shelf).
+  final bool showCaption;
+
+  /// Index of [book] in the library, used to pick its cover colour.
+  static int indexOf(List<HadithBook> books, HadithBook book) {
+    final i = books.indexWhere((b) => b.id == book.id);
+    return i < 0 ? 0 : i;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final colors = _coverColors[index % _coverColors.length];
+    const gold = AppColors.goldLight;
+    if (!showCaption) return _cover(context, colors, gold);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: _cover(context, colors, gold)),
+        const SizedBox(height: 8),
+        Text(book.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5)),
+        Text(
+          _authors[book.id] ?? '',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 11.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
+        ),
+        Text(
+          l.hadithsCount(book.hadithCount),
+          style: TextStyle(fontSize: 11.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
+        ),
+      ],
+    );
+  }
+
+  Widget _cover(BuildContext context, List<Color> colors, Color gold) {
+    final l = context.l10n;
+    return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(6),
+              child: Tooltip(
+                message: l.openBook,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.horizontal(left: Radius.circular(3), right: Radius.circular(7)),
+                    gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: colors),
+                    boxShadow: [
+                      BoxShadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 14, offset: const Offset(4, 8)),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      // Spine
+                      Container(
+                        width: 14,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.horizontal(left: Radius.circular(3)),
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [Colors.black.withValues(alpha: 0.45), Colors.transparent, Colors.black.withValues(alpha: 0.25)],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: gold.withValues(alpha: 0.85), width: 1.4),
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            padding: const EdgeInsets.all(3),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: gold.withValues(alpha: 0.45), width: 0.7),
+                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('۞', style: TextStyle(fontFamily: ArabicStyles.nameFont, color: gold.withValues(alpha: 0.9), fontSize: 16)),
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          book.arabic,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: ArabicStyles.nameFont,
+                                            fontSize: 26,
+                                            fontWeight: FontWeight.w700,
+                                            color: gold,
+                                            height: 1.4,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Text(
+                                          book.name,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: gold.withValues(alpha: 0.95), letterSpacing: 0.4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SurahNumberBadge(number: index + 1, size: 30, color: gold, textColor: gold),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
   }
 }
 

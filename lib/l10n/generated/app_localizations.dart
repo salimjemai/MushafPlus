@@ -1875,6 +1875,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Page {page} · Juz {juz}'**
   String pageJuz(int page, int juz);
+
+  /// No description provided for @library.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get library;
+
+  /// No description provided for @openBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Open book'**
+  String get openBook;
+
+  /// No description provided for @tableOfContents.
+  ///
+  /// In en, this message translates to:
+  /// **'Contents'**
+  String get tableOfContents;
+
+  /// No description provided for @chapterPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter {chapter} · Page {page} / {total}'**
+  String chapterPage(int chapter, int page, int total);
+
+  /// No description provided for @listView.
+  ///
+  /// In en, this message translates to:
+  /// **'List view'**
+  String get listView;
+
+  /// No description provided for @downloadPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Download PDF'**
+  String get downloadPdf;
+
+  /// No description provided for @downloadChapterPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Download this chapter as PDF'**
+  String get downloadChapterPdf;
+
+  /// No description provided for @downloadBookPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Download the whole book as PDF'**
+  String get downloadBookPdf;
+
+  /// No description provided for @preparingPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Fetching chapters… {done} / {total}'**
+  String preparingPdf(int done, int total);
+
+  /// No description provided for @renderingPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Rendering the PDF…'**
+  String get renderingPdf;
+
+  /// No description provided for @pdfFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not create the PDF: {error}'**
+  String pdfFailed(String error);
+
+  /// No description provided for @hadithsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} hadiths'**
+  String hadithsCount(int count);
+
+  /// No description provided for @byAuthor.
+  ///
+  /// In en, this message translates to:
+  /// **'by {author}'**
+  String byAuthor(String author);
 }
 
 class _AppLocalizationsDelegate

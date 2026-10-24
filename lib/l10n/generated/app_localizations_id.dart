@@ -1040,4 +1040,53 @@ class AppLocalizationsId extends AppLocalizations {
   String pageJuz(int page, int juz) {
     return 'Halaman $page · Juz $juz';
   }
+
+  @override
+  String get library => 'Perpustakaan';
+
+  @override
+  String get openBook => 'Buka kitab';
+
+  @override
+  String get tableOfContents => 'Daftar isi';
+
+  @override
+  String chapterPage(int chapter, int page, int total) {
+    return 'Bab $chapter · Halaman $page / $total';
+  }
+
+  @override
+  String get listView => 'Tampilan daftar';
+
+  @override
+  String get downloadPdf => 'Unduh PDF';
+
+  @override
+  String get downloadChapterPdf => 'Unduh bab ini sebagai PDF';
+
+  @override
+  String get downloadBookPdf => 'Unduh seluruh kitab sebagai PDF';
+
+  @override
+  String preparingPdf(int done, int total) {
+    return 'Mengambil bab… $done / $total';
+  }
+
+  @override
+  String get renderingPdf => 'Membuat PDF…';
+
+  @override
+  String pdfFailed(String error) {
+    return 'Tidak dapat membuat PDF: $error';
+  }
+
+  @override
+  String hadithsCount(int count) {
+    return '$count hadis';
+  }
+
+  @override
+  String byAuthor(String author) {
+    return 'oleh $author';
+  }
 }

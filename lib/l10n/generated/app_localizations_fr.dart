@@ -1045,4 +1045,53 @@ class AppLocalizationsFr extends AppLocalizations {
   String pageJuz(int page, int juz) {
     return 'Page $page · Juz $juz';
   }
+
+  @override
+  String get library => 'Bibliothèque';
+
+  @override
+  String get openBook => 'Ouvrir le livre';
+
+  @override
+  String get tableOfContents => 'Sommaire';
+
+  @override
+  String chapterPage(int chapter, int page, int total) {
+    return 'Chapitre $chapter · Page $page / $total';
+  }
+
+  @override
+  String get listView => 'Vue liste';
+
+  @override
+  String get downloadPdf => 'Télécharger en PDF';
+
+  @override
+  String get downloadChapterPdf => 'Télécharger ce chapitre en PDF';
+
+  @override
+  String get downloadBookPdf => 'Télécharger tout le livre en PDF';
+
+  @override
+  String preparingPdf(int done, int total) {
+    return 'Récupération des chapitres… $done / $total';
+  }
+
+  @override
+  String get renderingPdf => 'Génération du PDF…';
+
+  @override
+  String pdfFailed(String error) {
+    return 'Impossible de créer le PDF : $error';
+  }
+
+  @override
+  String hadithsCount(int count) {
+    return '$count hadiths';
+  }
+
+  @override
+  String byAuthor(String author) {
+    return 'par $author';
+  }
 }

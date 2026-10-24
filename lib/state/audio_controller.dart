@@ -83,6 +83,22 @@ class AudioController extends Notifier<AudioState> {
   AudioState build() {
     _player = AudioPlayer(playerId: 'quran_plus');
     _player.setReleaseMode(ReleaseMode.stop);
+    _player.setPlayerMode(PlayerMode.mediaPlayer);
+    // Play through the media channel so iPhones play even with the silent
+    // switch on, and Android gives us audio focus like a music app.
+    AudioPlayer.global.setAudioContext(AudioContext(
+      iOS: AudioContextIOS(
+        category: AVAudioSessionCategory.playback,
+        options: const {AVAudioSessionOptions.defaultToSpeaker},
+      ),
+      android: const AudioContextAndroid(
+        isSpeakerphoneOn: false,
+        stayAwake: true,
+        contentType: AndroidContentType.speech,
+        usageType: AndroidUsageType.media,
+        audioFocus: AndroidAudioFocus.gain,
+      ),
+    ));
     _subs.addAll([
       _player.onPlayerStateChanged.listen((s) {
         if (s == PlayerState.playing) {
@@ -146,9 +162,11 @@ class AudioController extends Notifier<AudioState> {
       clearError: true,
     );
     try {
-      await _player.stop();
+      // Start playback directly (no awaited stop first): mobile browsers only
+      // allow audio to start inside the user's tap, and an awaited call in
+      // between can lose that permission.
+      await _player.play(UrlSource(_urlFor(globalAyah)), mode: PlayerMode.mediaPlayer);
       if (token != _token) return;
-      await _player.play(UrlSource(_urlFor(globalAyah)));
     } catch (e) {
       if (token != _token) return;
       state = state.copyWith(loading: false, playing: false, error: 'Could not play audio ($e)');
@@ -158,9 +176,9 @@ class AudioController extends Notifier<AudioState> {
   Future<void> _replay() async {
     final token = ++_token;
     try {
-      await _player.stop();
+      await _player.seek(Duration.zero);
       if (token != _token) return;
-      await _player.play(UrlSource(_urlFor(state.ayah!)));
+      await _player.resume();
     } catch (_) {}
   }
 

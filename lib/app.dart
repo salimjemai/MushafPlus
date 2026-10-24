@@ -6,6 +6,7 @@ import 'core/l10n.dart';
 import 'core/theme.dart';
 import 'data/quran_repository.dart';
 import 'features/bookmarks/bookmarks_screen.dart';
+import 'features/hadith/hadith_book_screen.dart';
 import 'features/hadith/hadith_screens.dart';
 import 'features/home/home_shell.dart';
 import 'features/home/surah_list_screen.dart';
@@ -37,8 +38,16 @@ final _router = GoRouter(
           routes: [
             GoRoute(
               path: ':book',
-              builder: (c, s) => HadithBookScreen(bookId: s.pathParameters['book']!),
+              builder: (c, s) => HadithBookReaderScreen(
+                bookId: s.pathParameters['book']!,
+                chapter: int.tryParse(s.uri.queryParameters['chapter'] ?? ''),
+                page: int.tryParse(s.uri.queryParameters['page'] ?? ''),
+              ),
               routes: [
+                GoRoute(
+                  path: 'contents',
+                  builder: (c, s) => HadithBookScreen(bookId: s.pathParameters['book']!),
+                ),
                 GoRoute(
                   path: ':section',
                   builder: (c, s) => HadithSectionScreen(
