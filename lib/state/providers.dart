@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/theme.dart';
+import '../data/hadith_service.dart';
 import '../data/models.dart';
 import '../data/quran_repository.dart';
 import '../data/reciters.dart';
@@ -9,6 +10,7 @@ import '../data/storage.dart';
 import '../data/tafsir_service.dart';
 import '../data/translation_service.dart';
 import '../data/word_by_word_service.dart';
+import 'reading_stats.dart';
 
 // ---------------------------------------------------------------------------
 // Core data
@@ -24,6 +26,16 @@ final wordByWordServiceProvider =
 
 final tafsirServiceProvider =
     Provider<TafsirService>((ref) => TafsirService(cache: Storage.cache));
+
+final hadithServiceProvider = Provider<HadithService>((ref) => HadithService(cache: Storage.cache));
+
+final hadithBooksProvider = FutureProvider<List<HadithBook>>((ref) => ref.watch(hadithServiceProvider).books());
+
+typedef HadithSectionKey = ({String book, int section, String lang});
+
+final hadithSectionProvider = FutureProvider.family<List<Hadith>, HadithSectionKey>((ref, k) {
+  return ref.watch(hadithServiceProvider).section(k.book, k.section, k.lang);
+});
 
 typedef TafsirKey = ({int id, String key});
 
@@ -76,6 +88,7 @@ class AppSettings {
     this.arabicFont = ArabicStyles.quranFont,
     this.reciter = defaultReciterId,
     this.tafsirId = defaultTafsirId,
+    this.hadithLanguage = 'eng',
   });
 
   final ThemeMode themeMode;
@@ -89,6 +102,7 @@ class AppSettings {
   final String arabicFont;
   final String reciter;
   final int tafsirId;
+  final String hadithLanguage;
 
   static const maxTranslations = 4;
 
@@ -104,6 +118,7 @@ class AppSettings {
     String? arabicFont,
     String? reciter,
     int? tafsirId,
+    String? hadithLanguage,
   }) {
     return AppSettings(
       themeMode: themeMode ?? this.themeMode,
@@ -117,6 +132,7 @@ class AppSettings {
       arabicFont: arabicFont ?? this.arabicFont,
       reciter: reciter ?? this.reciter,
       tafsirId: tafsirId ?? this.tafsirId,
+      hadithLanguage: hadithLanguage ?? this.hadithLanguage,
     );
   }
 
@@ -132,6 +148,7 @@ class AppSettings {
         'arabicFont': arabicFont,
         'reciter': reciter,
         'tafsirId': tafsirId,
+        'hadithLanguage': hadithLanguage,
       };
 
   factory AppSettings.fromMap(Map<dynamic, dynamic> m) {
@@ -148,6 +165,7 @@ class AppSettings {
       arabicFont: (m['arabicFont'] as String?) ?? d.arabicFont,
       reciter: (m['reciter'] as String?) ?? d.reciter,
       tafsirId: (m['tafsirId'] as int?) ?? d.tafsirId,
+      hadithLanguage: (m['hadithLanguage'] as String?) ?? d.hadithLanguage,
     );
   }
 }
@@ -177,6 +195,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setArabicFont(String f) => _update(state.copyWith(arabicFont: f));
   void setReciter(String id) => _update(state.copyWith(reciter: id));
   void setTafsirId(int id) => _update(state.copyWith(tafsirId: id));
+  void setHadithLanguage(String l) => _update(state.copyWith(hadithLanguage: l));
 
   /// Adds or removes a translation edition. Returns false when the limit is hit.
   bool toggleTranslation(String edition) {
@@ -252,6 +271,7 @@ class LastReadNotifier extends Notifier<LastRead?> {
   }
 
   void set(int ayahNumber) {
+    ref.read(readingStatsProvider.notifier).recordRead(ayahNumber);
     if (state?.ayahNumber == ayahNumber) return;
     final v = LastRead(ayahNumber: ayahNumber, at: DateTime.now());
     state = v;

@@ -12,6 +12,7 @@ class HomeShell extends StatelessWidget {
   static const _destinations = [
     (path: '/', icon: Icons.menu_book_outlined, selected: Icons.menu_book, label: 'Read'),
     (path: '/search', icon: Icons.search, selected: Icons.search, label: 'Search'),
+    (path: '/hadith', icon: Icons.format_quote_outlined, selected: Icons.format_quote, label: 'Hadith'),
     (path: '/bookmarks', icon: Icons.bookmark_border, selected: Icons.bookmark, label: 'Saved'),
     (path: '/settings', icon: Icons.tune_outlined, selected: Icons.tune, label: 'Settings'),
   ];

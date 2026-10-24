@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'core/theme.dart';
 import 'data/quran_repository.dart';
 import 'features/bookmarks/bookmarks_screen.dart';
+import 'features/hadith/hadith_screens.dart';
 import 'features/home/home_shell.dart';
 import 'features/home/surah_list_screen.dart';
 import 'features/memorize/memorize_screen.dart';
+import 'features/plan/plan_screen.dart';
 import 'features/reader/page_reader_screen.dart';
 import 'features/reader/reader_screen.dart';
 import 'features/search/search_screen.dart';
@@ -25,6 +27,25 @@ final _router = GoRouter(
       routes: [
         GoRoute(path: '/', builder: (c, s) => const SurahListScreen()),
         GoRoute(path: '/search', builder: (c, s) => const SearchScreen()),
+        GoRoute(
+          path: '/hadith',
+          builder: (c, s) => const HadithBooksScreen(),
+          routes: [
+            GoRoute(
+              path: ':book',
+              builder: (c, s) => HadithBookScreen(bookId: s.pathParameters['book']!),
+              routes: [
+                GoRoute(
+                  path: ':section',
+                  builder: (c, s) => HadithSectionScreen(
+                    bookId: s.pathParameters['book']!,
+                    section: int.tryParse(s.pathParameters['section'] ?? '') ?? 1,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
         GoRoute(path: '/bookmarks', builder: (c, s) => const BookmarksScreen()),
         GoRoute(
           path: '/settings',
@@ -42,6 +63,7 @@ final _router = GoRouter(
         ),
       ],
     ),
+    GoRoute(path: '/plan', builder: (c, s) => const PlanScreen()),
     GoRoute(
       path: '/memorize/:n',
       builder: (c, s) {

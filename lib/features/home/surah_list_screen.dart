@@ -8,7 +8,9 @@ import '../../data/models.dart';
 import '../../data/quran_repository.dart';
 import '../../data/translation_service.dart';
 import '../../state/providers.dart';
+import '../../state/reading_stats.dart';
 import '../../widgets/surah_number_badge.dart';
+import '../plan/plan_screen.dart';
 
 enum _Tab { surahs, juz, pages }
 
@@ -61,6 +63,8 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
             children: [
               if (showHero) ...[
                 const _ContinueReadingCard(),
+                const SizedBox(height: 12),
+                const _TodayCard(),
                 const SizedBox(height: 12),
                 const _VerseOfTheDayCard(),
                 const SizedBox(height: 16),
@@ -347,6 +351,68 @@ class _ContinueReadingCard extends ConsumerWidget {
               style: ArabicStyles.surahName(context, size: 28, color: Colors.white),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Daily goal ring, streak and khatm status; opens the plan screen.
+class _TodayCard extends ConsumerWidget {
+  const _TodayCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stats = ref.watch(readingStatsProvider);
+    final lastRead = ref.watch(lastReadProvider)?.ayahNumber ?? 1;
+    final scheme = Theme.of(context).colorScheme;
+    final plan = stats.plan;
+    final behind = plan == null ? 0 : plan.targetAyahFor(DateTime.now()) - lastRead;
+
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () => context.push('/plan'),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Row(
+            children: [
+              GoalRing(
+                progress: stats.readToday / stats.dailyGoal,
+                label: '${stats.readToday}',
+                sublabel: '/ ${stats.dailyGoal}',
+                size: 64,
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Text('Today', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                        const SizedBox(width: 10),
+                        Icon(Icons.local_fire_department, size: 16, color: AppColors.gold),
+                        Text(' ${stats.streak}', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13)),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      plan == null
+                          ? 'Daily goal ${stats.dailyGoal} ayahs · tap to start a khatm plan'
+                          : behind <= 0
+                              ? 'Khatm plan: on track · day ${plan.dayNumber(DateTime.now()).clamp(1, plan.days)}/${plan.days}'
+                              : 'Khatm plan: $behind ayahs behind · day ${plan.dayNumber(DateTime.now()).clamp(1, plan.days)}/${plan.days}',
+                      style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
+            ],
+          ),
         ),
       ),
     );
