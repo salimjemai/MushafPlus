@@ -359,5 +359,14 @@
   "animationCurl": "Pli de page",
   "animationFlip": "Retournement",
   "animationSlide": "Glissement",
-  "animationFade": "Fondu"
+  "animationFade": "Fondu",
+  "highlight": "Surligner",
+  "removeHighlight": "Retirer le surlignage",
+  "note": "Note",
+  "noteHint": "Écrivez votre réflexion ou rappel pour ce verset…",
+  "noteSaved": "Note enregistrée",
+  "noteHelp": "Les notes restent sur cet appareil. Les versets surlignés sont colorés sur les pages du Mushaf.",
+  "continuous": "Lecture continue",
+  "repeatEach": "Répéter",
+  "verseDetails": "Détails du verset"
 }

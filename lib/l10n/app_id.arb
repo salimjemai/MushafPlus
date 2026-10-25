@@ -359,5 +359,14 @@
   "animationCurl": "Lipatan halaman",
   "animationFlip": "Balik kartu",
   "animationSlide": "Geser",
-  "animationFade": "Pudar"
+  "animationFade": "Pudar",
+  "highlight": "Sorot",
+  "removeHighlight": "Hapus sorotan",
+  "note": "Catatan",
+  "noteHint": "Tulis renungan atau pengingat untuk ayat ini…",
+  "noteSaved": "Catatan tersimpan",
+  "noteHelp": "Catatan tersimpan di perangkat ini. Ayat yang disorot diwarnai pada halaman Mushaf.",
+  "continuous": "Lanjut otomatis",
+  "repeatEach": "Ulangi",
+  "verseDetails": "Detail ayat"
 }

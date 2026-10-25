@@ -359,5 +359,14 @@
   "animationCurl": "Sayfa kıvrımı",
   "animationFlip": "Kart çevirme",
   "animationSlide": "Kaydırma",
-  "animationFade": "Solma"
+  "animationFade": "Solma",
+  "highlight": "Vurgula",
+  "removeHighlight": "Vurguyu kaldır",
+  "note": "Not",
+  "noteHint": "Bu ayet için düşüncenizi veya hatırlatmanızı yazın…",
+  "noteSaved": "Not kaydedildi",
+  "noteHelp": "Notlar bu cihazda kalır. Vurgulanan ayetler Mushaf sayfalarında renkli görünür.",
+  "continuous": "Otomatik devam",
+  "repeatEach": "Tekrar",
+  "verseDetails": "Ayet ayrıntıları"
 }

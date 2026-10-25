@@ -204,7 +204,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const MiniPlayer(showLocation: false),
+          const ListenBar(),
           _SurahNavBar(surah: surah),
         ],
       ),

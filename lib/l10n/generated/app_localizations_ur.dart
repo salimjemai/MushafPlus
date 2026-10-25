@@ -1269,4 +1269,32 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get animationFade => 'فیڈ';
+
+  @override
+  String get highlight => 'نمایاں';
+
+  @override
+  String get removeHighlight => 'نمایاں ہٹائیں';
+
+  @override
+  String get note => 'نوٹ';
+
+  @override
+  String get noteHint => 'اس آیت کے لیے اپنا تدبر یا یاد دہانی لکھیں…';
+
+  @override
+  String get noteSaved => 'نوٹ محفوظ';
+
+  @override
+  String get noteHelp =>
+      'نوٹس اسی آلے پر رہتے ہیں۔ نمایاں آیات مصحف کے صفحات پر رنگین دکھائی دیتی ہیں۔';
+
+  @override
+  String get continuous => 'خودکار جاری';
+
+  @override
+  String get repeatEach => 'دہرائیں';
+
+  @override
+  String get verseDetails => 'آیت کی تفصیل';
 }

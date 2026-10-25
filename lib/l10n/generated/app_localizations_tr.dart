@@ -1274,4 +1274,32 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get animationFade => 'Solma';
+
+  @override
+  String get highlight => 'Vurgula';
+
+  @override
+  String get removeHighlight => 'Vurguyu kaldır';
+
+  @override
+  String get note => 'Not';
+
+  @override
+  String get noteHint => 'Bu ayet için düşüncenizi veya hatırlatmanızı yazın…';
+
+  @override
+  String get noteSaved => 'Not kaydedildi';
+
+  @override
+  String get noteHelp =>
+      'Notlar bu cihazda kalır. Vurgulanan ayetler Mushaf sayfalarında renkli görünür.';
+
+  @override
+  String get continuous => 'Otomatik devam';
+
+  @override
+  String get repeatEach => 'Tekrar';
+
+  @override
+  String get verseDetails => 'Ayet ayrıntıları';
 }

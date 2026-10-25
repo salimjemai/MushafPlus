@@ -359,5 +359,14 @@
   "animationCurl": "طيّ الورقة",
   "animationFlip": "قلب البطاقة",
   "animationSlide": "انزلاق",
-  "animationFade": "تلاشٍ"
+  "animationFade": "تلاشٍ",
+  "highlight": "تمييز",
+  "removeHighlight": "إزالة التمييز",
+  "note": "ملاحظة",
+  "noteHint": "اكتب تأملك أو تذكيرك لهذه الآية…",
+  "noteSaved": "تم حفظ الملاحظة",
+  "noteHelp": "تبقى الملاحظات على هذا الجهاز. تظهر الآيات المميزة ملوّنة في صفحات المصحف.",
+  "continuous": "متابعة تلقائية",
+  "repeatEach": "تكرار",
+  "verseDetails": "تفاصيل الآية"
 }

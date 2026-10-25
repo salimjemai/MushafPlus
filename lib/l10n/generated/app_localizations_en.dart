@@ -1275,4 +1275,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get animationFade => 'Fade';
+
+  @override
+  String get highlight => 'Highlight';
+
+  @override
+  String get removeHighlight => 'Remove highlight';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get noteHint => 'Write your reflection or reminder for this ayah…';
+
+  @override
+  String get noteSaved => 'Note saved';
+
+  @override
+  String get noteHelp =>
+      'Notes stay on this device. Highlighted ayahs are coloured on the Mushaf pages.';
+
+  @override
+  String get continuous => 'Auto-continue';
+
+  @override
+  String get repeatEach => 'Repeat';
+
+  @override
+  String get verseDetails => 'Verse details';
 }

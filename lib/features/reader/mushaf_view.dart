@@ -129,6 +129,27 @@ class _MushafTextState extends ConsumerState<MushafText> {
     final scheme = Theme.of(context).colorScheme;
     final base = widget.style ?? ArabicStyles.ayah(context, scale: settings.arabicScale, font: settings.arabicFont);
     final playingAyah = ref.watch(audioProvider.select((a) => a.ayah));
+    final highlights = ref.watch(highlightsProvider);
+    final notes = ref.watch(notesProvider);
+    final dark = Theme.of(context).brightness == Brightness.dark;
+
+    TextStyle styleFor(Ayah a) {
+      Color? bg;
+      if (playingAyah == a.number) {
+        bg = scheme.primary.withValues(alpha: 0.22);
+      } else if (_selected == a.number) {
+        bg = highlightColors[0].withValues(alpha: dark ? 0.35 : 0.6); // QuranFlash yellow
+      } else if (highlights.containsKey(a.number)) {
+        bg = highlightColors[highlights[a.number]!].withValues(alpha: dark ? 0.3 : 0.5);
+      }
+      final noted = notes.containsKey(a.number);
+      return base.copyWith(
+        backgroundColor: bg,
+        decoration: noted ? TextDecoration.underline : null,
+        decorationStyle: noted ? TextDecorationStyle.dotted : null,
+        decorationColor: noted ? scheme.secondary : null,
+      );
+    }
 
     return Text.rich(
       TextSpan(
@@ -137,11 +158,7 @@ class _MushafTextState extends ConsumerState<MushafText> {
             TextSpan(
               text: widget.ayahs[i].text,
               recognizer: _recognizers[i],
-              style: playingAyah == widget.ayahs[i].number
-                  ? base.copyWith(backgroundColor: scheme.primary.withValues(alpha: 0.22))
-                  : _selected == widget.ayahs[i].number
-                      ? base.copyWith(backgroundColor: scheme.secondary.withValues(alpha: 0.22))
-                      : base,
+              style: styleFor(widget.ayahs[i]),
             ),
             TextSpan(
               text: ' ${ayahEndMarker(widget.ayahs[i].numberInSurah)} ',

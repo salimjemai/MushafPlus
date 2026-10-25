@@ -1269,4 +1269,32 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get animationFade => 'تلاشٍ';
+
+  @override
+  String get highlight => 'تمييز';
+
+  @override
+  String get removeHighlight => 'إزالة التمييز';
+
+  @override
+  String get note => 'ملاحظة';
+
+  @override
+  String get noteHint => 'اكتب تأملك أو تذكيرك لهذه الآية…';
+
+  @override
+  String get noteSaved => 'تم حفظ الملاحظة';
+
+  @override
+  String get noteHelp =>
+      'تبقى الملاحظات على هذا الجهاز. تظهر الآيات المميزة ملوّنة في صفحات المصحف.';
+
+  @override
+  String get continuous => 'متابعة تلقائية';
+
+  @override
+  String get repeatEach => 'تكرار';
+
+  @override
+  String get verseDetails => 'تفاصيل الآية';
 }

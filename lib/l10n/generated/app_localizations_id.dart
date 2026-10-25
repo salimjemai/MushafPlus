@@ -1275,4 +1275,32 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get animationFade => 'Pudar';
+
+  @override
+  String get highlight => 'Sorot';
+
+  @override
+  String get removeHighlight => 'Hapus sorotan';
+
+  @override
+  String get note => 'Catatan';
+
+  @override
+  String get noteHint => 'Tulis renungan atau pengingat untuk ayat ini…';
+
+  @override
+  String get noteSaved => 'Catatan tersimpan';
+
+  @override
+  String get noteHelp =>
+      'Catatan tersimpan di perangkat ini. Ayat yang disorot diwarnai pada halaman Mushaf.';
+
+  @override
+  String get continuous => 'Lanjut otomatis';
+
+  @override
+  String get repeatEach => 'Ulangi';
+
+  @override
+  String get verseDetails => 'Detail ayat';
 }

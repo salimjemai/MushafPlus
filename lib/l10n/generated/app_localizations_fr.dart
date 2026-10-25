@@ -1281,4 +1281,32 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get animationFade => 'Fondu';
+
+  @override
+  String get highlight => 'Surligner';
+
+  @override
+  String get removeHighlight => 'Retirer le surlignage';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get noteHint => 'Écrivez votre réflexion ou rappel pour ce verset…';
+
+  @override
+  String get noteSaved => 'Note enregistrée';
+
+  @override
+  String get noteHelp =>
+      'Les notes restent sur cet appareil. Les versets surlignés sont colorés sur les pages du Mushaf.';
+
+  @override
+  String get continuous => 'Lecture continue';
+
+  @override
+  String get repeatEach => 'Répéter';
+
+  @override
+  String get verseDetails => 'Détails du verset';
 }

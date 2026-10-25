@@ -15,9 +15,10 @@ import '../../state/providers.dart';
 import '../../widgets/book_spread.dart';
 import '../../widgets/mini_player.dart';
 import '../../widgets/mushaf_cover.dart';
-import '../reader/ayah_actions.dart';
+import '../../widgets/surah_number_badge.dart';
 import '../reader/mushaf_view.dart';
 import '../reader/reader_settings_sheet.dart';
+import '../reader/verse_panel.dart';
 
 /// The Quran as a printed book: 604 pages in a vertical scroll, a one-page
 /// flip, or a two-page spread you flip like a real Mushaf.
@@ -35,6 +36,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
   final _book = BookSpreadController(); // two-page book
   final _scroll = ItemScrollController();
   final _positions = ItemPositionsListener.create();
+  final _scaffold = GlobalKey<ScaffoldState>();
   bool _programmatic = false;
 
   /// The book starts closed on its cover when opened at the first page.
@@ -142,6 +144,11 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
         });
 
         return Scaffold(
+          key: _scaffold,
+          drawer: _ChaptersDrawer(onPage: (p) {
+            Navigator.of(context).pop();
+            _goTo(p, layout);
+          }),
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -160,6 +167,11 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
               ],
             ),
             actions: [
+              IconButton(
+                tooltip: l.tableOfContents,
+                icon: const Icon(Icons.toc),
+                onPressed: () => _scaffold.currentState?.openDrawer(),
+              ),
               IconButton(
                 tooltip: l.playThisPage,
                 icon: const Icon(Icons.play_circle_outline),
@@ -206,7 +218,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const MiniPlayer(showLocation: false),
+              const ListenBar(),
               _PageBar(
                 page: _page,
                 onChanged: (p) => _goTo(p, layout),
@@ -248,7 +260,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: MushafPage(
                 page: i + 1,
-                onAyahTap: (a) => showAyahActions(context, ref, a)),
+                onAyahTap: (a) => showVersePanel(context, a)),
           ),
         ),
       ),
@@ -278,7 +290,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
             child: _FitPage(
                 page: i + 1,
-                onAyahTap: (a) => showAyahActions(context, ref, a)),
+                onAyahTap: (a) => showVersePanel(context, a)),
           ),
         ),
       ),
@@ -293,7 +305,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
         : MushafPage(
             key: ValueKey('book-$page'),
             page: page,
-            onAyahTap: (a) => showAyahActions(context, ref, a),
+            onAyahTap: (a) => showVersePanel(context, a),
             fitToPage: true,
           );
     return Container(
@@ -381,6 +393,96 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
     );
     controller.dispose();
     if (result != null) _goTo(result, layout);
+  }
+}
+
+/// QuranFlash-style side drawer: Suras, Juz and Bookmarks, each jumping to
+/// the page where the item starts.
+class _ChaptersDrawer extends ConsumerWidget {
+  const _ChaptersDrawer({required this.onPage});
+  final ValueChanged<int> onPage;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final repo = ref.quran;
+    final scheme = Theme.of(context).colorScheme;
+    final bookmarks = ref.watch(bookmarksProvider);
+    return Drawer(
+      width: 320,
+      child: SafeArea(
+        child: DefaultTabController(
+          length: 3,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                child: Row(children: [
+                  Icon(Icons.menu_book, color: scheme.primary),
+                  const SizedBox(width: 10),
+                  Text(l.tableOfContents, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                ]),
+              ),
+              TabBar(tabs: [Tab(text: l.tabSurah), Tab(text: l.tabJuz), Tab(text: l.navSaved)]),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    ListView.builder(
+                      itemCount: repo.surahs.length,
+                      itemBuilder: (context, i) {
+                        final s = repo.surahs[i];
+                        return ListTile(
+                          dense: true,
+                          leading: SurahNumberBadge(number: s.number),
+                          title: Text(s.englishName),
+                          subtitle: Text('${l.pageN(s.startPage)} · ${s.numberOfAyahs}', style: const TextStyle(fontSize: 11.5)),
+                          trailing: Text(s.name, style: ArabicStyles.surahName(context, size: 18)),
+                          onTap: () => onPage(s.startPage),
+                        );
+                      },
+                    ),
+                    ListView.builder(
+                      itemCount: repo.juzs.length,
+                      itemBuilder: (context, i) {
+                        final j = repo.juzs[i];
+                        final a = repo.ayah(j.startAyah);
+                        final s = repo.surah(a.surah);
+                        return ListTile(
+                          dense: true,
+                          leading: CircleAvatar(radius: 16, child: Text('${j.number}', style: const TextStyle(fontSize: 13))),
+                          title: Text(l.juzN(j.number)),
+                          subtitle: Text('${s.englishName} ${a.numberInSurah} · ${l.pageN(a.page)}', style: const TextStyle(fontSize: 11.5)),
+                          trailing: Text(s.name, style: ArabicStyles.surahName(context, size: 16)),
+                          onTap: () => onPage(a.page),
+                        );
+                      },
+                    ),
+                    bookmarks.isEmpty
+                        ? Center(child: Padding(padding: const EdgeInsets.all(24), child: Text(l.noBookmarksYet, style: TextStyle(color: scheme.onSurfaceVariant))))
+                        : ListView.builder(
+                            itemCount: bookmarks.length,
+                            itemBuilder: (context, i) {
+                              final a = repo.ayah(bookmarks[i].ayahNumber);
+                              final s = repo.surah(a.surah);
+                              return ListTile(
+                                dense: true,
+                                leading: Icon(Icons.bookmark, color: scheme.secondary),
+                                title: Text('${s.englishName} · ${l.ayahN(a.numberInSurah)}'),
+                                subtitle: Text(a.text, maxLines: 1, overflow: TextOverflow.ellipsis, textDirection: TextDirection.rtl,
+                                    style: const TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 14)),
+                                trailing: Text(l.pageN(a.page), style: const TextStyle(fontSize: 11.5)),
+                                onTap: () => onPage(a.page),
+                              );
+                            },
+                          ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

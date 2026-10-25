@@ -359,5 +359,14 @@
   "animationCurl": "ورق کا مڑنا",
   "animationFlip": "کارڈ فلپ",
   "animationSlide": "سلائیڈ",
-  "animationFade": "فیڈ"
+  "animationFade": "فیڈ",
+  "highlight": "نمایاں",
+  "removeHighlight": "نمایاں ہٹائیں",
+  "note": "نوٹ",
+  "noteHint": "اس آیت کے لیے اپنا تدبر یا یاد دہانی لکھیں…",
+  "noteSaved": "نوٹ محفوظ",
+  "noteHelp": "نوٹس اسی آلے پر رہتے ہیں۔ نمایاں آیات مصحف کے صفحات پر رنگین دکھائی دیتی ہیں۔",
+  "continuous": "خودکار جاری",
+  "repeatEach": "دہرائیں",
+  "verseDetails": "آیت کی تفصیل"
 }

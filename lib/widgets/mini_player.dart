@@ -139,3 +139,88 @@ class ReciterDropdown extends ConsumerWidget {
     );
   }
 }
+
+/// QuranFlash-style listen bar: the mini player plus AUTO (continue past the
+/// ayah), repeat-each-ayah count, reciter picker and a seek slider.
+class ListenBar extends ConsumerWidget {
+  const ListenBar({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final audio = ref.watch(audioProvider);
+    if (!audio.isActive) return const SizedBox.shrink();
+    final l = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
+    final ctrl = ref.read(audioProvider.notifier);
+    final total = audio.duration.inMilliseconds;
+    final pos = audio.position.inMilliseconds.clamp(0, total == 0 ? 0 : total);
+
+    return Material(
+      color: scheme.surfaceContainerHigh,
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const MiniPlayer(showLocation: false),
+            if (total > 0)
+              SizedBox(
+                height: 22,
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 2,
+                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+                  ),
+                  child: Slider(
+                    value: pos.toDouble(),
+                    max: total.toDouble(),
+                    onChanged: (v) => ctrl.seek(Duration(milliseconds: v.round())),
+                  ),
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 6),
+              child: Row(
+                children: [
+                  FilterChip(
+                    label: Text(l.continuous),
+                    avatar: Icon(Icons.all_inclusive, size: 16, color: audio.continuous ? scheme.onSecondaryContainer : null),
+                    selected: audio.continuous,
+                    visualDensity: VisualDensity.compact,
+                    onSelected: ctrl.setContinuous,
+                  ),
+                  const SizedBox(width: 8),
+                  PopupMenuButton<int>(
+                    tooltip: l.repeatEach,
+                    initialValue: audio.repeatEach,
+                    onSelected: ctrl.setRepeatEach,
+                    itemBuilder: (_) => [
+                      for (final n in const [1, 2, 3, 5, 7, 10])
+                        PopupMenuItem(value: n, child: Text(n == 1 ? '${l.repeatEach}: —' : '${l.repeatEach} ×$n')),
+                    ],
+                    child: Chip(
+                      avatar: Icon(Icons.repeat_one, size: 16, color: audio.repeatEach > 1 ? scheme.primary : null),
+                      label: Text(audio.repeatEach > 1 ? '×${audio.repeatEach}' : l.repeatEach),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: DefaultTextStyle.merge(
+                        style: const TextStyle(fontSize: 12.5),
+                        child: const ReciterDropdown(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

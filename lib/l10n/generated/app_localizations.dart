@@ -2265,6 +2265,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fade'**
   String get animationFade;
+
+  /// No description provided for @highlight.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight'**
+  String get highlight;
+
+  /// No description provided for @removeHighlight.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove highlight'**
+  String get removeHighlight;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get note;
+
+  /// No description provided for @noteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your reflection or reminder for this ayah…'**
+  String get noteHint;
+
+  /// No description provided for @noteSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Note saved'**
+  String get noteSaved;
+
+  /// No description provided for @noteHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes stay on this device. Highlighted ayahs are coloured on the Mushaf pages.'**
+  String get noteHelp;
+
+  /// No description provided for @continuous.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-continue'**
+  String get continuous;
+
+  /// No description provided for @repeatEach.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get repeatEach;
+
+  /// No description provided for @verseDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Verse details'**
+  String get verseDetails;
 }
 
 class _AppLocalizationsDelegate

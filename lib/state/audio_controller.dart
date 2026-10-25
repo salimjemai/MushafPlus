@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/audio_backend.dart';
+import '../data/quran_repository.dart';
 import '../data/downloads.dart';
 import '../data/reciters.dart';
 import 'providers.dart';
@@ -17,6 +18,7 @@ class AudioState {
     this.playing = false,
     this.loading = false,
     this.loop = false,
+    this.continuous = true,
     this.repeatEach = 1,
     this.position = Duration.zero,
     this.duration = Duration.zero,
@@ -32,6 +34,10 @@ class AudioState {
 
   /// When true, playback restarts from [rangeStart] after [rangeEnd].
   final bool loop;
+
+  /// AUTO: keep reciting past the tapped ayah (to the end of the Quran)
+  /// instead of stopping after it.
+  final bool continuous;
 
   /// How many times each ayah is repeated before advancing (memorisation).
   final int repeatEach;
@@ -49,6 +55,7 @@ class AudioState {
     bool? playing,
     bool? loading,
     bool? loop,
+    bool? continuous,
     int? repeatEach,
     Duration? position,
     Duration? duration,
@@ -62,6 +69,7 @@ class AudioState {
       playing: playing ?? this.playing,
       loading: loading ?? this.loading,
       loop: loop ?? this.loop,
+      continuous: continuous ?? this.continuous,
       repeatEach: repeatEach ?? this.repeatEach,
       position: position ?? this.position,
       duration: duration ?? this.duration,
@@ -115,15 +123,13 @@ class AudioController extends Notifier<AudioState> {
     return _reciter.ayahUrl(a.surah, a.numberInSurah);
   }
 
-  /// Plays a single ayah; continues to the end of its surah afterwards.
+  /// Plays a single ayah; with AUTO on it continues to the end of the Quran,
+  /// otherwise it stops after the ayah (unless [until] is given).
   /// Everything up to the player's play call runs synchronously so that the
   /// call stays inside the user's tap (required by iOS Safari).
   Future<void> playAyah(int globalAyah, {int? until}) {
-    final repo = ref.read(repositoryProvider).requireValue;
-    final a = repo.ayah(globalAyah);
-    final s = repo.surah(a.surah);
-    final end = until ?? (s.startAyah + s.numberOfAyahs - 1);
-    state = state.copyWith(rangeStart: globalAyah, rangeEnd: end, loop: false, repeatEach: 1);
+    final end = until ?? (state.continuous ? QuranRepository.totalAyahs : globalAyah);
+    state = state.copyWith(rangeStart: globalAyah, rangeEnd: end, loop: false);
     return _load(globalAyah);
   }
 
@@ -197,6 +203,20 @@ class AudioController extends Notifier<AudioState> {
   }
 
   Future<void> pause() => _player.pause();
+
+  /// AUTO toggle: extend or cut the current range at the playing ayah.
+  void setContinuous(bool on) {
+    final a = state.ayah;
+    state = state.copyWith(
+      continuous: on,
+      rangeEnd: a == null ? null : (on ? QuranRepository.totalAyahs : a),
+    );
+  }
+
+  /// Repeat every ayah [n] times before moving on (1 = no repeat).
+  void setRepeatEach(int n) {
+    state = state.copyWith(repeatEach: n.clamp(1, 20));
+  }
 
   Future<void> next() {
     final a = state.ayah;

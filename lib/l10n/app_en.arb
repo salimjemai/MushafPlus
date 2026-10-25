@@ -990,5 +990,14 @@
   "animationCurl": "Page curl",
   "animationFlip": "Card flip",
   "animationSlide": "Slide",
-  "animationFade": "Fade"
+  "animationFade": "Fade",
+  "highlight": "Highlight",
+  "removeHighlight": "Remove highlight",
+  "note": "Note",
+  "noteHint": "Write your reflection or reminder for this ayah…",
+  "noteSaved": "Note saved",
+  "noteHelp": "Notes stay on this device. Highlighted ayahs are coloured on the Mushaf pages.",
+  "continuous": "Auto-continue",
+  "repeatEach": "Repeat",
+  "verseDetails": "Verse details"
 }

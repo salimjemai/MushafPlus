@@ -29,7 +29,7 @@ class HadithBookReaderScreen extends ConsumerStatefulWidget {
 /// page of its own and is scaled down.
 // A page holds about 38 lines of 13px translation (~4200 chars) or 21 lines
 // of 19px Arabic (~1575 chars), so Arabic characters weigh ~2.6x.
-const _pageBudget = 2900.0;
+const _pageBudget = 3300.0;
 const _arabicWeight = 2.6;
 const _arabicChunk = 900; // raw characters, roughly 520 visible letters
 const _textChunk = 1000;

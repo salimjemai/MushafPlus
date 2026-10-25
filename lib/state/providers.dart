@@ -322,6 +322,65 @@ class LastReadNotifier extends Notifier<LastRead?> {
 final lastReadProvider =
     NotifierProvider<LastReadNotifier, LastRead?>(LastReadNotifier.new);
 
+/// Personal notes per ayah (global number -> text).
+class NotesNotifier extends Notifier<Map<int, String>> {
+  static const _key = 'notes';
+
+  @override
+  Map<int, String> build() {
+    final v = Storage.settings.get(_key);
+    if (v is Map) return {for (final e in v.entries) (e.key as num).toInt(): e.value as String};
+    return {};
+  }
+
+  void set(int ayahNumber, String text) {
+    final next = {...state};
+    if (text.trim().isEmpty) {
+      next.remove(ayahNumber);
+    } else {
+      next[ayahNumber] = text.trim();
+    }
+    state = next;
+    Storage.settings.put(_key, {for (final e in next.entries) e.key: e.value});
+  }
+}
+
+final notesProvider = NotifierProvider<NotesNotifier, Map<int, String>>(NotesNotifier.new);
+
+/// Highlight colour palette for marked ayahs.
+const highlightColors = <Color>[
+  Color(0xFFFFE066), // yellow
+  Color(0xFF9AE6A0), // green
+  Color(0xFF9CCBFF), // blue
+  Color(0xFFFFB3C7), // pink
+  Color(0xFFFFC98A), // orange
+];
+
+/// Highlighted ayahs (global number -> palette index).
+class HighlightsNotifier extends Notifier<Map<int, int>> {
+  static const _key = 'highlights';
+
+  @override
+  Map<int, int> build() {
+    final v = Storage.settings.get(_key);
+    if (v is Map) return {for (final e in v.entries) (e.key as num).toInt(): (e.value as num).toInt()};
+    return {};
+  }
+
+  void set(int ayahNumber, int? colorIndex) {
+    final next = {...state};
+    if (colorIndex == null) {
+      next.remove(ayahNumber);
+    } else {
+      next[ayahNumber] = colorIndex;
+    }
+    state = next;
+    Storage.settings.put(_key, {for (final e in next.entries) e.key: e.value});
+  }
+}
+
+final highlightsProvider = NotifierProvider<HighlightsNotifier, Map<int, int>>(HighlightsNotifier.new);
+
 /// Global ayah numbers the user has marked as memorised.
 class MemorizedNotifier extends Notifier<Set<int>> {
   static const _key = 'memorized';
