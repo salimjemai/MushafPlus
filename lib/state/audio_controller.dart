@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data/audio_backend.dart';
 import '../data/reciters.dart';
 import 'providers.dart';
 
@@ -74,44 +74,29 @@ class AudioState {
 /// Drives verse-by-verse recitation: plays one ayah, auto-advances through a
 /// range, optionally loops it, and repeats each ayah N times.
 class AudioController extends Notifier<AudioState> {
-  late final AudioPlayer _player;
+  late final AyahPlayer _player;
   final _subs = <StreamSubscription<dynamic>>[];
   int _token = 0;
   int _repeatsDone = 0;
 
   @override
   AudioState build() {
-    _player = AudioPlayer(playerId: 'quran_plus');
-    _player.setReleaseMode(ReleaseMode.stop);
-    _player.setPlayerMode(PlayerMode.mediaPlayer);
-    // Play through the media channel so iPhones play even with the silent
-    // switch on, and Android gives us audio focus like a music app.
-    AudioPlayer.global.setAudioContext(AudioContext(
-      iOS: AudioContextIOS(
-        category: AVAudioSessionCategory.playback,
-        options: const {AVAudioSessionOptions.defaultToSpeaker},
-      ),
-      android: const AudioContextAndroid(
-        isSpeakerphoneOn: false,
-        stayAwake: true,
-        contentType: AndroidContentType.speech,
-        usageType: AndroidUsageType.media,
-        audioFocus: AndroidAudioFocus.gain,
-      ),
-    ));
+    _player = createAyahPlayer();
     _subs.addAll([
-      _player.onPlayerStateChanged.listen((s) {
-        if (s == PlayerState.playing) {
-          state = state.copyWith(playing: true, loading: false, clearError: true);
-        } else if (s == PlayerState.paused) {
-          state = state.copyWith(playing: false);
-        } else if (s == PlayerState.stopped) {
-          state = state.copyWith(playing: false, loading: false);
+      _player.status.listen((s) {
+        switch (s) {
+          case PlayerStatus.playing:
+            state = state.copyWith(playing: true, loading: false, clearError: true);
+          case PlayerStatus.paused:
+            state = state.copyWith(playing: false);
+          case PlayerStatus.stopped:
+            state = state.copyWith(playing: false, loading: false);
         }
       }),
-      _player.onPositionChanged.listen((p) => state = state.copyWith(position: p)),
-      _player.onDurationChanged.listen((d) => state = state.copyWith(duration: d)),
-      _player.onPlayerComplete.listen((_) => _onComplete()),
+      _player.position.listen((p) => state = state.copyWith(position: p)),
+      _player.duration.listen((d) => state = state.copyWith(duration: d)),
+      _player.completed.listen((_) => _onComplete()),
+      _player.errors.listen((e) => state = state.copyWith(loading: false, playing: false, error: e)),
     ]);
     ref.onDispose(() {
       for (final s in _subs) {
@@ -130,24 +115,26 @@ class AudioController extends Notifier<AudioState> {
   }
 
   /// Plays a single ayah; continues to the end of its surah afterwards.
-  Future<void> playAyah(int globalAyah, {int? until}) async {
+  /// Everything up to the player's play call runs synchronously so that the
+  /// call stays inside the user's tap (required by iOS Safari).
+  Future<void> playAyah(int globalAyah, {int? until}) {
     final repo = ref.read(repositoryProvider).requireValue;
     final a = repo.ayah(globalAyah);
     final s = repo.surah(a.surah);
     final end = until ?? (s.startAyah + s.numberOfAyahs - 1);
     state = state.copyWith(rangeStart: globalAyah, rangeEnd: end, loop: false, repeatEach: 1);
-    await _load(globalAyah);
+    return _load(globalAyah);
   }
 
-  Future<void> playSurah(int surahNumber) async {
+  Future<void> playSurah(int surahNumber) {
     final s = ref.read(repositoryProvider).requireValue.surah(surahNumber);
-    await playAyah(s.startAyah, until: s.startAyah + s.numberOfAyahs - 1);
+    return playAyah(s.startAyah, until: s.startAyah + s.numberOfAyahs - 1);
   }
 
   /// Memorisation playback: loop [from]..[to], repeating each ayah [repeatEach] times.
-  Future<void> playRange(int from, int to, {int repeatEach = 1, bool loop = true}) async {
+  Future<void> playRange(int from, int to, {int repeatEach = 1, bool loop = true}) {
     state = state.copyWith(rangeStart: from, rangeEnd: to, loop: loop, repeatEach: repeatEach);
-    await _load(from);
+    return _load(from);
   }
 
   Future<void> _load(int globalAyah) async {
@@ -162,11 +149,7 @@ class AudioController extends Notifier<AudioState> {
       clearError: true,
     );
     try {
-      // Start playback directly (no awaited stop first): mobile browsers only
-      // allow audio to start inside the user's tap, and an awaited call in
-      // between can lose that permission.
-      await _player.play(UrlSource(_urlFor(globalAyah)), mode: PlayerMode.mediaPlayer);
-      if (token != _token) return;
+      await _player.play(_urlFor(globalAyah));
     } catch (e) {
       if (token != _token) return;
       state = state.copyWith(loading: false, playing: false, error: 'Could not play audio ($e)');
@@ -174,10 +157,8 @@ class AudioController extends Notifier<AudioState> {
   }
 
   Future<void> _replay() async {
-    final token = ++_token;
     try {
       await _player.seek(Duration.zero);
-      if (token != _token) return;
       await _player.resume();
     } catch (_) {}
   }
@@ -200,35 +181,27 @@ class AudioController extends Notifier<AudioState> {
     }
   }
 
-  Future<void> toggle() async {
-    if (state.ayah == null) return;
-    if (state.playing) {
-      await _player.pause();
-    } else if (state.position > Duration.zero) {
-      await _player.resume();
-    } else {
-      await _load(state.ayah!);
-    }
+  Future<void> toggle() {
+    if (state.ayah == null) return Future.value();
+    if (state.playing) return _player.pause();
+    if (state.position > Duration.zero) return _player.resume();
+    return _load(state.ayah!);
   }
 
   Future<void> pause() => _player.pause();
 
-  Future<void> next() async {
+  Future<void> next() {
     final a = state.ayah;
-    if (a == null) return;
+    if (a == null) return Future.value();
     final end = state.rangeEnd ?? a;
-    if (a < end) await _load(a + 1);
+    return a < end ? _load(a + 1) : Future.value();
   }
 
-  Future<void> previous() async {
+  Future<void> previous() {
     final a = state.ayah;
-    if (a == null) return;
+    if (a == null) return Future.value();
     final start = state.rangeStart ?? a;
-    if (a > start) {
-      await _load(a - 1);
-    } else {
-      await _player.seek(Duration.zero);
-    }
+    return a > start ? _load(a - 1) : _player.seek(Duration.zero);
   }
 
   Future<void> seek(Duration d) => _player.seek(d);
