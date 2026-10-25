@@ -1084,4 +1084,73 @@ class AppLocalizationsAr extends AppLocalizations {
   String byAuthor(String author) {
     return 'تأليف $author';
   }
+
+  @override
+  String get reciteAndCheck => 'تسميع وتصحيح';
+
+  @override
+  String get reciteFromHere => 'التسميع من هنا';
+
+  @override
+  String get reciteSubtitle => 'سمّع من حفظك؛ يستمع التطبيق ويعلّم كل كلمة';
+
+  @override
+  String ayahRangeLabel(int from, int to) {
+    return 'الآيات $from–$to';
+  }
+
+  @override
+  String get accuracy => 'الدقة';
+
+  @override
+  String get matchedWords => 'صحيحة';
+
+  @override
+  String get wrongWords => 'خطأ';
+
+  @override
+  String get missedWords => 'ساقطة';
+
+  @override
+  String wordsReached(int reached, int total) {
+    return 'تمت تلاوة $reached من $total كلمة';
+  }
+
+  @override
+  String get listening => 'جارٍ الاستماع…';
+
+  @override
+  String get waitingForSpeech => 'في انتظار الصوت…';
+
+  @override
+  String get tapMicToStart => 'اضغط الميكروفون وابدأ التسميع';
+
+  @override
+  String get heard => 'المسموع';
+
+  @override
+  String get notInPassage => 'كلمات ليست في المقطع';
+
+  @override
+  String get hideText => 'إخفاء النص (للحفظ)';
+
+  @override
+  String get showText => 'إظهار النص';
+
+  @override
+  String get hint => 'تلميح';
+
+  @override
+  String get reset => 'إعادة';
+
+  @override
+  String get playThisAyah => 'تشغيل هذه الآية';
+
+  @override
+  String get speechUnavailable =>
+      'التعرف على الكلام غير متاح. اسمح بالوصول إلى الميكروفون أو استخدم متصفح Chrome على الويب.';
+
+  @override
+  String get reciteHelp =>
+      'سمّع بوضوح وبوتيرة ثابتة. يعمل التعرف بشكل أفضل في مكان هادئ؛ الكلمات الصحيحة تصبح خضراء، والزلات برتقالية، والساقطة حمراء.';
 }

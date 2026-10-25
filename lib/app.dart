@@ -17,6 +17,7 @@ import 'features/prayer/monthly_timetable_screen.dart';
 import 'features/prayer/prayer_screen.dart';
 import 'features/mushaf/mushaf_book_screen.dart';
 import 'features/reader/reader_screen.dart';
+import 'features/recite/recite_screen.dart';
 import 'features/search/search_screen.dart';
 import 'features/settings/offline_packs_screen.dart';
 import 'features/settings/settings_screen.dart';
@@ -97,6 +98,17 @@ final _routes = <RouteBase>[
       ],
     ),
     GoRoute(path: '/plan', builder: (c, s) => const PlanScreen()),
+    GoRoute(
+      path: '/recite/:n',
+      builder: (c, s) {
+        final n = (int.tryParse(s.pathParameters['n'] ?? '') ?? 1).clamp(1, 114);
+        return ReciteScreen(
+          surah: n,
+          from: int.tryParse(s.uri.queryParameters['from'] ?? ''),
+          to: int.tryParse(s.uri.queryParameters['to'] ?? ''),
+        );
+      },
+    ),
     GoRoute(
       path: '/memorize/:n',
       builder: (c, s) {

@@ -1089,4 +1089,74 @@ class AppLocalizationsEn extends AppLocalizations {
   String byAuthor(String author) {
     return 'by $author';
   }
+
+  @override
+  String get reciteAndCheck => 'Recite & check';
+
+  @override
+  String get reciteFromHere => 'Recite from here';
+
+  @override
+  String get reciteSubtitle =>
+      'Recite from memory; the app listens and marks each word';
+
+  @override
+  String ayahRangeLabel(int from, int to) {
+    return 'Ayahs $from–$to';
+  }
+
+  @override
+  String get accuracy => 'accuracy';
+
+  @override
+  String get matchedWords => 'correct';
+
+  @override
+  String get wrongWords => 'wrong';
+
+  @override
+  String get missedWords => 'missed';
+
+  @override
+  String wordsReached(int reached, int total) {
+    return '$reached of $total words recited';
+  }
+
+  @override
+  String get listening => 'Listening…';
+
+  @override
+  String get waitingForSpeech => 'Waiting for speech…';
+
+  @override
+  String get tapMicToStart => 'Tap the microphone and start reciting';
+
+  @override
+  String get heard => 'Heard';
+
+  @override
+  String get notInPassage => 'Words not in the passage';
+
+  @override
+  String get hideText => 'Hide the text (memorisation)';
+
+  @override
+  String get showText => 'Show the text';
+
+  @override
+  String get hint => 'Hint';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get playThisAyah => 'Play this ayah';
+
+  @override
+  String get speechUnavailable =>
+      'Speech recognition is not available. Allow microphone access, or use Chrome on the web.';
+
+  @override
+  String get reciteHelp =>
+      'Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red.';
 }

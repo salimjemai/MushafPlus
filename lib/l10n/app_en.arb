@@ -859,5 +859,46 @@
         "type": "String"
       }
     }
-  }
+  },
+  "reciteAndCheck": "Recite & check",
+  "reciteFromHere": "Recite from here",
+  "reciteSubtitle": "Recite from memory; the app listens and marks each word",
+  "ayahRangeLabel": "Ayahs {from}–{to}",
+  "@ayahRangeLabel": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "accuracy": "accuracy",
+  "matchedWords": "correct",
+  "wrongWords": "wrong",
+  "missedWords": "missed",
+  "wordsReached": "{reached} of {total} words recited",
+  "@wordsReached": {
+    "placeholders": {
+      "reached": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "listening": "Listening…",
+  "waitingForSpeech": "Waiting for speech…",
+  "tapMicToStart": "Tap the microphone and start reciting",
+  "heard": "Heard",
+  "notInPassage": "Words not in the passage",
+  "hideText": "Hide the text (memorisation)",
+  "showText": "Show the text",
+  "hint": "Hint",
+  "reset": "Reset",
+  "playThisAyah": "Play this ayah",
+  "speechUnavailable": "Speech recognition is not available. Allow microphone access, or use Chrome on the web.",
+  "reciteHelp": "Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red."
 }

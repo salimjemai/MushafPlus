@@ -28,5 +28,9 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to listen to your recitation and check it against the Quran text.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Used to recognise the words of your recitation.</string>
 </dict>
 </plist>

@@ -24,6 +24,7 @@ dependencies:
   pdf: ^3.11.0
   printing: ^5.13.0
   web: ^1.1.0
+  speech_to_text: ^7.0.0
   cupertino_icons: ^1.0.8
 
 dev_dependencies:

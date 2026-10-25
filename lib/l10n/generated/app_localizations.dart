@@ -1953,6 +1953,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'by {author}'**
   String byAuthor(String author);
+
+  /// No description provided for @reciteAndCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Recite & check'**
+  String get reciteAndCheck;
+
+  /// No description provided for @reciteFromHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Recite from here'**
+  String get reciteFromHere;
+
+  /// No description provided for @reciteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recite from memory; the app listens and marks each word'**
+  String get reciteSubtitle;
+
+  /// No description provided for @ayahRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayahs {from}–{to}'**
+  String ayahRangeLabel(int from, int to);
+
+  /// No description provided for @accuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'accuracy'**
+  String get accuracy;
+
+  /// No description provided for @matchedWords.
+  ///
+  /// In en, this message translates to:
+  /// **'correct'**
+  String get matchedWords;
+
+  /// No description provided for @wrongWords.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong'**
+  String get wrongWords;
+
+  /// No description provided for @missedWords.
+  ///
+  /// In en, this message translates to:
+  /// **'missed'**
+  String get missedWords;
+
+  /// No description provided for @wordsReached.
+  ///
+  /// In en, this message translates to:
+  /// **'{reached} of {total} words recited'**
+  String wordsReached(int reached, int total);
+
+  /// No description provided for @listening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening…'**
+  String get listening;
+
+  /// No description provided for @waitingForSpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for speech…'**
+  String get waitingForSpeech;
+
+  /// No description provided for @tapMicToStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the microphone and start reciting'**
+  String get tapMicToStart;
+
+  /// No description provided for @heard.
+  ///
+  /// In en, this message translates to:
+  /// **'Heard'**
+  String get heard;
+
+  /// No description provided for @notInPassage.
+  ///
+  /// In en, this message translates to:
+  /// **'Words not in the passage'**
+  String get notInPassage;
+
+  /// No description provided for @hideText.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the text (memorisation)'**
+  String get hideText;
+
+  /// No description provided for @showText.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the text'**
+  String get showText;
+
+  /// No description provided for @hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hint'**
+  String get hint;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @playThisAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'Play this ayah'**
+  String get playThisAyah;
+
+  /// No description provided for @speechUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech recognition is not available. Allow microphone access, or use Chrome on the web.'**
+  String get speechUnavailable;
+
+  /// No description provided for @reciteHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red.'**
+  String get reciteHelp;
 }
 
 class _AppLocalizationsDelegate

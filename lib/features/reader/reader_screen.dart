@@ -153,6 +153,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               switch (v) {
                 case 'memorize':
                   context.go('/memorize/${surah.number}');
+                case 'recite':
+                  context.go('/recite/${surah.number}');
                 case 'page':
                   context.go('/mushaf?page=${surah.startPage}');
                 case 'play':
@@ -162,6 +164,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             itemBuilder: (context) => [
               PopupMenuItem(value: 'play', child: ListTile(leading: const Icon(Icons.play_arrow), title: Text(l.playSurah))),
               PopupMenuItem(value: 'memorize', child: ListTile(leading: const Icon(Icons.psychology_outlined), title: Text(l.memorizeThisSurah))),
+              PopupMenuItem(value: 'recite', child: ListTile(leading: const Icon(Icons.mic_none), title: Text(l.reciteAndCheck))),
               PopupMenuItem(value: 'page', child: ListTile(leading: const Icon(Icons.auto_stories), title: Text(l.openInMushaf))),
             ],
           ),

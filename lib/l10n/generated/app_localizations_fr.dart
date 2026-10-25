@@ -1094,4 +1094,74 @@ class AppLocalizationsFr extends AppLocalizations {
   String byAuthor(String author) {
     return 'par $author';
   }
+
+  @override
+  String get reciteAndCheck => 'Réciter et vérifier';
+
+  @override
+  String get reciteFromHere => 'Réciter à partir d\'ici';
+
+  @override
+  String get reciteSubtitle =>
+      'Récitez de mémoire ; l\'application écoute et note chaque mot';
+
+  @override
+  String ayahRangeLabel(int from, int to) {
+    return 'Versets $from–$to';
+  }
+
+  @override
+  String get accuracy => 'précision';
+
+  @override
+  String get matchedWords => 'justes';
+
+  @override
+  String get wrongWords => 'erronés';
+
+  @override
+  String get missedWords => 'omis';
+
+  @override
+  String wordsReached(int reached, int total) {
+    return '$reached mots sur $total récités';
+  }
+
+  @override
+  String get listening => 'Écoute…';
+
+  @override
+  String get waitingForSpeech => 'En attente de la voix…';
+
+  @override
+  String get tapMicToStart => 'Touchez le micro et commencez à réciter';
+
+  @override
+  String get heard => 'Entendu';
+
+  @override
+  String get notInPassage => 'Mots absents du passage';
+
+  @override
+  String get hideText => 'Masquer le texte (mémorisation)';
+
+  @override
+  String get showText => 'Afficher le texte';
+
+  @override
+  String get hint => 'Indice';
+
+  @override
+  String get reset => 'Réinitialiser';
+
+  @override
+  String get playThisAyah => 'Écouter ce verset';
+
+  @override
+  String get speechUnavailable =>
+      'La reconnaissance vocale n\'est pas disponible. Autorisez le micro ou utilisez Chrome sur le web.';
+
+  @override
+  String get reciteHelp =>
+      'Récitez clairement et à un rythme régulier, dans un endroit calme ; les mots justes passent au vert, les écarts en orange, les mots omis en rouge.';
 }

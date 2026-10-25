@@ -1089,4 +1089,74 @@ class AppLocalizationsId extends AppLocalizations {
   String byAuthor(String author) {
     return 'oleh $author';
   }
+
+  @override
+  String get reciteAndCheck => 'Setor & periksa';
+
+  @override
+  String get reciteFromHere => 'Setor dari sini';
+
+  @override
+  String get reciteSubtitle =>
+      'Bacakan dari hafalan; aplikasi mendengar dan menandai tiap kata';
+
+  @override
+  String ayahRangeLabel(int from, int to) {
+    return 'Ayat $from–$to';
+  }
+
+  @override
+  String get accuracy => 'akurasi';
+
+  @override
+  String get matchedWords => 'benar';
+
+  @override
+  String get wrongWords => 'salah';
+
+  @override
+  String get missedWords => 'terlewat';
+
+  @override
+  String wordsReached(int reached, int total) {
+    return '$reached dari $total kata dibacakan';
+  }
+
+  @override
+  String get listening => 'Mendengarkan…';
+
+  @override
+  String get waitingForSpeech => 'Menunggu suara…';
+
+  @override
+  String get tapMicToStart => 'Ketuk mikrofon dan mulai membaca';
+
+  @override
+  String get heard => 'Terdengar';
+
+  @override
+  String get notInPassage => 'Kata yang tidak ada dalam bacaan';
+
+  @override
+  String get hideText => 'Sembunyikan teks (hafalan)';
+
+  @override
+  String get showText => 'Tampilkan teks';
+
+  @override
+  String get hint => 'Petunjuk';
+
+  @override
+  String get reset => 'Ulangi';
+
+  @override
+  String get playThisAyah => 'Putar ayat ini';
+
+  @override
+  String get speechUnavailable =>
+      'Pengenalan suara tidak tersedia. Izinkan akses mikrofon, atau gunakan Chrome di web.';
+
+  @override
+  String get reciteHelp =>
+      'Bacalah dengan jelas dan tempo stabil di tempat tenang; kata benar menjadi hijau, keliru oranye, terlewat merah.';
 }

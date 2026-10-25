@@ -143,6 +143,15 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                   },
                 ),
                 ListTile(
+                  leading: const Icon(Icons.mic_none),
+                  title: Text(l.reciteFromHere),
+                  subtitle: Text(l.reciteSubtitle),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    context.go('/recite/${ayah.surah}?from=${ayah.numberInSurah}');
+                  },
+                ),
+                ListTile(
                   leading: const Icon(Icons.copy_outlined),
                   title: Text(l.copy),
                   onTap: () async {

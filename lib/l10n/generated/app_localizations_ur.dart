@@ -1083,4 +1083,74 @@ class AppLocalizationsUr extends AppLocalizations {
   String byAuthor(String author) {
     return 'از $author';
   }
+
+  @override
+  String get reciteAndCheck => 'سنائیں اور جانچیں';
+
+  @override
+  String get reciteFromHere => 'یہاں سے سنائیں';
+
+  @override
+  String get reciteSubtitle =>
+      'حفظ سے سنائیں؛ ایپ سنتی ہے اور ہر لفظ کو نشان زد کرتی ہے';
+
+  @override
+  String ayahRangeLabel(int from, int to) {
+    return 'آیات $from–$to';
+  }
+
+  @override
+  String get accuracy => 'درستگی';
+
+  @override
+  String get matchedWords => 'درست';
+
+  @override
+  String get wrongWords => 'غلط';
+
+  @override
+  String get missedWords => 'چھوٹے';
+
+  @override
+  String wordsReached(int reached, int total) {
+    return '$total میں سے $reached الفاظ سنائے گئے';
+  }
+
+  @override
+  String get listening => 'سن رہا ہے…';
+
+  @override
+  String get waitingForSpeech => 'آواز کا انتظار…';
+
+  @override
+  String get tapMicToStart => 'مائیک دبائیں اور سنانا شروع کریں';
+
+  @override
+  String get heard => 'سنا گیا';
+
+  @override
+  String get notInPassage => 'ایسے الفاظ جو اقتباس میں نہیں';
+
+  @override
+  String get hideText => 'متن چھپائیں (حفظ)';
+
+  @override
+  String get showText => 'متن دکھائیں';
+
+  @override
+  String get hint => 'اشارہ';
+
+  @override
+  String get reset => 'دوبارہ';
+
+  @override
+  String get playThisAyah => 'یہ آیت چلائیں';
+
+  @override
+  String get speechUnavailable =>
+      'آواز کی شناخت دستیاب نہیں۔ مائیکروفون کی اجازت دیں یا ویب پر Chrome استعمال کریں۔';
+
+  @override
+  String get reciteHelp =>
+      'صاف اور یکساں رفتار سے سنائیں۔ پرسکون جگہ میں شناخت بہتر ہوتی ہے؛ درست الفاظ سبز، لغزشیں نارنجی اور چھوٹے ہوئے الفاظ سرخ ہو جاتے ہیں۔';
 }

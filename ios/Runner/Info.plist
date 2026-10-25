@@ -70,5 +70,9 @@
 		<string>Used to find your masjid's precise location for prayer times.</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
-	</dict>
+		<key>NSMicrophoneUsageDescription</key>
+	<string>Used to listen to your recitation and check it against the Quran text.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Used to recognise the words of your recitation.</string>
+</dict>
 </plist>

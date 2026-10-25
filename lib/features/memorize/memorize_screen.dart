@@ -96,6 +96,11 @@ class _MemorizeScreenState extends ConsumerState<MemorizeScreen> {
         ),
         actions: [
           IconButton(
+            tooltip: l.reciteAndCheck,
+            icon: const Icon(Icons.mic_none),
+            onPressed: () => context.push('/recite/${surah.number}?from=$_from&to=$_to'),
+          ),
+          IconButton(
             tooltip: l.changeRange,
             icon: const Icon(Icons.tune),
             onPressed: () => _pickRange(context, surah),

@@ -1088,4 +1088,74 @@ class AppLocalizationsTr extends AppLocalizations {
   String byAuthor(String author) {
     return '$author tarafından';
   }
+
+  @override
+  String get reciteAndCheck => 'Oku ve kontrol et';
+
+  @override
+  String get reciteFromHere => 'Buradan oku';
+
+  @override
+  String get reciteSubtitle =>
+      'Ezberden okuyun; uygulama dinler ve her kelimeyi işaretler';
+
+  @override
+  String ayahRangeLabel(int from, int to) {
+    return 'Ayetler $from–$to';
+  }
+
+  @override
+  String get accuracy => 'doğruluk';
+
+  @override
+  String get matchedWords => 'doğru';
+
+  @override
+  String get wrongWords => 'yanlış';
+
+  @override
+  String get missedWords => 'atlanan';
+
+  @override
+  String wordsReached(int reached, int total) {
+    return '$total kelimeden $reached tanesi okundu';
+  }
+
+  @override
+  String get listening => 'Dinleniyor…';
+
+  @override
+  String get waitingForSpeech => 'Ses bekleniyor…';
+
+  @override
+  String get tapMicToStart => 'Mikrofona dokunun ve okumaya başlayın';
+
+  @override
+  String get heard => 'Duyulan';
+
+  @override
+  String get notInPassage => 'Pasajda olmayan kelimeler';
+
+  @override
+  String get hideText => 'Metni gizle (ezber)';
+
+  @override
+  String get showText => 'Metni göster';
+
+  @override
+  String get hint => 'İpucu';
+
+  @override
+  String get reset => 'Sıfırla';
+
+  @override
+  String get playThisAyah => 'Bu ayeti dinle';
+
+  @override
+  String get speechUnavailable =>
+      'Konuşma tanıma kullanılamıyor. Mikrofon iznini verin veya web\'de Chrome kullanın.';
+
+  @override
+  String get reciteHelp =>
+      'Sessiz bir yerde açık ve düzenli bir tempoda okuyun; doğru kelimeler yeşil, hatalar turuncu, atlananlar kırmızı olur.';
 }
