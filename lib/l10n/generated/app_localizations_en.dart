@@ -1159,4 +1159,120 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reciteHelp =>
       'Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red.';
+
+  @override
+  String get qibla => 'Qibla';
+
+  @override
+  String get qiblaBearing => 'Qibla bearing from true north';
+
+  @override
+  String get qiblaNeedsLocation =>
+      'The Qibla is computed from your location. Use your device\'s GPS, or set up a masjid first.';
+
+  @override
+  String distanceToMakkah(int km) {
+    return '$km km to Makkah';
+  }
+
+  @override
+  String headingDegrees(int degrees) {
+    return 'Heading $degrees°';
+  }
+
+  @override
+  String get facingQibla => 'You are facing the Qibla';
+
+  @override
+  String get compassWaiting =>
+      'Waiting for the compass… move your phone in a figure of eight to calibrate.';
+
+  @override
+  String get compassUnavailable =>
+      'No compass on this device: hold a compass or map and turn to the bearing above.';
+
+  @override
+  String turnToQibla(String direction, int degrees) {
+    return 'Turn $direction by $degrees°';
+  }
+
+  @override
+  String get left => 'left';
+
+  @override
+  String get right => 'right';
+
+  @override
+  String get qiblaHelp =>
+      'Keep the phone flat and away from magnets or metal. The Kaaba marker on the dial shows the Qibla; the arrow at the top is where you are facing.';
+
+  @override
+  String get adhan => 'Adhan';
+
+  @override
+  String get adhanIntro =>
+      'Listen to the call to prayer from different muezzins, download any recording, and choose the default used for your prayer times.';
+
+  @override
+  String get adhanCredits =>
+      'Recordings courtesy of the Internet Archive collections \"adhans\" and \"azan-alafasy\".';
+
+  @override
+  String downloaded(String name) {
+    return 'Downloaded $name';
+  }
+
+  @override
+  String downloadFailed(String error) {
+    return 'Download failed: $error';
+  }
+
+  @override
+  String get downloadSurahAudio => 'Download surah audio for offline';
+
+  @override
+  String get downloadAyahAudio => 'Download this ayah\'s audio (MP3)';
+
+  @override
+  String get offlineAudioNativeOnly =>
+      'Offline audio is kept in the mobile and desktop apps; on the web, download single ayahs.';
+
+  @override
+  String surahAudioSaved(String surah) {
+    return '$surah saved for offline listening';
+  }
+
+  @override
+  String get downloadForOffline => 'Download for offline reading';
+
+  @override
+  String savedForOffline(String name) {
+    return '$name saved for offline reading';
+  }
+
+  @override
+  String get playAdhan => 'Play adhan';
+
+  @override
+  String adhanForNext(String prayer) {
+    return 'Adhan for $prayer';
+  }
+
+  @override
+  String get chooseAdhan => 'Choose adhan';
+
+  @override
+  String get pageAnimation => 'Page animation';
+
+  @override
+  String get animationCurl => 'Page curl';
+
+  @override
+  String get animationFlip => 'Card flip';
+
+  @override
+  String get animationSlide => 'Slide';
+
+  @override
+  String get animationFade => 'Fade';
 }

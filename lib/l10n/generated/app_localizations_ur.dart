@@ -1153,4 +1153,120 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get reciteHelp =>
       'صاف اور یکساں رفتار سے سنائیں۔ پرسکون جگہ میں شناخت بہتر ہوتی ہے؛ درست الفاظ سبز، لغزشیں نارنجی اور چھوٹے ہوئے الفاظ سرخ ہو جاتے ہیں۔';
+
+  @override
+  String get qibla => 'قبلہ';
+
+  @override
+  String get qiblaBearing => 'حقیقی شمال سے قبلے کا رخ';
+
+  @override
+  String get qiblaNeedsLocation =>
+      'قبلہ آپ کے مقام سے معلوم ہوتا ہے۔ آلے کا GPS استعمال کریں یا پہلے مسجد ترتیب دیں۔';
+
+  @override
+  String distanceToMakkah(int km) {
+    return 'مکہ تک $km کلومیٹر';
+  }
+
+  @override
+  String headingDegrees(int degrees) {
+    return 'رخ $degrees°';
+  }
+
+  @override
+  String get facingQibla => 'آپ کا رخ قبلے کی طرف ہے';
+
+  @override
+  String get compassWaiting =>
+      'قطب نما کا انتظار… کیلیبریشن کے لیے فون کو 8 کی شکل میں گھمائیں۔';
+
+  @override
+  String get compassUnavailable =>
+      'اس آلے میں قطب نما نہیں: قطب نما یا نقشہ استعمال کریں اور اوپر دیے زاویے کی طرف مڑیں۔';
+
+  @override
+  String turnToQibla(String direction, int degrees) {
+    return '$direction $degrees° مڑیں';
+  }
+
+  @override
+  String get left => 'بائیں';
+
+  @override
+  String get right => 'دائیں';
+
+  @override
+  String get qiblaHelp =>
+      'فون کو ہموار اور مقناطیس یا دھات سے دور رکھیں۔ ڈائل پر کعبہ کا نشان قبلہ دکھاتا ہے؛ اوپر کا تیر آپ کا رخ ہے۔';
+
+  @override
+  String get adhan => 'اذان';
+
+  @override
+  String get adhanIntro =>
+      'مختلف مؤذنوں کی اذان سنیں، کوئی بھی ریکارڈنگ ڈاؤن لوڈ کریں اور اپنے اوقاتِ نماز کے لیے طے شدہ اذان منتخب کریں۔';
+
+  @override
+  String get adhanCredits =>
+      'ریکارڈنگز انٹرنیٹ آرکائیو کے \"adhans\" اور \"azan-alafasy\" مجموعوں سے۔';
+
+  @override
+  String downloaded(String name) {
+    return '$name ڈاؤن لوڈ ہو گئی';
+  }
+
+  @override
+  String downloadFailed(String error) {
+    return 'ڈاؤن لوڈ ناکام: $error';
+  }
+
+  @override
+  String get downloadSurahAudio => 'سورت کی آڈیو آف لائن کے لیے ڈاؤن لوڈ کریں';
+
+  @override
+  String get downloadAyahAudio => 'اس آیت کی آڈیو ڈاؤن لوڈ کریں (MP3)';
+
+  @override
+  String get offlineAudioNativeOnly =>
+      'آف لائن آڈیو موبائل اور ڈیسک ٹاپ ایپس میں محفوظ رہتی ہے؛ ویب پر ایک ایک آیت ڈاؤن لوڈ کریں۔';
+
+  @override
+  String surahAudioSaved(String surah) {
+    return '$surah آف لائن سننے کے لیے محفوظ ہو گئی';
+  }
+
+  @override
+  String get downloadForOffline => 'آف لائن پڑھنے کے لیے ڈاؤن لوڈ کریں';
+
+  @override
+  String savedForOffline(String name) {
+    return '$name آف لائن پڑھنے کے لیے محفوظ';
+  }
+
+  @override
+  String get playAdhan => 'اذان چلائیں';
+
+  @override
+  String adhanForNext(String prayer) {
+    return '$prayer کی اذان';
+  }
+
+  @override
+  String get chooseAdhan => 'اذان منتخب کریں';
+
+  @override
+  String get pageAnimation => 'صفحے کی حرکت';
+
+  @override
+  String get animationCurl => 'ورق کا مڑنا';
+
+  @override
+  String get animationFlip => 'کارڈ فلپ';
+
+  @override
+  String get animationSlide => 'سلائیڈ';
+
+  @override
+  String get animationFade => 'فیڈ';
 }

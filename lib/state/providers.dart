@@ -77,6 +77,9 @@ enum ReaderMode { translation, mushaf }
 /// How the Mushaf book is laid out.
 enum MushafLayout { auto, scroll, flip, book }
 
+/// How pages turn in the two-page book: paper curl, rigid flip, slide, fade.
+enum PageAnimation { curl, flip, slide, fade }
+
 @immutable
 class AppSettings {
   const AppSettings({
@@ -94,6 +97,8 @@ class AppSettings {
     this.hadithLanguage = 'eng',
     this.mushafLayout = MushafLayout.auto,
     this.locale,
+    this.pageAnimation = PageAnimation.curl,
+    this.adhanId = 'makkah',
   });
 
   final ThemeMode themeMode;
@@ -112,6 +117,10 @@ class AppSettings {
 
   /// Interface language code, or null to follow the system.
   final String? locale;
+  final PageAnimation pageAnimation;
+
+  /// Preferred adhan recording.
+  final String adhanId;
 
   static const maxTranslations = 4;
 
@@ -131,6 +140,8 @@ class AppSettings {
     MushafLayout? mushafLayout,
     String? locale,
     bool clearLocale = false,
+    PageAnimation? pageAnimation,
+    String? adhanId,
   }) {
     return AppSettings(
       themeMode: themeMode ?? this.themeMode,
@@ -147,6 +158,8 @@ class AppSettings {
       hadithLanguage: hadithLanguage ?? this.hadithLanguage,
       mushafLayout: mushafLayout ?? this.mushafLayout,
       locale: clearLocale ? null : (locale ?? this.locale),
+      pageAnimation: pageAnimation ?? this.pageAnimation,
+      adhanId: adhanId ?? this.adhanId,
     );
   }
 
@@ -165,6 +178,8 @@ class AppSettings {
         'hadithLanguage': hadithLanguage,
         'mushafLayout': mushafLayout.index,
         if (locale != null) 'locale': locale,
+        'pageAnimation': pageAnimation.index,
+        'adhanId': adhanId,
       };
 
   factory AppSettings.fromMap(Map<dynamic, dynamic> m) {
@@ -184,6 +199,8 @@ class AppSettings {
       hadithLanguage: (m['hadithLanguage'] as String?) ?? d.hadithLanguage,
       mushafLayout: MushafLayout.values[((m['mushafLayout'] as int?) ?? 0).clamp(0, MushafLayout.values.length - 1)],
       locale: m['locale'] as String?,
+      pageAnimation: PageAnimation.values[((m['pageAnimation'] as int?) ?? 0).clamp(0, PageAnimation.values.length - 1)],
+      adhanId: (m['adhanId'] as String?) ?? d.adhanId,
     );
   }
 }
@@ -215,6 +232,8 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setTafsirId(int id) => _update(state.copyWith(tafsirId: id));
   void setHadithLanguage(String l) => _update(state.copyWith(hadithLanguage: l));
   void setMushafLayout(MushafLayout l) => _update(state.copyWith(mushafLayout: l));
+  void setPageAnimation(PageAnimation a) => _update(state.copyWith(pageAnimation: a));
+  void setAdhanId(String id) => _update(state.copyWith(adhanId: id));
   void setLocale(String? code) =>
       _update(code == null ? state.copyWith(clearLocale: true) : state.copyWith(locale: code));
 

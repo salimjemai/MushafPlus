@@ -1158,4 +1158,120 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get reciteHelp =>
       'Sessiz bir yerde açık ve düzenli bir tempoda okuyun; doğru kelimeler yeşil, hatalar turuncu, atlananlar kırmızı olur.';
+
+  @override
+  String get qibla => 'Kıble';
+
+  @override
+  String get qiblaBearing => 'Gerçek kuzeye göre kıble açısı';
+
+  @override
+  String get qiblaNeedsLocation =>
+      'Kıble konumunuzdan hesaplanır. Cihazın GPS\'ini kullanın ya da önce bir cami ekleyin.';
+
+  @override
+  String distanceToMakkah(int km) {
+    return 'Mekke\'ye $km km';
+  }
+
+  @override
+  String headingDegrees(int degrees) {
+    return 'Yön $degrees°';
+  }
+
+  @override
+  String get facingQibla => 'Kıbleye dönüksünüz';
+
+  @override
+  String get compassWaiting =>
+      'Pusula bekleniyor… kalibrasyon için telefonu 8 çizer gibi hareket ettirin.';
+
+  @override
+  String get compassUnavailable =>
+      'Bu cihazda pusula yok: bir pusula ya da harita kullanıp yukarıdaki açıya dönün.';
+
+  @override
+  String turnToQibla(String direction, int degrees) {
+    return '$degrees° $direction dönün';
+  }
+
+  @override
+  String get left => 'sola';
+
+  @override
+  String get right => 'sağa';
+
+  @override
+  String get qiblaHelp =>
+      'Telefonu düz tutun, mıknatıs ve metalden uzak durun. Kadrandaki Kâbe işareti kıbleyi, üstteki ok baktığınız yönü gösterir.';
+
+  @override
+  String get adhan => 'Ezan';
+
+  @override
+  String get adhanIntro =>
+      'Farklı müezzinlerden ezan dinleyin, kaydı indirin ve namaz vakitleriniz için varsayılan ezanı seçin.';
+
+  @override
+  String get adhanCredits =>
+      'Kayıtlar Internet Archive \"adhans\" ve \"azan-alafasy\" koleksiyonlarından.';
+
+  @override
+  String downloaded(String name) {
+    return '$name indirildi';
+  }
+
+  @override
+  String downloadFailed(String error) {
+    return 'İndirme başarısız: $error';
+  }
+
+  @override
+  String get downloadSurahAudio => 'Sure sesini çevrimdışı için indir';
+
+  @override
+  String get downloadAyahAudio => 'Bu ayetin sesini indir (MP3)';
+
+  @override
+  String get offlineAudioNativeOnly =>
+      'Çevrimdışı ses mobil ve masaüstü uygulamalarda saklanır; web\'de ayetleri tek tek indirin.';
+
+  @override
+  String surahAudioSaved(String surah) {
+    return '$surah çevrimdışı dinleme için kaydedildi';
+  }
+
+  @override
+  String get downloadForOffline => 'Çevrimdışı okumak için indir';
+
+  @override
+  String savedForOffline(String name) {
+    return '$name çevrimdışı okuma için kaydedildi';
+  }
+
+  @override
+  String get playAdhan => 'Ezanı çal';
+
+  @override
+  String adhanForNext(String prayer) {
+    return '$prayer ezanı';
+  }
+
+  @override
+  String get chooseAdhan => 'Ezan seç';
+
+  @override
+  String get pageAnimation => 'Sayfa animasyonu';
+
+  @override
+  String get animationCurl => 'Sayfa kıvrımı';
+
+  @override
+  String get animationFlip => 'Kart çevirme';
+
+  @override
+  String get animationSlide => 'Kaydırma';
+
+  @override
+  String get animationFade => 'Solma';
 }

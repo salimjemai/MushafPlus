@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'hadith_export.dart';
+
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/hadith_service.dart';
@@ -59,10 +61,16 @@ class HadithBooksScreen extends ConsumerWidget {
                           crossAxisCount: columns,
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 18,
-                          childAspectRatio: 0.58,
+                          childAspectRatio: 0.52,
                         ),
                         delegate: SliverChildBuilderDelegate(
-                          (context, i) => BookCover(book: list[i], index: i, onTap: () => context.go('/hadith/${list[i].id}')),
+                          (context, i) => BookCover(
+                            book: list[i],
+                            index: i,
+                            onTap: () => context.go('/hadith/${list[i].id}'),
+                            onDownloadPdf: () => exportHadith(context, ref, list[i], pdf: true),
+                            onDownloadOffline: () => exportHadith(context, ref, list[i], pdf: false),
+                          ),
                           childCount: list.length,
                         ),
                       ),
@@ -108,10 +116,12 @@ const _coverColors = <List<Color>>[
 
 /// A leather-bound book cover with gold tooling, spine and the title in Arabic.
 class BookCover extends StatelessWidget {
-  const BookCover({super.key, required this.book, required this.index, this.onTap, this.showCaption = true});
+  const BookCover({super.key, required this.book, required this.index, this.onTap, this.showCaption = true, this.onDownloadPdf, this.onDownloadOffline});
   final HadithBook book;
   final int index;
   final VoidCallback? onTap;
+  final VoidCallback? onDownloadPdf;
+  final VoidCallback? onDownloadOffline;
 
   /// Show the title, author and count under the cover (library shelf).
   final bool showCaption;
@@ -140,9 +150,33 @@ class BookCover extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 11.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
         ),
-        Text(
-          l.hadithsCount(book.hadithCount),
-          style: TextStyle(fontSize: 11.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                l.hadithsCount(book.hadithCount),
+                style: TextStyle(fontSize: 11.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
+              ),
+            ),
+            if (onDownloadOffline != null)
+              IconButton(
+                tooltip: l.downloadForOffline,
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+                icon: const Icon(Icons.download_for_offline_outlined, size: 20),
+                onPressed: onDownloadOffline,
+              ),
+            if (onDownloadPdf != null)
+              IconButton(
+                tooltip: l.downloadBookPdf,
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+                icon: const Icon(Icons.picture_as_pdf_outlined, size: 20),
+                onPressed: onDownloadPdf,
+              ),
+          ],
         ),
       ],
     );

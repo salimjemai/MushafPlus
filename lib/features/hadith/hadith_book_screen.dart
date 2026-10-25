@@ -3,14 +3,13 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:printing/printing.dart';
 
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
-import '../../data/hadith_pdf.dart';
 import '../../data/hadith_service.dart';
 import '../../state/providers.dart';
 import '../../widgets/book_spread.dart';
+import 'hadith_export.dart';
 import 'hadith_screens.dart';
 
 /// Reads a hadith collection as a printed book: chapters are split into
@@ -30,10 +29,10 @@ class HadithBookReaderScreen extends ConsumerStatefulWidget {
 /// page of its own and is scaled down.
 // A page holds about 38 lines of 13px translation (~4200 chars) or 21 lines
 // of 19px Arabic (~1575 chars), so Arabic characters weigh ~2.6x.
-const _pageBudget = 4000.0;
+const _pageBudget = 2900.0;
 const _arabicWeight = 2.6;
-const _arabicChunk = 1200; // raw characters, roughly 700 visible letters
-const _textChunk = 1300;
+const _arabicChunk = 900; // raw characters, roughly 520 visible letters
+const _textChunk = 1000;
 
 /// Tashkeel and other combining marks take no horizontal space.
 final _combiningMarks = RegExp('[ؐ-ًؚ-ٰٟۖ-ۭ]');
@@ -210,9 +209,11 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
                     case 'list':
                       context.push('/hadith/${book.id}/${section.number}');
                     case 'pdf_chapter':
-                      _exportPdf(book, chapterOnly: section);
+                      exportHadith(context, ref, book, chapterOnly: section, pdf: true);
                     case 'pdf_book':
-                      _exportPdf(book);
+                      exportHadith(context, ref, book, pdf: true);
+                    case 'offline':
+                      exportHadith(context, ref, book, pdf: false);
                     case 'layout_auto':
                       ref.read(settingsProvider.notifier).setMushafLayout(MushafLayout.auto);
                     case 'layout_scroll':
@@ -227,6 +228,7 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
                   PopupMenuItem(value: 'list', child: ListTile(leading: const Icon(Icons.view_list_outlined), title: Text(l.listView))),
                   PopupMenuItem(value: 'pdf_chapter', child: ListTile(leading: const Icon(Icons.picture_as_pdf_outlined), title: Text(l.downloadChapterPdf))),
                   PopupMenuItem(value: 'pdf_book', child: ListTile(leading: const Icon(Icons.library_books_outlined), title: Text(l.downloadBookPdf))),
+                  PopupMenuItem(value: 'offline', child: ListTile(leading: const Icon(Icons.download_for_offline_outlined), title: Text(l.downloadForOffline))),
                   const PopupMenuDivider(),
                   _layoutItem('layout_auto', Icons.auto_awesome_outlined, l.layoutAutomatic, settings.mushafLayout == MushafLayout.auto),
                   _layoutItem('layout_scroll', Icons.swap_vert, l.layoutScroll, settings.mushafLayout == MushafLayout.scroll),
@@ -336,6 +338,12 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
                       child: BookSpreadView(
                         key: ValueKey('book-${book.id}-${section.number}-$lang'),
                         controller: _book,
+                        style: switch (settings.pageAnimation) {
+                          PageAnimation.curl => BookTurnStyle.curl,
+                          PageAnimation.flip => BookTurnStyle.flip,
+                          PageAnimation.slide => BookTurnStyle.slide,
+                          PageAnimation.fade => BookTurnStyle.fade,
+                        },
                         spreadCount: (pages.length / 2).ceil(),
                         initialSpread: _closed && idx == 0 ? -1 : _spreadOf(_page),
                         cover: idx == 0 ? BookCover(book: book, index: bookIndex, showCaption: false) : null,
@@ -424,68 +432,6 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
     if (picked != null) _openChapter(picked);
   }
 
-  Future<void> _exportPdf(HadithBook book, {HadithSection? chapterOnly}) async {
-    final l = context.l10n;
-    final lang = ref.read(settingsProvider).hadithLanguage;
-    final service = ref.read(hadithServiceProvider);
-    final sections = chapterOnly != null ? [chapterOnly] : book.sections;
-    final progress = ValueNotifier<(String, double?)>((l.preparingPdf(0, sections.length), 0));
-    var cancelled = false;
-
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l.downloadPdf),
-        content: ValueListenableBuilder<(String, double?)>(
-          valueListenable: progress,
-          builder: (_, v, __) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              LinearProgressIndicator(value: v.$2),
-              const SizedBox(height: 12),
-              Text(v.$1),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              cancelled = true;
-              Navigator.of(dialogContext).pop();
-            },
-            child: Text(l.cancel),
-          ),
-        ],
-      ),
-    );
-
-    try {
-      final chapters = <(HadithSection, List<Hadith>)>[];
-      for (var i = 0; i < sections.length; i++) {
-        if (cancelled) return;
-        final s = sections[i];
-        chapters.add((s, await service.section(book.id, s.number, lang)));
-        progress.value = (l.preparingPdf(i + 1, sections.length), (i + 1) / sections.length * 0.5);
-      }
-      if (cancelled) return;
-      progress.value = (l.renderingPdf, null);
-      final bytes = await HadithPdf.build(
-        book: book,
-        chapters: chapters,
-        lang: lang,
-        onProgress: (p) => progress.value = (l.renderingPdf, 0.5 + p * 0.5),
-      );
-      if (cancelled || !mounted) return;
-      Navigator.of(context).pop();
-      final name = chapterOnly == null ? '${book.id}.pdf' : '${book.id}-chapter-${chapterOnly.number}.pdf';
-      await Printing.sharePdf(bytes: bytes, filename: name);
-    } catch (e) {
-      if (!mounted) return;
-      if (!cancelled) Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.pdfFailed('$e'))));
-    }
-  }
 }
 
 class _ContentsSheet extends StatefulWidget {
@@ -575,7 +521,7 @@ class _HadithPaperPage extends StatelessWidget {
   final bool exactFrame;
 
   static const pageAspect = 0.68;
-  static const layoutWidth = 560.0;
+  static const layoutWidth = 420.0;
 
   @override
   Widget build(BuildContext context) {
@@ -601,7 +547,7 @@ class _HadithPaperPage extends StatelessWidget {
               child: Text(
                 '${section.number}. ${section.name}',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 19, fontWeight: FontWeight.w700, color: ink),
+                style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 20, fontWeight: FontWeight.w700, color: ink),
               ),
             ),
           ),
@@ -631,7 +577,7 @@ class _HadithPaperPage extends StatelessWidget {
                     b.arabic + (b.continues && b.text.isEmpty ? ' …' : ''),
                     textDirection: TextDirection.rtl,
                     textAlign: TextAlign.justify,
-                    style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 19, height: 1.8, color: ink),
+                    style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 21, height: 1.85, color: ink),
                   ),
                 if (b.text.isNotEmpty)
                   Padding(
@@ -641,7 +587,7 @@ class _HadithPaperPage extends StatelessWidget {
                       textDirection: rtl ? TextDirection.rtl : TextDirection.ltr,
                       textAlign: rtl ? TextAlign.right : TextAlign.left,
                       style: TextStyle(
-                        fontSize: rtl ? 16 : 13,
+                        fontSize: rtl ? 17 : 13.5,
                         height: rtl ? 1.8 : 1.5,
                         fontFamily: rtl ? ArabicStyles.nameFont : null,
                         color: ink.withValues(alpha: 0.9),

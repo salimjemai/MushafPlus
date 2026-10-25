@@ -1159,4 +1159,120 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get reciteHelp =>
       'Bacalah dengan jelas dan tempo stabil di tempat tenang; kata benar menjadi hijau, keliru oranye, terlewat merah.';
+
+  @override
+  String get qibla => 'Kiblat';
+
+  @override
+  String get qiblaBearing => 'Arah kiblat dari utara sejati';
+
+  @override
+  String get qiblaNeedsLocation =>
+      'Kiblat dihitung dari lokasi Anda. Gunakan GPS perangkat, atau atur masjid terlebih dahulu.';
+
+  @override
+  String distanceToMakkah(int km) {
+    return '$km km ke Makkah';
+  }
+
+  @override
+  String headingDegrees(int degrees) {
+    return 'Arah $degrees°';
+  }
+
+  @override
+  String get facingQibla => 'Anda menghadap kiblat';
+
+  @override
+  String get compassWaiting =>
+      'Menunggu kompas… gerakkan ponsel membentuk angka 8 untuk kalibrasi.';
+
+  @override
+  String get compassUnavailable =>
+      'Perangkat ini tidak punya kompas: gunakan kompas atau peta dan hadap ke arah di atas.';
+
+  @override
+  String turnToQibla(String direction, int degrees) {
+    return 'Putar ke $direction sebesar $degrees°';
+  }
+
+  @override
+  String get left => 'kiri';
+
+  @override
+  String get right => 'kanan';
+
+  @override
+  String get qiblaHelp =>
+      'Pegang ponsel mendatar, jauh dari magnet atau logam. Penanda Ka\'bah di dial menunjukkan kiblat; panah di atas adalah arah Anda.';
+
+  @override
+  String get adhan => 'Azan';
+
+  @override
+  String get adhanIntro =>
+      'Dengarkan azan dari berbagai muazin, unduh rekaman, dan pilih azan bawaan untuk jadwal salat Anda.';
+
+  @override
+  String get adhanCredits =>
+      'Rekaman dari koleksi Internet Archive \"adhans\" dan \"azan-alafasy\".';
+
+  @override
+  String downloaded(String name) {
+    return '$name diunduh';
+  }
+
+  @override
+  String downloadFailed(String error) {
+    return 'Unduhan gagal: $error';
+  }
+
+  @override
+  String get downloadSurahAudio => 'Unduh audio surah untuk offline';
+
+  @override
+  String get downloadAyahAudio => 'Unduh audio ayat ini (MP3)';
+
+  @override
+  String get offlineAudioNativeOnly =>
+      'Audio offline disimpan di aplikasi ponsel dan desktop; di web, unduh per ayat.';
+
+  @override
+  String surahAudioSaved(String surah) {
+    return '$surah tersimpan untuk didengarkan offline';
+  }
+
+  @override
+  String get downloadForOffline => 'Unduh untuk dibaca offline';
+
+  @override
+  String savedForOffline(String name) {
+    return '$name tersimpan untuk dibaca offline';
+  }
+
+  @override
+  String get playAdhan => 'Putar azan';
+
+  @override
+  String adhanForNext(String prayer) {
+    return 'Azan $prayer';
+  }
+
+  @override
+  String get chooseAdhan => 'Pilih azan';
+
+  @override
+  String get pageAnimation => 'Animasi halaman';
+
+  @override
+  String get animationCurl => 'Lipatan halaman';
+
+  @override
+  String get animationFlip => 'Balik kartu';
+
+  @override
+  String get animationSlide => 'Geser';
+
+  @override
+  String get animationFade => 'Pudar';
 }

@@ -1164,4 +1164,121 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get reciteHelp =>
       'Récitez clairement et à un rythme régulier, dans un endroit calme ; les mots justes passent au vert, les écarts en orange, les mots omis en rouge.';
+
+  @override
+  String get qibla => 'Qibla';
+
+  @override
+  String get qiblaBearing => 'Cap de la Qibla depuis le nord vrai';
+
+  @override
+  String get qiblaNeedsLocation =>
+      'La Qibla est calculée à partir de votre position. Utilisez le GPS ou configurez d\'abord une mosquée.';
+
+  @override
+  String distanceToMakkah(int km) {
+    return '$km km jusqu\'à La Mecque';
+  }
+
+  @override
+  String headingDegrees(int degrees) {
+    return 'Cap $degrees°';
+  }
+
+  @override
+  String get facingQibla => 'Vous faites face à la Qibla';
+
+  @override
+  String get compassWaiting =>
+      'En attente de la boussole… décrivez un huit avec le téléphone pour l\'étalonner.';
+
+  @override
+  String get compassUnavailable =>
+      'Pas de boussole sur cet appareil : utilisez une boussole ou une carte et tournez-vous vers le cap ci-dessus.';
+
+  @override
+  String turnToQibla(String direction, int degrees) {
+    return 'Tournez à $direction de $degrees°';
+  }
+
+  @override
+  String get left => 'gauche';
+
+  @override
+  String get right => 'droite';
+
+  @override
+  String get qiblaHelp =>
+      'Gardez le téléphone à plat, loin des aimants et du métal. Le repère Kaaba indique la Qibla ; la flèche en haut est votre direction.';
+
+  @override
+  String get adhan => 'Adhan';
+
+  @override
+  String get adhanIntro =>
+      'Écoutez l\'appel à la prière par différents muezzins, téléchargez un enregistrement et choisissez celui par défaut pour vos horaires.';
+
+  @override
+  String get adhanCredits =>
+      'Enregistrements issus des collections « adhans » et « azan-alafasy » de l\'Internet Archive.';
+
+  @override
+  String downloaded(String name) {
+    return '$name téléchargé';
+  }
+
+  @override
+  String downloadFailed(String error) {
+    return 'Échec du téléchargement : $error';
+  }
+
+  @override
+  String get downloadSurahAudio =>
+      'Télécharger l\'audio de la sourate (hors ligne)';
+
+  @override
+  String get downloadAyahAudio => 'Télécharger l\'audio de ce verset (MP3)';
+
+  @override
+  String get offlineAudioNativeOnly =>
+      'L\'audio hors ligne est conservé dans les applications mobiles et bureau ; sur le web, téléchargez verset par verset.';
+
+  @override
+  String surahAudioSaved(String surah) {
+    return '$surah enregistrée pour l\'écoute hors ligne';
+  }
+
+  @override
+  String get downloadForOffline => 'Télécharger pour lire hors ligne';
+
+  @override
+  String savedForOffline(String name) {
+    return '$name enregistré pour la lecture hors ligne';
+  }
+
+  @override
+  String get playAdhan => 'Écouter l\'adhan';
+
+  @override
+  String adhanForNext(String prayer) {
+    return 'Adhan de $prayer';
+  }
+
+  @override
+  String get chooseAdhan => 'Choisir l\'adhan';
+
+  @override
+  String get pageAnimation => 'Animation des pages';
+
+  @override
+  String get animationCurl => 'Pli de page';
+
+  @override
+  String get animationFlip => 'Retournement';
+
+  @override
+  String get animationSlide => 'Glissement';
+
+  @override
+  String get animationFade => 'Fondu';
 }

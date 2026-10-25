@@ -1153,4 +1153,120 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get reciteHelp =>
       'سمّع بوضوح وبوتيرة ثابتة. يعمل التعرف بشكل أفضل في مكان هادئ؛ الكلمات الصحيحة تصبح خضراء، والزلات برتقالية، والساقطة حمراء.';
+
+  @override
+  String get qibla => 'القبلة';
+
+  @override
+  String get qiblaBearing => 'اتجاه القبلة من الشمال الحقيقي';
+
+  @override
+  String get qiblaNeedsLocation =>
+      'تُحسب القبلة من موقعك. استخدم GPS جهازك أو أعدّ مسجدًا أولًا.';
+
+  @override
+  String distanceToMakkah(int km) {
+    return '$km كم إلى مكة';
+  }
+
+  @override
+  String headingDegrees(int degrees) {
+    return 'الاتجاه $degrees°';
+  }
+
+  @override
+  String get facingQibla => 'أنت متجه إلى القبلة';
+
+  @override
+  String get compassWaiting =>
+      'في انتظار البوصلة… حرّك الهاتف على شكل الرقم 8 للمعايرة.';
+
+  @override
+  String get compassUnavailable =>
+      'لا توجد بوصلة في هذا الجهاز: استخدم بوصلة أو خريطة واتجه نحو الزاوية أعلاه.';
+
+  @override
+  String turnToQibla(String direction, int degrees) {
+    return 'استدر إلى $direction بمقدار $degrees°';
+  }
+
+  @override
+  String get left => 'اليسار';
+
+  @override
+  String get right => 'اليمين';
+
+  @override
+  String get qiblaHelp =>
+      'أبقِ الهاتف مستويًا وبعيدًا عن المغناطيس والمعادن. علامة الكعبة على القرص تشير إلى القبلة، والسهم في الأعلى هو اتجاهك.';
+
+  @override
+  String get adhan => 'الأذان';
+
+  @override
+  String get adhanIntro =>
+      'استمع إلى الأذان بأصوات مؤذنين مختلفين، ونزّل أي تسجيل، واختر الأذان الافتراضي لمواقيت صلاتك.';
+
+  @override
+  String get adhanCredits =>
+      'التسجيلات من مجموعتي \"adhans\" و\"azan-alafasy\" في أرشيف الإنترنت.';
+
+  @override
+  String downloaded(String name) {
+    return 'تم تنزيل $name';
+  }
+
+  @override
+  String downloadFailed(String error) {
+    return 'فشل التنزيل: $error';
+  }
+
+  @override
+  String get downloadSurahAudio => 'تنزيل صوت السورة للاستماع دون اتصال';
+
+  @override
+  String get downloadAyahAudio => 'تنزيل صوت هذه الآية (MP3)';
+
+  @override
+  String get offlineAudioNativeOnly =>
+      'يُحفظ الصوت دون اتصال في تطبيقات الجوال وسطح المكتب؛ على الويب نزّل الآيات منفردة.';
+
+  @override
+  String surahAudioSaved(String surah) {
+    return 'حُفظت $surah للاستماع دون اتصال';
+  }
+
+  @override
+  String get downloadForOffline => 'تنزيل للقراءة دون اتصال';
+
+  @override
+  String savedForOffline(String name) {
+    return 'حُفظ $name للقراءة دون اتصال';
+  }
+
+  @override
+  String get playAdhan => 'تشغيل الأذان';
+
+  @override
+  String adhanForNext(String prayer) {
+    return 'أذان $prayer';
+  }
+
+  @override
+  String get chooseAdhan => 'اختيار الأذان';
+
+  @override
+  String get pageAnimation => 'حركة الصفحات';
+
+  @override
+  String get animationCurl => 'طيّ الورقة';
+
+  @override
+  String get animationFlip => 'قلب البطاقة';
+
+  @override
+  String get animationSlide => 'انزلاق';
+
+  @override
+  String get animationFade => 'تلاشٍ';
 }

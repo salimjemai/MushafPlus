@@ -11,9 +11,11 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
+import '../../data/adhans.dart';
 import '../../data/masjid.dart';
 import '../../data/prayer_times.dart';
 import '../../state/masjid_providers.dart';
+import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
 
 /// Today's prayer and iqama times for the selected masjid.
@@ -133,6 +135,26 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           label: Text(l.setUpMasjid),
         ),
         const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => context.push('/prayer/qibla'),
+                icon: const Icon(Icons.explore_outlined),
+                label: Text(l.qibla),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => context.push('/prayer/adhan'),
+                icon: const Icon(Icons.campaign_outlined),
+                label: Text(l.adhan),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
         OutlinedButton.icon(
           onPressed: _locating ? null : _useMyLocation,
           icon: _locating
@@ -234,7 +256,11 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  _QiblaBadge(bearing: qibla),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(32),
+                    onTap: () => context.push('/prayer/qibla'),
+                    child: _QiblaBadge(bearing: qibla),
+                  ),
                 ],
               ),
               const SizedBox(height: 14),
@@ -273,6 +299,42 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                   isPast: today[p].isBefore(now) && p != next,
                 ),
             ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Row(
+              children: [
+                Icon(Icons.campaign_outlined, color: scheme.primary),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(l.adhan, style: const TextStyle(fontWeight: FontWeight.w700)),
+                      Text(
+                        adhanFor(ref.watch(settingsProvider).adhanId, fajr: next == Prayer.fajr || next == null).name,
+                        style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton.filledTonal(
+                  tooltip: l.playAdhan,
+                  icon: const Icon(Icons.play_arrow),
+                  onPressed: () => context.push('/prayer/adhan?play=1${next == Prayer.fajr || next == null ? '&fajr=1' : ''}'),
+                ),
+                IconButton(
+                  tooltip: l.chooseAdhan,
+                  icon: const Icon(Icons.library_music_outlined),
+                  onPressed: () => context.push('/prayer/adhan'),
+                ),
+              ],
+            ),
           ),
         ),
         if (masjid.jumuah.isNotEmpty || isFriday) ...[

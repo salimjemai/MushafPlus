@@ -12,9 +12,11 @@ import 'features/home/home_shell.dart';
 import 'features/home/surah_list_screen.dart';
 import 'features/memorize/memorize_screen.dart';
 import 'features/plan/plan_screen.dart';
+import 'features/prayer/adhan_screen.dart';
 import 'features/prayer/masjid_edit_screen.dart';
 import 'features/prayer/monthly_timetable_screen.dart';
 import 'features/prayer/prayer_screen.dart';
+import 'features/prayer/qibla_screen.dart';
 import 'features/mushaf/mushaf_book_screen.dart';
 import 'features/reader/reader_screen.dart';
 import 'features/recite/recite_screen.dart';
@@ -79,6 +81,14 @@ final _routes = <RouteBase>[
               builder: (c, s) => MasjidEditScreen(masjidId: s.uri.queryParameters['id']),
             ),
             GoRoute(path: 'month', builder: (c, s) => const MonthlyTimetableScreen()),
+            GoRoute(path: 'qibla', builder: (c, s) => const QiblaScreen()),
+            GoRoute(
+              path: 'adhan',
+              builder: (c, s) => AdhanScreen(
+                autoplay: s.uri.queryParameters['play'] == '1',
+                fajr: s.uri.queryParameters['fajr'] == '1',
+              ),
+            ),
           ],
         ),
         GoRoute(

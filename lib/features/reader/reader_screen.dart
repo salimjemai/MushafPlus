@@ -14,6 +14,7 @@ import '../../state/providers.dart';
 import '../../widgets/mini_player.dart';
 import '../../widgets/surah_number_badge.dart';
 import '../home/surah_list_screen.dart';
+import 'audio_downloads.dart';
 import 'ayah_card.dart';
 import 'reader_settings_sheet.dart';
 
@@ -155,6 +156,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   context.go('/memorize/${surah.number}');
                 case 'recite':
                   context.go('/recite/${surah.number}');
+                case 'download':
+                  downloadSurahAudio(context, ref, surah);
                 case 'page':
                   context.go('/mushaf?page=${surah.startPage}');
                 case 'play':
@@ -165,6 +168,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               PopupMenuItem(value: 'play', child: ListTile(leading: const Icon(Icons.play_arrow), title: Text(l.playSurah))),
               PopupMenuItem(value: 'memorize', child: ListTile(leading: const Icon(Icons.psychology_outlined), title: Text(l.memorizeThisSurah))),
               PopupMenuItem(value: 'recite', child: ListTile(leading: const Icon(Icons.mic_none), title: Text(l.reciteAndCheck))),
+              PopupMenuItem(value: 'download', child: ListTile(leading: const Icon(Icons.download_for_offline_outlined), title: Text(l.downloadSurahAudio))),
               PopupMenuItem(value: 'page', child: ListTile(leading: const Icon(Icons.auto_stories), title: Text(l.openInMushaf))),
             ],
           ),

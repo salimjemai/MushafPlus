@@ -168,6 +168,22 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                   ),
                   ListTile(
+                    title: Text(l.pageAnimation),
+                    trailing: DropdownButton<PageAnimation>(
+                      value: s.pageAnimation,
+                      underline: const SizedBox.shrink(),
+                      items: [
+                        DropdownMenuItem(value: PageAnimation.curl, child: Text(l.animationCurl)),
+                        DropdownMenuItem(value: PageAnimation.flip, child: Text(l.animationFlip)),
+                        DropdownMenuItem(value: PageAnimation.slide, child: Text(l.animationSlide)),
+                        DropdownMenuItem(value: PageAnimation.fade, child: Text(l.animationFade)),
+                      ],
+                      onChanged: (v) {
+                        if (v != null) n.setPageAnimation(v);
+                      },
+                    ),
+                  ),
+                  ListTile(
                     title: Text(l.defaultView),
                     trailing: SegmentedButton<ReaderMode>(
                       showSelectedIcon: false,

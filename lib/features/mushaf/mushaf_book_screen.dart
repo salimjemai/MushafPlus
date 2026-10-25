@@ -312,6 +312,12 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
         child: BookSpreadView(
           key: const ValueKey('mushaf-book'),
           controller: _book,
+          style: switch (ref.watch(settingsProvider).pageAnimation) {
+            PageAnimation.curl => BookTurnStyle.curl,
+            PageAnimation.flip => BookTurnStyle.flip,
+            PageAnimation.slide => BookTurnStyle.slide,
+            PageAnimation.fade => BookTurnStyle.fade,
+          },
           spreadCount: spreads,
           initialSpread: _closed ? -1 : _spreadOf(_page),
           cover: const MushafCover(subtitle: 'QURAN+'),

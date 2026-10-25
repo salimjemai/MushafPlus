@@ -2079,6 +2079,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red.'**
   String get reciteHelp;
+
+  /// No description provided for @qibla.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla'**
+  String get qibla;
+
+  /// No description provided for @qiblaBearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla bearing from true north'**
+  String get qiblaBearing;
+
+  /// No description provided for @qiblaNeedsLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'The Qibla is computed from your location. Use your device\'s GPS, or set up a masjid first.'**
+  String get qiblaNeedsLocation;
+
+  /// No description provided for @distanceToMakkah.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km to Makkah'**
+  String distanceToMakkah(int km);
+
+  /// No description provided for @headingDegrees.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading {degrees}°'**
+  String headingDegrees(int degrees);
+
+  /// No description provided for @facingQibla.
+  ///
+  /// In en, this message translates to:
+  /// **'You are facing the Qibla'**
+  String get facingQibla;
+
+  /// No description provided for @compassWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the compass… move your phone in a figure of eight to calibrate.'**
+  String get compassWaiting;
+
+  /// No description provided for @compassUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No compass on this device: hold a compass or map and turn to the bearing above.'**
+  String get compassUnavailable;
+
+  /// No description provided for @turnToQibla.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn {direction} by {degrees}°'**
+  String turnToQibla(String direction, int degrees);
+
+  /// No description provided for @left.
+  ///
+  /// In en, this message translates to:
+  /// **'left'**
+  String get left;
+
+  /// No description provided for @right.
+  ///
+  /// In en, this message translates to:
+  /// **'right'**
+  String get right;
+
+  /// No description provided for @qiblaHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the phone flat and away from magnets or metal. The Kaaba marker on the dial shows the Qibla; the arrow at the top is where you are facing.'**
+  String get qiblaHelp;
+
+  /// No description provided for @adhan.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan'**
+  String get adhan;
+
+  /// No description provided for @adhanIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to the call to prayer from different muezzins, download any recording, and choose the default used for your prayer times.'**
+  String get adhanIntro;
+
+  /// No description provided for @adhanCredits.
+  ///
+  /// In en, this message translates to:
+  /// **'Recordings courtesy of the Internet Archive collections \"adhans\" and \"azan-alafasy\".'**
+  String get adhanCredits;
+
+  /// No description provided for @downloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded {name}'**
+  String downloaded(String name);
+
+  /// No description provided for @downloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed: {error}'**
+  String downloadFailed(String error);
+
+  /// No description provided for @downloadSurahAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Download surah audio for offline'**
+  String get downloadSurahAudio;
+
+  /// No description provided for @downloadAyahAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Download this ayah\'s audio (MP3)'**
+  String get downloadAyahAudio;
+
+  /// No description provided for @offlineAudioNativeOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline audio is kept in the mobile and desktop apps; on the web, download single ayahs.'**
+  String get offlineAudioNativeOnly;
+
+  /// No description provided for @surahAudioSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{surah} saved for offline listening'**
+  String surahAudioSaved(String surah);
+
+  /// No description provided for @downloadForOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Download for offline reading'**
+  String get downloadForOffline;
+
+  /// No description provided for @savedForOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} saved for offline reading'**
+  String savedForOffline(String name);
+
+  /// No description provided for @playAdhan.
+  ///
+  /// In en, this message translates to:
+  /// **'Play adhan'**
+  String get playAdhan;
+
+  /// No description provided for @adhanForNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan for {prayer}'**
+  String adhanForNext(String prayer);
+
+  /// No description provided for @chooseAdhan.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose adhan'**
+  String get chooseAdhan;
+
+  /// No description provided for @pageAnimation.
+  ///
+  /// In en, this message translates to:
+  /// **'Page animation'**
+  String get pageAnimation;
+
+  /// No description provided for @animationCurl.
+  ///
+  /// In en, this message translates to:
+  /// **'Page curl'**
+  String get animationCurl;
+
+  /// No description provided for @animationFlip.
+  ///
+  /// In en, this message translates to:
+  /// **'Card flip'**
+  String get animationFlip;
+
+  /// No description provided for @animationSlide.
+  ///
+  /// In en, this message translates to:
+  /// **'Slide'**
+  String get animationSlide;
+
+  /// No description provided for @animationFade.
+  ///
+  /// In en, this message translates to:
+  /// **'Fade'**
+  String get animationFade;
 }
 
 class _AppLocalizationsDelegate

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/audio_backend.dart';
+import '../data/downloads.dart';
 import '../data/reciters.dart';
 import 'providers.dart';
 
@@ -149,7 +150,14 @@ class AudioController extends Notifier<AudioState> {
       clearError: true,
     );
     try {
-      await _player.play(_urlFor(globalAyah));
+      var source = _urlFor(globalAyah);
+      if (Downloads.supportsCache) {
+        final a = ref.read(repositoryProvider).requireValue.ayah(globalAyah);
+        final local = await Downloads.cachedAyahPath(_reciter.id, a.surah, a.numberInSurah);
+        if (token != _token) return;
+        if (local != null) source = local;
+      }
+      await _player.play(source);
     } catch (e) {
       if (token != _token) return;
       state = state.copyWith(loading: false, playing: false, error: 'Could not play audio ($e)');

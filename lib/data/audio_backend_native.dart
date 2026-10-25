@@ -64,7 +64,10 @@ class _NativeAyahPlayer implements AyahPlayer {
   Stream<String> get errors => _errors.stream;
 
   @override
-  Future<void> play(String url) => _player.play(UrlSource(url), mode: PlayerMode.mediaPlayer);
+  Future<void> play(String url) => _player.play(
+        url.startsWith('http') ? UrlSource(url) : DeviceFileSource(url),
+        mode: PlayerMode.mediaPlayer,
+      );
   @override
   Future<void> pause() => _player.pause();
   @override

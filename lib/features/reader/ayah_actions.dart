@@ -9,6 +9,7 @@ import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
+import 'audio_downloads.dart';
 import 'tafsir_sheet.dart';
 import 'word_by_word_view.dart';
 
@@ -140,6 +141,14 @@ Future<void> showAyahActions(BuildContext context, WidgetRef ref, Ayah ayah) {
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     context.go('/memorize/${ayah.surah}?from=${ayah.numberInSurah}');
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.download_outlined),
+                  title: Text(l.downloadAyahAudio),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    downloadAyahAudio(context, ref, ayah);
                   },
                 ),
                 ListTile(

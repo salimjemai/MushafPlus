@@ -900,5 +900,95 @@
   "reset": "Reset",
   "playThisAyah": "Play this ayah",
   "speechUnavailable": "Speech recognition is not available. Allow microphone access, or use Chrome on the web.",
-  "reciteHelp": "Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red."
+  "reciteHelp": "Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red.",
+  "qibla": "Qibla",
+  "qiblaBearing": "Qibla bearing from true north",
+  "qiblaNeedsLocation": "The Qibla is computed from your location. Use your device's GPS, or set up a masjid first.",
+  "distanceToMakkah": "{km} km to Makkah",
+  "@distanceToMakkah": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "headingDegrees": "Heading {degrees}°",
+  "@headingDegrees": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "facingQibla": "You are facing the Qibla",
+  "compassWaiting": "Waiting for the compass… move your phone in a figure of eight to calibrate.",
+  "compassUnavailable": "No compass on this device: hold a compass or map and turn to the bearing above.",
+  "turnToQibla": "Turn {direction} by {degrees}°",
+  "@turnToQibla": {
+    "placeholders": {
+      "direction": {
+        "type": "String"
+      },
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "left": "left",
+  "right": "right",
+  "qiblaHelp": "Keep the phone flat and away from magnets or metal. The Kaaba marker on the dial shows the Qibla; the arrow at the top is where you are facing.",
+  "adhan": "Adhan",
+  "adhanIntro": "Listen to the call to prayer from different muezzins, download any recording, and choose the default used for your prayer times.",
+  "adhanCredits": "Recordings courtesy of the Internet Archive collections \"adhans\" and \"azan-alafasy\".",
+  "downloaded": "Downloaded {name}",
+  "@downloaded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "Download failed: {error}",
+  "@downloadFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadSurahAudio": "Download surah audio for offline",
+  "downloadAyahAudio": "Download this ayah's audio (MP3)",
+  "offlineAudioNativeOnly": "Offline audio is kept in the mobile and desktop apps; on the web, download single ayahs.",
+  "surahAudioSaved": "{surah} saved for offline listening",
+  "@surahAudioSaved": {
+    "placeholders": {
+      "surah": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadForOffline": "Download for offline reading",
+  "savedForOffline": "{name} saved for offline reading",
+  "@savedForOffline": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playAdhan": "Play adhan",
+  "adhanForNext": "Adhan for {prayer}",
+  "@adhanForNext": {
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseAdhan": "Choose adhan",
+  "pageAnimation": "Page animation",
+  "animationCurl": "Page curl",
+  "animationFlip": "Card flip",
+  "animationSlide": "Slide",
+  "animationFade": "Fade"
 }
