@@ -1309,4 +1309,69 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get verseDetails => 'Détails du verset';
+
+  @override
+  String get zoomIn => 'Agrandir';
+
+  @override
+  String get zoomOut => 'Réduire';
+
+  @override
+  String get fitPage => 'Ajuster à la page';
+
+  @override
+  String get shareEmbed => 'Partager et intégrer';
+
+  @override
+  String get websiteWidget => 'Widget du site et écran TV';
+
+  @override
+  String get widgetLinks => 'Liens publics';
+
+  @override
+  String get embedCode => 'Code d’intégration';
+
+  @override
+  String get openLink => 'Ouvrir';
+
+  @override
+  String get linkCopied => 'Lien copié';
+
+  @override
+  String get codeCopied => 'Code d’intégration copié';
+
+  @override
+  String get combinedWidget => 'Widget combiné (quotidien + vendredi)';
+
+  @override
+  String get dailyWidget => 'Widget des prières quotidiennes';
+
+  @override
+  String get jumuahWidget => 'Widget de la prière du vendredi';
+
+  @override
+  String get compactWidget => 'Widget compact';
+
+  @override
+  String get tvDisplay => 'Affichage TV';
+
+  @override
+  String get darkWidget => 'Widget sombre';
+
+  @override
+  String get embedHelp =>
+      'Collez le code d’intégration sur le site de votre mosquée ou partagez un lien. Le lien contient l’emplacement, la méthode, les iqamas et les horaires du vendredi : recopiez-le après toute modification. Ajoutez ?theme=dark ou &scale=120, &lang=ar à n’importe quel lien.';
+
+  @override
+  String get preview => 'Aperçu';
+
+  @override
+  String get adhanHeader => 'Adhan';
+
+  @override
+  String get poweredBy => 'Propulsé par Quran+';
+
+  @override
+  String get invalidWidgetLink =>
+      'Ce lien de widget est invalide ou incomplet.';
 }

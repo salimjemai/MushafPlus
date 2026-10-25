@@ -1297,4 +1297,68 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get verseDetails => 'آیت کی تفصیل';
+
+  @override
+  String get zoomIn => 'بڑا کریں';
+
+  @override
+  String get zoomOut => 'چھوٹا کریں';
+
+  @override
+  String get fitPage => 'صفحے کے مطابق';
+
+  @override
+  String get shareEmbed => 'شیئر اور ایمبیڈ';
+
+  @override
+  String get websiteWidget => 'ویب سائٹ ویجٹ اور ٹی وی ڈسپلے';
+
+  @override
+  String get widgetLinks => 'عوامی لنکس';
+
+  @override
+  String get embedCode => 'ایمبیڈ کوڈ';
+
+  @override
+  String get openLink => 'کھولیں';
+
+  @override
+  String get linkCopied => 'لنک کاپی ہو گیا';
+
+  @override
+  String get codeCopied => 'ایمبیڈ کوڈ کاپی ہو گیا';
+
+  @override
+  String get combinedWidget => 'مشترکہ ویجٹ (روزانہ + جمعہ)';
+
+  @override
+  String get dailyWidget => 'روزانہ نماز ویجٹ';
+
+  @override
+  String get jumuahWidget => 'نمازِ جمعہ ویجٹ';
+
+  @override
+  String get compactWidget => 'مختصر ویجٹ';
+
+  @override
+  String get tvDisplay => 'ٹی وی ڈسپلے';
+
+  @override
+  String get darkWidget => 'گہرا ویجٹ';
+
+  @override
+  String get embedHelp =>
+      'ایمبیڈ کوڈ اپنی مسجد کی ویب سائٹ میں چسپاں کریں یا لنک شیئر کریں۔ لنک میں مسجد کا مقام، طریقہ، اقامت اور جمعہ کے اوقات شامل ہیں، اس لیے تبدیلی کے بعد دوبارہ کاپی کریں۔ کسی بھی لنک میں ?theme=dark یا &scale=120, &lang=ar شامل کریں۔';
+
+  @override
+  String get preview => 'پیش منظر';
+
+  @override
+  String get adhanHeader => 'اذان';
+
+  @override
+  String get poweredBy => 'Quran+ کے تعاون سے';
+
+  @override
+  String get invalidWidgetLink => 'یہ ویجٹ لنک غلط یا نامکمل ہے۔';
 }

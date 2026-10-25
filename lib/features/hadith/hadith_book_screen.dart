@@ -9,6 +9,7 @@ import '../../core/theme.dart';
 import '../../data/hadith_service.dart';
 import '../../state/providers.dart';
 import '../../widgets/book_spread.dart';
+import '../../widgets/zoomable.dart';
 import 'hadith_export.dart';
 import 'hadith_screens.dart';
 
@@ -25,14 +26,25 @@ class HadithBookReaderScreen extends ConsumerStatefulWidget {
   ConsumerState<HadithBookReaderScreen> createState() => _HadithBookReaderScreenState();
 }
 
-/// Characters of text per printed page; a hadith longer than this gets a
-/// page of its own and is scaled down.
-// A page holds about 38 lines of 13px translation (~4200 chars) or 21 lines
-// of 19px Arabic (~1575 chars), so Arabic characters weigh ~2.6x.
-const _pageBudget = 3300.0;
-const _arabicWeight = 2.6;
+/// Pages are paginated by estimated height: each block's height is estimated
+/// at the page's layout width (${_HadithPaperPage.layoutWidth} px) from its
+/// line count, so a page of one-line hadiths holds as many as fit and no
+/// page is ever scaled down to a sliver.
+///
+/// Usable body height of a page in layout pixels (a 2:3 page minus frame,
+/// running head and page number).
+const hadithPageHeight = 600.0;
 const _arabicChunk = 900; // raw characters, roughly 520 visible letters
 const _textChunk = 1000;
+
+// Line metrics at layoutWidth (420 px): Amiri 21px/1.85, Latin 13.5px/1.5,
+// RTL translation 17px/1.8.
+const _arabicCharsPerLine = 42;
+const _arabicLineHeight = 39.0;
+const _latinCharsPerLine = 58;
+const _latinLineHeight = 20.5;
+const _rtlCharsPerLine = 48;
+const _rtlLineHeight = 31.0;
 
 /// Tashkeel and other combining marks take no horizontal space.
 final _combiningMarks = RegExp('[ؐ-ًؚ-ٰٟۖ-ۭ]');
@@ -56,8 +68,22 @@ class HadithBlock {
   final bool continued;
   final bool continues;
 
-  double get weight => _visibleLength(arabic) * _arabicWeight + text.length + (continued ? 10 : 70);
+  /// Estimated height of this block in layout pixels.
+  double get weight {
+    var h = continued ? 16.0 : 20.0; // number line
+    if (arabic.isNotEmpty) h += (_visibleLength(arabic) / _arabicCharsPerLine).ceil() * _arabicLineHeight;
+    if (text.isNotEmpty) {
+      final rtl = text.runes.any((r) => r >= 0x0600 && r <= 0x06FF);
+      h += 4 + (rtl
+          ? (_visibleLength(text) / _rtlCharsPerLine).ceil() * _rtlLineHeight
+          : (text.length / _latinCharsPerLine).ceil() * _latinLineHeight);
+    }
+    return h + (continues ? 4 : 12);
+  }
 }
+
+/// Height of the chapter banner shown at the top of a chapter's first page.
+const _chapterBannerHeight = 52.0;
 
 /// Splits [s] into pieces of at most [max] characters at word boundaries.
 List<String> _chunk(String s, int max) {
@@ -73,13 +99,17 @@ List<String> _chunk(String s, int max) {
   return out;
 }
 
-List<List<HadithBlock>> paginateHadiths(List<Hadith> hadiths, {double budget = _pageBudget}) {
+List<List<HadithBlock>> paginateHadiths(List<Hadith> hadiths, {double pageHeight = hadithPageHeight}) {
   final blocks = <HadithBlock>[];
   for (final h in hadiths) {
-    final units = <({String arabic, String text})>[
-      for (final a in (h.arabic.isEmpty ? const <String>[] : _chunk(h.arabic, _arabicChunk))) (arabic: a, text: ''),
-      for (final t in (h.text.isEmpty ? const <String>[] : _chunk(h.text, _textChunk))) (arabic: '', text: t),
-    ];
+    // A hadith that fits comfortably stays whole, so its Arabic and its
+    // translation are never separated by a page break.
+    final units = h.arabic.length <= _arabicChunk ~/ 2 && h.text.length <= _textChunk ~/ 2
+        ? <({String arabic, String text})>[(arabic: h.arabic.trim(), text: h.text.trim())]
+        : <({String arabic, String text})>[
+            for (final a in (h.arabic.isEmpty ? const <String>[] : _chunk(h.arabic, _arabicChunk))) (arabic: a, text: ''),
+            for (final t in (h.text.isEmpty ? const <String>[] : _chunk(h.text, _textChunk))) (arabic: '', text: t),
+          ];
     if (units.isEmpty) units.add((arabic: '', text: ''));
     for (var i = 0; i < units.length; i++) {
       blocks.add(HadithBlock(
@@ -98,6 +128,7 @@ List<List<HadithBlock>> paginateHadiths(List<Hadith> hadiths, {double budget = _
   var current = <HadithBlock>[];
   var used = 0.0;
   for (final b in blocks) {
+    final budget = pages.isEmpty ? pageHeight - _chapterBannerHeight : pageHeight;
     if (current.isNotEmpty && used + b.weight > budget) {
       pages.add(current);
       current = <HadithBlock>[];
@@ -124,6 +155,7 @@ List<List<HadithBlock>> paginateHadiths(List<Hadith> hadiths, {double budget = _
 class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen> {
   late int _chapter = widget.chapter ?? 1;
   late int _page = widget.page ?? 1; // 1-based within the chapter
+  final _zoom = ZoomController();
   bool _jumpToLastPage = false;
   PageController? _flip;
   final _book = BookSpreadController();
@@ -222,6 +254,8 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
                       ref.read(settingsProvider.notifier).setMushafLayout(MushafLayout.flip);
                     case 'layout_book':
                       ref.read(settingsProvider.notifier).setMushafLayout(MushafLayout.book);
+                    default:
+                      handleZoomMenu(v, _zoom);
                   }
                 },
                 itemBuilder: (_) => [
@@ -229,6 +263,8 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
                   PopupMenuItem(value: 'pdf_chapter', child: ListTile(leading: const Icon(Icons.picture_as_pdf_outlined), title: Text(l.downloadChapterPdf))),
                   PopupMenuItem(value: 'pdf_book', child: ListTile(leading: const Icon(Icons.library_books_outlined), title: Text(l.downloadBookPdf))),
                   PopupMenuItem(value: 'offline', child: ListTile(leading: const Icon(Icons.download_for_offline_outlined), title: Text(l.downloadForOffline))),
+                  const PopupMenuDivider(),
+                  ...zoomMenuItems(context, zoomIn: l.zoomIn, zoomOut: l.zoomOut, fit: l.fitPage),
                   const PopupMenuDivider(),
                   _layoutItem('layout_auto', Icons.auto_awesome_outlined, l.layoutAutomatic, settings.mushafLayout == MushafLayout.auto),
                   _layoutItem('layout_scroll', Icons.swap_vert, l.layoutScroll, settings.mushafLayout == MushafLayout.scroll),
@@ -360,7 +396,7 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
 
               return Column(
                 children: [
-                  Expanded(child: body),
+                  Expanded(child: layout == MushafLayout.scroll ? body : Zoomable(controller: _zoom, child: body)),
                   _PageBar(
                     label: l.chapterPage(section.number, _page, pages.length),
                     canPrev: _page > 1 || !firstChapter,

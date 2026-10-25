@@ -2319,6 +2319,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Verse details'**
   String get verseDetails;
+
+  /// No description provided for @zoomIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom in'**
+  String get zoomIn;
+
+  /// No description provided for @zoomOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom out'**
+  String get zoomOut;
+
+  /// No description provided for @fitPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Fit to page'**
+  String get fitPage;
+
+  /// No description provided for @shareEmbed.
+  ///
+  /// In en, this message translates to:
+  /// **'Share & embed'**
+  String get shareEmbed;
+
+  /// No description provided for @websiteWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Website widget & TV display'**
+  String get websiteWidget;
+
+  /// No description provided for @widgetLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Public links'**
+  String get widgetLinks;
+
+  /// No description provided for @embedCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Embed code'**
+  String get embedCode;
+
+  /// No description provided for @openLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openLink;
+
+  /// No description provided for @linkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
+  String get linkCopied;
+
+  /// No description provided for @codeCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Embed code copied'**
+  String get codeCopied;
+
+  /// No description provided for @combinedWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Combined widget (daily + Friday)'**
+  String get combinedWidget;
+
+  /// No description provided for @dailyWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily prayer widget'**
+  String get dailyWidget;
+
+  /// No description provided for @jumuahWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday prayer widget'**
+  String get jumuahWidget;
+
+  /// No description provided for @compactWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Compact widget'**
+  String get compactWidget;
+
+  /// No description provided for @tvDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'TV display'**
+  String get tvDisplay;
+
+  /// No description provided for @darkWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark widget'**
+  String get darkWidget;
+
+  /// No description provided for @embedHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the embed code into your masjid website, or share a link. The link itself carries this masjid’s location, method, iqama and Jumu’ah settings, so copy it again after you change them. Add ?theme=dark or &scale=120, &lang=ar to any link.'**
+  String get embedHelp;
+
+  /// No description provided for @preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get preview;
+
+  /// No description provided for @adhanHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan'**
+  String get adhanHeader;
+
+  /// No description provided for @poweredBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered by Quran+'**
+  String get poweredBy;
+
+  /// No description provided for @invalidWidgetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'This widget link is invalid or incomplete.'**
+  String get invalidWidgetLink;
 }
 
 class _AppLocalizationsDelegate

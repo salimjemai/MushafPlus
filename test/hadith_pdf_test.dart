@@ -58,7 +58,7 @@ void main() {
     }
     // No page is wildly over budget.
     for (final p in pages) {
-      expect(p.fold<double>(0, (s, b) => s + b.weight), lessThan(4000 * 1.6));
+      expect(p.fold<double>(0, (s, b) => s + b.weight), lessThan(hadithPageHeight * 1.6));
     }
   });
 }

@@ -18,6 +18,9 @@ import 'features/prayer/monthly_timetable_screen.dart';
 import 'features/prayer/prayer_screen.dart';
 import 'features/prayer/qibla_screen.dart';
 import 'features/mushaf/mushaf_book_screen.dart';
+import 'features/prayer/publish_screen.dart';
+import 'features/prayer/widget_screen.dart';
+import 'data/masjid_share.dart';
 import 'features/reader/reader_screen.dart';
 import 'features/recite/recite_screen.dart';
 import 'features/search/search_screen.dart';
@@ -82,6 +85,7 @@ final _routes = <RouteBase>[
             ),
             GoRoute(path: 'month', builder: (c, s) => const MonthlyTimetableScreen()),
             GoRoute(path: 'qibla', builder: (c, s) => const QiblaScreen()),
+            GoRoute(path: 'publish', builder: (c, s) => PublishScreen(masjidId: s.uri.queryParameters['id'])),
             GoRoute(
               path: 'adhan',
               builder: (c, s) => AdhanScreen(
@@ -136,6 +140,23 @@ final _routes = <RouteBase>[
         final n = int.tryParse(s.uri.queryParameters['page'] ?? '') ?? 1;
         return MushafBookScreen(initialPage: n.clamp(1, QuranRepository.totalPages));
       },
+    ),
+    GoRoute(
+      path: '/w',
+      builder: (c, s) {
+        final q = s.uri.queryParameters;
+        return PrayerWidgetScreen(
+          code: q['c'] ?? '',
+          view: WidgetView.values.where((v) => v.name == q['v']).firstOrNull ?? WidgetView.combined,
+          theme: q['theme'],
+          scale: (int.tryParse(q['scale'] ?? '') ?? 100) / 100,
+          lang: q['lang'],
+        );
+      },
+    ),
+    GoRoute(
+      path: '/tv',
+      builder: (c, s) => PrayerWidgetScreen(code: s.uri.queryParameters['c'] ?? '', tv: true, theme: s.uri.queryParameters['theme'], lang: s.uri.queryParameters['lang']),
     ),
     GoRoute(
       path: '/page/:n',

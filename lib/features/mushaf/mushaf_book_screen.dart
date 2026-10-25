@@ -16,6 +16,7 @@ import '../../widgets/book_spread.dart';
 import '../../widgets/mini_player.dart';
 import '../../widgets/mushaf_cover.dart';
 import '../../widgets/surah_number_badge.dart';
+import '../../widgets/zoomable.dart';
 import '../reader/mushaf_view.dart';
 import '../reader/reader_settings_sheet.dart';
 import '../reader/verse_panel.dart';
@@ -37,6 +38,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
   final _scroll = ItemScrollController();
   final _positions = ItemPositionsListener.create();
   final _scaffold = GlobalKey<ScaffoldState>();
+  final _zoom = ZoomController();
   bool _programmatic = false;
 
   /// The book starts closed on its cover when opened at the first page.
@@ -208,12 +210,19 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
                 icon: const Icon(Icons.text_fields),
                 onPressed: () => showReaderSettings(context),
               ),
+              if (layout != MushafLayout.scroll)
+                PopupMenuButton<String>(
+                  tooltip: l.zoomIn,
+                  icon: const Icon(Icons.zoom_in),
+                  onSelected: (v) => handleZoomMenu(v, _zoom),
+                  itemBuilder: (_) => zoomMenuItems(context, zoomIn: l.zoomIn, zoomOut: l.zoomOut, fit: l.fitPage),
+                ),
             ],
           ),
           body: switch (layout) {
             MushafLayout.scroll => _scrollLayout(),
-            MushafLayout.flip => _flipLayout(),
-            _ => _bookLayout(constraints),
+            MushafLayout.flip => Zoomable(controller: _zoom, child: _flipLayout()),
+            _ => Zoomable(controller: _zoom, child: _bookLayout(constraints)),
           },
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,

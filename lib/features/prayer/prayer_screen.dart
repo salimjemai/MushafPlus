@@ -81,6 +81,8 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                 switch (v) {
                   case 'edit':
                     context.push('/prayer/edit?id=${masjid.id}');
+                  case 'publish':
+                    context.push('/prayer/publish?id=${masjid.id}');
                   case 'add':
                     context.push('/prayer/edit');
                   case 'delete':
@@ -89,6 +91,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
               },
               itemBuilder: (_) => [
                 PopupMenuItem(value: 'edit', child: ListTile(leading: const Icon(Icons.edit_outlined), title: Text(l.editMasjid))),
+                PopupMenuItem(value: 'publish', child: ListTile(leading: const Icon(Icons.code), title: Text(l.shareEmbed))),
                 PopupMenuItem(value: 'add', child: ListTile(leading: const Icon(Icons.add_location_alt_outlined), title: Text(l.addAnotherMasjid))),
                 PopupMenuItem(value: 'delete', child: ListTile(leading: const Icon(Icons.delete_outline), title: Text(l.removeMasjid))),
               ],
@@ -377,6 +380,12 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           ),
         ],
         const SizedBox(height: 12),
+        FilledButton.icon(
+          onPressed: () => context.push('/prayer/publish?id=${masjid.id}'),
+          icon: const Icon(Icons.web_outlined),
+          label: Text(l.websiteWidget),
+        ),
+        const SizedBox(height: 8),
         Row(
           children: [
             Expanded(

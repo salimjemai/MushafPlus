@@ -1303,4 +1303,69 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get verseDetails => 'Detail ayat';
+
+  @override
+  String get zoomIn => 'Perbesar';
+
+  @override
+  String get zoomOut => 'Perkecil';
+
+  @override
+  String get fitPage => 'Sesuaikan halaman';
+
+  @override
+  String get shareEmbed => 'Bagikan & sematkan';
+
+  @override
+  String get websiteWidget => 'Widget situs & tampilan TV';
+
+  @override
+  String get widgetLinks => 'Tautan publik';
+
+  @override
+  String get embedCode => 'Kode sematan';
+
+  @override
+  String get openLink => 'Buka';
+
+  @override
+  String get linkCopied => 'Tautan disalin';
+
+  @override
+  String get codeCopied => 'Kode sematan disalin';
+
+  @override
+  String get combinedWidget => 'Widget gabungan (harian + Jumat)';
+
+  @override
+  String get dailyWidget => 'Widget salat harian';
+
+  @override
+  String get jumuahWidget => 'Widget salat Jumat';
+
+  @override
+  String get compactWidget => 'Widget ringkas';
+
+  @override
+  String get tvDisplay => 'Tampilan TV';
+
+  @override
+  String get darkWidget => 'Widget gelap';
+
+  @override
+  String get embedHelp =>
+      'Tempel kode sematan di situs masjid Anda, atau bagikan tautannya. Tautan itu sendiri memuat lokasi, metode, iqamah dan jadwal Jumat masjid ini, jadi salin lagi setelah mengubahnya. Tambahkan ?theme=dark atau &scale=120, &lang=ar pada tautan mana pun.';
+
+  @override
+  String get preview => 'Pratinjau';
+
+  @override
+  String get adhanHeader => 'Azan';
+
+  @override
+  String get poweredBy => 'Didukung Quran+';
+
+  @override
+  String get invalidWidgetLink =>
+      'Tautan widget ini tidak valid atau tidak lengkap.';
 }

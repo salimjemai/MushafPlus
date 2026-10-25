@@ -1297,4 +1297,68 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get verseDetails => 'تفاصيل الآية';
+
+  @override
+  String get zoomIn => 'تكبير';
+
+  @override
+  String get zoomOut => 'تصغير';
+
+  @override
+  String get fitPage => 'ملاءمة الصفحة';
+
+  @override
+  String get shareEmbed => 'المشاركة والتضمين';
+
+  @override
+  String get websiteWidget => 'ودجت الموقع وشاشة التلفاز';
+
+  @override
+  String get widgetLinks => 'الروابط العامة';
+
+  @override
+  String get embedCode => 'كود التضمين';
+
+  @override
+  String get openLink => 'فتح';
+
+  @override
+  String get linkCopied => 'تم نسخ الرابط';
+
+  @override
+  String get codeCopied => 'تم نسخ كود التضمين';
+
+  @override
+  String get combinedWidget => 'ودجت شامل (يومي + الجمعة)';
+
+  @override
+  String get dailyWidget => 'ودجت الصلوات اليومية';
+
+  @override
+  String get jumuahWidget => 'ودجت صلاة الجمعة';
+
+  @override
+  String get compactWidget => 'ودجت مضغوط';
+
+  @override
+  String get tvDisplay => 'شاشة التلفاز';
+
+  @override
+  String get darkWidget => 'ودجت داكن';
+
+  @override
+  String get embedHelp =>
+      'الصق كود التضمين في موقع المسجد أو شارك الرابط. يحمل الرابط نفسه موقع المسجد وطريقة الحساب وأوقات الإقامة والجمعة، فانسخه مجددًا بعد أي تعديل. أضف ?theme=dark أو &scale=120, &lang=ar إلى أي رابط.';
+
+  @override
+  String get preview => 'معاينة';
+
+  @override
+  String get adhanHeader => 'الأذان';
+
+  @override
+  String get poweredBy => 'بواسطة Quran+';
+
+  @override
+  String get invalidWidgetLink => 'رابط الودجت غير صالح أو ناقص.';
 }

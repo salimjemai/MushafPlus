@@ -1302,4 +1302,68 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get verseDetails => 'Ayet ayrıntıları';
+
+  @override
+  String get zoomIn => 'Yakınlaştır';
+
+  @override
+  String get zoomOut => 'Uzaklaştır';
+
+  @override
+  String get fitPage => 'Sayfaya sığdır';
+
+  @override
+  String get shareEmbed => 'Paylaş ve göm';
+
+  @override
+  String get websiteWidget => 'Web sitesi widget’ı ve TV ekranı';
+
+  @override
+  String get widgetLinks => 'Herkese açık bağlantılar';
+
+  @override
+  String get embedCode => 'Gömme kodu';
+
+  @override
+  String get openLink => 'Aç';
+
+  @override
+  String get linkCopied => 'Bağlantı kopyalandı';
+
+  @override
+  String get codeCopied => 'Gömme kodu kopyalandı';
+
+  @override
+  String get combinedWidget => 'Birleşik widget (günlük + Cuma)';
+
+  @override
+  String get dailyWidget => 'Günlük namaz widget’ı';
+
+  @override
+  String get jumuahWidget => 'Cuma namazı widget’ı';
+
+  @override
+  String get compactWidget => 'Kompakt widget';
+
+  @override
+  String get tvDisplay => 'TV ekranı';
+
+  @override
+  String get darkWidget => 'Koyu widget';
+
+  @override
+  String get embedHelp =>
+      'Gömme kodunu caminizin web sitesine yapıştırın veya bağlantıyı paylaşın. Bağlantı caminin konumunu, yöntemini, ikamet ve Cuma saatlerini taşır; değiştirdikten sonra yeniden kopyalayın. Herhangi bir bağlantıya ?theme=dark veya &scale=120, &lang=ar ekleyin.';
+
+  @override
+  String get preview => 'Önizleme';
+
+  @override
+  String get adhanHeader => 'Ezan';
+
+  @override
+  String get poweredBy => 'Quran+ ile';
+
+  @override
+  String get invalidWidgetLink => 'Bu widget bağlantısı geçersiz veya eksik.';
 }

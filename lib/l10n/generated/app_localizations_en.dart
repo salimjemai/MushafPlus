@@ -1303,4 +1303,68 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verseDetails => 'Verse details';
+
+  @override
+  String get zoomIn => 'Zoom in';
+
+  @override
+  String get zoomOut => 'Zoom out';
+
+  @override
+  String get fitPage => 'Fit to page';
+
+  @override
+  String get shareEmbed => 'Share & embed';
+
+  @override
+  String get websiteWidget => 'Website widget & TV display';
+
+  @override
+  String get widgetLinks => 'Public links';
+
+  @override
+  String get embedCode => 'Embed code';
+
+  @override
+  String get openLink => 'Open';
+
+  @override
+  String get linkCopied => 'Link copied';
+
+  @override
+  String get codeCopied => 'Embed code copied';
+
+  @override
+  String get combinedWidget => 'Combined widget (daily + Friday)';
+
+  @override
+  String get dailyWidget => 'Daily prayer widget';
+
+  @override
+  String get jumuahWidget => 'Friday prayer widget';
+
+  @override
+  String get compactWidget => 'Compact widget';
+
+  @override
+  String get tvDisplay => 'TV display';
+
+  @override
+  String get darkWidget => 'Dark widget';
+
+  @override
+  String get embedHelp =>
+      'Paste the embed code into your masjid website, or share a link. The link itself carries this masjid’s location, method, iqama and Jumu’ah settings, so copy it again after you change them. Add ?theme=dark or &scale=120, &lang=ar to any link.';
+
+  @override
+  String get preview => 'Preview';
+
+  @override
+  String get adhanHeader => 'Adhan';
+
+  @override
+  String get poweredBy => 'Powered by Quran+';
+
+  @override
+  String get invalidWidgetLink => 'This widget link is invalid or incomplete.';
 }
