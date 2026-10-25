@@ -88,7 +88,7 @@ class HadithPdf {
                 child: pw.Row(
                   children: [
                     pw.SizedBox(width: 36, child: pw.Text('${s.number}', style: pw.TextStyle(color: gold))),
-                    pw.Expanded(child: pw.Text(s.name)),
+                    pw.Expanded(child: pw.Text(s.titleFor(lang), textDirection: lang == 'ara' ? pw.TextDirection.rtl : null)),
                     if (s.count > 0) pw.Text('${s.first}–${s.last}', style: pw.TextStyle(color: grey, fontSize: 10)),
                   ],
                 ),
@@ -110,7 +110,7 @@ class HadithPdf {
             child: pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
-                pw.Text('${section.number}. ${section.name}', style: pw.TextStyle(fontSize: 9, color: grey)),
+                pw.Text('${section.number}. ${section.titleFor(lang)}', style: pw.TextStyle(fontSize: 9, color: grey)),
                 pw.Text(book.name, style: pw.TextStyle(fontSize: 9, color: grey)),
               ],
             ),
@@ -121,7 +121,7 @@ class HadithPdf {
           build: (ctx) => [
             pw.Padding(
               padding: const pw.EdgeInsets.only(top: 6, bottom: 10),
-              child: pw.Text('${section.number}. ${section.name}',
+              child: pw.Text('${section.number}. ${section.titleFor(lang)}',
                   style: pw.TextStyle(font: _amiriBold, fontSize: 16, color: ink)),
             ),
             for (final h in hadiths) ...[

@@ -312,10 +312,11 @@ class _HadithBookScreenState extends ConsumerState<HadithBookScreen> {
       error: (e, _) => Scaffold(body: Center(child: Text('$e'))),
       data: (list) {
         final book = list.firstWhere((b) => b.id == widget.bookId, orElse: () => list.first);
+        final lang = ref.watch(settingsProvider.select((s) => s.hadithLanguage));
         final q = _query.trim().toLowerCase();
         final sections = q.isEmpty
             ? book.sections
-            : book.sections.where((s) => s.name.toLowerCase().contains(q) || '${s.number}' == q).toList();
+            : book.sections.where((s) => s.matches(q)).toList();
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -355,8 +356,14 @@ class _HadithBookScreenState extends ConsumerState<HadithBookScreen> {
                             child: ListTile(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                               leading: SurahNumberBadge(number: s.number, size: 40),
-                              title: Text(s.name, style: const TextStyle(fontWeight: FontWeight.w600)),
-                              subtitle: Text(s.count > 0 ? context.l10n.hadithsRange(s.first, s.last) : context.l10n.chapterN(s.number)),
+                              title: Text(s.titleFor(lang),
+                                  style: lang == 'ara'
+                                      ? const TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 19, fontWeight: FontWeight.w700)
+                                      : const TextStyle(fontWeight: FontWeight.w600)),
+                              subtitle: Text([
+                                if (s.secondaryFor(lang).isNotEmpty) s.secondaryFor(lang),
+                                s.count > 0 ? context.l10n.hadithsRange(s.first, s.last) : context.l10n.chapterN(s.number),
+                              ].join(' · ')),
                               trailing: const Icon(Icons.chevron_right),
                               onTap: () => context.go('/hadith/${book.id}/${s.number}'),
                             ),

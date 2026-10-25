@@ -35,16 +35,32 @@ class HadithBook {
 }
 
 class HadithSection {
-  const HadithSection({required this.number, required this.name, required this.first, required this.last});
+  const HadithSection({required this.number, required this.name, this.arabic = '', required this.first, required this.last});
   final int number;
+
+  /// English chapter title (the only language the source API provides).
   final String name;
+
+  /// Arabic chapter title (كتاب ...), when known.
+  final String arabic;
   final int first;
   final int last;
   int get count => last >= first ? last - first + 1 : 0;
 
+  /// The title to show for a hadith language: Arabic for Arabic-only reading,
+  /// otherwise the English title.
+  String titleFor(String lang) => lang == 'ara' && arabic.isNotEmpty ? arabic : name;
+
+  /// The other title, shown as a secondary line (or empty).
+  String secondaryFor(String lang) => lang == 'ara' ? (arabic.isNotEmpty ? name : '') : arabic;
+
+  bool matches(String query) =>
+      name.toLowerCase().contains(query) || arabic.contains(query) || '$number' == query;
+
   factory HadithSection.fromJson(Map<String, dynamic> j) => HadithSection(
         number: (j['n'] as num).toInt(),
         name: j['name'] as String,
+        arabic: (j['arabic'] as String?) ?? '',
         first: (j['first'] as num).floor(),
         last: (j['last'] as num).floor(),
       );
