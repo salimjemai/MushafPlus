@@ -3015,6 +3015,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No voice for this language is installed on this device. Hadith are read with the device’s text-to-speech voices.'**
   String get ttsUnavailable;
+
+  /// No description provided for @homeSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the Quran: a surah, an ayah, a word or a phrase…'**
+  String get homeSearchHint;
+
+  /// No description provided for @homeSearchHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic with or without harakat, transliteration (insan, bismillah), English meaning, surah name or number.'**
+  String get homeSearchHelp;
 }
 
 class _AppLocalizationsDelegate

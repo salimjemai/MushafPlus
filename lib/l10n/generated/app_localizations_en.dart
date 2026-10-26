@@ -1697,4 +1697,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ttsUnavailable =>
       'No voice for this language is installed on this device. Hadith are read with the device’s text-to-speech voices.';
+
+  @override
+  String get homeSearchHint =>
+      'Search the Quran: a surah, an ayah, a word or a phrase…';
+
+  @override
+  String get homeSearchHelp =>
+      'Arabic with or without harakat, transliteration (insan, bismillah), English meaning, surah name or number.';
 }

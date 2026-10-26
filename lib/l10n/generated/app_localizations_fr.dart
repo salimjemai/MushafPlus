@@ -1704,4 +1704,12 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get ttsUnavailable =>
       'Aucune voix pour cette langue n’est installée sur cet appareil. Les hadiths sont lus par la synthèse vocale de l’appareil.';
+
+  @override
+  String get homeSearchHint =>
+      'Rechercher dans le Coran : une sourate, un verset, un mot ou une expression…';
+
+  @override
+  String get homeSearchHelp =>
+      'En arabe avec ou sans voyelles, en translittération (insan, bismillah), par le sens en anglais, par nom ou numéro de sourate.';
 }

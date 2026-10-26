@@ -1170,5 +1170,7 @@
   },
   "readAloud": "Read aloud",
   "stopReading": "Stop reading",
-  "ttsUnavailable": "No voice for this language is installed on this device. Hadith are read with the device’s text-to-speech voices."
+  "ttsUnavailable": "No voice for this language is installed on this device. Hadith are read with the device’s text-to-speech voices.",
+  "homeSearchHint": "Search the Quran: a surah, an ayah, a word or a phrase…",
+  "homeSearchHelp": "Arabic with or without harakat, transliteration (insan, bismillah), English meaning, surah name or number."
 }

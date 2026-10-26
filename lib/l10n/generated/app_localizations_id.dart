@@ -1698,4 +1698,12 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get ttsUnavailable =>
       'Tidak ada suara untuk bahasa ini di perangkat. Hadis dibacakan dengan suara text-to-speech perangkat.';
+
+  @override
+  String get homeSearchHint =>
+      'Cari di Al-Qur’an: surah, ayat, kata, atau frasa…';
+
+  @override
+  String get homeSearchHelp =>
+      'Arab dengan atau tanpa harakat, transliterasi (insan, bismillah), arti bahasa Inggris, nama atau nomor surah.';
 }

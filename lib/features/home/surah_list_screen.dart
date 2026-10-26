@@ -81,13 +81,6 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            tooltip: l.searchTheQuran,
-            icon: const Icon(Icons.search),
-            onPressed: () => context.go('/search'),
-          ),
-        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -116,38 +109,57 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                     const SizedBox(height: 4),
                   ],
                 ),
-              Row(
+              Column(
                 key: const ValueKey('home-finder'),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      onChanged: (v) => setState(() => _query = v),
-                      decoration: InputDecoration(
-                        hintText: l.findSurahHint,
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: _query.isEmpty
-                            ? null
-                            : IconButton(
-                                icon: const Icon(Icons.close),
-                                onPressed: () {
-                                  _controller.clear();
-                                  setState(() => _query = '');
-                                },
-                              ),
-                      ),
+                  TextField(
+                    controller: _controller,
+                    onChanged: (v) => setState(() => _query = v),
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (v) {
+                      if (v.trim().length >= 2 && hits.isNotEmpty) {
+                        context.go('/search?q=${Uri.encodeQueryComponent(v.trim())}');
+                      }
+                    },
+                    style: const TextStyle(fontSize: 16),
+                    decoration: InputDecoration(
+                      hintText: l.homeSearchHint,
+                      hintMaxLines: 2,
+                      hintStyle: TextStyle(fontSize: 14.5, color: Theme.of(context).colorScheme.onSurfaceVariant, height: 1.3),
+                      prefixIcon: const Padding(padding: EdgeInsetsDirectional.only(start: 6), child: Icon(Icons.search, size: 26)),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                      filled: true,
+                      suffixIcon: _query.isEmpty
+                          ? null
+                          : IconButton(
+                              icon: const Icon(Icons.close),
+                              onPressed: () {
+                                _controller.clear();
+                                setState(() => _query = '');
+                              },
+                            ),
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  SegmentedButton<_Tab>(
-                    showSelectedIcon: false,
-                    segments: [
-                      ButtonSegment(value: _Tab.surahs, label: Text(l.tabSurah)),
-                      ButtonSegment(value: _Tab.juz, label: Text(l.tabJuz)),
-                      ButtonSegment(value: _Tab.pages, label: Text(l.tabPage)),
-                    ],
-                    selected: {_tab},
-                    onSelectionChanged: (s) => setState(() => _tab = s.first),
+                  const SizedBox(height: 6),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 4),
+                    child: Text(l.homeSearchHelp, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  ),
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: SegmentedButton<_Tab>(
+                      showSelectedIcon: false,
+                      style: const ButtonStyle(visualDensity: VisualDensity.compact),
+                      segments: [
+                        ButtonSegment(value: _Tab.surahs, label: Text(l.tabSurah)),
+                        ButtonSegment(value: _Tab.juz, label: Text(l.tabJuz)),
+                        ButtonSegment(value: _Tab.pages, label: Text(l.tabPage)),
+                      ],
+                      selected: {_tab},
+                      onSelectionChanged: (s) => setState(() => _tab = s.first),
+                    ),
                   ),
                 ],
               ),

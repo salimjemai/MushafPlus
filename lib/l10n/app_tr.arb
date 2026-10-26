@@ -484,5 +484,7 @@
   "timesN": "×{n}",
   "readAloud": "Sesli oku",
   "stopReading": "Okumayı durdur",
-  "ttsUnavailable": "Bu cihazda bu dil için ses yüklü değil. Hadisler cihazın metin okuma sesleriyle okunur."
+  "ttsUnavailable": "Bu cihazda bu dil için ses yüklü değil. Hadisler cihazın metin okuma sesleriyle okunur.",
+  "homeSearchHint": "Kur’an’da ara: sure, ayet, kelime veya ifade…",
+  "homeSearchHelp": "Harekeli veya harekesiz Arapça, çeviri yazı (insan, bismillah), İngilizce anlam, sure adı veya numarası."
 }
