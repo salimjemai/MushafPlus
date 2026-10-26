@@ -1376,4 +1376,14 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get speechTip =>
       'درست الفاظ سبز اور غلط الفاظ سرخ ہو جاتے ہیں، آواز اور ارتعاش کے ساتھ؛ غلطی کے بعد پڑھتے رہیں، جانچ آپ کے ساتھ چلتی ہے۔';
+
+  @override
+  String get strictMode => 'سخت';
+
+  @override
+  String get lenientMode => 'نرم';
+
+  @override
+  String get strictHelp =>
+      'سخت موڈ: لفظ صرف اس وقت درست شمار ہوتا ہے جب ہر حرف مطابق ہو۔ حرکات اور تجوید کی جانچ ممکن نہیں کیونکہ آواز کی شناخت صرف حروف واپس دیتی ہے۔';
 }

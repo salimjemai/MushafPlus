@@ -1383,4 +1383,14 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get speechTip =>
       'Kata yang benar menjadi hijau, yang salah merah disertai bunyi dan getaran; teruskan membaca setelah keliru dan pemeriksa akan mengikuti.';
+
+  @override
+  String get strictMode => 'Ketat';
+
+  @override
+  String get lenientMode => 'Longgar';
+
+  @override
+  String get strictHelp =>
+      'Mode ketat: kata dihitung benar hanya jika setiap huruf cocok. Harakat dan tajwid tidak dapat diperiksa: pengenalan suara hanya mengembalikan huruf.';
 }

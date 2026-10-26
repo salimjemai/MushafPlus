@@ -1389,4 +1389,14 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get speechTip =>
       'Les mots corrects passent en vert, les erreurs en rouge avec un son et une vibration ; continuez après une erreur, le correcteur vous suit.';
+
+  @override
+  String get strictMode => 'Strict';
+
+  @override
+  String get lenientMode => 'Tolérant';
+
+  @override
+  String get strictHelp =>
+      'Mode strict : un mot n’est compté juste que si chaque lettre correspond. Les voyelles (harakat) et le tajwid ne peuvent pas être vérifiés : la reconnaissance vocale ne renvoie que les lettres.';
 }

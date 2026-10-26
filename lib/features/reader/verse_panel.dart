@@ -165,7 +165,7 @@ class _VersePanelState extends ConsumerState<VersePanel> with SingleTickerProvid
               }),
               IconButton(tooltip: l.reciteFromHere, icon: const Icon(Icons.mic_none), onPressed: () {
                 Navigator.of(context).maybePop();
-                context.push('/recite/${_ayah.surah}?from=${_ayah.numberInSurah}');
+                context.push('/recite/${_ayah.surah}?from=${_ayah.numberInSurah}&auto=1');
               }),
               IconButton(tooltip: l.downloadAyahAudio, icon: const Icon(Icons.download_outlined), onPressed: () => downloadAyahAudio(context, ref, _ayah)),
               IconButton(tooltip: l.copy, icon: const Icon(Icons.copy_outlined), onPressed: () async {

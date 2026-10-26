@@ -78,17 +78,35 @@ double similarity(String a, String b) {
 
 /// Aligns recognised speech against an expected passage.
 class RecitationMatcher {
-  RecitationMatcher(List<String> expectedOriginalWords)
+  RecitationMatcher(List<String> expectedOriginalWords, {this.strict = true})
       : _original = expectedOriginalWords,
         _expected = expectedOriginalWords.map((w) => tokenize(w).join()).toList();
 
   final List<String> _original;
   final List<String> _expected;
 
-  static const matchThreshold = 0.72;
+  /// Strict: a word counts as correct only when its letters match exactly
+  /// (after the orthographic normalisation above); any letter slip is
+  /// "wrong". Lenient tolerates small recogniser spelling variations.
+  final bool strict;
+
+  static const lenientMatchThreshold = 0.72;
   static const wrongThreshold = 0.4;
 
+  /// Whether a heard word counts as the expected word. Strict mode demands the
+  /// same letters, except that alif length differences are ignored: the
+  /// Uthmani rasm writes ٱلْعَٰلَمِينَ and ذَٰلِكَ while recognisers spell
+  /// العالمين and ذلك, and vowel length is not something the transcript can
+  /// tell us about.
+  bool isMatch(String expected, String heard, double sim) {
+    if (!strict) return sim >= lenientMatchThreshold;
+    if (expected == heard) return true;
+    return expected.replaceAll('ا', '') == heard.replaceAll('ا', '');
+  }
+
   int get length => _expected.length;
+
+  List<String> get originalWords => _original;
 
   /// Builds the passage word list from Uthmani ayah texts, dropping empty tokens.
   static List<String> wordsOf(Iterable<String> ayahTexts) =>
@@ -118,11 +136,14 @@ class RecitationMatcher {
       move[0][j] = 2;
     }
     final sims = List.generate(n, (i) => List<double>.filled(m, 0));
+    final good = List.generate(n, (i) => List<bool>.filled(m, false));
     for (var i = 1; i <= n; i++) {
       for (var j = 1; j <= m; j++) {
         final sim = similarity(_expected[i - 1], heard[j - 1]);
         sims[i - 1][j - 1] = sim;
-        final diagGain = sim >= matchThreshold ? 3.0 : (sim >= wrongThreshold ? 1.0 : -2.0);
+        final ok = isMatch(_expected[i - 1], heard[j - 1], sim);
+        good[i - 1][j - 1] = ok;
+        final diagGain = ok ? 3.0 : (sim >= wrongThreshold ? 1.0 : -2.0);
         final diag = score[i - 1][j - 1] + diagGain;
         final up = score[i - 1][j] - 1;
         final left = score[i][j - 1] - 1;
@@ -160,7 +181,7 @@ class RecitationMatcher {
       final mv = (i == 0) ? 2 : (j == 0 ? 1 : move[i][j]);
       if (mv == 0) {
         final sim = sims[i - 1][j - 1];
-        if (sim >= matchThreshold) {
+        if (good[i - 1][j - 1]) {
           statuses[i - 1] = WordStatus.matched;
         } else if (sim >= wrongThreshold) {
           statuses[i - 1] = WordStatus.wrong;

@@ -2469,6 +2469,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Correct words turn green, wrong words red with a buzz and a vibration; keep reciting after a slip and the checker follows you.'**
   String get speechTip;
+
+  /// No description provided for @strictMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Strict'**
+  String get strictMode;
+
+  /// No description provided for @lenientMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Lenient'**
+  String get lenientMode;
+
+  /// No description provided for @strictHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Strict mode: a word counts only when every letter matches. Vowel marks (harakat) and tajweed cannot be checked: speech recognition returns the letters only.'**
+  String get strictHelp;
 }
 
 class _AppLocalizationsDelegate

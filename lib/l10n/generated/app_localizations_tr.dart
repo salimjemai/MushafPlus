@@ -1381,4 +1381,14 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get speechTip =>
       'Doğru kelimeler yeşile, yanlışlar sesli uyarı ve titreşimle kırmızıya döner; bir hatadan sonra okumaya devam edin, denetleyici sizi izler.';
+
+  @override
+  String get strictMode => 'Katı';
+
+  @override
+  String get lenientMode => 'Esnek';
+
+  @override
+  String get strictHelp =>
+      'Katı mod: bir kelime ancak her harfi eşleştiğinde doğru sayılır. Harekeler ve tecvid denetlenemez: konuşma tanıma yalnızca harfleri döndürür.';
 }

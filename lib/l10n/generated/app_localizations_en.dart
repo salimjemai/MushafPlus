@@ -1382,4 +1382,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get speechTip =>
       'Correct words turn green, wrong words red with a buzz and a vibration; keep reciting after a slip and the checker follows you.';
+
+  @override
+  String get strictMode => 'Strict';
+
+  @override
+  String get lenientMode => 'Lenient';
+
+  @override
+  String get strictHelp =>
+      'Strict mode: a word counts only when every letter matches. Vowel marks (harakat) and tajweed cannot be checked: speech recognition returns the letters only.';
 }

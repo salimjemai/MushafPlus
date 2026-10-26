@@ -120,6 +120,7 @@ final _routes = <RouteBase>[
           surah: n,
           from: int.tryParse(s.uri.queryParameters['from'] ?? ''),
           to: int.tryParse(s.uri.queryParameters['to'] ?? ''),
+          autoStart: s.uri.queryParameters['auto'] == '1',
         );
       },
     ),

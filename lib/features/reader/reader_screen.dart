@@ -155,7 +155,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 case 'memorize':
                   context.go('/memorize/${surah.number}');
                 case 'recite':
-                  context.go('/recite/${surah.number}');
+                  context.go('/recite/${surah.number}?auto=1');
                 case 'download':
                   downloadSurahAudio(context, ref, surah);
                 case 'page':

@@ -1376,4 +1376,14 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get speechTip =>
       'تتحول الكلمات الصحيحة إلى الأخضر والخاطئة إلى الأحمر مع صوت واهتزاز؛ تابع القراءة بعد الخطأ وسيتابعك المصحح.';
+
+  @override
+  String get strictMode => 'دقيق';
+
+  @override
+  String get lenientMode => 'متساهل';
+
+  @override
+  String get strictHelp =>
+      'الوضع الدقيق: تُحتسب الكلمة صحيحة فقط إذا تطابقت كل حروفها. لا يمكن التحقق من الحركات والتجويد لأن التعرف على الكلام يعيد الحروف فقط.';
 }

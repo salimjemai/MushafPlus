@@ -49,6 +49,20 @@ void main() {
     expect(r.words.take(4).every((w) => w.status == WordStatus.matched), isTrue);
   });
 
+  test('strict mode rejects a one-letter slip that lenient mode accepts', () {
+    final words = RecitationMatcher.wordsOf(fatiha);
+    // "العالمين" recited as "العالمون"
+    final heard = 'بسم الله الرحمن الرحيم الحمد لله رب العالمون';
+    final lenient = RecitationMatcher(words, strict: false).match(heard);
+    final strict = RecitationMatcher(words, strict: true).match(heard);
+    expect(lenient.words[7].status, WordStatus.matched);
+    expect(strict.words[7].status, WordStatus.wrong);
+    expect(strict.words[7].heard, 'العالمون');
+    for (var i = 0; i < 7; i++) {
+      expect(strict.words[i].status, WordStatus.matched, reason: 'word $i');
+    }
+  });
+
   test('empty input is all pending', () {
     final m = RecitationMatcher(RecitationMatcher.wordsOf(fatiha));
     final r = m.match('');

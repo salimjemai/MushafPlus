@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -20,10 +21,14 @@ import '../plan/plan_screen.dart';
 /// word against the Uthmani text: matched words turn green, wrong words red
 /// (with what was heard, a buzz and a vibration), skipped words orange.
 class ReciteScreen extends ConsumerStatefulWidget {
-  const ReciteScreen({super.key, required this.surah, this.from, this.to});
+  const ReciteScreen({super.key, required this.surah, this.from, this.to, this.autoStart = false});
   final int surah;
   final int? from;
   final int? to;
+
+  /// Start listening as soon as the screen opens (where the platform allows
+  /// starting without a tap on this screen).
+  final bool autoStart;
 
   @override
   ConsumerState<ReciteScreen> createState() => _ReciteScreenState();
@@ -54,6 +59,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
   late RecitationMatcher _matcher;
   MatchResult? _result;
   bool _hideText = true;
+  bool _strict = true;
   int _hintUntil = -1; // reveal words up to this index when hidden
 
   @override
@@ -63,6 +69,22 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     _from = (widget.from ?? 1).clamp(1, s.numberOfAyahs);
     _to = (widget.to ?? (_from + 4)).clamp(_from, s.numberOfAyahs);
     _buildPassage();
+    if (widget.autoStart) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // WebKit (Safari, iPhone, iPad) only lets a tap on this page start
+        // the microphone; elsewhere start right away.
+        if (mounted && !(kIsWeb && _engine.shortSessions)) _toggle();
+      });
+    }
+  }
+
+  void _setStrict(bool v) {
+    setState(() {
+      _strict = v;
+      _matcher = RecitationMatcher(_matcher.originalWords, strict: v);
+      _flaggedWrong.clear();
+      _result = _matcher.match('$_committed $_partial');
+    });
   }
 
   void _buildPassage() {
@@ -77,7 +99,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
         _wordAyah.add(i);
       }
     }
-    _matcher = RecitationMatcher(words);
+    _matcher = RecitationMatcher(words, strict: _strict);
     _result = _matcher.match('');
     _sessionBase = '';
     _committed = '';
@@ -409,43 +431,40 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                 ),
               const SizedBox(height: 16),
 
-              // ---- controls ---------------------------------------------------
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlinedButton.icon(onPressed: _reset, icon: const Icon(Icons.refresh), label: Text(l.reset)),
-                  const SizedBox(width: 10),
-                  _MicButton(active: _active, listening: _engineListening, level: _level, onTap: _toggle),
-                  const SizedBox(width: 10),
-                  OutlinedButton.icon(
-                    onPressed: r.complete ? null : () => setState(() => _hintUntil = r.nextIndex),
-                    icon: const Icon(Icons.lightbulb_outline),
-                    label: Text(l.hint),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: TextButton.icon(
-                  onPressed: () => ref.read(audioProvider.notifier).playAyah(
-                        _ayahs[cursorAyah].number,
-                        until: _ayahs[cursorAyah].number,
-                      ),
-                  icon: const Icon(Icons.play_circle_outline),
-                  label: Text(l.playThisAyah),
-                ),
-              ),
               const SizedBox(height: 8),
               Text(
                 l.reciteHelp,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4),
               ),
+              Text(
+                l.strictHelp,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4),
+              ),
+              const SizedBox(height: 8),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: const MiniPlayer(showLocation: false),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const MiniPlayer(showLocation: false),
+          _ControlsBar(
+            active: _active,
+            listening: _engineListening,
+            level: _level,
+            strict: _strict,
+            canHint: !r.complete,
+            onMic: _toggle,
+            onReset: _reset,
+            onHint: () => setState(() => _hintUntil = r.nextIndex),
+            onStrict: _setStrict,
+            onPlay: () => ref.read(audioProvider.notifier).playAyah(_ayahs[cursorAyah].number, until: _ayahs[cursorAyah].number),
+          ),
+        ],
+      ),
     );
   }
 
@@ -592,6 +611,102 @@ class _AyahWords extends StatelessWidget {
   }
 }
 
+/// Pinned bottom bar: the microphone is always one tap away, with reset,
+/// hint, play-this-ayah and the strict / lenient switch beside it.
+class _ControlsBar extends StatelessWidget {
+  const _ControlsBar({
+    required this.active,
+    required this.listening,
+    required this.level,
+    required this.strict,
+    required this.canHint,
+    required this.onMic,
+    required this.onReset,
+    required this.onHint,
+    required this.onStrict,
+    required this.onPlay,
+  });
+  final bool active;
+  final bool listening;
+  final double level;
+  final bool strict;
+  final bool canHint;
+  final VoidCallback onMic;
+  final VoidCallback onReset;
+  final VoidCallback onHint;
+  final ValueChanged<bool> onStrict;
+  final VoidCallback onPlay;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
+    return Material(
+      color: scheme.surfaceContainerHigh,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 6, 12, 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _BarAction(icon: Icons.refresh, label: l.reset, onTap: onReset),
+                  _BarAction(icon: Icons.play_circle_outline, label: l.playThisAyah, onTap: onPlay),
+                  _MicButton(active: active, listening: listening, level: level, onTap: onMic),
+                  _BarAction(icon: Icons.lightbulb_outline, label: l.hint, onTap: canHint ? onHint : null),
+                  _BarAction(
+                    icon: strict ? Icons.gpp_good_outlined : Icons.gpp_maybe_outlined,
+                    label: strict ? l.strictMode : l.lenientMode,
+                    onTap: () => onStrict(!strict),
+                    color: strict ? scheme.primary : scheme.tertiary,
+                  ),
+                ],
+              ),
+              if (!active)
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(l.tapMicToStart, style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BarAction extends StatelessWidget {
+  const _BarAction({required this.icon, required this.label, required this.onTap, this.color});
+  final IconData icon;
+  final String label;
+  final VoidCallback? onTap;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final c = onTap == null ? scheme.onSurfaceVariant.withValues(alpha: 0.4) : (color ?? scheme.onSurfaceVariant);
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: c, size: 24),
+            const SizedBox(height: 2),
+            Text(label, style: TextStyle(fontSize: 11, color: c), maxLines: 1, overflow: TextOverflow.ellipsis),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _MicButton extends StatelessWidget {
   const _MicButton({required this.active, required this.listening, required this.level, required this.onTap});
   final bool active;
@@ -604,23 +719,24 @@ class _MicButton extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final pulse = listening ? (0.15 + (level.clamp(-2, 10) + 2) / 12 * 0.5) : 0.0;
     return SizedBox(
-      width: 96,
-      height: 96,
+      width: 84,
+      height: 84,
       child: Stack(
         alignment: Alignment.center,
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 120),
-            width: 64 + 32 * pulse,
-            height: 64 + 32 * pulse,
+            width: 60 + 24 * pulse,
+            height: 60 + 24 * pulse,
             decoration: BoxDecoration(shape: BoxShape.circle, color: scheme.primary.withValues(alpha: 0.18 * (listening ? 1 : 0))),
           ),
-          FloatingActionButton.large(
+          FloatingActionButton(
             heroTag: 'recite-mic',
             onPressed: onTap,
             backgroundColor: active ? scheme.error : scheme.primary,
             foregroundColor: Colors.white,
-            child: Icon(active ? Icons.stop : Icons.mic, size: 36),
+            shape: const CircleBorder(),
+            child: Icon(active ? Icons.stop : Icons.mic, size: 32),
           ),
         ],
       ),

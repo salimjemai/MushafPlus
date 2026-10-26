@@ -1024,5 +1024,8 @@
   "micDenied": "Microphone access was denied. Allow it for this site in the browser or system settings, then try again.",
   "noSpeechYet": "Nothing heard yet. Recite clearly, close to the microphone. Words appear here as they are recognised.",
   "speechNotice": "Recognition notice",
-  "speechTip": "Correct words turn green, wrong words red with a buzz and a vibration; keep reciting after a slip and the checker follows you."
+  "speechTip": "Correct words turn green, wrong words red with a buzz and a vibration; keep reciting after a slip and the checker follows you.",
+  "strictMode": "Strict",
+  "lenientMode": "Lenient",
+  "strictHelp": "Strict mode: a word counts only when every letter matches. Vowel marks (harakat) and tajweed cannot be checked: speech recognition returns the letters only."
 }
