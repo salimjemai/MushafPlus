@@ -1399,4 +1399,213 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get strictHelp =>
       'Mode strict : un mot n’est compté juste que si chaque lettre correspond. Les voyelles (harakat) et le tajwid ne peuvent pas être vérifiés : la reconnaissance vocale ne renvoie que les lettres.';
+
+  @override
+  String get tjHamzatWasl => 'Hamzat al-wasl';
+
+  @override
+  String get tjSilent => 'Lettre muette';
+
+  @override
+  String get tjLaamShamsiyyah => 'Lam solaire';
+
+  @override
+  String get tjMaddNormal => 'Madd naturel';
+
+  @override
+  String get tjMaddPermissible => 'Madd permis';
+
+  @override
+  String get tjMaddNecessary => 'Madd obligatoire long';
+
+  @override
+  String get tjQalqalah => 'Qalqalah';
+
+  @override
+  String get tjMaddObligatory => 'Madd obligatoire';
+
+  @override
+  String get tjIkhfaShafawi => 'Ikhfa labial';
+
+  @override
+  String get tjIkhfa => 'Ikhfa';
+
+  @override
+  String get tjIdghamShafawi => 'Idgham labial';
+
+  @override
+  String get tjIqlab => 'Iqlab';
+
+  @override
+  String get tjIdghamGhunnah => 'Idgham avec ghunnah';
+
+  @override
+  String get tjIdghamNoGhunnah => 'Idgham sans ghunnah';
+
+  @override
+  String get tjIdghamMutajanisayn => 'Idgham des lettres semblables';
+
+  @override
+  String get tjIdghamMutaqaribayn => 'Idgham des lettres proches';
+
+  @override
+  String get tjGhunnah => 'Ghunnah';
+
+  @override
+  String get tjdHamzatWasl =>
+      'Hamzah de liaison en début de mot : prononcée seulement si l’on commence par ce mot ; en liaison avec le mot précédent elle est muette.';
+
+  @override
+  String get tjdSilent =>
+      'Lettre écrite dans le mushaf mais non prononcée, comme l’alif après le waw du pluriel. On la saute à la récitation.';
+
+  @override
+  String get tjdLaamShamsiyyah =>
+      'Le lam de l’article devant une lettre solaire ne se prononce pas : on double la lettre solaire, comme dans ٱلشَّمْس → ash-shams.';
+
+  @override
+  String get tjdMaddNormal =>
+      'Allongement naturel : tenir la voyelle longue deux temps, ni plus ni moins.';
+
+  @override
+  String get tjdMaddPermissible =>
+      'Allongement quand une lettre de madd rencontre une hamzah du mot suivant ou un sukun de pause. Tenir deux, quatre ou six temps, de façon constante.';
+
+  @override
+  String get tjdMaddNecessary =>
+      'Allongement imposé par un sukun originel ou une shaddah après la lettre de madd, y compris les lettres d’ouverture des sourates. Tenir six temps.';
+
+  @override
+  String get tjdQalqalah =>
+      'Rebond sonore sur les lettres ق ط ب ج د porteuses d’un sukun. Relâcher la lettre avec un léger écho, plus fort à l’arrêt.';
+
+  @override
+  String get tjdMaddObligatory =>
+      'Lettre de madd suivie d’une hamzah dans le même mot. Tenir quatre à cinq temps.';
+
+  @override
+  String get tjdIkhfaShafawi =>
+      'Mim avec sukun devant ب : fermer légèrement les lèvres et dissimuler le mim avec un son nasal de deux temps.';
+
+  @override
+  String get tjdIkhfa =>
+      'Nun avec sukun ou tanwin devant l’une des quinze lettres d’ikhfa : dissimuler le nun avec un son nasal de deux temps, la langue prête pour la lettre suivante.';
+
+  @override
+  String get tjdIdghamShafawi =>
+      'Mim avec sukun devant un autre mim : fusion en un mim doublé avec un son nasal de deux temps.';
+
+  @override
+  String get tjdIqlab =>
+      'Nun avec sukun ou tanwin devant ب devient un mim dissimulé, avec un son nasal de deux temps et les lèvres légèrement fermées.';
+
+  @override
+  String get tjdIdghamGhunnah =>
+      'Nun avec sukun ou tanwin devant ي ن م و au début du mot suivant fusionne dans cette lettre avec un son nasal de deux temps.';
+
+  @override
+  String get tjdIdghamNoGhunnah =>
+      'Nun avec sukun ou tanwin devant ل ou ر fusionne complètement dans cette lettre, sans son nasal.';
+
+  @override
+  String get tjdIdghamMutajanisayn =>
+      'Deux lettres de même point d’articulation, la première avec sukun, fusionnent en une lettre doublée, comme dans قَد تَّبَيَّنَ.';
+
+  @override
+  String get tjdIdghamMutaqaribayn =>
+      'Deux lettres de points d’articulation proches, la première avec sukun, fusionnent dans la seconde, comme dans قُل رَّبِّ.';
+
+  @override
+  String get tjdGhunnah =>
+      'Résonance nasale tenue deux temps sur un mim ou un nun avec shaddah.';
+
+  @override
+  String get tjgMadd => 'Allongements (madd)';
+
+  @override
+  String get tjgNunTanwin => 'Nun sakinah et tanwin';
+
+  @override
+  String get tjgMeemSakinah => 'Mim sakinah';
+
+  @override
+  String get tjgGhunnah => 'Ghunnah';
+
+  @override
+  String get tjgQalqalah => 'Qalqalah';
+
+  @override
+  String get tjgLam => 'Lam';
+
+  @override
+  String get tjgSilent => 'Lettres muettes';
+
+  @override
+  String get tjgIdghamAdjacent => 'Fusion de lettres voisines';
+
+  @override
+  String get tajweed => 'Tajwid';
+
+  @override
+  String get tajweedColors => 'Couleurs du tajwid';
+
+  @override
+  String get tajweedColorsSubtitle =>
+      'Colorer les lettres du Mushaf et du lecteur selon la règle de tajwid';
+
+  @override
+  String get tajweedGuide => 'Guide du tajwid';
+
+  @override
+  String get tajweedLegend => 'Légende des couleurs du tajwid';
+
+  @override
+  String get seeGuide => 'Guide complet';
+
+  @override
+  String get tajweedIntro =>
+      'Le tajwid consiste à prononcer chaque lettre depuis son point d’articulation avec ses qualités : allongement là où il y a madd, son nasal là où il y a ghunnah, dissimulation, fusion et rebond là où les règles le demandent. Le Mushaf colore chaque lettre porteuse d’une règle ; touchez un mot pour voir ses règles et comment le réciter. Les règles suivent la riwayah de Hafs d’après Asim.';
+
+  @override
+  String get rulesInThisWord => 'Tajwid dans ce mot';
+
+  @override
+  String get noRulesInWord =>
+      'Aucune règle de tajwid n’est marquée sur ce mot : récitez ses lettres simplement depuis leur point d’articulation.';
+
+  @override
+  String get wordTab => 'Mot';
+
+  @override
+  String wordOfN(int n, int total) {
+    return 'Mot $n sur $total';
+  }
+
+  @override
+  String get playWord => 'Écouter le mot';
+
+  @override
+  String get example => 'Exemple';
+
+  @override
+  String get triggerLetters => 'Lettres';
+
+  @override
+  String countsValue(String n) {
+    return '$n temps';
+  }
+
+  @override
+  String tuhfaRef(String lines) {
+    return 'Tuhfat al-Atfal, vers $lines';
+  }
+
+  @override
+  String jazariyyahRef(String lines) {
+    return 'al-Jazariyyah, vers $lines';
+  }
+
+  @override
+  String get tajweedSource =>
+      'Règles et couleurs d’après le guide tajwid d’alquran.cloud (riwayah Hafs, texte Tanzil Uthmani) et le code couleur KFGQPC utilisé par quran.com. Les vers renvoient à Tuhfat al-Atfal et à al-Muqaddimah al-Jazariyyah.';
 }

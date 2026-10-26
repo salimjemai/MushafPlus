@@ -1393,4 +1393,213 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get strictHelp =>
       'Mode ketat: kata dihitung benar hanya jika setiap huruf cocok. Harakat dan tajwid tidak dapat diperiksa: pengenalan suara hanya mengembalikan huruf.';
+
+  @override
+  String get tjHamzatWasl => 'Hamzah washal';
+
+  @override
+  String get tjSilent => 'Huruf tidak dibaca';
+
+  @override
+  String get tjLaamShamsiyyah => 'Lam syamsiyah';
+
+  @override
+  String get tjMaddNormal => 'Mad thabi’i';
+
+  @override
+  String get tjMaddPermissible => 'Mad jaiz';
+
+  @override
+  String get tjMaddNecessary => 'Mad lazim';
+
+  @override
+  String get tjQalqalah => 'Qalqalah';
+
+  @override
+  String get tjMaddObligatory => 'Mad wajib muttashil';
+
+  @override
+  String get tjIkhfaShafawi => 'Ikhfa syafawi';
+
+  @override
+  String get tjIkhfa => 'Ikhfa haqiqi';
+
+  @override
+  String get tjIdghamShafawi => 'Idgham syafawi';
+
+  @override
+  String get tjIqlab => 'Iqlab';
+
+  @override
+  String get tjIdghamGhunnah => 'Idgham bighunnah';
+
+  @override
+  String get tjIdghamNoGhunnah => 'Idgham bilaghunnah';
+
+  @override
+  String get tjIdghamMutajanisayn => 'Idgham mutajanisain';
+
+  @override
+  String get tjIdghamMutaqaribayn => 'Idgham mutaqaribain';
+
+  @override
+  String get tjGhunnah => 'Ghunnah';
+
+  @override
+  String get tjdHamzatWasl =>
+      'Hamzah penghubung di awal kata: dibaca hanya saat memulai dari kata itu; jika disambung dari kata sebelumnya, hamzah tidak dibaca.';
+
+  @override
+  String get tjdSilent =>
+      'Huruf yang tertulis di mushaf tetapi tidak dibaca, seperti alif setelah wau jamak. Lewati saat membaca.';
+
+  @override
+  String get tjdLaamShamsiyyah =>
+      'Lam alif-lam sebelum huruf syamsiyah tidak dibaca; huruf syamsiyahnya yang ditasydid, seperti ٱلشَّمْس → asy-syams.';
+
+  @override
+  String get tjdMaddNormal =>
+      'Mad thabi’i: panjangkan huruf mad dua harakat, tidak kurang tidak lebih.';
+
+  @override
+  String get tjdMaddPermissible =>
+      'Mad ketika huruf mad bertemu hamzah di kata berikutnya atau sukun karena waqaf. Panjangkan dua, empat, atau enam harakat secara konsisten.';
+
+  @override
+  String get tjdMaddNecessary =>
+      'Mad karena sukun asli atau tasydid setelah huruf mad, termasuk huruf pembuka surah. Panjangkan enam harakat.';
+
+  @override
+  String get tjdQalqalah =>
+      'Pantulan suara pada huruf ق ط ب ج د yang bersukun. Lepaskan huruf dengan pantulan ringan, lebih kuat saat waqaf.';
+
+  @override
+  String get tjdMaddObligatory =>
+      'Huruf mad diikuti hamzah dalam satu kata. Panjangkan empat sampai lima harakat.';
+
+  @override
+  String get tjdIkhfaShafawi =>
+      'Mim sukun sebelum ب: rapatkan bibir dengan ringan dan samarkan mim dengan dengung dua harakat.';
+
+  @override
+  String get tjdIkhfa =>
+      'Nun sukun atau tanwin sebelum salah satu dari lima belas huruf ikhfa: samarkan nun dengan dengung dua harakat, lidah siap pada huruf berikutnya.';
+
+  @override
+  String get tjdIdghamShafawi =>
+      'Mim sukun sebelum mim: leburkan menjadi satu mim bertasydid dengan dengung dua harakat.';
+
+  @override
+  String get tjdIqlab =>
+      'Nun sukun atau tanwin sebelum ب berubah menjadi mim yang disamarkan dengan dengung dua harakat dan bibir rapat ringan.';
+
+  @override
+  String get tjdIdghamGhunnah =>
+      'Nun sukun atau tanwin sebelum ي ن م و di awal kata berikutnya melebur ke huruf itu dengan dengung dua harakat.';
+
+  @override
+  String get tjdIdghamNoGhunnah =>
+      'Nun sukun atau tanwin sebelum ل atau ر melebur sepenuhnya tanpa dengung.';
+
+  @override
+  String get tjdIdghamMutajanisayn =>
+      'Dua huruf semakhraj, yang pertama sukun, melebur menjadi satu huruf bertasydid, seperti قَد تَّبَيَّنَ.';
+
+  @override
+  String get tjdIdghamMutaqaribayn =>
+      'Dua huruf yang makhrajnya berdekatan, yang pertama sukun, melebur ke huruf kedua, seperti قُل رَّبِّ.';
+
+  @override
+  String get tjdGhunnah =>
+      'Dengung hidung dua harakat pada mim atau nun bertasydid.';
+
+  @override
+  String get tjgMadd => 'Mad';
+
+  @override
+  String get tjgNunTanwin => 'Nun sukun dan tanwin';
+
+  @override
+  String get tjgMeemSakinah => 'Mim sukun';
+
+  @override
+  String get tjgGhunnah => 'Ghunnah';
+
+  @override
+  String get tjgQalqalah => 'Qalqalah';
+
+  @override
+  String get tjgLam => 'Lam';
+
+  @override
+  String get tjgSilent => 'Huruf tidak dibaca';
+
+  @override
+  String get tjgIdghamAdjacent => 'Idgham huruf berdekatan';
+
+  @override
+  String get tajweed => 'Tajwid';
+
+  @override
+  String get tajweedColors => 'Warna tajwid';
+
+  @override
+  String get tajweedColorsSubtitle =>
+      'Warnai huruf Mushaf dan pembaca menurut hukum tajwid';
+
+  @override
+  String get tajweedGuide => 'Panduan tajwid';
+
+  @override
+  String get tajweedLegend => 'Legenda warna tajwid';
+
+  @override
+  String get seeGuide => 'Panduan lengkap';
+
+  @override
+  String get tajweedIntro =>
+      'Tajwid adalah membaca setiap huruf dari makhrajnya dengan sifat-sifatnya: memanjangkan pada mad, mendengung pada ghunnah, menyamarkan, meleburkan, dan memantulkan sesuai hukumnya. Mushaf mewarnai setiap huruf yang memuat hukum; ketuk kata mana pun untuk melihat hukumnya dan cara membacanya. Hukum mengikuti riwayat Hafs dari Ashim.';
+
+  @override
+  String get rulesInThisWord => 'Tajwid pada kata ini';
+
+  @override
+  String get noRulesInWord =>
+      'Tidak ada hukum tajwid yang ditandai pada kata ini: bacalah hurufnya apa adanya dari makhrajnya.';
+
+  @override
+  String get wordTab => 'Kata';
+
+  @override
+  String wordOfN(int n, int total) {
+    return 'Kata $n dari $total';
+  }
+
+  @override
+  String get playWord => 'Putar kata';
+
+  @override
+  String get example => 'Contoh';
+
+  @override
+  String get triggerLetters => 'Huruf';
+
+  @override
+  String countsValue(String n) {
+    return '$n harakat';
+  }
+
+  @override
+  String tuhfaRef(String lines) {
+    return 'Tuhfatul Athfal, bait $lines';
+  }
+
+  @override
+  String jazariyyahRef(String lines) {
+    return 'al-Jazariyyah, bait $lines';
+  }
+
+  @override
+  String get tajweedSource =>
+      'Hukum dan pewarnaan mengikuti panduan tajwid alquran.cloud (riwayat Hafs, teks Tanzil Utsmani) dan skema warna KFGQPC yang dipakai quran.com. Rujukan bait mengacu pada Tuhfatul Athfal dan al-Muqaddimah al-Jazariyyah.';
 }

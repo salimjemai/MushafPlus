@@ -1386,4 +1386,212 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get strictHelp =>
       'سخت موڈ: لفظ صرف اس وقت درست شمار ہوتا ہے جب ہر حرف مطابق ہو۔ حرکات اور تجوید کی جانچ ممکن نہیں کیونکہ آواز کی شناخت صرف حروف واپس دیتی ہے۔';
+
+  @override
+  String get tjHamzatWasl => 'ہمزۂ وصل';
+
+  @override
+  String get tjSilent => 'خاموش حرف';
+
+  @override
+  String get tjLaamShamsiyyah => 'لامِ شمسی';
+
+  @override
+  String get tjMaddNormal => 'مدِ طبعی';
+
+  @override
+  String get tjMaddPermissible => 'مدِ جائز';
+
+  @override
+  String get tjMaddNecessary => 'مدِ لازم';
+
+  @override
+  String get tjQalqalah => 'قلقلہ';
+
+  @override
+  String get tjMaddObligatory => 'مدِ واجب متصل';
+
+  @override
+  String get tjIkhfaShafawi => 'اخفائے شفوی';
+
+  @override
+  String get tjIkhfa => 'اخفائے حقیقی';
+
+  @override
+  String get tjIdghamShafawi => 'ادغامِ شفوی';
+
+  @override
+  String get tjIqlab => 'اقلاب';
+
+  @override
+  String get tjIdghamGhunnah => 'ادغام مع الغنہ';
+
+  @override
+  String get tjIdghamNoGhunnah => 'ادغام بلا غنہ';
+
+  @override
+  String get tjIdghamMutajanisayn => 'ادغامِ متجانسین';
+
+  @override
+  String get tjIdghamMutaqaribayn => 'ادغامِ متقاربین';
+
+  @override
+  String get tjGhunnah => 'غنہ';
+
+  @override
+  String get tjdHamzatWasl =>
+      'لفظ کے شروع کا ہمزہ جو صرف اسی لفظ سے ابتدا کرنے پر پڑھا جاتا ہے؛ پچھلے لفظ سے ملا کر پڑھنے میں خاموش رہتا ہے۔';
+
+  @override
+  String get tjdSilent =>
+      'مصحف میں لکھا ہوا مگر نہ پڑھا جانے والا حرف، جیسے واوِ جمع کے بعد کا الف؛ تلاوت میں چھوڑ دیں۔';
+
+  @override
+  String get tjdLaamShamsiyyah =>
+      'شمسی حرف سے پہلے لامِ تعریف نہیں پڑھی جاتی؛ اس کی جگہ شمسی حرف مشدد پڑھیں، جیسے ٱلشَّمْس۔';
+
+  @override
+  String get tjdMaddNormal =>
+      'مدِ طبعی: حرفِ مد کو دو حرکات کے برابر کھینچیں، نہ کم نہ زیادہ۔';
+
+  @override
+  String get tjdMaddPermissible =>
+      'حرفِ مد کے بعد اگلے لفظ میں ہمزہ یا وقف کا سکون آئے تو دو، چار یا چھ حرکات مد کریں اور پوری تلاوت میں ایک ہی مقدار رکھیں۔';
+
+  @override
+  String get tjdMaddNecessary =>
+      'حرفِ مد کے بعد اصلی سکون یا تشدید ہو، جیسے سورتوں کے حروفِ مقطعات؛ چھ حرکات مد کریں۔';
+
+  @override
+  String get tjdQalqalah =>
+      'قطب جد کے ساکن حروف پر جھٹکے کی آواز؛ حرف کو ہلکی گونج کے ساتھ ادا کریں، وقف پر زیادہ واضح۔';
+
+  @override
+  String get tjdMaddObligatory =>
+      'حرفِ مد کے بعد اسی لفظ میں ہمزہ؛ چار یا پانچ حرکات مد کریں۔';
+
+  @override
+  String get tjdIkhfaShafawi =>
+      'ساکن میم کے بعد ب: ہونٹ ہلکے سے ملا کر میم کو دو حرکات کی غنہ کے ساتھ چھپائیں۔';
+
+  @override
+  String get tjdIkhfa =>
+      'ساکن نون یا تنوین کے بعد اخفا کے پندرہ حروف میں سے کوئی: نون کو دو حرکات کی غنہ سے چھپائیں اور زبان اگلے حرف کے لیے تیار رکھیں۔';
+
+  @override
+  String get tjdIdghamShafawi =>
+      'ساکن میم کے بعد میم: دونوں کو ایک مشدد میم میں دو حرکات کی غنہ کے ساتھ ملا دیں۔';
+
+  @override
+  String get tjdIqlab =>
+      'ساکن نون یا تنوین کے بعد ب: نون میم میں بدل جاتا ہے، دو حرکات کی غنہ اور ہلکے ملے ہونٹوں کے ساتھ۔';
+
+  @override
+  String get tjdIdghamGhunnah =>
+      'ساکن نون یا تنوین کے بعد اگلے لفظ کے شروع میں ی ن م و آئے تو اس میں دو حرکات کی غنہ کے ساتھ ادغام ہوتا ہے۔';
+
+  @override
+  String get tjdIdghamNoGhunnah =>
+      'ساکن نون یا تنوین کے بعد ل یا ر: بغیر غنہ مکمل ادغام ہوتا ہے۔';
+
+  @override
+  String get tjdIdghamMutajanisayn =>
+      'ایک ہی مخرج کے دو حروف، پہلا ساکن، ایک مشدد حرف میں ضم ہو جاتے ہیں، جیسے قَد تَّبَيَّنَ۔';
+
+  @override
+  String get tjdIdghamMutaqaribayn =>
+      'قریب المخرج دو حروف، پہلا ساکن، دوسرے میں ضم ہو جاتا ہے، جیسے قُل رَّبِّ۔';
+
+  @override
+  String get tjdGhunnah => 'مشدد میم اور نون پر دو حرکات کی ناک کی گونج۔';
+
+  @override
+  String get tjgMadd => 'مد';
+
+  @override
+  String get tjgNunTanwin => 'نون ساکن اور تنوین';
+
+  @override
+  String get tjgMeemSakinah => 'میم ساکن';
+
+  @override
+  String get tjgGhunnah => 'غنہ';
+
+  @override
+  String get tjgQalqalah => 'قلقلہ';
+
+  @override
+  String get tjgLam => 'لام';
+
+  @override
+  String get tjgSilent => 'خاموش حروف';
+
+  @override
+  String get tjgIdghamAdjacent => 'ملحقہ حروف کا ادغام';
+
+  @override
+  String get tajweed => 'تجوید';
+
+  @override
+  String get tajweedColors => 'تجوید کے رنگ';
+
+  @override
+  String get tajweedColorsSubtitle =>
+      'مصحف اور قاری کے حروف کو تجوید کے قاعدے کے مطابق رنگیں';
+
+  @override
+  String get tajweedGuide => 'تجوید کی رہنمائی';
+
+  @override
+  String get tajweedLegend => 'تجوید کے رنگوں کی وضاحت';
+
+  @override
+  String get seeGuide => 'مکمل رہنمائی';
+
+  @override
+  String get tajweedIntro =>
+      'تجوید یہ ہے کہ ہر حرف اپنے مخرج سے اس کی صفات کے ساتھ ادا ہو: جہاں مد ہو وہاں کھینچنا، جہاں غنہ ہو وہاں ناک کی آواز، اور جہاں قواعد چاہیں وہاں اخفا، ادغام اور قلقلہ۔ مصحف ہر اس حرف کو رنگتا ہے جس پر کوئی قاعدہ ہو؛ کسی بھی لفظ پر ٹیپ کریں تاکہ اس کے قواعد اور پڑھنے کا طریقہ دیکھ سکیں۔ قواعد روایتِ حفص عن عاصم کے مطابق ہیں۔';
+
+  @override
+  String get rulesInThisWord => 'اس لفظ میں تجوید';
+
+  @override
+  String get noRulesInWord =>
+      'اس لفظ پر کوئی تجویدی قاعدہ نہیں: اس کے حروف سادہ طور پر اپنے مخارج سے پڑھیں۔';
+
+  @override
+  String get wordTab => 'لفظ';
+
+  @override
+  String wordOfN(int n, int total) {
+    return 'لفظ $n از $total';
+  }
+
+  @override
+  String get playWord => 'لفظ سنیں';
+
+  @override
+  String get example => 'مثال';
+
+  @override
+  String get triggerLetters => 'حروف';
+
+  @override
+  String countsValue(String n) {
+    return '$n حرکات';
+  }
+
+  @override
+  String tuhfaRef(String lines) {
+    return 'تحفۃ الاطفال، اشعار $lines';
+  }
+
+  @override
+  String jazariyyahRef(String lines) {
+    return 'جزریہ، اشعار $lines';
+  }
+
+  @override
+  String get tajweedSource =>
+      'قواعد اور رنگ alquran.cloud کی تجوید رہنمائی (روایتِ حفص، تنزیل عثمانی متن) اور quran.com کے KFGQPC رنگوں کے مطابق ہیں۔ اشعار کے حوالے تحفۃ الاطفال اور مقدمہ جزریہ کے ہیں۔';
 }

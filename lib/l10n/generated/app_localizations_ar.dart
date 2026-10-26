@@ -1386,4 +1386,212 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get strictHelp =>
       'الوضع الدقيق: تُحتسب الكلمة صحيحة فقط إذا تطابقت كل حروفها. لا يمكن التحقق من الحركات والتجويد لأن التعرف على الكلام يعيد الحروف فقط.';
+
+  @override
+  String get tjHamzatWasl => 'همزة الوصل';
+
+  @override
+  String get tjSilent => 'حرف صامت';
+
+  @override
+  String get tjLaamShamsiyyah => 'اللام الشمسية';
+
+  @override
+  String get tjMaddNormal => 'المد الطبيعي';
+
+  @override
+  String get tjMaddPermissible => 'المد الجائز';
+
+  @override
+  String get tjMaddNecessary => 'المد اللازم';
+
+  @override
+  String get tjQalqalah => 'القلقلة';
+
+  @override
+  String get tjMaddObligatory => 'المد الواجب المتصل';
+
+  @override
+  String get tjIkhfaShafawi => 'الإخفاء الشفوي';
+
+  @override
+  String get tjIkhfa => 'الإخفاء الحقيقي';
+
+  @override
+  String get tjIdghamShafawi => 'الإدغام الشفوي';
+
+  @override
+  String get tjIqlab => 'الإقلاب';
+
+  @override
+  String get tjIdghamGhunnah => 'الإدغام بغنة';
+
+  @override
+  String get tjIdghamNoGhunnah => 'الإدغام بلا غنة';
+
+  @override
+  String get tjIdghamMutajanisayn => 'إدغام المتجانسين';
+
+  @override
+  String get tjIdghamMutaqaribayn => 'إدغام المتقاربين';
+
+  @override
+  String get tjGhunnah => 'الغنة';
+
+  @override
+  String get tjdHamzatWasl =>
+      'همزة في أول الكلمة تُنطق عند الابتداء بها فقط، وتسقط عند الوصل بما قبلها، فيُقرأ ما بعدها مباشرة.';
+
+  @override
+  String get tjdSilent =>
+      'حرف مرسوم في المصحف لا يُنطق، كالألف بعد واو الجماعة؛ يُتجاوز في التلاوة.';
+
+  @override
+  String get tjdLaamShamsiyyah =>
+      'لام التعريف قبل حرف شمسي لا تُنطق، ويُشدَّد الحرف الشمسي بدلًا منها، كما في ٱلشَّمْس.';
+
+  @override
+  String get tjdMaddNormal =>
+      'مد طبيعي: يُمَدّ حرف المد بمقدار حركتين، لا أقل ولا أكثر.';
+
+  @override
+  String get tjdMaddPermissible =>
+      'مد يقع عند لقاء حرف المد بهمزة في الكلمة التالية أو بسكون عارض للوقف؛ يُمَدّ حركتين أو أربعًا أو ستًّا مع الثبات على مقدار واحد.';
+
+  @override
+  String get tjdMaddNecessary =>
+      'مد يوجبه سكون أصلي أو شدة بعد حرف المد، ومنه فواتح السور؛ يُمَدّ ست حركات.';
+
+  @override
+  String get tjdQalqalah =>
+      'اضطراب في حروف قطب جد الساكنة؛ يُنطق الحرف بنبرة مرتدة، وتكون أقوى عند الوقف عليه.';
+
+  @override
+  String get tjdMaddObligatory =>
+      'حرف مد بعده همزة في الكلمة نفسها؛ يُمَدّ أربع أو خمس حركات.';
+
+  @override
+  String get tjdIkhfaShafawi =>
+      'ميم ساكنة قبل الباء: تُطبق الشفتان برفق وتُخفى الميم بغنة مقدارها حركتان.';
+
+  @override
+  String get tjdIkhfa =>
+      'نون ساكنة أو تنوين قبل أحد حروف الإخفاء الخمسة عشر: تُخفى النون بغنة حركتين مع تهيئة اللسان للحرف التالي.';
+
+  @override
+  String get tjdIdghamShafawi =>
+      'ميم ساكنة قبل ميم: تُدغم الأولى في الثانية ميمًا مشددة بغنة حركتين.';
+
+  @override
+  String get tjdIqlab =>
+      'نون ساكنة أو تنوين قبل الباء تُقلب ميمًا مخفاة بغنة حركتين مع إطباق خفيف للشفتين.';
+
+  @override
+  String get tjdIdghamGhunnah =>
+      'نون ساكنة أو تنوين قبل أحد حروف (ينمو) في أول الكلمة التالية تُدغم فيه بغنة حركتين.';
+
+  @override
+  String get tjdIdghamNoGhunnah =>
+      'نون ساكنة أو تنوين قبل اللام أو الراء تُدغم فيهما إدغامًا كاملًا بلا غنة.';
+
+  @override
+  String get tjdIdghamMutajanisayn =>
+      'حرفان من مخرج واحد، أولهما ساكن، يُدغمان حرفًا واحدًا مشددًا، كما في قَد تَّبَيَّنَ.';
+
+  @override
+  String get tjdIdghamMutaqaribayn =>
+      'حرفان متقاربا المخرج، أولهما ساكن، يُدغم الأول في الثاني، كما في قُل رَّبِّ.';
+
+  @override
+  String get tjdGhunnah => 'صوت أنفي يُمَدّ حركتين في الميم والنون المشددتين.';
+
+  @override
+  String get tjgMadd => 'المدود';
+
+  @override
+  String get tjgNunTanwin => 'النون الساكنة والتنوين';
+
+  @override
+  String get tjgMeemSakinah => 'الميم الساكنة';
+
+  @override
+  String get tjgGhunnah => 'الغنة';
+
+  @override
+  String get tjgQalqalah => 'القلقلة';
+
+  @override
+  String get tjgLam => 'اللام';
+
+  @override
+  String get tjgSilent => 'الحروف الصامتة';
+
+  @override
+  String get tjgIdghamAdjacent => 'إدغام الحروف المتجاورة';
+
+  @override
+  String get tajweed => 'التجويد';
+
+  @override
+  String get tajweedColors => 'ألوان التجويد';
+
+  @override
+  String get tajweedColorsSubtitle =>
+      'تلوين حروف المصحف والقارئ حسب قاعدة التجويد';
+
+  @override
+  String get tajweedGuide => 'دليل التجويد';
+
+  @override
+  String get tajweedLegend => 'دليل ألوان التجويد';
+
+  @override
+  String get seeGuide => 'الدليل الكامل';
+
+  @override
+  String get tajweedIntro =>
+      'التجويد هو إخراج كل حرف من مخرجه مع إعطائه صفاته: مدٌّ حيث المد، وغنةٌ حيث الغنة، وإخفاءٌ وإدغامٌ وقلقلةٌ حيث تقتضي القواعد. يلوّن المصحف كل حرف يحمل قاعدة؛ انقر أي كلمة لترى قواعدها وكيفية أدائها. القواعد برواية حفص عن عاصم.';
+
+  @override
+  String get rulesInThisWord => 'التجويد في هذه الكلمة';
+
+  @override
+  String get noRulesInWord =>
+      'لا توجد قاعدة تجويد مميزة في هذه الكلمة: تُقرأ حروفها من مخارجها دون زيادة.';
+
+  @override
+  String get wordTab => 'الكلمة';
+
+  @override
+  String wordOfN(int n, int total) {
+    return 'الكلمة $n من $total';
+  }
+
+  @override
+  String get playWord => 'تشغيل الكلمة';
+
+  @override
+  String get example => 'مثال';
+
+  @override
+  String get triggerLetters => 'الحروف';
+
+  @override
+  String countsValue(String n) {
+    return '$n حركات';
+  }
+
+  @override
+  String tuhfaRef(String lines) {
+    return 'تحفة الأطفال، الأبيات $lines';
+  }
+
+  @override
+  String jazariyyahRef(String lines) {
+    return 'المقدمة الجزرية، الأبيات $lines';
+  }
+
+  @override
+  String get tajweedSource =>
+      'القواعد والتلوين وفق دليل التجويد في alquran.cloud (رواية حفص، نص تنزيل العثماني) ونظام ألوان مجمع الملك فهد المستخدم في quran.com. تشير الأبيات إلى تحفة الأطفال والمقدمة الجزرية.';
 }

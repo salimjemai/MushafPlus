@@ -7,8 +7,10 @@ import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../state/audio_controller.dart';
+import '../../data/tajweed.dart';
 import '../../state/providers.dart';
 import 'reader_screen.dart';
+import 'tajweed_text.dart';
 
 /// Continuous Arabic-only layout, like a printed Mushaf page. Tap an ayah to
 /// open its actions.
@@ -62,12 +64,16 @@ class MushafText extends ConsumerStatefulWidget {
     super.key,
     required this.ayahs,
     required this.onAyahTap,
+    this.onWordTap,
     this.initialSelected,
     this.style,
   });
 
   final List<Ayah> ayahs;
   final ValueChanged<Ayah> onAyahTap;
+
+  /// Tap on a word (index within the ayah); when null, taps open the ayah.
+  final void Function(Ayah ayah, int wordIndex)? onWordTap;
 
   /// Global number of the ayah to highlight initially.
   final int? initialSelected;
@@ -87,40 +93,22 @@ class _MushafTextState extends ConsumerState<MushafText> {
   void initState() {
     super.initState();
     _selected = widget.initialSelected;
-    _buildRecognizers();
-  }
-
-  @override
-  void didUpdateWidget(covariant MushafText old) {
-    super.didUpdateWidget(old);
-    if (old.ayahs != widget.ayahs) {
-      _disposeRecognizers();
-      _buildRecognizers();
-    }
-  }
-
-  void _buildRecognizers() {
-    for (final a in widget.ayahs) {
-      _recognizers.add(TapGestureRecognizer()
-        ..onTap = () {
-          setState(() => _selected = a.number);
-          ref.read(lastReadProvider.notifier).set(a.number);
-          widget.onAyahTap(a);
-        });
-    }
-  }
-
-  void _disposeRecognizers() {
-    for (final r in _recognizers) {
-      r.dispose();
-    }
-    _recognizers.clear();
   }
 
   @override
   void dispose() {
-    _disposeRecognizers();
+    for (final r in _recognizers) {
+      r.dispose();
+    }
     super.dispose();
+  }
+
+  /// Recognizers are pooled by position so rebuilds reuse them.
+  TapGestureRecognizer _rec(int i, VoidCallback onTap) {
+    while (_recognizers.length <= i) {
+      _recognizers.add(TapGestureRecognizer());
+    }
+    return _recognizers[i]..onTap = onTap;
   }
 
   @override
@@ -132,6 +120,7 @@ class _MushafTextState extends ConsumerState<MushafText> {
     final highlights = ref.watch(highlightsProvider);
     final notes = ref.watch(notesProvider);
     final dark = Theme.of(context).brightness == Brightness.dark;
+    final taj = settings.tajweed ? ref.watch(tajweedProvider).asData?.value : null;
 
     TextStyle styleFor(Ayah a) {
       Color? bg;
@@ -151,23 +140,49 @@ class _MushafTextState extends ConsumerState<MushafText> {
       );
     }
 
+    final spans = <InlineSpan>[];
+    var k = 0;
+    for (final a in widget.ayahs) {
+      final st = styleFor(a);
+      void select() {
+        setState(() => _selected = a.number);
+        ref.read(lastReadProvider.notifier).set(a.number);
+      }
+
+      VoidCallback tapWord(int i) => () {
+            select();
+            if (widget.onWordTap != null) {
+              widget.onWordTap!(a, i);
+            } else {
+              widget.onAyahTap(a);
+            }
+          };
+
+      if (taj != null) {
+        final words = taj.wordsOf(a.number);
+        for (var i = 0; i < words.length; i++) {
+          if (i > 0) spans.add(TextSpan(text: ' ', style: st));
+          spans.addAll(tajweedWordSpans(words[i], st, dark: dark, recognizer: _rec(k++, tapWord(i))));
+        }
+      } else {
+        final words = a.text.split(' ');
+        for (var i = 0; i < words.length; i++) {
+          if (i > 0) spans.add(TextSpan(text: ' ', style: st));
+          spans.add(TextSpan(text: words[i], style: st, recognizer: _rec(k++, tapWord(i))));
+        }
+      }
+      spans.add(TextSpan(
+        text: ' ${ayahEndMarker(a.numberInSurah)} ',
+        recognizer: _rec(k++, () {
+          select();
+          widget.onAyahTap(a);
+        }),
+        style: base.copyWith(fontFamily: ArabicStyles.nameFont, color: scheme.secondary),
+      ));
+    }
+
     return Text.rich(
-      TextSpan(
-        children: [
-          for (var i = 0; i < widget.ayahs.length; i++) ...[
-            TextSpan(
-              text: widget.ayahs[i].text,
-              recognizer: _recognizers[i],
-              style: styleFor(widget.ayahs[i]),
-            ),
-            TextSpan(
-              text: ' ${ayahEndMarker(widget.ayahs[i].numberInSurah)} ',
-              recognizer: _recognizers[i],
-              style: base.copyWith(fontFamily: ArabicStyles.nameFont, color: scheme.secondary),
-            ),
-          ],
-        ],
-      ),
+      TextSpan(children: spans),
       textDirection: TextDirection.rtl,
       textAlign: TextAlign.justify,
     );

@@ -19,6 +19,7 @@ import 'features/prayer/prayer_screen.dart';
 import 'features/prayer/qibla_screen.dart';
 import 'features/mushaf/mushaf_book_screen.dart';
 import 'features/prayer/publish_screen.dart';
+import 'features/reader/tajweed_guide.dart';
 import 'features/prayer/widget_screen.dart';
 import 'data/masjid_share.dart';
 import 'features/reader/reader_screen.dart';
@@ -112,6 +113,7 @@ final _routes = <RouteBase>[
       ],
     ),
     GoRoute(path: '/plan', builder: (c, s) => const PlanScreen()),
+    GoRoute(path: '/tajweed', builder: (c, s) => TajweedGuideScreen(highlight: s.uri.queryParameters['rule'])),
     GoRoute(
       path: '/recite/:n',
       builder: (c, s) {

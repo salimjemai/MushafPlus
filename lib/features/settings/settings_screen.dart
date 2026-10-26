@@ -142,6 +142,18 @@ class SettingsScreen extends ConsumerWidget {
                 title: l.reading,
                 children: [
                   SwitchListTile(
+                    title: Text(l.tajweedColors),
+                    subtitle: Text(l.tajweedColorsSubtitle),
+                    value: s.tajweed,
+                    onChanged: n.setTajweed,
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.palette_outlined),
+                    title: Text(l.tajweedGuide),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push('/tajweed'),
+                  ),
+                  SwitchListTile(
                     title: Text(l.showTransliteration),
                     subtitle: Text(l.showTransliterationSubtitle),
                     value: s.showTransliteration,

@@ -87,6 +87,7 @@ class AppSettings {
     this.arabicScale = 1.0,
     this.translationScale = 1.0,
     this.showTransliteration = true,
+    this.tajweed = true,
     this.wordByWord = false,
     this.wordLanguage = 'en',
     this.translations = const [TranslationService.defaultEdition],
@@ -105,6 +106,9 @@ class AppSettings {
   final double arabicScale;
   final double translationScale;
   final bool showTransliteration;
+
+  /// Colour letters by tajweed rule in the Mushaf and reader.
+  final bool tajweed;
   final bool wordByWord;
   final String wordLanguage;
   final List<String> translations;
@@ -129,6 +133,7 @@ class AppSettings {
     double? arabicScale,
     double? translationScale,
     bool? showTransliteration,
+    bool? tajweed,
     bool? wordByWord,
     String? wordLanguage,
     List<String>? translations,
@@ -148,6 +153,7 @@ class AppSettings {
       arabicScale: arabicScale ?? this.arabicScale,
       translationScale: translationScale ?? this.translationScale,
       showTransliteration: showTransliteration ?? this.showTransliteration,
+      tajweed: tajweed ?? this.tajweed,
       wordByWord: wordByWord ?? this.wordByWord,
       wordLanguage: wordLanguage ?? this.wordLanguage,
       translations: translations ?? this.translations,
@@ -168,6 +174,7 @@ class AppSettings {
         'arabicScale': arabicScale,
         'translationScale': translationScale,
         'showTransliteration': showTransliteration,
+        'tajweed': tajweed,
         'wordByWord': wordByWord,
         'wordLanguage': wordLanguage,
         'translations': translations,
@@ -189,6 +196,7 @@ class AppSettings {
       arabicScale: (m['arabicScale'] as num?)?.toDouble() ?? d.arabicScale,
       translationScale: (m['translationScale'] as num?)?.toDouble() ?? d.translationScale,
       showTransliteration: (m['showTransliteration'] as bool?) ?? d.showTransliteration,
+      tajweed: (m['tajweed'] as bool?) ?? d.tajweed,
       wordByWord: (m['wordByWord'] as bool?) ?? d.wordByWord,
       wordLanguage: (m['wordLanguage'] as String?) ?? d.wordLanguage,
       translations: (m['translations'] as List?)?.cast<String>() ?? d.translations,
@@ -224,6 +232,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setArabicScale(double v) => _update(state.copyWith(arabicScale: v));
   void setTranslationScale(double v) => _update(state.copyWith(translationScale: v));
   void setShowTransliteration(bool v) => _update(state.copyWith(showTransliteration: v));
+  void setTajweed(bool v) => _update(state.copyWith(tajweed: v));
   void setWordByWord(bool v) => _update(state.copyWith(wordByWord: v));
   void setWordLanguage(String v) => _update(state.copyWith(wordLanguage: v));
   void setReaderMode(ReaderMode m) => _update(state.copyWith(readerMode: m));

@@ -1391,4 +1391,213 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get strictHelp =>
       'Katı mod: bir kelime ancak her harfi eşleştiğinde doğru sayılır. Harekeler ve tecvid denetlenemez: konuşma tanıma yalnızca harfleri döndürür.';
+
+  @override
+  String get tjHamzatWasl => 'Vasıl hemzesi';
+
+  @override
+  String get tjSilent => 'Okunmayan harf';
+
+  @override
+  String get tjLaamShamsiyyah => 'Şemsî lam';
+
+  @override
+  String get tjMaddNormal => 'Tabiî med';
+
+  @override
+  String get tjMaddPermissible => 'Caiz med';
+
+  @override
+  String get tjMaddNecessary => 'Lâzım med';
+
+  @override
+  String get tjQalqalah => 'Kalkale';
+
+  @override
+  String get tjMaddObligatory => 'Vacip muttasıl med';
+
+  @override
+  String get tjIkhfaShafawi => 'Dudak ihfası';
+
+  @override
+  String get tjIkhfa => 'İhfa';
+
+  @override
+  String get tjIdghamShafawi => 'Dudak idgamı';
+
+  @override
+  String get tjIqlab => 'İklab';
+
+  @override
+  String get tjIdghamGhunnah => 'Gunneli idgam';
+
+  @override
+  String get tjIdghamNoGhunnah => 'Gunnesiz idgam';
+
+  @override
+  String get tjIdghamMutajanisayn => 'Mütecaniseyn idgamı';
+
+  @override
+  String get tjIdghamMutaqaribayn => 'Mütekaribeyn idgamı';
+
+  @override
+  String get tjGhunnah => 'Gunne';
+
+  @override
+  String get tjdHamzatWasl =>
+      'Kelime başındaki bağlama hemzesi: yalnızca o kelimeyle başlarken okunur; önceki kelimeden geçerken okunmaz.';
+
+  @override
+  String get tjdSilent =>
+      'Mushafta yazılı olup okunmayan harf, örneğin çoğul vavından sonraki elif. Okurken atlanır.';
+
+  @override
+  String get tjdLaamShamsiyyah =>
+      'Şemsî harften önceki tanım lamı okunmaz; yerine şemsî harf şeddeli okunur: ٱلشَّمْس → eş-şems.';
+
+  @override
+  String get tjdMaddNormal =>
+      'Tabiî med: uzun ünlüyü iki hareke uzatın, ne az ne fazla.';
+
+  @override
+  String get tjdMaddPermissible =>
+      'Med harfi sonraki kelimede hemzeyle veya vakıf sükûnuyla karşılaştığında iki, dört ya da altı hareke uzatın; okuyuş boyunca aynı ölçüde kalın.';
+
+  @override
+  String get tjdMaddNecessary =>
+      'Med harfinden sonra aslî sükûn veya şedde geldiğinde, sure başı harfleri dâhil, altı hareke uzatın.';
+
+  @override
+  String get tjdQalqalah =>
+      'Sükûnlu ق ط ب ج د harflerinde yankılı bir sıçrama; harfi hafif geri sekerek bırakın, vakıfta daha belirgin.';
+
+  @override
+  String get tjdMaddObligatory =>
+      'Aynı kelimede med harfinden sonra hemze gelirse dört-beş hareke uzatın.';
+
+  @override
+  String get tjdIkhfaShafawi =>
+      'Sâkin mimden sonra ب: dudakları hafifçe kapatıp mimi iki hareke gunne ile gizleyin.';
+
+  @override
+  String get tjdIkhfa =>
+      'Sâkin nun veya tenvinden sonra on beş ihfa harfinden biri: nunu iki hareke gunne ile gizleyin, dil sonraki harfe hazır olsun.';
+
+  @override
+  String get tjdIdghamShafawi =>
+      'Sâkin mimden sonra mim: iki hareke gunne ile tek şeddeli mim olarak birleştirin.';
+
+  @override
+  String get tjdIqlab =>
+      'Sâkin nun veya tenvinden sonra ب: nun, iki hareke gunne ve hafif kapalı dudaklarla gizlenen mime dönüşür.';
+
+  @override
+  String get tjdIdghamGhunnah =>
+      'Sâkin nun veya tenvinden sonra bir sonraki kelimenin başında ي ن م و gelirse o harfe iki hareke gunne ile katılır.';
+
+  @override
+  String get tjdIdghamNoGhunnah =>
+      'Sâkin nun veya tenvinden sonra ل ya da ر gelirse gunnesiz, tam olarak o harfe katılır.';
+
+  @override
+  String get tjdIdghamMutajanisayn =>
+      'Aynı mahreçten iki harf, ilki sâkin, tek şeddeli harfe katılır: قَد تَّبَيَّنَ.';
+
+  @override
+  String get tjdIdghamMutaqaribayn =>
+      'Mahreçleri yakın iki harf, ilki sâkin, ikincisine katılır: قُل رَّبِّ.';
+
+  @override
+  String get tjdGhunnah =>
+      'Şeddeli mim ve nunda iki hareke süren genizden gelen ses.';
+
+  @override
+  String get tjgMadd => 'Med';
+
+  @override
+  String get tjgNunTanwin => 'Sâkin nun ve tenvin';
+
+  @override
+  String get tjgMeemSakinah => 'Sâkin mim';
+
+  @override
+  String get tjgGhunnah => 'Gunne';
+
+  @override
+  String get tjgQalqalah => 'Kalkale';
+
+  @override
+  String get tjgLam => 'Lam';
+
+  @override
+  String get tjgSilent => 'Okunmayan harfler';
+
+  @override
+  String get tjgIdghamAdjacent => 'Bitişik harflerin idgamı';
+
+  @override
+  String get tajweed => 'Tecvid';
+
+  @override
+  String get tajweedColors => 'Tecvid renkleri';
+
+  @override
+  String get tajweedColorsSubtitle =>
+      'Mushaf ve okuyucudaki harfleri tecvid kuralına göre renklendir';
+
+  @override
+  String get tajweedGuide => 'Tecvid rehberi';
+
+  @override
+  String get tajweedLegend => 'Tecvid renk açıklaması';
+
+  @override
+  String get seeGuide => 'Tam rehber';
+
+  @override
+  String get tajweedIntro =>
+      'Tecvid, her harfi mahrecinden sıfatlarıyla okumaktır: med olan yerde uzatma, gunne olan yerde genizden ses, kurallar gerektirdiğinde ihfa, idgam ve kalkale. Mushaf, kural taşıyan her harfi renklendirir; bir kelimeye dokunarak kurallarını ve nasıl okunacağını görün. Kurallar Hafs an Âsım rivayetine göredir.';
+
+  @override
+  String get rulesInThisWord => 'Bu kelimedeki tecvid';
+
+  @override
+  String get noRulesInWord =>
+      'Bu kelimede işaretli bir tecvid kuralı yok: harflerini mahreçlerinden düz okuyun.';
+
+  @override
+  String get wordTab => 'Kelime';
+
+  @override
+  String wordOfN(int n, int total) {
+    return 'Kelime $n / $total';
+  }
+
+  @override
+  String get playWord => 'Kelimeyi dinle';
+
+  @override
+  String get example => 'Örnek';
+
+  @override
+  String get triggerLetters => 'Harfler';
+
+  @override
+  String countsValue(String n) {
+    return '$n hareke';
+  }
+
+  @override
+  String tuhfaRef(String lines) {
+    return 'Tuhfetü’l-Etfâl, beyit $lines';
+  }
+
+  @override
+  String jazariyyahRef(String lines) {
+    return 'Cezeriyye, beyit $lines';
+  }
+
+  @override
+  String get tajweedSource =>
+      'Kurallar ve renkler alquran.cloud tecvid rehberine (Hafs rivayeti, Tanzil Osmanî metni) ve quran.com’un kullandığı KFGQPC renk düzenine dayanır. Beyit atıfları Tuhfetü’l-Etfâl ve Mukaddimetü’l-Cezeriyye’yedir.';
 }

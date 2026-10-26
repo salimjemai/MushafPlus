@@ -9,6 +9,8 @@ import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
 import 'ayah_actions.dart';
 import 'tafsir_sheet.dart';
+import 'tajweed_text.dart';
+import 'verse_panel.dart';
 import 'word_by_word_view.dart';
 
 /// One selected translation edition and its (async) text for the current surah.
@@ -174,11 +176,10 @@ class _ArabicBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final plain = Text(
-      ayah.text,
-      textDirection: TextDirection.rtl,
-      textAlign: TextAlign.right,
+    final plain = TajweedAyahText(
+      ayah: ayah,
       style: ArabicStyles.ayah(context, scale: settings.arabicScale, font: settings.arabicFont),
+      onWordTap: (i) => showVersePanel(context, ayah, word: i, tab: VerseTab.word),
     );
     final w = words;
     if (w == null) return plain;

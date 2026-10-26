@@ -19,6 +19,7 @@ import '../../widgets/surah_number_badge.dart';
 import '../../widgets/zoomable.dart';
 import '../reader/mushaf_view.dart';
 import '../reader/reader_settings_sheet.dart';
+import '../reader/tajweed_guide.dart';
 import '../reader/verse_panel.dart';
 
 /// The Quran as a printed book: 604 pages in a vertical scroll, a one-page
@@ -175,6 +176,11 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
                 onPressed: () => _scaffold.currentState?.openDrawer(),
               ),
               IconButton(
+                tooltip: l.tajweedLegend,
+                icon: const Icon(Icons.palette_outlined),
+                onPressed: () => showTajweedLegend(context),
+              ),
+              IconButton(
                 tooltip: l.playThisPage,
                 icon: const Icon(Icons.play_circle_outline),
                 onPressed: () => ref
@@ -269,7 +275,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: MushafPage(
                 page: i + 1,
-                onAyahTap: (a) => showVersePanel(context, a)),
+                onAyahTap: (a) => showVersePanel(context, a),
+                onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word)),
           ),
         ),
       ),
@@ -299,7 +306,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
             child: _FitPage(
                 page: i + 1,
-                onAyahTap: (a) => showVersePanel(context, a)),
+                onAyahTap: (a) => showVersePanel(context, a),
+                onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word)),
           ),
         ),
       ),
@@ -315,6 +323,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
             key: ValueKey('book-$page'),
             page: page,
             onAyahTap: (a) => showVersePanel(context, a),
+                onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word),
             fitToPage: true,
           );
     return Container(
@@ -532,16 +541,17 @@ class _Flipping extends StatelessWidget {
 /// the frame allows; the text block is scaled to fill it, so every page shows
 /// in full with no inner scrolling.
 class _FitPage extends StatelessWidget {
-  const _FitPage({required this.page, required this.onAyahTap});
+  const _FitPage({required this.page, required this.onAyahTap, this.onWordTap});
   final int page;
   final ValueChanged<Ayah> onAyahTap;
+  final void Function(Ayah, int)? onWordTap;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: AspectRatio(
         aspectRatio: MushafPage.pageAspect,
-        child: MushafPage(page: page, onAyahTap: onAyahTap, fitToPage: true),
+        child: MushafPage(page: page, onAyahTap: onAyahTap, onWordTap: onWordTap, fitToPage: true),
       ),
     );
   }
@@ -554,9 +564,11 @@ class MushafPage extends ConsumerWidget {
       {super.key,
       required this.page,
       required this.onAyahTap,
+      this.onWordTap,
       this.fitToPage = false});
   final int page;
   final ValueChanged<Ayah> onAyahTap;
+  final void Function(Ayah, int)? onWordTap;
 
   /// When true the page has a bounded height and the text is scaled to fill it.
   final bool fitToPage;
@@ -605,6 +617,7 @@ class MushafPage extends ConsumerWidget {
               key: ValueKey('mp$page-${g.first.surah}'),
               ayahs: g,
               onAyahTap: onAyahTap,
+              onWordTap: onWordTap,
               style: textStyle,
             ),
           ),
@@ -714,33 +727,32 @@ class _Banner extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            height: 54,
             decoration: BoxDecoration(
-              border: Border.symmetric(
-                  horizontal: BorderSide(color: frame, width: 1.2)),
-              color: frame.withValues(alpha: 0.08),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF0E5C47), Color(0xFF177A5E), Color(0xFF0E5C47)],
+              ),
+              border: Border.symmetric(horizontal: BorderSide(color: frame, width: 1.4)),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                Text('۞',
-                    style: TextStyle(
-                        fontFamily: ArabicStyles.nameFont,
-                        color: frame,
-                        fontSize: 18)),
-                const SizedBox(width: 12),
-                Text(surah.name,
-                    style: TextStyle(
-                        fontFamily: ArabicStyles.nameFont,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: ink)),
-                const SizedBox(width: 12),
-                Text('۞',
-                    style: TextStyle(
-                        fontFamily: ArabicStyles.nameFont,
-                        color: frame,
-                        fontSize: 18)),
+                Positioned.fill(child: CustomPaint(painter: _BandPatternPainter(color: frame.withValues(alpha: 0.35)))),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFDF6E3),
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(color: AppColors.gold, width: 1.4),
+                    boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 1))],
+                  ),
+                  child: Text(surah.name,
+                      style: const TextStyle(
+                          fontFamily: ArabicStyles.nameFont,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF0E5C47))),
+                ),
               ],
             ),
           ),
@@ -759,6 +771,32 @@ class _Banner extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Interlaced geometric lattice drawn over the surah band.
+class _BandPatternPainter extends CustomPainter {
+  const _BandPatternPainter({required this.color});
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = Paint()
+      ..color = color
+      ..strokeWidth = 0.9
+      ..style = PaintingStyle.stroke;
+    const step = 16.0;
+    for (var x = -size.height; x < size.width + size.height; x += step) {
+      canvas.drawLine(Offset(x, 0), Offset(x + size.height, size.height), p);
+      canvas.drawLine(Offset(x + size.height, 0), Offset(x, size.height), p);
+    }
+    final dot = Paint()..color = color;
+    for (var x = step / 2; x < size.width; x += step) {
+      canvas.drawCircle(Offset(x, size.height / 2), 1.3, dot);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _BandPatternPainter old) => old.color != color;
 }
 
 class _PageBar extends StatelessWidget {

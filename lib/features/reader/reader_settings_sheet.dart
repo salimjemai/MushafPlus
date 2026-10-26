@@ -82,6 +82,13 @@ class _ReaderSettingsSheet extends ConsumerWidget {
           ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
+            title: Text(l.tajweedColors),
+            subtitle: Text(l.tajweedColorsSubtitle),
+            value: s.tajweed,
+            onChanged: n.setTajweed,
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
             title: Text(l.showTransliteration),
             subtitle: Text(l.showTransliterationSubtitle),
             value: s.showTransliteration,

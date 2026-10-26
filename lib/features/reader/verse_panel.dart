@@ -8,20 +8,23 @@ import '../../core/arabic_utils.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../data/audio_backend.dart';
 import '../../data/tafsir_service.dart';
+import '../../data/tajweed.dart';
 import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
 import 'audio_downloads.dart';
 import 'ayah_actions.dart';
 import 'tafsir_sheet.dart';
+import 'tajweed_text.dart';
 import 'word_by_word_view.dart';
 
-enum VerseTab { translation, tafsir, words, note }
+enum VerseTab { word, translation, tafsir, words, note }
 
 /// The per-ayah panel: a toolbar (play, bookmark, highlight, note, memorize,
 /// recite, copy, share, download) and tabs for translation, tafsir,
 /// word-by-word and a personal note, with previous/next ayah arrows.
-Future<void> showVersePanel(BuildContext context, Ayah ayah, {VerseTab tab = VerseTab.translation}) {
+Future<void> showVersePanel(BuildContext context, Ayah ayah, {VerseTab tab = VerseTab.translation, int? word}) {
   return showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
@@ -32,15 +35,18 @@ Future<void> showVersePanel(BuildContext context, Ayah ayah, {VerseTab tab = Ver
       initialChildSize: 0.78,
       maxChildSize: 0.96,
       minChildSize: 0.4,
-      builder: (context, controller) => VersePanel(ayah: ayah, initialTab: tab, scrollController: controller),
+      builder: (context, controller) => VersePanel(ayah: ayah, initialTab: tab, initialWord: word, scrollController: controller),
     ),
   );
 }
 
 class VersePanel extends ConsumerStatefulWidget {
-  const VersePanel({super.key, required this.ayah, this.initialTab = VerseTab.translation, this.scrollController});
+  const VersePanel({super.key, required this.ayah, this.initialTab = VerseTab.translation, this.initialWord, this.scrollController});
   final Ayah ayah;
   final VerseTab initialTab;
+
+  /// Word to show first in the Word tab (index within the ayah).
+  final int? initialWord;
   final ScrollController? scrollController;
 
   @override
@@ -49,6 +55,7 @@ class VersePanel extends ConsumerStatefulWidget {
 
 class _VersePanelState extends ConsumerState<VersePanel> with SingleTickerProviderStateMixin {
   late Ayah _ayah = widget.ayah;
+  late int _word = widget.initialWord ?? 0;
   late final TabController _tabs = TabController(length: VerseTab.values.length, vsync: this, initialIndex: widget.initialTab.index);
   late final TextEditingController _note = TextEditingController(text: ref.read(notesProvider)[widget.ayah.number] ?? '');
 
@@ -64,6 +71,7 @@ class _VersePanelState extends ConsumerState<VersePanel> with SingleTickerProvid
     final n = (_ayah.number + delta).clamp(1, repo.ayahs.length);
     setState(() {
       _ayah = repo.ayah(n);
+      _word = 0;
       _note.text = ref.read(notesProvider)[n] ?? '';
     });
   }
@@ -112,11 +120,13 @@ class _VersePanelState extends ConsumerState<VersePanel> with SingleTickerProvid
               color: highlight != null ? highlightColors[highlight].withValues(alpha: 0.28) : scheme.primary.withValues(alpha: 0.06),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Text(
-              _ayah.text,
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.right,
+            child: TajweedAyahText(
+              ayah: _ayah,
               style: ArabicStyles.ayah(context, scale: 0.85 * settings.arabicScale, font: settings.arabicFont),
+              onWordTap: (i) {
+                setState(() => _word = i);
+                _tabs.animateTo(VerseTab.word.index);
+              },
             ),
           ),
         ),
@@ -179,6 +189,7 @@ class _VersePanelState extends ConsumerState<VersePanel> with SingleTickerProvid
         TabBar(
           controller: _tabs,
           tabs: [
+            Tab(text: l.wordTab),
             Tab(text: l.translation),
             Tab(text: l.tafsir),
             Tab(text: l.wordByWord),
@@ -189,6 +200,13 @@ class _VersePanelState extends ConsumerState<VersePanel> with SingleTickerProvid
           child: TabBarView(
             controller: _tabs,
             children: [
+              _WordTab(
+                key: ValueKey('w-${_ayah.number}'),
+                ayah: _ayah,
+                word: _word,
+                onWordChanged: (i) => setState(() => _word = i),
+                controller: widget.scrollController,
+              ),
               _TranslationTab(ayah: _ayah, controller: widget.scrollController),
               _TafsirTab(ayah: _ayah, controller: widget.scrollController),
               _WordsTab(ayah: _ayah, controller: widget.scrollController),
@@ -382,6 +400,139 @@ class _NoteTab extends ConsumerWidget {
         ),
         const SizedBox(height: 16),
         Text(l.noteHelp, style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4)),
+      ],
+    );
+  }
+}
+
+/// The Word tab: the tapped word in tajweed colours, its rules and how to
+/// recite them, its transliteration and meaning, and word audio.
+class _WordTab extends ConsumerStatefulWidget {
+  const _WordTab({super.key, required this.ayah, required this.word, required this.onWordChanged, this.controller});
+  final Ayah ayah;
+  final int word;
+  final ValueChanged<int> onWordChanged;
+  final ScrollController? controller;
+
+  @override
+  ConsumerState<_WordTab> createState() => _WordTabState();
+}
+
+class _WordTabState extends ConsumerState<_WordTab> {
+  AyahPlayer? _player;
+
+  @override
+  void dispose() {
+    _player?.dispose();
+    super.dispose();
+  }
+
+  void _playWord(int index) {
+    _player ??= createAyahPlayer();
+    final s = widget.ayah.surah.toString().padLeft(3, '0');
+    final a = widget.ayah.numberInSurah.toString().padLeft(3, '0');
+    final w = (index + 1).toString().padLeft(3, '0');
+    _player!.play('https://audio.qurancdn.com/wbw/${s}_${a}_$w.mp3');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
+    final settings = ref.watch(settingsProvider);
+    final taj = ref.watch(tajweedProvider);
+    final meanings = ref.watch(surahWordsProvider((surah: widget.ayah.surah, lang: settings.wordLanguage)));
+    final plainWords = widget.ayah.text.split(' ');
+    final words = taj.asData?.value.wordsOf(widget.ayah.number);
+    final total = words?.length ?? plainWords.length;
+    final i = widget.word.clamp(0, total - 1);
+    final tw = words != null ? words[i] : TajweedWord([TajweedSegment(plainWords[i], null)]);
+    final rules = tw.rules.toList()..sort((a, b) => a.index.compareTo(b.index));
+    final style = TextStyle(fontFamily: settings.arabicFont, fontSize: 46, height: 1.9, color: scheme.onSurface);
+    QuranWord? meaning;
+    final list = meanings.asData?.value;
+    if (list != null && widget.ayah.numberInSurah - 1 < list.length) {
+      final ws = list[widget.ayah.numberInSurah - 1].where((w) => !w.isEndMarker).toList();
+      if (i < ws.length) meaning = ws[i];
+    }
+
+    return ListView(
+      controller: widget.controller,
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+      children: [
+        Row(
+          children: [
+            IconButton(icon: const Icon(Icons.chevron_left), onPressed: i > 0 ? () => widget.onWordChanged(i - 1) : null),
+            Expanded(
+              child: Column(
+                children: [
+                  TajweedWordText(word: tw, style: style),
+                  Text(l.wordOfN(i + 1, total), style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+                ],
+              ),
+            ),
+            IconButton(icon: const Icon(Icons.chevron_right), onPressed: i < total - 1 ? () => widget.onWordChanged(i + 1) : null),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FilledButton.tonalIcon(onPressed: () => _playWord(i), icon: const Icon(Icons.volume_up_outlined), label: Text(l.playWord)),
+            const SizedBox(width: 8),
+            OutlinedButton.icon(
+              onPressed: () {
+                Navigator.of(context).maybePop();
+                context.push('/tajweed');
+              },
+              icon: const Icon(Icons.menu_book_outlined),
+              label: Text(l.tajweedGuide),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        if (meaning != null) ...[
+          Center(
+            child: Text(meaning.transliteration,
+                style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic, fontWeight: FontWeight.w600, color: scheme.primary)),
+          ),
+          Center(child: Text(meaning.translation, textAlign: TextAlign.center, style: const TextStyle(fontSize: 15.5))),
+          const SizedBox(height: 12),
+        ] else if (meanings.isLoading)
+          const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: LinearProgressIndicator(minHeight: 2)),
+        Text(l.rulesInThisWord.toUpperCase(),
+            style: TextStyle(fontSize: 11, letterSpacing: 1.1, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
+        const SizedBox(height: 6),
+        if (rules.isEmpty)
+          Text(l.noRulesInWord, style: TextStyle(color: scheme.onSurfaceVariant, height: 1.45))
+        else
+          for (final r in rules)
+            Card(
+              margin: const EdgeInsets.only(bottom: 8),
+              child: ListTile(
+                leading: TajweedSwatch(rule: r, size: 20),
+                title: Row(
+                  children: [
+                    Expanded(child: Text(tajweedRuleName(l, r), style: const TextStyle(fontWeight: FontWeight.w700))),
+                    Text(r.arabic, style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 16, color: scheme.primary)),
+                  ],
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    [
+                      tajweedRuleDescription(l, r),
+                      if (r.counts != null) l.countsValue(r.counts!),
+                    ].join(' '),
+                    style: const TextStyle(height: 1.4),
+                  ),
+                ),
+                onTap: () {
+                  Navigator.of(context).maybePop();
+                  context.push('/tajweed?rule=${r.name}');
+                },
+              ),
+            ),
       ],
     );
   }

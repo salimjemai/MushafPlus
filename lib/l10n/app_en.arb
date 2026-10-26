@@ -1027,5 +1027,96 @@
   "speechTip": "Correct words turn green, wrong words red with a buzz and a vibration; keep reciting after a slip and the checker follows you.",
   "strictMode": "Strict",
   "lenientMode": "Lenient",
-  "strictHelp": "Strict mode: a word counts only when every letter matches. Vowel marks (harakat) and tajweed cannot be checked: speech recognition returns the letters only."
+  "strictHelp": "Strict mode: a word counts only when every letter matches. Vowel marks (harakat) and tajweed cannot be checked: speech recognition returns the letters only.",
+  "tjHamzatWasl": "Hamzat al-wasl",
+  "tjSilent": "Silent letter",
+  "tjLaamShamsiyyah": "Sun lam",
+  "tjMaddNormal": "Natural madd",
+  "tjMaddPermissible": "Permissible madd",
+  "tjMaddNecessary": "Necessary madd",
+  "tjQalqalah": "Qalqalah",
+  "tjMaddObligatory": "Obligatory madd",
+  "tjIkhfaShafawi": "Labial ikhfa",
+  "tjIkhfa": "Ikhfa",
+  "tjIdghamShafawi": "Labial idgham",
+  "tjIqlab": "Iqlab",
+  "tjIdghamGhunnah": "Idgham with ghunnah",
+  "tjIdghamNoGhunnah": "Idgham without ghunnah",
+  "tjIdghamMutajanisayn": "Idgham of similar letters",
+  "tjIdghamMutaqaribayn": "Idgham of close letters",
+  "tjGhunnah": "Ghunnah",
+  "tjdHamzatWasl": "A connecting hamzah at the start of a word. It is pronounced only when you begin with that word; when joining from the previous word it is silent, so read straight through it.",
+  "tjdSilent": "A letter written in the mushaf but not pronounced, such as the alif after the plural waw. Skip it in recitation.",
+  "tjdLaamShamsiyyah": "The lam of the definite article before a sun letter is not pronounced: double the sun letter instead, as in ٱلشَّمْس → ash-shams.",
+  "tjdMaddNormal": "A natural lengthening: hold the long vowel for two counts, no more and no less.",
+  "tjdMaddPermissible": "A lengthening where a madd letter meets a hamzah in the next word, or a stop creates a sukun. Hold it two, four or six counts, but stay consistent through the recitation.",
+  "tjdMaddNecessary": "A lengthening required by an original sukun or a shaddah after the madd letter, including the opening letters of surahs. Hold it six counts.",
+  "tjdQalqalah": "An echoing bounce on the letters ق ط ب ج د when they carry a sukun. Release the letter with a slight rebound, stronger when stopping on it.",
+  "tjdMaddObligatory": "A madd letter followed by a hamzah in the same word. Hold it four to five counts.",
+  "tjdIkhfaShafawi": "A meem with sukun before ب: close the lips lightly and hide the meem with a nasal sound of two counts.",
+  "tjdIkhfa": "A nun with sukun or tanwin before one of the fifteen ikhfa letters: hide the nun with a nasal sound of two counts, with the tongue ready for the next letter.",
+  "tjdIdghamShafawi": "A meem with sukun before another meem: merge them into one doubled meem with a nasal sound of two counts.",
+  "tjdIqlab": "A nun with sukun or tanwin before ب changes into a meem, hidden with a nasal sound of two counts and lightly closed lips.",
+  "tjdIdghamGhunnah": "A nun with sukun or tanwin before ي ن م و at the start of the next word merges into that letter, with a nasal sound of two counts.",
+  "tjdIdghamNoGhunnah": "A nun with sukun or tanwin before ل or ر merges completely into that letter, with no nasal sound.",
+  "tjdIdghamMutajanisayn": "Two letters from the same point of articulation, the first with sukun, merge into one doubled letter, as in قَد تَّبَيَّنَ.",
+  "tjdIdghamMutaqaribayn": "Two letters from close points of articulation, the first with sukun, merge into the second, as in قُل رَّبِّ.",
+  "tjdGhunnah": "A nasal resonance held for two counts on a meem or nun with shaddah.",
+  "tjgMadd": "Prolongation (madd)",
+  "tjgNunTanwin": "Nun sakinah and tanwin",
+  "tjgMeemSakinah": "Meem sakinah",
+  "tjgGhunnah": "Ghunnah",
+  "tjgQalqalah": "Qalqalah",
+  "tjgLam": "Lam",
+  "tjgSilent": "Silent letters",
+  "tjgIdghamAdjacent": "Merging of adjacent letters",
+  "tajweed": "Tajweed",
+  "tajweedColors": "Tajweed colours",
+  "tajweedColorsSubtitle": "Colour the letters of the Mushaf and reader by tajweed rule",
+  "tajweedGuide": "Tajweed guide",
+  "tajweedLegend": "Tajweed colour legend",
+  "seeGuide": "Full guide",
+  "tajweedIntro": "Tajweed is reciting each letter from its place of articulation with its proper qualities: lengthening where there is madd, nasal sound where there is ghunnah, hiding, merging and bouncing where the rules call for it. The Mushaf colours every letter that carries a rule; tap any word to see which rules apply to it and how to recite it. Rules follow riwayat Hafs an Asim.",
+  "rulesInThisWord": "Tajweed in this word",
+  "noRulesInWord": "No tajweed rule is marked on this word: recite its letters plainly from their places of articulation.",
+  "wordTab": "Word",
+  "wordOfN": "Word {n} of {total}",
+  "playWord": "Play word",
+  "example": "Example",
+  "triggerLetters": "Letters",
+  "countsValue": "{n} counts",
+  "tuhfaRef": "Tuhfat al-Atfal, lines {lines}",
+  "jazariyyahRef": "al-Jazariyyah, lines {lines}",
+  "tajweedSource": "Rules and colouring follow the alquran.cloud tajweed guide (riwayat Hafs, Tanzil Uthmani text) and the KFGQPC colour scheme used by quran.com. Line references point to Tuhfat al-Atfal and al-Muqaddimah al-Jazariyyah.",
+  "@wordOfN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@countsValue": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@tuhfaRef": {
+    "placeholders": {
+      "lines": {
+        "type": "String"
+      }
+    }
+  },
+  "@jazariyyahRef": {
+    "placeholders": {
+      "lines": {
+        "type": "String"
+      }
+    }
+  }
 }

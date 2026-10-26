@@ -2487,6 +2487,366 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Strict mode: a word counts only when every letter matches. Vowel marks (harakat) and tajweed cannot be checked: speech recognition returns the letters only.'**
   String get strictHelp;
+
+  /// No description provided for @tjHamzatWasl.
+  ///
+  /// In en, this message translates to:
+  /// **'Hamzat al-wasl'**
+  String get tjHamzatWasl;
+
+  /// No description provided for @tjSilent.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent letter'**
+  String get tjSilent;
+
+  /// No description provided for @tjLaamShamsiyyah.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun lam'**
+  String get tjLaamShamsiyyah;
+
+  /// No description provided for @tjMaddNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Natural madd'**
+  String get tjMaddNormal;
+
+  /// No description provided for @tjMaddPermissible.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissible madd'**
+  String get tjMaddPermissible;
+
+  /// No description provided for @tjMaddNecessary.
+  ///
+  /// In en, this message translates to:
+  /// **'Necessary madd'**
+  String get tjMaddNecessary;
+
+  /// No description provided for @tjQalqalah.
+  ///
+  /// In en, this message translates to:
+  /// **'Qalqalah'**
+  String get tjQalqalah;
+
+  /// No description provided for @tjMaddObligatory.
+  ///
+  /// In en, this message translates to:
+  /// **'Obligatory madd'**
+  String get tjMaddObligatory;
+
+  /// No description provided for @tjIkhfaShafawi.
+  ///
+  /// In en, this message translates to:
+  /// **'Labial ikhfa'**
+  String get tjIkhfaShafawi;
+
+  /// No description provided for @tjIkhfa.
+  ///
+  /// In en, this message translates to:
+  /// **'Ikhfa'**
+  String get tjIkhfa;
+
+  /// No description provided for @tjIdghamShafawi.
+  ///
+  /// In en, this message translates to:
+  /// **'Labial idgham'**
+  String get tjIdghamShafawi;
+
+  /// No description provided for @tjIqlab.
+  ///
+  /// In en, this message translates to:
+  /// **'Iqlab'**
+  String get tjIqlab;
+
+  /// No description provided for @tjIdghamGhunnah.
+  ///
+  /// In en, this message translates to:
+  /// **'Idgham with ghunnah'**
+  String get tjIdghamGhunnah;
+
+  /// No description provided for @tjIdghamNoGhunnah.
+  ///
+  /// In en, this message translates to:
+  /// **'Idgham without ghunnah'**
+  String get tjIdghamNoGhunnah;
+
+  /// No description provided for @tjIdghamMutajanisayn.
+  ///
+  /// In en, this message translates to:
+  /// **'Idgham of similar letters'**
+  String get tjIdghamMutajanisayn;
+
+  /// No description provided for @tjIdghamMutaqaribayn.
+  ///
+  /// In en, this message translates to:
+  /// **'Idgham of close letters'**
+  String get tjIdghamMutaqaribayn;
+
+  /// No description provided for @tjGhunnah.
+  ///
+  /// In en, this message translates to:
+  /// **'Ghunnah'**
+  String get tjGhunnah;
+
+  /// No description provided for @tjdHamzatWasl.
+  ///
+  /// In en, this message translates to:
+  /// **'A connecting hamzah at the start of a word. It is pronounced only when you begin with that word; when joining from the previous word it is silent, so read straight through it.'**
+  String get tjdHamzatWasl;
+
+  /// No description provided for @tjdSilent.
+  ///
+  /// In en, this message translates to:
+  /// **'A letter written in the mushaf but not pronounced, such as the alif after the plural waw. Skip it in recitation.'**
+  String get tjdSilent;
+
+  /// No description provided for @tjdLaamShamsiyyah.
+  ///
+  /// In en, this message translates to:
+  /// **'The lam of the definite article before a sun letter is not pronounced: double the sun letter instead, as in ٱلشَّمْس → ash-shams.'**
+  String get tjdLaamShamsiyyah;
+
+  /// No description provided for @tjdMaddNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'A natural lengthening: hold the long vowel for two counts, no more and no less.'**
+  String get tjdMaddNormal;
+
+  /// No description provided for @tjdMaddPermissible.
+  ///
+  /// In en, this message translates to:
+  /// **'A lengthening where a madd letter meets a hamzah in the next word, or a stop creates a sukun. Hold it two, four or six counts, but stay consistent through the recitation.'**
+  String get tjdMaddPermissible;
+
+  /// No description provided for @tjdMaddNecessary.
+  ///
+  /// In en, this message translates to:
+  /// **'A lengthening required by an original sukun or a shaddah after the madd letter, including the opening letters of surahs. Hold it six counts.'**
+  String get tjdMaddNecessary;
+
+  /// No description provided for @tjdQalqalah.
+  ///
+  /// In en, this message translates to:
+  /// **'An echoing bounce on the letters ق ط ب ج د when they carry a sukun. Release the letter with a slight rebound, stronger when stopping on it.'**
+  String get tjdQalqalah;
+
+  /// No description provided for @tjdMaddObligatory.
+  ///
+  /// In en, this message translates to:
+  /// **'A madd letter followed by a hamzah in the same word. Hold it four to five counts.'**
+  String get tjdMaddObligatory;
+
+  /// No description provided for @tjdIkhfaShafawi.
+  ///
+  /// In en, this message translates to:
+  /// **'A meem with sukun before ب: close the lips lightly and hide the meem with a nasal sound of two counts.'**
+  String get tjdIkhfaShafawi;
+
+  /// No description provided for @tjdIkhfa.
+  ///
+  /// In en, this message translates to:
+  /// **'A nun with sukun or tanwin before one of the fifteen ikhfa letters: hide the nun with a nasal sound of two counts, with the tongue ready for the next letter.'**
+  String get tjdIkhfa;
+
+  /// No description provided for @tjdIdghamShafawi.
+  ///
+  /// In en, this message translates to:
+  /// **'A meem with sukun before another meem: merge them into one doubled meem with a nasal sound of two counts.'**
+  String get tjdIdghamShafawi;
+
+  /// No description provided for @tjdIqlab.
+  ///
+  /// In en, this message translates to:
+  /// **'A nun with sukun or tanwin before ب changes into a meem, hidden with a nasal sound of two counts and lightly closed lips.'**
+  String get tjdIqlab;
+
+  /// No description provided for @tjdIdghamGhunnah.
+  ///
+  /// In en, this message translates to:
+  /// **'A nun with sukun or tanwin before ي ن م و at the start of the next word merges into that letter, with a nasal sound of two counts.'**
+  String get tjdIdghamGhunnah;
+
+  /// No description provided for @tjdIdghamNoGhunnah.
+  ///
+  /// In en, this message translates to:
+  /// **'A nun with sukun or tanwin before ل or ر merges completely into that letter, with no nasal sound.'**
+  String get tjdIdghamNoGhunnah;
+
+  /// No description provided for @tjdIdghamMutajanisayn.
+  ///
+  /// In en, this message translates to:
+  /// **'Two letters from the same point of articulation, the first with sukun, merge into one doubled letter, as in قَد تَّبَيَّنَ.'**
+  String get tjdIdghamMutajanisayn;
+
+  /// No description provided for @tjdIdghamMutaqaribayn.
+  ///
+  /// In en, this message translates to:
+  /// **'Two letters from close points of articulation, the first with sukun, merge into the second, as in قُل رَّبِّ.'**
+  String get tjdIdghamMutaqaribayn;
+
+  /// No description provided for @tjdGhunnah.
+  ///
+  /// In en, this message translates to:
+  /// **'A nasal resonance held for two counts on a meem or nun with shaddah.'**
+  String get tjdGhunnah;
+
+  /// No description provided for @tjgMadd.
+  ///
+  /// In en, this message translates to:
+  /// **'Prolongation (madd)'**
+  String get tjgMadd;
+
+  /// No description provided for @tjgNunTanwin.
+  ///
+  /// In en, this message translates to:
+  /// **'Nun sakinah and tanwin'**
+  String get tjgNunTanwin;
+
+  /// No description provided for @tjgMeemSakinah.
+  ///
+  /// In en, this message translates to:
+  /// **'Meem sakinah'**
+  String get tjgMeemSakinah;
+
+  /// No description provided for @tjgGhunnah.
+  ///
+  /// In en, this message translates to:
+  /// **'Ghunnah'**
+  String get tjgGhunnah;
+
+  /// No description provided for @tjgQalqalah.
+  ///
+  /// In en, this message translates to:
+  /// **'Qalqalah'**
+  String get tjgQalqalah;
+
+  /// No description provided for @tjgLam.
+  ///
+  /// In en, this message translates to:
+  /// **'Lam'**
+  String get tjgLam;
+
+  /// No description provided for @tjgSilent.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent letters'**
+  String get tjgSilent;
+
+  /// No description provided for @tjgIdghamAdjacent.
+  ///
+  /// In en, this message translates to:
+  /// **'Merging of adjacent letters'**
+  String get tjgIdghamAdjacent;
+
+  /// No description provided for @tajweed.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajweed'**
+  String get tajweed;
+
+  /// No description provided for @tajweedColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajweed colours'**
+  String get tajweedColors;
+
+  /// No description provided for @tajweedColorsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour the letters of the Mushaf and reader by tajweed rule'**
+  String get tajweedColorsSubtitle;
+
+  /// No description provided for @tajweedGuide.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajweed guide'**
+  String get tajweedGuide;
+
+  /// No description provided for @tajweedLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajweed colour legend'**
+  String get tajweedLegend;
+
+  /// No description provided for @seeGuide.
+  ///
+  /// In en, this message translates to:
+  /// **'Full guide'**
+  String get seeGuide;
+
+  /// No description provided for @tajweedIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajweed is reciting each letter from its place of articulation with its proper qualities: lengthening where there is madd, nasal sound where there is ghunnah, hiding, merging and bouncing where the rules call for it. The Mushaf colours every letter that carries a rule; tap any word to see which rules apply to it and how to recite it. Rules follow riwayat Hafs an Asim.'**
+  String get tajweedIntro;
+
+  /// No description provided for @rulesInThisWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Tajweed in this word'**
+  String get rulesInThisWord;
+
+  /// No description provided for @noRulesInWord.
+  ///
+  /// In en, this message translates to:
+  /// **'No tajweed rule is marked on this word: recite its letters plainly from their places of articulation.'**
+  String get noRulesInWord;
+
+  /// No description provided for @wordTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Word'**
+  String get wordTab;
+
+  /// No description provided for @wordOfN.
+  ///
+  /// In en, this message translates to:
+  /// **'Word {n} of {total}'**
+  String wordOfN(int n, int total);
+
+  /// No description provided for @playWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Play word'**
+  String get playWord;
+
+  /// No description provided for @example.
+  ///
+  /// In en, this message translates to:
+  /// **'Example'**
+  String get example;
+
+  /// No description provided for @triggerLetters.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters'**
+  String get triggerLetters;
+
+  /// No description provided for @countsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} counts'**
+  String countsValue(String n);
+
+  /// No description provided for @tuhfaRef.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuhfat al-Atfal, lines {lines}'**
+  String tuhfaRef(String lines);
+
+  /// No description provided for @jazariyyahRef.
+  ///
+  /// In en, this message translates to:
+  /// **'al-Jazariyyah, lines {lines}'**
+  String jazariyyahRef(String lines);
+
+  /// No description provided for @tajweedSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules and colouring follow the alquran.cloud tajweed guide (riwayat Hafs, Tanzil Uthmani text) and the KFGQPC colour scheme used by quran.com. Line references point to Tuhfat al-Atfal and al-Muqaddimah al-Jazariyyah.'**
+  String get tajweedSource;
 }
 
 class _AppLocalizationsDelegate
