@@ -2877,6 +2877,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Only the area (postal code or city) was found, so the coordinates are its centre. If you know the exact coordinates, enter them below.'**
   String get approximateLocation;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get privacyPolicy;
 }
 
 class _AppLocalizationsDelegate

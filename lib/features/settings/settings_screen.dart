@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../data/masjid_share.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/storage.dart';
@@ -280,6 +282,12 @@ class SettingsScreen extends ConsumerWidget {
                     leading: const Icon(Icons.menu_book_outlined),
                     title: Text(l.appTitle),
                     subtitle: Text(l.versionBuiltWith),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.privacy_tip_outlined),
+                    title: Text(l.privacyPolicy),
+                    trailing: const Icon(Icons.open_in_new, size: 18),
+                    onTap: () => launchUrl(Uri.parse('${publicSiteUrl}privacy.html'), mode: LaunchMode.externalApplication, webOnlyWindowName: '_blank'),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),

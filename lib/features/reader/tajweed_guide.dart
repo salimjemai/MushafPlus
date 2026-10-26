@@ -61,7 +61,7 @@ Future<void> showTajweedLegend(BuildContext context) {
                     contentPadding: EdgeInsets.zero,
                     leading: TajweedSwatch(rule: r, size: 18),
                     title: Text(tajweedRuleName(l, r)),
-                    subtitle: Text(r.counts != null ? '${r.arabic} · ${l.countsValue(r.counts!)}' : r.arabic, style: const TextStyle(fontSize: 12)),
+                    subtitle: _legendSubtitle(l, r),
                     onTap: () {
                       Navigator.of(context).pop();
                       context.push('/tajweed?rule=${r.name}');
@@ -137,7 +137,8 @@ class TajweedGuideScreen extends ConsumerWidget {
                               Expanded(
                                 child: Text(tajweedRuleName(l, r), style: const TextStyle(fontSize: 15.5, fontWeight: FontWeight.w700)),
                               ),
-                              Text(r.arabic, style: TextStyle(fontFamily: 'Amiri', fontSize: 18, color: scheme.primary)),
+                              if (r.arabic != tajweedRuleName(l, r))
+                                Text(r.arabic, style: TextStyle(fontFamily: 'Amiri', fontSize: 18, color: scheme.primary)),
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -216,4 +217,15 @@ class TajweedGuideScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Arabic name (only when the interface name is not already Arabic) and the
+/// prolongation length.
+Widget? _legendSubtitle(AppLocalizations l, TajweedRule r) {
+  final parts = [
+    if (r.arabic != tajweedRuleName(l, r)) r.arabic,
+    if (r.counts != null) l.countsValue(r.counts!),
+  ];
+  if (parts.isEmpty) return null;
+  return Text(parts.join(' · '), style: const TextStyle(fontSize: 12));
 }

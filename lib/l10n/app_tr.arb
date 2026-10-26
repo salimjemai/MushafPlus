@@ -461,5 +461,6 @@
   "exitFullScreen": "Tam ekrandan çık",
   "playbackSpeed": "Hız",
   "chooseReciter": "Okuyucu seç",
-  "approximateLocation": "Yalnızca bölge (posta kodu veya şehir) bulundu; koordinatlar bölgenin merkezidir. Tam koordinatları biliyorsanız aşağıya girin."
+  "approximateLocation": "Yalnızca bölge (posta kodu veya şehir) bulundu; koordinatlar bölgenin merkezidir. Tam koordinatları biliyorsanız aşağıya girin.",
+  "privacyPolicy": "Gizlilik politikası"
 }

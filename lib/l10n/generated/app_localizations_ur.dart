@@ -1610,4 +1610,7 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get approximateLocation =>
       'صرف علاقہ (پوسٹل کوڈ یا شہر) ملا، اس لیے نقاط اس کا مرکز ہیں۔ اگر آپ کو درست نقاط معلوم ہیں تو نیچے درج کریں۔';
+
+  @override
+  String get privacyPolicy => 'رازداری کی پالیسی';
 }

@@ -1617,4 +1617,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get approximateLocation =>
       'Only the area (postal code or city) was found, so the coordinates are its centre. If you know the exact coordinates, enter them below.';
+
+  @override
+  String get privacyPolicy => 'Privacy policy';
 }

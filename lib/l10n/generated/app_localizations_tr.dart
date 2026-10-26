@@ -1616,4 +1616,7 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get approximateLocation =>
       'Yalnızca bölge (posta kodu veya şehir) bulundu; koordinatlar bölgenin merkezidir. Tam koordinatları biliyorsanız aşağıya girin.';
+
+  @override
+  String get privacyPolicy => 'Gizlilik politikası';
 }

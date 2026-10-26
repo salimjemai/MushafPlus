@@ -514,7 +514,8 @@ class _WordTabState extends ConsumerState<_WordTab> {
                 title: Row(
                   children: [
                     Expanded(child: Text(tajweedRuleName(l, r), style: const TextStyle(fontWeight: FontWeight.w700))),
-                    Text(r.arabic, style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 16, color: scheme.primary)),
+                    if (r.arabic != tajweedRuleName(l, r))
+                      Text(r.arabic, style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 16, color: scheme.primary)),
                   ],
                 ),
                 subtitle: Padding(

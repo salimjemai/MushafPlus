@@ -1624,4 +1624,7 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get approximateLocation =>
       'Seule la zone (code postal ou ville) a été trouvée ; les coordonnées en sont le centre. Si vous connaissez les coordonnées exactes, saisissez-les ci-dessous.';
+
+  @override
+  String get privacyPolicy => 'Politique de confidentialité';
 }

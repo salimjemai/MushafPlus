@@ -1618,4 +1618,7 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get approximateLocation =>
       'Hanya wilayah (kode pos atau kota) yang ditemukan, jadi koordinatnya adalah pusatnya. Jika Anda tahu koordinat tepatnya, masukkan di bawah.';
+
+  @override
+  String get privacyPolicy => 'Kebijakan privasi';
 }

@@ -461,5 +461,6 @@
   "exitFullScreen": "Keluar layar penuh",
   "playbackSpeed": "Kecepatan",
   "chooseReciter": "Pilih qari",
-  "approximateLocation": "Hanya wilayah (kode pos atau kota) yang ditemukan, jadi koordinatnya adalah pusatnya. Jika Anda tahu koordinat tepatnya, masukkan di bawah."
+  "approximateLocation": "Hanya wilayah (kode pos atau kota) yang ditemukan, jadi koordinatnya adalah pusatnya. Jika Anda tahu koordinat tepatnya, masukkan di bawah.",
+  "privacyPolicy": "Kebijakan privasi"
 }

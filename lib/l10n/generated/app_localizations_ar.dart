@@ -1610,4 +1610,7 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get approximateLocation =>
       'تم العثور على المنطقة فقط (الرمز البريدي أو المدينة)، فالإحداثيات هي مركزها. إن كنت تعرف الإحداثيات الدقيقة فأدخلها أدناه.';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
 }
