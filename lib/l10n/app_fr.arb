@@ -389,5 +389,9 @@
   "preview": "Aperçu",
   "adhanHeader": "Adhan",
   "poweredBy": "Propulsé par Quran+",
-  "invalidWidgetLink": "Ce lien de widget est invalide ou incomplet."
+  "invalidWidgetLink": "Ce lien de widget est invalide ou incomplet.",
+  "micDenied": "L’accès au microphone a été refusé. Autorisez-le pour ce site dans le navigateur ou les réglages, puis réessayez.",
+  "noSpeechYet": "Rien entendu pour l’instant. Récitez clairement, près du microphone ; les mots s’affichent ici au fur et à mesure.",
+  "speechNotice": "Avis de reconnaissance",
+  "speechTip": "Les mots corrects passent en vert, les erreurs en rouge avec un son et une vibration ; continuez après une erreur, le correcteur vous suit."
 }

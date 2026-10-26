@@ -389,5 +389,9 @@
   "preview": "Önizleme",
   "adhanHeader": "Ezan",
   "poweredBy": "Quran+ ile",
-  "invalidWidgetLink": "Bu widget bağlantısı geçersiz veya eksik."
+  "invalidWidgetLink": "Bu widget bağlantısı geçersiz veya eksik.",
+  "micDenied": "Mikrofon erişimi reddedildi. Tarayıcı veya sistem ayarlarından bu siteye izin verin ve yeniden deneyin.",
+  "noSpeechYet": "Henüz bir şey duyulmadı. Mikrofona yakın ve net okuyun; tanınan kelimeler burada görünür.",
+  "speechNotice": "Tanıma bildirimi",
+  "speechTip": "Doğru kelimeler yeşile, yanlışlar sesli uyarı ve titreşimle kırmızıya döner; bir hatadan sonra okumaya devam edin, denetleyici sizi izler."
 }

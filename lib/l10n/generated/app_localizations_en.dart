@@ -1158,7 +1158,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reciteHelp =>
-      'Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red.';
+      'Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, wrong words red (with a buzz), skipped words orange. Keep going after a slip and the checker follows you.';
 
   @override
   String get qibla => 'Qibla';
@@ -1367,4 +1367,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidWidgetLink => 'This widget link is invalid or incomplete.';
+
+  @override
+  String get micDenied =>
+      'Microphone access was denied. Allow it for this site in the browser or system settings, then try again.';
+
+  @override
+  String get noSpeechYet =>
+      'Nothing heard yet. Recite clearly, close to the microphone. Words appear here as they are recognised.';
+
+  @override
+  String get speechNotice => 'Recognition notice';
+
+  @override
+  String get speechTip =>
+      'Correct words turn green, wrong words red with a buzz and a vibration; keep reciting after a slip and the checker follows you.';
 }

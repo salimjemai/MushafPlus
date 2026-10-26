@@ -1366,4 +1366,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get invalidWidgetLink => 'Bu widget bağlantısı geçersiz veya eksik.';
+
+  @override
+  String get micDenied =>
+      'Mikrofon erişimi reddedildi. Tarayıcı veya sistem ayarlarından bu siteye izin verin ve yeniden deneyin.';
+
+  @override
+  String get noSpeechYet =>
+      'Henüz bir şey duyulmadı. Mikrofona yakın ve net okuyun; tanınan kelimeler burada görünür.';
+
+  @override
+  String get speechNotice => 'Tanıma bildirimi';
+
+  @override
+  String get speechTip =>
+      'Doğru kelimeler yeşile, yanlışlar sesli uyarı ve titreşimle kırmızıya döner; bir hatadan sonra okumaya devam edin, denetleyici sizi izler.';
 }

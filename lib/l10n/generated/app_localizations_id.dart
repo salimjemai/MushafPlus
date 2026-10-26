@@ -1368,4 +1368,19 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get invalidWidgetLink =>
       'Tautan widget ini tidak valid atau tidak lengkap.';
+
+  @override
+  String get micDenied =>
+      'Akses mikrofon ditolak. Izinkan untuk situs ini di pengaturan peramban atau sistem, lalu coba lagi.';
+
+  @override
+  String get noSpeechYet =>
+      'Belum ada yang terdengar. Bacalah dengan jelas, dekat mikrofon; kata-kata muncul di sini saat dikenali.';
+
+  @override
+  String get speechNotice => 'Pemberitahuan pengenalan';
+
+  @override
+  String get speechTip =>
+      'Kata yang benar menjadi hijau, yang salah merah disertai bunyi dan getaran; teruskan membaca setelah keliru dan pemeriksa akan mengikuti.';
 }

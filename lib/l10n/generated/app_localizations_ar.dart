@@ -1361,4 +1361,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get invalidWidgetLink => 'رابط الودجت غير صالح أو ناقص.';
+
+  @override
+  String get micDenied =>
+      'تم رفض الوصول إلى الميكروفون. اسمح به لهذا الموقع من إعدادات المتصفح أو النظام ثم حاول مجددًا.';
+
+  @override
+  String get noSpeechYet =>
+      'لم يُسمع شيء بعد. اقرأ بوضوح قريبًا من الميكروفون؛ تظهر الكلمات هنا عند التعرف عليها.';
+
+  @override
+  String get speechNotice => 'تنبيه التعرف';
+
+  @override
+  String get speechTip =>
+      'تتحول الكلمات الصحيحة إلى الأخضر والخاطئة إلى الأحمر مع صوت واهتزاز؛ تابع القراءة بعد الخطأ وسيتابعك المصحح.';
 }

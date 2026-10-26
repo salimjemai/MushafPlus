@@ -900,7 +900,7 @@
   "reset": "Reset",
   "playThisAyah": "Play this ayah",
   "speechUnavailable": "Speech recognition is not available. Allow microphone access, or use Chrome on the web.",
-  "reciteHelp": "Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red.",
+  "reciteHelp": "Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, wrong words red (with a buzz), skipped words orange. Keep going after a slip and the checker follows you.",
   "qibla": "Qibla",
   "qiblaBearing": "Qibla bearing from true north",
   "qiblaNeedsLocation": "The Qibla is computed from your location. Use your device's GPS, or set up a masjid first.",
@@ -1020,5 +1020,9 @@
   "preview": "Preview",
   "adhanHeader": "Adhan",
   "poweredBy": "Powered by Quran+",
-  "invalidWidgetLink": "This widget link is invalid or incomplete."
+  "invalidWidgetLink": "This widget link is invalid or incomplete.",
+  "micDenied": "Microphone access was denied. Allow it for this site in the browser or system settings, then try again.",
+  "noSpeechYet": "Nothing heard yet. Recite clearly, close to the microphone. Words appear here as they are recognised.",
+  "speechNotice": "Recognition notice",
+  "speechTip": "Correct words turn green, wrong words red with a buzz and a vibration; keep reciting after a slip and the checker follows you."
 }

@@ -1374,4 +1374,19 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get invalidWidgetLink =>
       'Ce lien de widget est invalide ou incomplet.';
+
+  @override
+  String get micDenied =>
+      'L’accès au microphone a été refusé. Autorisez-le pour ce site dans le navigateur ou les réglages, puis réessayez.';
+
+  @override
+  String get noSpeechYet =>
+      'Rien entendu pour l’instant. Récitez clairement, près du microphone ; les mots s’affichent ici au fur et à mesure.';
+
+  @override
+  String get speechNotice => 'Avis de reconnaissance';
+
+  @override
+  String get speechTip =>
+      'Les mots corrects passent en vert, les erreurs en rouge avec un son et une vibration ; continuez après une erreur, le correcteur vous suit.';
 }

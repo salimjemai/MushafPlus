@@ -1361,4 +1361,19 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get invalidWidgetLink => 'یہ ویجٹ لنک غلط یا نامکمل ہے۔';
+
+  @override
+  String get micDenied =>
+      'مائیکروفون تک رسائی مسترد ہو گئی۔ براؤزر یا سسٹم کی ترتیبات میں اس سائٹ کے لیے اجازت دیں اور دوبارہ کوشش کریں۔';
+
+  @override
+  String get noSpeechYet =>
+      'ابھی کچھ سنائی نہیں دیا۔ مائیکروفون کے قریب صاف پڑھیں؛ پہچانے گئے الفاظ یہاں ظاہر ہوں گے۔';
+
+  @override
+  String get speechNotice => 'شناخت کی اطلاع';
+
+  @override
+  String get speechTip =>
+      'درست الفاظ سبز اور غلط الفاظ سرخ ہو جاتے ہیں، آواز اور ارتعاش کے ساتھ؛ غلطی کے بعد پڑھتے رہیں، جانچ آپ کے ساتھ چلتی ہے۔';
 }

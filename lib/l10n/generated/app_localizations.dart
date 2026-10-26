@@ -2077,7 +2077,7 @@ abstract class AppLocalizations {
   /// No description provided for @reciteHelp.
   ///
   /// In en, this message translates to:
-  /// **'Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, slips orange, skipped words red.'**
+  /// **'Recite clearly and at a steady pace. Recognition works best in a quiet room; correct words turn green, wrong words red (with a buzz), skipped words orange. Keep going after a slip and the checker follows you.'**
   String get reciteHelp;
 
   /// No description provided for @qibla.
@@ -2445,6 +2445,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This widget link is invalid or incomplete.'**
   String get invalidWidgetLink;
+
+  /// No description provided for @micDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone access was denied. Allow it for this site in the browser or system settings, then try again.'**
+  String get micDenied;
+
+  /// No description provided for @noSpeechYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing heard yet. Recite clearly, close to the microphone. Words appear here as they are recognised.'**
+  String get noSpeechYet;
+
+  /// No description provided for @speechNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Recognition notice'**
+  String get speechNotice;
+
+  /// No description provided for @speechTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct words turn green, wrong words red with a buzz and a vibration; keep reciting after a slip and the checker follows you.'**
+  String get speechTip;
 }
 
 class _AppLocalizationsDelegate

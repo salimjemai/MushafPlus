@@ -3,23 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:speech_to_text/speech_recognition_error.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../core/arabic_utils.dart';
 import '../../core/l10n.dart';
 import '../../core/recitation_matcher.dart';
 import '../../core/theme.dart';
+import '../../data/feedback_tone.dart';
 import '../../data/models.dart';
+import '../../data/speech_engine.dart';
 import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
 import '../../widgets/mini_player.dart';
 import '../plan/plan_screen.dart';
 
 /// Listens to the user reciting a passage from memory and checks it word by
-/// word against the Uthmani text: matched words turn green, wrong words
-/// orange (with what was heard), skipped words red.
+/// word against the Uthmani text: matched words turn green, wrong words red
+/// (with what was heard, a buzz and a vibration), skipped words orange.
 class ReciteScreen extends ConsumerStatefulWidget {
   const ReciteScreen({super.key, required this.surah, this.from, this.to});
   final int surah;
@@ -31,17 +30,22 @@ class ReciteScreen extends ConsumerStatefulWidget {
 }
 
 class _ReciteScreenState extends ConsumerState<ReciteScreen> {
-  final _speech = SpeechToText();
+  final _engine = createSpeechEngine();
   bool _available = false;
   bool _initialised = false;
   bool _active = false; // user wants to be listening
   bool _engineListening = false;
+  String _sessionBase = ''; // committed text from earlier sessions
   String _committed = '';
   String _partial = '';
   double _level = 0;
-  String? _error;
-  String? _localeId;
+  String? _error; // permanent problem
+  String? _notice; // transient engine message (no speech, network…)
+  String _localeId = 'ar-SA';
   Timer? _restart;
+  DateTime? _lastResultAt;
+  final _flaggedWrong = <int>{};
+  bool _celebrated = false;
 
   late int _from;
   late int _to;
@@ -75,16 +79,19 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     }
     _matcher = RecitationMatcher(words);
     _result = _matcher.match('');
+    _sessionBase = '';
     _committed = '';
     _partial = '';
     _hintUntil = -1;
+    _flaggedWrong.clear();
+    _celebrated = false;
   }
 
   @override
   void dispose() {
     _restart?.cancel();
     _active = false;
-    _speech.stop();
+    _engine.stop();
     super.dispose();
   }
 
@@ -94,29 +101,9 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     if (_initialised) return _available;
     _initialised = true;
     try {
-      _available = await _speech.initialize(
-        onError: (SpeechRecognitionError e) {
-          if (!mounted) return;
-          setState(() {
-            _engineListening = false;
-            if (e.permanent) _error = e.errorMsg;
-          });
-          if (_active && !e.permanent) _scheduleRestart();
-        },
-        onStatus: (status) {
-          if (!mounted) return;
-          final listening = status == 'listening';
-          setState(() => _engineListening = listening);
-          if (!listening && _active) _scheduleRestart();
-        },
-      );
-      if (_available) {
-        final locales = await _speech.locales();
-        final ar = locales.where((l) => l.localeId.toLowerCase().startsWith('ar'));
-        _localeId = ar.where((l) => l.localeId.toLowerCase().contains('sa')).firstOrNull?.localeId ??
-            ar.firstOrNull?.localeId ??
-            'ar-SA';
-      }
+      _available = await _engine.init();
+      if (_available) _localeId = await _engine.arabicLocale();
+      if (!_available) _error = 'speech_not_supported';
     } catch (e) {
       _available = false;
       _error = '$e';
@@ -127,69 +114,115 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
 
   void _scheduleRestart() {
     _restart?.cancel();
-    _restart = Timer(const Duration(milliseconds: 400), () {
-      if (mounted && _active && !_speech.isListening) _listen();
+    _restart = Timer(Duration(milliseconds: _engine.shortSessions ? 120 : 400), () {
+      if (mounted && _active && !_engine.isListening) _listen();
     });
   }
 
   Future<void> _listen() async {
+    _sessionBase = _committed;
     try {
-      await _speech.listen(
-        onResult: _onResult,
-        onSoundLevelChange: (level) {
+      await _engine.start(
+        locale: _localeId,
+        onText: _onText,
+        onLevel: (level) {
           if (mounted) setState(() => _level = level);
         },
-        listenOptions: SpeechListenOptions(
-          localeId: _localeId,
-          partialResults: true,
-          listenMode: ListenMode.dictation,
-          cancelOnError: false,
-          pauseFor: const Duration(seconds: 6),
-          listenFor: const Duration(minutes: 10),
-        ),
+        onEnd: () {
+          if (!mounted) return;
+          setState(() {
+            _engineListening = false;
+            // Whatever was still partial when the session closed is kept.
+            if (_partial.isNotEmpty) {
+              _committed = '$_committed $_partial'.trim();
+              _partial = '';
+            }
+            _sessionBase = _committed;
+          });
+          if (_active) _scheduleRestart();
+        },
+        onError: (message, permanent) {
+          if (!mounted) return;
+          setState(() {
+            if (permanent) {
+              _error = message;
+              _active = false;
+              _engineListening = false;
+            } else if (message != 'no-speech' && message != 'aborted') {
+              _notice = message;
+            }
+          });
+        },
       );
+      if (mounted) setState(() => _engineListening = true);
     } catch (e) {
       if (mounted) setState(() => _error = '$e');
     }
   }
 
-  void _onResult(SpeechRecognitionResult r) {
+  void _onText(String finalText, String partialText) {
     if (!mounted) return;
     setState(() {
-      if (r.finalResult) {
-        _committed = '$_committed ${r.recognizedWords}'.trim();
-        _partial = '';
-      } else {
-        _partial = r.recognizedWords;
-      }
+      _engineListening = true;
+      _notice = null;
+      _lastResultAt = DateTime.now();
+      _committed = '$_sessionBase $finalText'.trim();
+      _partial = partialText;
       _result = _matcher.match('$_committed $_partial');
     });
+    _giveFeedback(_result!, finalText.isNotEmpty && partialText.isEmpty);
+  }
+
+  /// Buzz once for each word confirmed wrong (the recitation has moved past
+  /// it, or the text is final), and chime when the passage is complete.
+  void _giveFeedback(MatchResult r, bool isFinal) {
+    for (var i = 0; i < r.words.length; i++) {
+      final w = r.words[i];
+      if (w.status != WordStatus.wrong || _flaggedWrong.contains(i)) continue;
+      if (isFinal || i < r.nextIndex - 1) {
+        _flaggedWrong.add(i);
+        FeedbackTone.wrong();
+      }
+    }
+    if (r.complete && !_celebrated) {
+      _celebrated = true;
+      FeedbackTone.success();
+    }
   }
 
   Future<void> _toggle() async {
     if (_active) {
       _active = false;
       _restart?.cancel();
-      await _speech.stop();
+      await _engine.stop();
       if (mounted) setState(() => _engineListening = false);
       return;
     }
+    FeedbackTone.unlock(); // inside the tap, so browsers allow the tones later
     final ok = await _init();
     if (!ok) return;
     setState(() {
       _active = true;
       _error = null;
+      _notice = null;
     });
     await _listen();
   }
 
   void _reset() {
     setState(() {
+      _sessionBase = '';
       _committed = '';
       _partial = '';
       _hintUntil = -1;
+      _flaggedWrong.clear();
+      _celebrated = false;
       _result = _matcher.match('');
     });
+    if (_active) {
+      // Start a fresh session so the engine's buffer is cleared too.
+      _engine.stop().then((_) => _scheduleRestart());
+    }
   }
 
   // ---- UI ----------------------------------------------------------------
@@ -255,8 +288,8 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                               runSpacing: 6,
                               children: [
                                 _Stat(color: Colors.green, label: l.matchedWords, value: r.matched),
-                                _Stat(color: Colors.orange, label: l.wrongWords, value: r.wrong),
-                                _Stat(color: scheme.error, label: l.missedWords, value: r.missed),
+                                _Stat(color: Colors.red, label: l.wrongWords, value: r.wrong),
+                                _Stat(color: Colors.orange, label: l.missedWords, value: r.missed),
                               ],
                             ),
                             const SizedBox(height: 8),
@@ -295,7 +328,8 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                         Icon(Icons.mic_off, color: scheme.onErrorContainer),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: Text('${l.speechUnavailable}\n$_error',
+                          child: Text(
+                              '${_error == 'not-allowed' || _error == 'service-not-allowed' ? l.micDenied : l.speechUnavailable}\n$_error · ${_engine.description}',
                               style: TextStyle(color: scheme.onErrorContainer, fontSize: 13)),
                         ),
                       ],
@@ -345,11 +379,33 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              if (_committed.isNotEmpty || _partial.isNotEmpty)
-                Text(
-                  '${l.heard}: $_committed $_partial',
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: scheme.onSurfaceVariant),
+              if (_active || _committed.isNotEmpty || _partial.isNotEmpty)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        _committed.isEmpty && _partial.isEmpty ? '${l.heard}: …' : '${l.heard}: $_committed $_partial',
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: scheme.onSurfaceVariant),
+                      ),
+                      if (_active && _committed.isEmpty && _partial.isEmpty && _lastResultAt == null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(l.noSpeechYet, style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+                        ),
+                      if (_notice != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text('${l.speechNotice}: $_notice', style: TextStyle(fontSize: 12, color: scheme.error)),
+                        ),
+                    ],
+                  ),
                 ),
               const SizedBox(height: 16),
 
@@ -499,18 +555,19 @@ class _AyahWords extends StatelessWidget {
         bg = Colors.green.withValues(alpha: 0.18);
         fg = Colors.green.shade800;
       case WordStatus.wrong:
-        bg = Colors.orange.withValues(alpha: 0.22);
-        fg = Colors.orange.shade900;
+        bg = Colors.red.withValues(alpha: 0.2);
+        fg = Colors.red.shade800;
       case WordStatus.missed:
-        bg = scheme.error.withValues(alpha: 0.16);
-        fg = scheme.error;
+        bg = Colors.orange.withValues(alpha: 0.2);
+        fg = Colors.orange.shade900;
         deco = TextDecoration.lineThrough;
       case WordStatus.pending:
         bg = index == cursor ? scheme.primary.withValues(alpha: 0.12) : null;
     }
     final dark = Theme.of(context).brightness == Brightness.dark;
     if (dark && m.status == WordStatus.matched) fg = Colors.greenAccent.shade200;
-    if (dark && m.status == WordStatus.wrong) fg = Colors.orangeAccent.shade200;
+    if (dark && m.status == WordStatus.wrong) fg = Colors.redAccent.shade100;
+    if (dark && m.status == WordStatus.missed) fg = Colors.orangeAccent.shade200;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
