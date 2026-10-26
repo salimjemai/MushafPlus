@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/arabic_utils.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/quran_repository.dart';
 import '../../data/translation_service.dart';
 import '../../state/providers.dart';
+import 'highlight.dart';
 import '../../widgets/surah_number_badge.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -44,6 +46,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       _corpus = c;
       if (_query.isNotEmpty) _run(_query);
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant SearchScreen old) {
+    super.didUpdateWidget(old);
+    final q = widget.initialQuery?.trim() ?? '';
+    if (q.isNotEmpty && q != old.initialQuery?.trim() && q != _query) {
+      _controller.text = q;
+      _onChanged(q);
+    }
   }
 
   @override
@@ -156,6 +168,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         padding: const EdgeInsets.only(bottom: 8),
                         child: AyahResultTile(
                           ayahNumber: n,
+                          query: _query,
                           translation: _corpus?[n - 1],
                           onTap: () =>
                               context.go('/surah/${ayah.surah}?ayah=${ayah.numberInSurah}'),
@@ -219,12 +232,17 @@ class AyahResultTile extends ConsumerWidget {
     required this.onTap,
     this.translation,
     this.trailing,
+    this.query,
   });
 
   final int ayahNumber;
   final VoidCallback onTap;
   final String? translation;
   final Widget? trailing;
+
+  /// The search text; matching words are highlighted and the snippet is
+  /// trimmed around the first match.
+  final String? query;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -261,21 +279,54 @@ class AyahResultTile extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(
-                ayah.text,
-                textDirection: TextDirection.rtl,
-                textAlign: TextAlign.right,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: ArabicStyles.ayah(context, scale: 0.75, font: settings.arabicFont),
-              ),
-              if (translation != null) ...[
+              Builder(builder: (context) {
+                final arabicStyle = ArabicStyles.ayah(context, scale: 0.75, font: settings.arabicFont);
+                final hi = arabicStyle.copyWith(
+                  backgroundColor: highlightColors[0].withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.35 : 0.6),
+                  color: scheme.onSurface,
+                );
+                final q = query?.trim() ?? '';
+                final matched = q.isEmpty ? const <int>{} : matchedArabicWords(ayah.text, repo.transliterationOf(ayah.number), q);
+                return Text.rich(
+                  TextSpan(children: arabicSnippetSpans(ayah.text, matched, arabicStyle, hi)),
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right,
+                  maxLines: matched.isEmpty ? 2 : 3,
+                  overflow: TextOverflow.ellipsis,
+                );
+              }),
+              if (query != null && query!.trim().length >= 2 && !containsArabic(query!) && repo.transliterationOf(ayah.number).toLowerCase().contains(query!.trim().toLowerCase().split(' ').first)) ...[
                 const SizedBox(height: 4),
-                Text(
-                  translation!,
+                Text.rich(
+                  TextSpan(
+                    children: latinSnippetSpans(
+                      repo.transliterationOf(ayah.number),
+                      query!,
+                      TextStyle(fontSize: 12.5, fontStyle: FontStyle.italic, color: scheme.primary, height: 1.4),
+                      TextStyle(fontSize: 12.5, fontStyle: FontStyle.italic, fontWeight: FontWeight.w800, color: scheme.primary, height: 1.4,
+                          backgroundColor: scheme.primary.withValues(alpha: 0.15)),
+                    ),
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 13.5, height: 1.45, color: scheme.onSurfaceVariant),
+                ),
+              ],
+              if (translation != null) ...[
+                const SizedBox(height: 4),
+                Text.rich(
+                  TextSpan(
+                    children: query == null || query!.trim().length < 2
+                        ? [TextSpan(text: translation!, style: TextStyle(fontSize: 13.5, height: 1.45, color: scheme.onSurfaceVariant))]
+                        : latinSnippetSpans(
+                            translation!,
+                            query!,
+                            TextStyle(fontSize: 13.5, height: 1.45, color: scheme.onSurfaceVariant),
+                            TextStyle(fontSize: 13.5, height: 1.45, fontWeight: FontWeight.w800, color: scheme.onSurface,
+                                backgroundColor: highlightColors[0].withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.35 : 0.6)),
+                          ),
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ],

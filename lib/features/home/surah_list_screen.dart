@@ -167,6 +167,7 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                     AyahResultTile(
                       key: ValueKey('hit-$n'),
                       ayahNumber: n,
+                      query: _query,
                       translation: _corpus?[n - 1],
                       onTap: () => context.go('/surah/${repo.ayah(n).surah}?ayah=${repo.ayah(n).numberInSurah}'),
                     ),
