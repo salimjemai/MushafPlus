@@ -481,5 +481,8 @@
   "sleep": "Uyku",
   "afterPrayer": "Namaz sonrası",
   "allDone": "Tamamlandı",
-  "timesN": "×{n}"
+  "timesN": "×{n}",
+  "readAloud": "Sesli oku",
+  "stopReading": "Okumayı durdur",
+  "ttsUnavailable": "Bu cihazda bu dil için ses yüklü değil. Hadisler cihazın metin okuma sesleriyle okunur."
 }

@@ -1686,4 +1686,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String timesN(int n) {
     return '×$n';
   }
+
+  @override
+  String get readAloud => 'Sesli oku';
+
+  @override
+  String get stopReading => 'Okumayı durdur';
+
+  @override
+  String get ttsUnavailable =>
+      'Bu cihazda bu dil için ses yüklü değil. Hadisler cihazın metin okuma sesleriyle okunur.';
 }

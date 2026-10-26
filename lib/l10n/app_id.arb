@@ -481,5 +481,8 @@
   "sleep": "Tidur",
   "afterPrayer": "Setelah salat",
   "allDone": "Selesai",
-  "timesN": "×{n}"
+  "timesN": "×{n}",
+  "readAloud": "Bacakan",
+  "stopReading": "Hentikan",
+  "ttsUnavailable": "Tidak ada suara untuk bahasa ini di perangkat. Hadis dibacakan dengan suara text-to-speech perangkat."
 }

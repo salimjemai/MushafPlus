@@ -2997,6 +2997,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'×{n}'**
   String timesN(int n);
+
+  /// No description provided for @readAloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Read aloud'**
+  String get readAloud;
+
+  /// No description provided for @stopReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop reading'**
+  String get stopReading;
+
+  /// No description provided for @ttsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No voice for this language is installed on this device. Hadith are read with the device’s text-to-speech voices.'**
+  String get ttsUnavailable;
 }
 
 class _AppLocalizationsDelegate

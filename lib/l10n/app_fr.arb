@@ -481,5 +481,8 @@
   "sleep": "Sommeil",
   "afterPrayer": "Après la prière",
   "allDone": "Terminé",
-  "timesN": "×{n}"
+  "timesN": "×{n}",
+  "readAloud": "Lire à voix haute",
+  "stopReading": "Arrêter la lecture",
+  "ttsUnavailable": "Aucune voix pour cette langue n’est installée sur cet appareil. Les hadiths sont lus par la synthèse vocale de l’appareil."
 }

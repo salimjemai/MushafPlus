@@ -1687,4 +1687,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String timesN(int n) {
     return '×$n';
   }
+
+  @override
+  String get readAloud => 'Read aloud';
+
+  @override
+  String get stopReading => 'Stop reading';
+
+  @override
+  String get ttsUnavailable =>
+      'No voice for this language is installed on this device. Hadith are read with the device’s text-to-speech voices.';
 }

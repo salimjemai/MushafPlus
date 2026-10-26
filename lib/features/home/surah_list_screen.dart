@@ -103,6 +103,8 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                   children: [
                     _ContinueReadingCard(),
                     SizedBox(height: 12),
+                    _AdhkarCard(),
+                    SizedBox(height: 12),
                     _TodayCard(),
                     SizedBox(height: 12),
                     _VerseOfTheDayCard(),
@@ -610,6 +612,81 @@ class _SurahSidebarState extends ConsumerState<SurahSidebar> {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Hisn al-Muslim shortcuts: the chapter for this time of day comes first.
+class _AdhkarCard extends StatelessWidget {
+  const _AdhkarCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
+    final hour = DateTime.now().hour;
+    final evening = hour >= 15 || hour < 3;
+    final chips = <(String, IconData, int)>[
+      if (evening) (l.evening, Icons.nights_stay_outlined, 27) else (l.morning, Icons.wb_sunny_outlined, 27),
+      (l.sleep, Icons.bedtime_outlined, 28),
+      (l.afterPrayer, Icons.mosque_outlined, 25),
+      if (evening) (l.morning, Icons.wb_sunny_outlined, 27) else (l.evening, Icons.nights_stay_outlined, 27),
+    ];
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => context.push('/adhkar'),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(color: scheme.primary.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
+                    child: Icon(Icons.auto_awesome, color: scheme.primary),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(l.hisnAlMuslim, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15.5)),
+                        Text(l.hisnAlMuslimSubtitle, maxLines: 1, overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+                      ],
+                    ),
+                  ),
+                  Text('حِصْن', style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 20, color: scheme.primary)),
+                  const SizedBox(width: 4),
+                  Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
+                ],
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 36,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    for (final (label, icon, id) in chips) ...[
+                      ActionChip(
+                        avatar: Icon(icon, size: 16),
+                        label: Text(label),
+                        visualDensity: VisualDensity.compact,
+                        onPressed: () => context.push('/adhkar/$id'),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

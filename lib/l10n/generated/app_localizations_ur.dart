@@ -1679,4 +1679,14 @@ class AppLocalizationsUr extends AppLocalizations {
   String timesN(int n) {
     return '×$n';
   }
+
+  @override
+  String get readAloud => 'بلند آواز میں پڑھیں';
+
+  @override
+  String get stopReading => 'پڑھنا روکیں';
+
+  @override
+  String get ttsUnavailable =>
+      'اس آلے پر اس زبان کی آواز نصب نہیں۔ احادیث آلے کی ٹیکسٹ ٹو اسپیچ آوازوں سے پڑھی جاتی ہیں۔';
 }

@@ -10,6 +10,7 @@ import 'hadith_export.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/hadith_service.dart';
+import '../../data/tts.dart';
 import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
 
@@ -559,6 +560,32 @@ class _HadithCard extends StatelessWidget {
                         ),
                     ],
                   ),
+                ),
+                ValueListenableBuilder<String?>(
+                  valueListenable: Tts.speaking,
+                  builder: (context, id, _) {
+                    final me = 'h-$bookName-${hadith.number}';
+                    final on = id == me;
+                    return IconButton(
+                      tooltip: on ? context.l10n.stopReading : context.l10n.readAloud,
+                      visualDensity: VisualDensity.compact,
+                      icon: Icon(on ? Icons.stop_circle_outlined : Icons.volume_up_outlined, size: 18, color: on ? scheme.primary : null),
+                      onPressed: () async {
+                        if (on) {
+                          await Tts.stop();
+                          return;
+                        }
+                        final lang = ProviderScope.containerOf(context).read(settingsProvider).hadithLanguage;
+                        final ok = await Tts.speak(me, [
+                          (hadith.arabic, 'ar-SA'),
+                          if (lang != 'ara') (hadith.text, Tts.voiceFor(lang)),
+                        ]);
+                        if (!ok && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.ttsUnavailable)));
+                        }
+                      },
+                    );
+                  },
                 ),
                 IconButton(
                   tooltip: context.l10n.copy,

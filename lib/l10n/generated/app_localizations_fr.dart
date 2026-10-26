@@ -1694,4 +1694,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String timesN(int n) {
     return '×$n';
   }
+
+  @override
+  String get readAloud => 'Lire à voix haute';
+
+  @override
+  String get stopReading => 'Arrêter la lecture';
+
+  @override
+  String get ttsUnavailable =>
+      'Aucune voix pour cette langue n’est installée sur cet appareil. Les hadiths sont lus par la synthèse vocale de l’appareil.';
 }

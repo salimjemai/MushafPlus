@@ -1167,5 +1167,8 @@
         "type": "int"
       }
     }
-  }
+  },
+  "readAloud": "Read aloud",
+  "stopReading": "Stop reading",
+  "ttsUnavailable": "No voice for this language is installed on this device. Hadith are read with the device’s text-to-speech voices."
 }

@@ -1688,4 +1688,14 @@ class AppLocalizationsId extends AppLocalizations {
   String timesN(int n) {
     return '×$n';
   }
+
+  @override
+  String get readAloud => 'Bacakan';
+
+  @override
+  String get stopReading => 'Hentikan';
+
+  @override
+  String get ttsUnavailable =>
+      'Tidak ada suara untuk bahasa ini di perangkat. Hadis dibacakan dengan suara text-to-speech perangkat.';
 }

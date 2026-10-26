@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/hadith_service.dart';
+import '../../data/tts.dart';
 import '../../state/providers.dart';
 import '../../widgets/book_spread.dart';
 import '../../widgets/zoomable.dart';
@@ -169,6 +170,7 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
   late int _chapter = widget.chapter ?? 1;
   late int _page = widget.page ?? 1; // 1-based within the chapter
   final _zoom = ZoomController();
+  List<List<HadithBlock>>? _pages; // the chapter's pages, for read-aloud
   bool _jumpToLastPage = false;
   PageController? _flip;
   final _book = BookSpreadController();
@@ -241,6 +243,17 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
               ],
             ),
             actions: [
+              ValueListenableBuilder<String?>(
+                valueListenable: Tts.speaking,
+                builder: (context, id, _) {
+                  final on = id != null && id.startsWith('page-');
+                  return IconButton(
+                    tooltip: on ? l.stopReading : l.readAloud,
+                    icon: Icon(on ? Icons.stop_circle_outlined : Icons.volume_up_outlined, color: on ? scheme.primary : null),
+                    onPressed: () => on ? Tts.stop() : _readPageAloud(lang),
+                  );
+                },
+              ),
               IconButton(
                 tooltip: l.tableOfContents,
                 icon: const Icon(Icons.toc),
@@ -309,6 +322,7 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
             ),
             data: (list) {
               final pages = paginateHadiths(list);
+              _pages = pages;
               if (_jumpToLastPage) {
                 _page = pages.length;
                 _jumpToLastPage = false;
@@ -462,6 +476,21 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
         _book.animateTo(_spreadOf(page));
       case MushafLayout.scroll:
         break;
+    }
+  }
+
+  /// Speaks every hadith on the current page: Arabic, then the translation.
+  Future<void> _readPageAloud(String lang) async {
+    final pages = _pages;
+    if (pages == null || _page < 1 || _page > pages.length) return;
+    final parts = <(String, String)>[];
+    for (final b in pages[_page - 1]) {
+      if (b.arabic.isNotEmpty) parts.add((b.arabic, 'ar-SA'));
+      if (b.text.isNotEmpty && lang != 'ara') parts.add((b.text, Tts.voiceFor(lang)));
+    }
+    final ok = await Tts.speak('page-$_page', parts);
+    if (!ok && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.ttsUnavailable)));
     }
   }
 

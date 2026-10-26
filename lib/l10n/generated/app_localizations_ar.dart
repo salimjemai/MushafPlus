@@ -1679,4 +1679,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String timesN(int n) {
     return '×$n';
   }
+
+  @override
+  String get readAloud => 'قراءة بصوت';
+
+  @override
+  String get stopReading => 'إيقاف القراءة';
+
+  @override
+  String get ttsUnavailable =>
+      'لا يوجد صوت لهذه اللغة على هذا الجهاز. تُقرأ الأحاديث بأصوات تحويل النص إلى كلام في الجهاز.';
 }
