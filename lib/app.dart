@@ -183,8 +183,8 @@ final _routes = <RouteBase>[
     ),
   ];
 
-class QuranPlusApp extends ConsumerWidget {
-  const QuranPlusApp({super.key});
+class MushafPlusApp extends ConsumerWidget {
+  const MushafPlusApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

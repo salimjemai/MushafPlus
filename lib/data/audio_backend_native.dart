@@ -44,7 +44,7 @@ class _NativeAyahPlayer implements AyahPlayer {
     ]);
   }
 
-  final _player = AudioPlayer(playerId: 'quran_plus');
+  final _player = AudioPlayer(playerId: 'mushaf_plus');
   final _subs = <StreamSubscription<dynamic>>[];
   final _status = StreamController<PlayerStatus>.broadcast();
   final _position = StreamController<Duration>.broadcast();

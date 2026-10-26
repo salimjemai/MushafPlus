@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quran_plus/data/prayer_times.dart';
+import 'package:mushaf_plus/data/prayer_times.dart';
 import 'package:timezone/data/latest_10y.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 

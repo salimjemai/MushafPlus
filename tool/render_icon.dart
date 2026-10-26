@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quran_plus/core/theme.dart';
-import 'package:quran_plus/widgets/surah_number_badge.dart';
+import 'package:mushaf_plus/core/theme.dart';
+import 'package:mushaf_plus/widgets/surah_number_badge.dart';
 
 Future<void> _loadFonts() async {
   final amiri = FontLoader('Amiri')

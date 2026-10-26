@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quran_plus/data/hadith_pdf.dart';
-import 'package:quran_plus/data/hadith_service.dart';
-import 'package:quran_plus/features/hadith/hadith_book_screen.dart';
+import 'package:mushaf_plus/data/hadith_pdf.dart';
+import 'package:mushaf_plus/data/hadith_service.dart';
+import 'package:mushaf_plus/features/hadith/hadith_book_screen.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

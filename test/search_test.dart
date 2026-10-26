@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quran_plus/core/arabic_utils.dart';
-import 'package:quran_plus/data/quran_repository.dart';
+import 'package:mushaf_plus/core/arabic_utils.dart';
+import 'package:mushaf_plus/data/quran_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

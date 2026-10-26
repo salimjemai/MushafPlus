@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quran_plus/data/tajweed.dart';
+import 'package:mushaf_plus/data/tajweed.dart';
 
 void main() {
   const marked = 'ذ[n[َٲ]لِكَ [h[ٱ]لْكِتَ[n[ـٰ]بُ لَا رَيْبَ‌ۛ فِيهِ‌ۛ هُ[u[دًى ل]ِّلْمُتَّق[p[ِي]نَ';

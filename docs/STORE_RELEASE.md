@@ -4,7 +4,7 @@ What is already in the repository, and what only the account owner can do.
 
 ## Already in place
 
-- Display name **Mushaf+** on every platform; bundle ids `com.salimjemai.quran_plus` (Android) and `com.salimjemai.quranPlus` (iOS/macOS). Keep these: changing them later creates a new app on the stores.
+- Display name **Mushaf+** on every platform; bundle ids `com.salimjemai.mushafplus` (Android) and `com.salimjemai.mushafplus` (iOS/macOS). Keep these: changing them later creates a new app on the stores.
 - Launcher icons and splash screens (`flutter_launcher_icons`, `flutter_native_splash`, source `tool/render_icon.dart`).
 - Permission texts: microphone, speech recognition and location (`ios/Runner/Info.plist`, `android/app/src/main/AndroidManifest.xml`).
 - iOS privacy manifest `ios/Runner/PrivacyInfo.xcprivacy` (no tracking, no collected data, required-reason APIs declared). **Add it to the Runner target once in Xcode** (File → Add Files to "Runner", tick the Runner target) so it ships in the bundle.

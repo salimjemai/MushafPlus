@@ -12,5 +12,5 @@ Future<void> main() async {
   initialRouteAtStartup = binding.platformDispatcher.defaultRouteName;
   tzdata.initializeTimeZones();
   await Storage.init();
-  runApp(const ProviderScope(child: QuranPlusApp()));
+  runApp(const ProviderScope(child: MushafPlusApp()));
 }

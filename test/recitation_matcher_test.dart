@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quran_plus/core/recitation_matcher.dart';
+import 'package:mushaf_plus/core/recitation_matcher.dart';
 
 void main() {
   const fatiha = [

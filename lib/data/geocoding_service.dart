@@ -34,7 +34,7 @@ class GeocodingService {
 
   Map<String, String> get _headers => kIsWeb
       ? const {}
-      : const {'User-Agent': 'QuranPlus/1.0 (https://github.com/salimjemai/QuranPlus)'};
+      : const {'User-Agent': 'MushafPlus/1.0 (https://github.com/salimjemai/QuranPlus)'};
 
   /// Full-text address search. Returns up to five candidates, best first.
   Future<List<GeoResult>> searchAddress(String query, {String? countryCode}) async {

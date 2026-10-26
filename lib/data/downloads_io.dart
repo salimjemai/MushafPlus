@@ -7,7 +7,7 @@ import 'package:share_plus/share_plus.dart';
 
 Future<Directory> _root() async {
   final base = await getApplicationDocumentsDirectory();
-  final dir = Directory('${base.path}${Platform.pathSeparator}QuranPlus');
+  final dir = Directory('${base.path}${Platform.pathSeparator}MushafPlus');
   if (!dir.existsSync()) dir.createSync(recursive: true);
   return dir;
 }
