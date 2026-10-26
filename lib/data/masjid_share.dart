@@ -6,7 +6,7 @@ import 'masjid.dart';
 
 /// Where the web app is published; links made on phones and desktops point
 /// here so that any browser can open them.
-const publicSiteUrl = 'https://salimjemai.github.io/QuranPlus/';
+const publicSiteUrl = 'https://salimjemai.github.io/MushafPlus/';
 
 /// Base URL of the running web app (origin + path), or the public site.
 String publicSiteBase() {

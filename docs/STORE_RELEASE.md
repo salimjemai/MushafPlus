@@ -8,7 +8,7 @@ What is already in the repository, and what only the account owner can do.
 - Launcher icons and splash screens (`flutter_launcher_icons`, `flutter_native_splash`, source `tool/render_icon.dart`).
 - Permission texts: microphone, speech recognition and location (`ios/Runner/Info.plist`, `android/app/src/main/AndroidManifest.xml`).
 - iOS privacy manifest `ios/Runner/PrivacyInfo.xcprivacy` (no tracking, no collected data, required-reason APIs declared). **Add it to the Runner target once in Xcode** (File → Add Files to "Runner", tick the Runner target) so it ships in the bundle.
-- Privacy policy page: https://salimjemai.github.io/QuranPlus/privacy.html (source `web/privacy.html`), linked from Settings → About. Both stores require this URL.
+- Privacy policy page: https://salimjemai.github.io/MushafPlus/privacy.html (source `web/privacy.html`), linked from Settings → About. Both stores require this URL.
 - Android release signing reads `android/key.properties` (see `key.properties.example`). CI signs the App Bundle when the `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` secrets exist.
 - CI builds: analyze + tests, signed/unsigned `.aab` and `.apk`, Windows, and an unsigned iOS build on macOS to catch compile errors. Artifacts are attached to each run.
 
