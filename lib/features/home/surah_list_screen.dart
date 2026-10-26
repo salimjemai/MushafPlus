@@ -90,6 +90,12 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
           final main = ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
             children: [
+              // On phones the search bar is the first thing on the page; on wide
+              // screens it spans both columns above this list.
+              if (!wide) ...[
+                KeyedSubtree(key: const ValueKey('home-search'), child: _searchField(context, l, hits)),
+                const SizedBox(height: 12),
+              ],
               // The hero cards come and go with the query; keys keep the text
               // field's element (and the keyboard) alive across that change.
               if (showHero)
@@ -113,10 +119,6 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                 key: const ValueKey('home-finder'),
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (!wide) ...[
-                    _searchField(context, l, hits),
-                    const SizedBox(height: 10),
-                  ],
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: SegmentedButton<_Tab>(
