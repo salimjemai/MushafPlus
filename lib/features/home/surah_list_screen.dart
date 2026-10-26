@@ -9,6 +9,7 @@ import '../../data/models.dart';
 import '../../data/quran_repository.dart';
 import '../../data/translation_service.dart';
 import '../../state/providers.dart';
+import '../search/search_screen.dart';
 import '../../state/reading_stats.dart';
 import '../../widgets/surah_number_badge.dart';
 import '../plan/plan_screen.dart';
@@ -26,6 +27,33 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
   final _controller = TextEditingController();
   String _query = '';
   _Tab _tab = _Tab.surahs;
+  List<String>? _corpus;
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(translationServiceProvider).bundledCorpus(TranslationService.defaultEdition).then((c) {
+      if (mounted) setState(() => _corpus = c);
+    });
+  }
+
+  /// Ayahs matching the query (Arabic, transliteration, then the bundled
+  /// translation), capped like the search screen.
+  List<int> _ayahHits(QuranRepository repo, String q) {
+    if (q.trim().length < 2) return const [];
+    final seen = <int>{};
+    final out = <int>[];
+    for (final n in repo.searchArabicAndTransliteration(q)) {
+      if (seen.add(n)) out.add(n);
+    }
+    final corpus = _corpus;
+    if (corpus != null) {
+      for (final n in QuranRepository.searchCorpus(corpus, q)) {
+        if (seen.add(n)) out.add(n);
+      }
+    }
+    return out;
+  }
 
   @override
   void dispose() {
@@ -39,6 +67,7 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
     final repo = ref.quran;
     final surahs = _filter(repo.surahs, _query);
     final showHero = _query.isEmpty;
+    final hits = _tab == _Tab.surahs ? _ayahHits(repo, _query) : const <int>[];
 
     return Scaffold(
       appBar: AppBar(
@@ -116,18 +145,8 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                 ],
               ),
               const SizedBox(height: 12),
-              if (_query.trim().length >= 2)
-                Padding(
-                  key: const ValueKey('home-search-all'),
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: FilledButton.tonalIcon(
-                    onPressed: () => context.go('/search?q=${Uri.encodeQueryComponent(_query.trim())}'),
-                    icon: const Icon(Icons.manage_search),
-                    label: Text('${l.searchWholeQuran}: “${_query.trim()}”'),
-                  ),
-                ),
               if (_tab == _Tab.surahs) ...[
-                if (surahs.isEmpty)
+                if (surahs.isEmpty && hits.isEmpty && _query.trim().isNotEmpty)
                   Padding(
                     key: const ValueKey('home-no-match'),
                     padding: const EdgeInsets.all(32),
@@ -143,6 +162,35 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
+                ],
+                if (hits.isNotEmpty) ...[
+                  Padding(
+                    key: const ValueKey('home-ayah-hits-header'),
+                    padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
+                    child: Text(
+                      l.resultsCount('${hits.length}${hits.length >= 200 ? '+' : ''}'),
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    ),
+                  ),
+                  for (final n in hits.take(10)) ...[
+                    AyahResultTile(
+                      key: ValueKey('hit-$n'),
+                      ayahNumber: n,
+                      translation: _corpus?[n - 1],
+                      onTap: () => context.go('/surah/${repo.ayah(n).surah}?ayah=${repo.ayah(n).numberInSurah}'),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                  if (hits.length > 10)
+                    Padding(
+                      key: const ValueKey('home-search-all'),
+                      padding: const EdgeInsets.only(top: 4, bottom: 12),
+                      child: FilledButton.tonalIcon(
+                        onPressed: () => context.go('/search?q=${Uri.encodeQueryComponent(_query.trim())}'),
+                        icon: const Icon(Icons.manage_search),
+                        label: Text('${l.searchWholeQuran} · ${l.resultsCount('${hits.length}${hits.length >= 200 ? '+' : ''}')}'),
+                      ),
+                    ),
                 ],
               ] else if (_tab == _Tab.juz) ...[
                 for (final j in repo.juzs) ...[
@@ -166,12 +214,12 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
     if (n != null) {
       return all.where((s) => s.number == n || s.number.toString().startsWith(q)).toList();
     }
-    final lq = q.toLowerCase().replaceAll('-', '').replaceAll(' ', '');
+    final lq = transliterationSearchKey(q);
     final aq = containsArabic(q) ? normalizeArabic(q) : null;
     return all.where((s) {
       if (aq != null) return normalizeArabic(s.name).contains(aq);
-      final en = s.englishName.toLowerCase().replaceAll('-', '').replaceAll(' ', '');
-      final tr = s.englishNameTranslation.toLowerCase().replaceAll(' ', '');
+      final en = transliterationSearchKey(s.englishName);
+      final tr = transliterationSearchKey(s.englishNameTranslation);
       return en.contains(lq) || tr.contains(lq);
     }).toList();
   }
