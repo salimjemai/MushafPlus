@@ -1627,4 +1627,71 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get privacyPolicy => 'Politique de confidentialité';
+
+  @override
+  String pdfReady(String size) {
+    return 'PDF prêt ($size)';
+  }
+
+  @override
+  String get openPdf => 'Ouvrir';
+
+  @override
+  String get savePdf => 'Enregistrer';
+
+  @override
+  String get offlineSavedBody =>
+      'Le livre est stocké sur cet appareil dans la langue de hadith actuelle et s’ouvre sans Internet depuis la bibliothèque. Retéléchargez-le après un changement de langue.';
+
+  @override
+  String get adhkar => 'Adhkar';
+
+  @override
+  String get hisnAlMuslim => 'Hisn al-Muslim';
+
+  @override
+  String get hisnAlMuslimSubtitle =>
+      'La Citadelle du musulman · invocations du Coran et de la Sunna';
+
+  @override
+  String get adhkarIntro =>
+      'Rappels et invocations quotidiens de Hisn al-Muslim de Sa‘id al-Qahtani, avec compteurs de répétition et audio.';
+
+  @override
+  String repeatProgress(int done, int total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get playChapter => 'Écouter le chapitre';
+
+  @override
+  String get resetCounters => 'Remettre les compteurs à zéro';
+
+  @override
+  String get adhkarLanguageNote =>
+      'Les traductions viennent de hisnmuslim.com et n’existent qu’en anglais et en arabe.';
+
+  @override
+  String get findAdhkar => 'Chercher un chapitre…';
+
+  @override
+  String get morning => 'Matin';
+
+  @override
+  String get evening => 'Soir';
+
+  @override
+  String get sleep => 'Sommeil';
+
+  @override
+  String get afterPrayer => 'Après la prière';
+
+  @override
+  String get allDone => 'Terminé';
+
+  @override
+  String timesN(int n) {
+    return '×$n';
+  }
 }

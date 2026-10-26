@@ -1621,4 +1621,71 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyPolicy => 'Kebijakan privasi';
+
+  @override
+  String pdfReady(String size) {
+    return 'PDF siap ($size)';
+  }
+
+  @override
+  String get openPdf => 'Buka';
+
+  @override
+  String get savePdf => 'Simpan';
+
+  @override
+  String get offlineSavedBody =>
+      'Kitab tersimpan di perangkat ini dalam bahasa hadis saat ini dan dibuka tanpa internet dari perpustakaan. Unduh lagi setelah mengganti bahasa.';
+
+  @override
+  String get adhkar => 'Dzikir';
+
+  @override
+  String get hisnAlMuslim => 'Hisnul Muslim';
+
+  @override
+  String get hisnAlMuslimSubtitle =>
+      'Benteng Muslim · dzikir dan doa dari Al-Qur’an dan Sunnah';
+
+  @override
+  String get adhkarIntro =>
+      'Dzikir dan doa harian dari Hisnul Muslim karya Sa‘id al-Qahthani, dengan penghitung pengulangan dan audio.';
+
+  @override
+  String repeatProgress(int done, int total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get playChapter => 'Putar bab';
+
+  @override
+  String get resetCounters => 'Atur ulang penghitung';
+
+  @override
+  String get adhkarLanguageNote =>
+      'Terjemahan berasal dari hisnmuslim.com dan hanya tersedia dalam bahasa Inggris dan Arab.';
+
+  @override
+  String get findAdhkar => 'Cari bab…';
+
+  @override
+  String get morning => 'Pagi';
+
+  @override
+  String get evening => 'Petang';
+
+  @override
+  String get sleep => 'Tidur';
+
+  @override
+  String get afterPrayer => 'Setelah salat';
+
+  @override
+  String get allDone => 'Selesai';
+
+  @override
+  String timesN(int n) {
+    return '×$n';
+  }
 }

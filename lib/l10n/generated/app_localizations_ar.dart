@@ -1613,4 +1613,70 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String pdfReady(String size) {
+    return 'ملف PDF جاهز ($size)';
+  }
+
+  @override
+  String get openPdf => 'فتح';
+
+  @override
+  String get savePdf => 'حفظ';
+
+  @override
+  String get offlineSavedBody =>
+      'الكتاب محفوظ على هذا الجهاز بلغة الحديث الحالية ويُفتح من المكتبة دون إنترنت. نزّله مجددًا بعد تغيير اللغة.';
+
+  @override
+  String get adhkar => 'الأذكار';
+
+  @override
+  String get hisnAlMuslim => 'حصن المسلم';
+
+  @override
+  String get hisnAlMuslimSubtitle => 'أذكار وأدعية من الكتاب والسنة';
+
+  @override
+  String get adhkarIntro =>
+      'الأذكار والأدعية اليومية من حصن المسلم لسعيد القحطاني، مع عدّاد للتكرار وصوت.';
+
+  @override
+  String repeatProgress(int done, int total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get playChapter => 'تشغيل الباب';
+
+  @override
+  String get resetCounters => 'تصفير العدّادات';
+
+  @override
+  String get adhkarLanguageNote =>
+      'الترجمات من hisnmuslim.com ومتوفرة بالعربية والإنجليزية فقط.';
+
+  @override
+  String get findAdhkar => 'ابحث عن باب…';
+
+  @override
+  String get morning => 'الصباح';
+
+  @override
+  String get evening => 'المساء';
+
+  @override
+  String get sleep => 'النوم';
+
+  @override
+  String get afterPrayer => 'بعد الصلاة';
+
+  @override
+  String get allDone => 'اكتمل';
+
+  @override
+  String timesN(int n) {
+    return '×$n';
+  }
 }

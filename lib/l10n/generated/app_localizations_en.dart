@@ -1620,4 +1620,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyPolicy => 'Privacy policy';
+
+  @override
+  String pdfReady(String size) {
+    return 'PDF ready ($size)';
+  }
+
+  @override
+  String get openPdf => 'Open';
+
+  @override
+  String get savePdf => 'Save';
+
+  @override
+  String get offlineSavedBody =>
+      'The book is stored on this device in the current hadith language and opens without internet from the library. Download it again after switching language.';
+
+  @override
+  String get adhkar => 'Adhkar';
+
+  @override
+  String get hisnAlMuslim => 'Hisn al-Muslim';
+
+  @override
+  String get hisnAlMuslimSubtitle =>
+      'Fortress of the Muslim · supplications from the Quran and Sunnah';
+
+  @override
+  String get adhkarIntro =>
+      'Daily remembrances and supplications from Hisn al-Muslim by Sa‘id al-Qahtani, with repeat counters and audio.';
+
+  @override
+  String repeatProgress(int done, int total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get playChapter => 'Play chapter';
+
+  @override
+  String get resetCounters => 'Reset counters';
+
+  @override
+  String get adhkarLanguageNote =>
+      'Translations come from hisnmuslim.com and exist in English and Arabic only.';
+
+  @override
+  String get findAdhkar => 'Find a chapter…';
+
+  @override
+  String get morning => 'Morning';
+
+  @override
+  String get evening => 'Evening';
+
+  @override
+  String get sleep => 'Sleep';
+
+  @override
+  String get afterPrayer => 'After prayer';
+
+  @override
+  String get allDone => 'All done';
+
+  @override
+  String timesN(int n) {
+    return '×$n';
+  }
 }

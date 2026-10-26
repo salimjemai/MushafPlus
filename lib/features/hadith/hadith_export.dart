@@ -63,7 +63,15 @@ Future<void> exportHadith(
     if (!pdf) {
       if (!context.mounted) return;
       Navigator.of(context).pop();
-      ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(content: Text(l.savedForOffline(book.name))));
+      await showDialog<void>(
+        context: context,
+        builder: (c) => AlertDialog(
+          icon: const Icon(Icons.offline_pin_outlined),
+          title: Text(l.savedForOffline(book.name)),
+          content: Text(l.offlineSavedBody),
+          actions: [FilledButton(onPressed: () => Navigator.of(c).pop(), child: Text(l.open))],
+        ),
+      );
       return;
     }
     progress.value = (l.renderingPdf, null);
@@ -76,7 +84,35 @@ Future<void> exportHadith(
     if (cancelled || !context.mounted) return;
     Navigator.of(context).pop();
     final name = chapterOnly == null ? '${book.id}.pdf' : '${book.id}-chapter-${chapterOnly.number}.pdf';
-    await Downloads.saveBytes(bytes, name, mimeType: 'application/pdf');
+    final size = bytes.length >= 1024 * 1024
+        ? '${(bytes.length / (1024 * 1024)).toStringAsFixed(1)} MB'
+        : '${(bytes.length / 1024).round()} KB';
+    // Browsers (Safari above all) only honour a download started by a tap,
+    // so the save happens from a button rather than at the end of the job.
+    await showDialog<void>(
+      context: context,
+      builder: (c) => AlertDialog(
+        icon: const Icon(Icons.picture_as_pdf_outlined),
+        title: Text(l.pdfReady(size)),
+        content: Text('${book.name}\n$name'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(c).pop(), child: Text(l.cancel)),
+          OutlinedButton.icon(
+            onPressed: () => Downloads.openBytes(bytes, name, mimeType: 'application/pdf'),
+            icon: const Icon(Icons.open_in_new, size: 18),
+            label: Text(l.openPdf),
+          ),
+          FilledButton.icon(
+            onPressed: () {
+              Downloads.saveBytes(bytes, name, mimeType: 'application/pdf');
+              Navigator.of(c).pop();
+            },
+            icon: const Icon(Icons.download, size: 18),
+            label: Text(l.savePdf),
+          ),
+        ],
+      ),
+    );
   } catch (e) {
     if (!context.mounted) return;
     if (!cancelled) Navigator.of(context).pop();

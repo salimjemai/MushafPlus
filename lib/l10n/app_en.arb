@@ -1124,5 +1124,48 @@
   "playbackSpeed": "Speed",
   "chooseReciter": "Choose a reciter",
   "approximateLocation": "Only the area (postal code or city) was found, so the coordinates are its centre. If you know the exact coordinates, enter them below.",
-  "privacyPolicy": "Privacy policy"
+  "privacyPolicy": "Privacy policy",
+  "pdfReady": "PDF ready ({size})",
+  "openPdf": "Open",
+  "savePdf": "Save",
+  "offlineSavedBody": "The book is stored on this device in the current hadith language and opens without internet from the library. Download it again after switching language.",
+  "adhkar": "Adhkar",
+  "hisnAlMuslim": "Hisn al-Muslim",
+  "hisnAlMuslimSubtitle": "Fortress of the Muslim · supplications from the Quran and Sunnah",
+  "adhkarIntro": "Daily remembrances and supplications from Hisn al-Muslim by Sa‘id al-Qahtani, with repeat counters and audio.",
+  "repeatProgress": "{done} / {total}",
+  "playChapter": "Play chapter",
+  "resetCounters": "Reset counters",
+  "adhkarLanguageNote": "Translations come from hisnmuslim.com and exist in English and Arabic only.",
+  "findAdhkar": "Find a chapter…",
+  "morning": "Morning",
+  "evening": "Evening",
+  "sleep": "Sleep",
+  "afterPrayer": "After prayer",
+  "allDone": "All done",
+  "timesN": "×{n}",
+  "@pdfReady": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@repeatProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@timesN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

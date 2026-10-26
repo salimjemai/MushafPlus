@@ -17,6 +17,7 @@ import 'features/prayer/masjid_edit_screen.dart';
 import 'features/prayer/monthly_timetable_screen.dart';
 import 'features/prayer/prayer_screen.dart';
 import 'features/prayer/qibla_screen.dart';
+import 'features/adhkar/adhkar_screens.dart';
 import 'features/mushaf/mushaf_book_screen.dart';
 import 'features/prayer/publish_screen.dart';
 import 'features/reader/tajweed_guide.dart';
@@ -73,6 +74,13 @@ final _routes = <RouteBase>[
                 ),
               ],
             ),
+          ],
+        ),
+        GoRoute(
+          path: '/adhkar',
+          builder: (c, s) => const AdhkarScreen(),
+          routes: [
+            GoRoute(path: ':id', builder: (c, s) => AdhkarChapterScreen(chapterId: int.tryParse(s.pathParameters['id'] ?? '') ?? 27)),
           ],
         ),
         GoRoute(path: '/bookmarks', builder: (c, s) => const BookmarksScreen()),

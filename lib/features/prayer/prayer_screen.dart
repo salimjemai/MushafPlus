@@ -340,6 +340,16 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
             ),
           ),
         ),
+        const SizedBox(height: 12),
+        Card(
+          child: ListTile(
+            leading: Icon(Icons.auto_awesome, color: scheme.primary),
+            title: Text(l.hisnAlMuslim, style: const TextStyle(fontWeight: FontWeight.w700)),
+            subtitle: Text(l.hisnAlMuslimSubtitle, maxLines: 1, overflow: TextOverflow.ellipsis),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/adhkar'),
+          ),
+        ),
         if (masjid.jumuah.isNotEmpty || isFriday) ...[
           const SizedBox(height: 12),
           Card(

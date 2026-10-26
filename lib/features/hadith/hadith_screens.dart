@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../adhkar/adhkar_screens.dart';
 import 'hadith_export.dart';
 
 import '../../core/l10n.dart';
@@ -64,14 +65,16 @@ class HadithBooksScreen extends ConsumerWidget {
                           childAspectRatio: 0.52,
                         ),
                         delegate: SliverChildBuilderDelegate(
-                          (context, i) => BookCover(
-                            book: list[i],
-                            index: i,
-                            onTap: () => context.go('/hadith/${list[i].id}'),
-                            onDownloadPdf: () => exportHadith(context, ref, list[i], pdf: true),
-                            onDownloadOffline: () => exportHadith(context, ref, list[i], pdf: false),
-                          ),
-                          childCount: list.length,
+                          (context, i) => i == list.length
+                              ? AdhkarCover(onTap: () => context.push('/adhkar'))
+                              : BookCover(
+                                  book: list[i],
+                                  index: i,
+                                  onTap: () => context.go('/hadith/${list[i].id}'),
+                                  onDownloadPdf: () => exportHadith(context, ref, list[i], pdf: true),
+                                  onDownloadOffline: () => exportHadith(context, ref, list[i], pdf: false),
+                                ),
+                          childCount: list.length + 1,
                         ),
                       ),
                     ),

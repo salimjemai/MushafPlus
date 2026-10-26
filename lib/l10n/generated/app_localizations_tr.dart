@@ -1619,4 +1619,71 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get privacyPolicy => 'Gizlilik politikası';
+
+  @override
+  String pdfReady(String size) {
+    return 'PDF hazır ($size)';
+  }
+
+  @override
+  String get openPdf => 'Aç';
+
+  @override
+  String get savePdf => 'Kaydet';
+
+  @override
+  String get offlineSavedBody =>
+      'Kitap bu cihazda geçerli hadis dilinde saklanır ve kütüphaneden internetsiz açılır. Dili değiştirdikten sonra yeniden indirin.';
+
+  @override
+  String get adhkar => 'Zikirler';
+
+  @override
+  String get hisnAlMuslim => 'Hısnu’l-Müslim';
+
+  @override
+  String get hisnAlMuslimSubtitle =>
+      'Müslümanın Kalesi · Kur’an ve Sünnet’ten zikir ve dualar';
+
+  @override
+  String get adhkarIntro =>
+      'Said el-Kahtânî’nin Hısnu’l-Müslim’inden günlük zikir ve dualar; tekrar sayacı ve sesli okuma ile.';
+
+  @override
+  String repeatProgress(int done, int total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get playChapter => 'Bölümü dinle';
+
+  @override
+  String get resetCounters => 'Sayaçları sıfırla';
+
+  @override
+  String get adhkarLanguageNote =>
+      'Çeviriler hisnmuslim.com’dan alınmıştır ve yalnızca İngilizce ve Arapça mevcuttur.';
+
+  @override
+  String get findAdhkar => 'Bölüm ara…';
+
+  @override
+  String get morning => 'Sabah';
+
+  @override
+  String get evening => 'Akşam';
+
+  @override
+  String get sleep => 'Uyku';
+
+  @override
+  String get afterPrayer => 'Namaz sonrası';
+
+  @override
+  String get allDone => 'Tamamlandı';
+
+  @override
+  String timesN(int n) {
+    return '×$n';
+  }
 }

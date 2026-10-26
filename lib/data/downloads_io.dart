@@ -48,6 +48,10 @@ Future<void> saveBytes(Uint8List bytes, String fileName, {String mimeType = 'app
   await _offer(file);
 }
 
+/// Same as [saveBytes]: the file is written and offered through the share sheet.
+Future<void> openBytes(Uint8List bytes, String fileName, {String mimeType = 'application/octet-stream'}) =>
+    saveBytes(bytes, fileName, mimeType: mimeType);
+
 bool get supportsCache => !kIsWeb;
 
 String _safe(String s) => s.replaceAll(RegExp(r'[^A-Za-z0-9_.-]'), '_');

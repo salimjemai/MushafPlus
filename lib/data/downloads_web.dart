@@ -13,17 +13,28 @@ Future<void> saveUrl(String url, String fileName, {void Function(double)? onProg
   await saveBytes(res.bodyBytes, fileName, mimeType: res.headers['content-type'] ?? 'application/octet-stream');
 }
 
-Future<void> saveBytes(Uint8List bytes, String fileName, {String mimeType = 'application/octet-stream'}) async {
+String _objectUrl(Uint8List bytes, String mimeType) {
   final blob = web.Blob([bytes.toJS].toJS, web.BlobPropertyBag(type: mimeType));
   final href = web.URL.createObjectURL(blob);
+  // Safari starts the download asynchronously; revoking at once loses it.
+  Future<void>.delayed(const Duration(minutes: 2), () => web.URL.revokeObjectURL(href));
+  return href;
+}
+
+Future<void> saveBytes(Uint8List bytes, String fileName, {String mimeType = 'application/octet-stream'}) async {
   final a = web.HTMLAnchorElement()
-    ..href = href
+    ..href = _objectUrl(bytes, mimeType)
     ..download = fileName
     ..style.display = 'none';
   web.document.body?.append(a);
   a.click();
   a.remove();
-  web.URL.revokeObjectURL(href);
+}
+
+/// Opens the file in a new tab (on iPhone and iPad this shows the PDF with
+/// the share sheet, from which it can be saved to Files).
+Future<void> openBytes(Uint8List bytes, String fileName, {String mimeType = 'application/octet-stream'}) async {
+  web.window.open(_objectUrl(bytes, mimeType), '_blank');
 }
 
 bool get supportsCache => false;

@@ -17,6 +17,10 @@ abstract class Downloads {
   static Future<void> saveBytes(Uint8List bytes, String fileName, {String mimeType = 'application/octet-stream'}) =>
       impl.saveBytes(bytes, fileName, mimeType: mimeType);
 
+  /// Opens [bytes] for viewing (new tab on the web, share sheet on mobile).
+  static Future<void> openBytes(Uint8List bytes, String fileName, {String mimeType = 'application/octet-stream'}) =>
+      impl.openBytes(bytes, fileName, mimeType: mimeType);
+
   /// Whether this platform keeps an offline audio cache.
   static bool get supportsCache => impl.supportsCache;
 

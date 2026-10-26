@@ -2883,6 +2883,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy policy'**
   String get privacyPolicy;
+
+  /// No description provided for @pdfReady.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF ready ({size})'**
+  String pdfReady(String size);
+
+  /// No description provided for @openPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openPdf;
+
+  /// No description provided for @savePdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get savePdf;
+
+  /// No description provided for @offlineSavedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The book is stored on this device in the current hadith language and opens without internet from the library. Download it again after switching language.'**
+  String get offlineSavedBody;
+
+  /// No description provided for @adhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhkar'**
+  String get adhkar;
+
+  /// No description provided for @hisnAlMuslim.
+  ///
+  /// In en, this message translates to:
+  /// **'Hisn al-Muslim'**
+  String get hisnAlMuslim;
+
+  /// No description provided for @hisnAlMuslimSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fortress of the Muslim · supplications from the Quran and Sunnah'**
+  String get hisnAlMuslimSubtitle;
+
+  /// No description provided for @adhkarIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily remembrances and supplications from Hisn al-Muslim by Sa‘id al-Qahtani, with repeat counters and audio.'**
+  String get adhkarIntro;
+
+  /// No description provided for @repeatProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} / {total}'**
+  String repeatProgress(int done, int total);
+
+  /// No description provided for @playChapter.
+  ///
+  /// In en, this message translates to:
+  /// **'Play chapter'**
+  String get playChapter;
+
+  /// No description provided for @resetCounters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset counters'**
+  String get resetCounters;
+
+  /// No description provided for @adhkarLanguageNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Translations come from hisnmuslim.com and exist in English and Arabic only.'**
+  String get adhkarLanguageNote;
+
+  /// No description provided for @findAdhkar.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a chapter…'**
+  String get findAdhkar;
+
+  /// No description provided for @morning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning'**
+  String get morning;
+
+  /// No description provided for @evening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening'**
+  String get evening;
+
+  /// No description provided for @sleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get sleep;
+
+  /// No description provided for @afterPrayer.
+  ///
+  /// In en, this message translates to:
+  /// **'After prayer'**
+  String get afterPrayer;
+
+  /// No description provided for @allDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All done'**
+  String get allDone;
+
+  /// No description provided for @timesN.
+  ///
+  /// In en, this message translates to:
+  /// **'×{n}'**
+  String timesN(int n);
 }
 
 class _AppLocalizationsDelegate
