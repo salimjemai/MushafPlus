@@ -9,7 +9,7 @@ class AppLocalizationsId extends AppLocalizations {
   AppLocalizationsId([String locale = 'id']) : super(locale);
 
   @override
-  String get appTitle => 'Quran+';
+  String get appTitle => 'Mushaf+';
 
   @override
   String get navRead => 'Baca';
@@ -1363,7 +1363,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get adhanHeader => 'Azan';
 
   @override
-  String get poweredBy => 'Didukung Quran+';
+  String get poweredBy => 'Didukung Mushaf+';
 
   @override
   String get invalidWidgetLink =>

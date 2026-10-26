@@ -1,5 +1,5 @@
 name: quran_plus
-description: "Quran+ : a beautiful cross-platform Quran reader with word-by-word transliteration and 100+ translations."
+description: "Mushaf+ : a beautiful cross-platform Quran reader with word-by-word transliteration and 100+ translations."
 publish_to: 'none'
 version: 1.0.0+1
 

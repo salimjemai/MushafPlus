@@ -262,7 +262,7 @@ class _Splash extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Quran+',
+                    'Mushaf+',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,

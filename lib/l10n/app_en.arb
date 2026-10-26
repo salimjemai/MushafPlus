@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "Quran+",
+  "appTitle": "Mushaf+",
   "navRead": "Read",
   "navHadith": "Hadith",
   "navPrayer": "Prayer",
@@ -1019,7 +1019,7 @@
   "embedHelp": "Paste the embed code into your masjid website, or share a link. The link itself carries this masjid’s location, method, iqama and Jumu’ah settings, so copy it again after you change them. Add ?theme=dark or &scale=120, &lang=ar to any link.",
   "preview": "Preview",
   "adhanHeader": "Adhan",
-  "poweredBy": "Powered by Quran+",
+  "poweredBy": "Powered by Mushaf+",
   "invalidWidgetLink": "This widget link is invalid or incomplete.",
   "micDenied": "Microphone access was denied. Allow it for this site in the browser or system settings, then try again.",
   "noSpeechYet": "Nothing heard yet. Recite clearly, close to the microphone. Words appear here as they are recognised.",

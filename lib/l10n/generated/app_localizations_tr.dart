@@ -1362,7 +1362,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adhanHeader => 'Ezan';
 
   @override
-  String get poweredBy => 'Quran+ ile';
+  String get poweredBy => 'Mushaf+ ile';
 
   @override
   String get invalidWidgetLink => 'Bu widget bağlantısı geçersiz veya eksik.';

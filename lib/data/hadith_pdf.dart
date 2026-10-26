@@ -38,7 +38,7 @@ class HadithPdf {
 
     final doc = pw.Document(
       title: book.name,
-      author: 'Quran+',
+      author: 'Mushaf+',
       theme: pw.ThemeData.withFont(base: _amiri!, bold: _amiriBold!),
     );
 
@@ -65,7 +65,7 @@ class HadithPdf {
                   pw.Text('${book.hadithCount} hadiths · ${book.sections.length} chapters',
                       style: pw.TextStyle(fontSize: 12, color: grey)),
                   pw.SizedBox(height: 40),
-                  pw.Text('Quran+', style: pw.TextStyle(fontSize: 11, color: gold)),
+                  pw.Text('Mushaf+', style: pw.TextStyle(fontSize: 11, color: gold)),
                 ],
               ),
             ),

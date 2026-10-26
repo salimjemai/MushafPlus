@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Quran+'**
+  /// **'Mushaf+'**
   String get appTitle;
 
   /// No description provided for @navRead.
@@ -2437,7 +2437,7 @@ abstract class AppLocalizations {
   /// No description provided for @poweredBy.
   ///
   /// In en, this message translates to:
-  /// **'Powered by Quran+'**
+  /// **'Powered by Mushaf+'**
   String get poweredBy;
 
   /// No description provided for @invalidWidgetLink.

@@ -1,4 +1,4 @@
-/// Core data models for Quran+.
+/// Core data models for Mushaf+.
 library;
 
 class Surah {

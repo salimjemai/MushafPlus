@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Quran+';
+  String get appTitle => 'Mushaf+';
 
   @override
   String get navRead => 'Read';
@@ -1363,7 +1363,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adhanHeader => 'Adhan';
 
   @override
-  String get poweredBy => 'Powered by Quran+';
+  String get poweredBy => 'Powered by Mushaf+';
 
   @override
   String get invalidWidgetLink => 'This widget link is invalid or incomplete.';

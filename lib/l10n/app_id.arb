@@ -1,6 +1,6 @@
 {
   "@@locale": "id",
-  "appTitle": "Quran+",
+  "appTitle": "Mushaf+",
   "navRead": "Baca",
   "navHadith": "Hadis",
   "navPrayer": "Salat",
@@ -388,7 +388,7 @@
   "embedHelp": "Tempel kode sematan di situs masjid Anda, atau bagikan tautannya. Tautan itu sendiri memuat lokasi, metode, iqamah dan jadwal Jumat masjid ini, jadi salin lagi setelah mengubahnya. Tambahkan ?theme=dark atau &scale=120, &lang=ar pada tautan mana pun.",
   "preview": "Pratinjau",
   "adhanHeader": "Azan",
-  "poweredBy": "Didukung Quran+",
+  "poweredBy": "Didukung Mushaf+",
   "invalidWidgetLink": "Tautan widget ini tidak valid atau tidak lengkap.",
   "micDenied": "Akses mikrofon ditolak. Izinkan untuk situs ini di pengaturan peramban atau sistem, lalu coba lagi.",
   "noSpeechYet": "Belum ada yang terdengar. Bacalah dengan jelas, dekat mikrofon; kata-kata muncul di sini saat dikenali.",

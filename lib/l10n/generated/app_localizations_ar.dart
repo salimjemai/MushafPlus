@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'القرآن+';
+  String get appTitle => 'المصحف+';
 
   @override
   String get navRead => 'القراءة';
@@ -1357,7 +1357,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get adhanHeader => 'الأذان';
 
   @override
-  String get poweredBy => 'بواسطة Quran+';
+  String get poweredBy => 'بواسطة Mushaf+';
 
   @override
   String get invalidWidgetLink => 'رابط الودجت غير صالح أو ناقص.';

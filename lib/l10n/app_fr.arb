@@ -1,6 +1,6 @@
 {
   "@@locale": "fr",
-  "appTitle": "Quran+",
+  "appTitle": "Mushaf+",
   "navRead": "Lire",
   "navHadith": "Hadith",
   "navPrayer": "Prière",
@@ -388,7 +388,7 @@
   "embedHelp": "Collez le code d’intégration sur le site de votre mosquée ou partagez un lien. Le lien contient l’emplacement, la méthode, les iqamas et les horaires du vendredi : recopiez-le après toute modification. Ajoutez ?theme=dark ou &scale=120, &lang=ar à n’importe quel lien.",
   "preview": "Aperçu",
   "adhanHeader": "Adhan",
-  "poweredBy": "Propulsé par Quran+",
+  "poweredBy": "Propulsé par Mushaf+",
   "invalidWidgetLink": "Ce lien de widget est invalide ou incomplet.",
   "micDenied": "L’accès au microphone a été refusé. Autorisez-le pour ce site dans le navigateur ou les réglages, puis réessayez.",
   "noSpeechYet": "Rien entendu pour l’instant. Récitez clairement, près du microphone ; les mots s’affichent ici au fur et à mesure.",

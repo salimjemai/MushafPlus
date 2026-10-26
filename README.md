@@ -1,4 +1,4 @@
-# Quran+ 📖
+# Mushaf+ 📖
 
 A beautiful, practical, cross-platform Quran app built with Flutter.
 Runs on **Android, iOS, Web, Windows, macOS and Linux** from one codebase.

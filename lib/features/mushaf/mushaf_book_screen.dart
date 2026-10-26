@@ -403,7 +403,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
           },
           spreadCount: spreads,
           initialSpread: _closed ? -1 : _spreadOf(_page),
-          cover: const MushafCover(subtitle: 'QURAN+'),
+          cover: const MushafCover(subtitle: 'MUSHAF+'),
           leftPage: (k) => pageAt(k * 2 + 2),
           rightPage: (k) => pageAt(k * 2 + 1),
           onSpreadChanged: (k) {

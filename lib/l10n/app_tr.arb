@@ -388,7 +388,7 @@
   "embedHelp": "Gömme kodunu caminizin web sitesine yapıştırın veya bağlantıyı paylaşın. Bağlantı caminin konumunu, yöntemini, ikamet ve Cuma saatlerini taşır; değiştirdikten sonra yeniden kopyalayın. Herhangi bir bağlantıya ?theme=dark veya &scale=120, &lang=ar ekleyin.",
   "preview": "Önizleme",
   "adhanHeader": "Ezan",
-  "poweredBy": "Quran+ ile",
+  "poweredBy": "Mushaf+ ile",
   "invalidWidgetLink": "Bu widget bağlantısı geçersiz veya eksik.",
   "micDenied": "Mikrofon erişimi reddedildi. Tarayıcı veya sistem ayarlarından bu siteye izin verin ve yeniden deneyin.",
   "noSpeechYet": "Henüz bir şey duyulmadı. Mikrofona yakın ve net okuyun; tanınan kelimeler burada görünür.",
