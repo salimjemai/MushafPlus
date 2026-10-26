@@ -168,39 +168,17 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
           MushafLayout.flip => Zoomable(controller: _zoom, child: _flipLayout()),
           _ => Zoomable(controller: _zoom, child: _bookLayout(constraints)),
         };
-        if (_immersive) {
-          return Scaffold(
-            body: Stack(
-              children: [
-                Positioned.fill(child: bookBody),
-                PositionedDirectional(
-                  top: MediaQuery.paddingOf(context).top + 6,
-                  end: 6,
-                  child: _ImmersiveExit(onTap: () => _setImmersive(false), label: l.exitFullScreen),
-                ),
-                PositionedDirectional(
-                  bottom: MediaQuery.paddingOf(context).bottom + 6,
-                  start: 0,
-                  end: 0,
-                  child: Center(
-                    child: _ImmersivePager(
-                      page: _page,
-                      onPrev: _page > 1 ? () => _goTo(_page - 1, layout) : null,
-                      onNext: _page < QuranRepository.totalPages ? () => _goTo(_page + 1, layout) : null,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
         return Scaffold(
           key: _scaffold,
-          drawer: _ChaptersDrawer(onPage: (p) {
-            Navigator.of(context).pop();
-            _goTo(p, layout);
-          }),
-          appBar: AppBar(
+          drawer: _immersive
+              ? null
+              : _ChaptersDrawer(onPage: (p) {
+                  Navigator.of(context).pop();
+                  _goTo(p, layout);
+                }),
+          appBar: _immersive
+              ? null
+              : AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () =>
@@ -277,8 +255,33 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
                 ),
             ],
           ),
-          body: bookBody,
-          bottomNavigationBar: Column(
+          body: Stack(
+            children: [
+              Positioned.fill(child: bookBody),
+              if (_immersive) ...[
+                PositionedDirectional(
+                  top: MediaQuery.paddingOf(context).top + 6,
+                  end: 6,
+                  child: _ImmersiveExit(onTap: () => _setImmersive(false), label: l.exitFullScreen),
+                ),
+                PositionedDirectional(
+                  bottom: MediaQuery.paddingOf(context).bottom + 6,
+                  start: 0,
+                  end: 0,
+                  child: Center(
+                    child: _ImmersivePager(
+                      page: _page,
+                      onPrev: _page > 1 ? () => _goTo(_page - 1, layout) : null,
+                      onNext: _page < QuranRepository.totalPages ? () => _goTo(_page + 1, layout) : null,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+          bottomNavigationBar: _immersive
+              ? null
+              : Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const ListenBar(),
@@ -569,7 +572,7 @@ class _Flipping extends StatelessWidget {
       animation: controller,
       builder: (context, _) {
         double delta = 0;
-        if (controller.hasClients && controller.position.haveDimensions) {
+        if (controller.positions.length == 1 && controller.position.haveDimensions) {
           delta =
               (controller.page ?? controller.initialPage.toDouble()) - index;
         }

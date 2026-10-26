@@ -67,7 +67,8 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     super.initState();
     final s = ref.read(repositoryProvider).requireValue.surah(widget.surah);
     _from = (widget.from ?? 1).clamp(1, s.numberOfAyahs);
-    _to = (widget.to ?? (_from + 4)).clamp(_from, s.numberOfAyahs);
+    // Default to the rest of the surah: reciters rarely stop after a few ayahs.
+    _to = (widget.to ?? s.numberOfAyahs).clamp(_from, s.numberOfAyahs);
     _buildPassage();
     if (widget.autoStart) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -87,7 +88,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     });
   }
 
-  void _buildPassage() {
+  void _buildPassage({bool keepTranscript = false}) {
     final repo = ref.read(repositoryProvider).requireValue;
     _ayahs = [for (var n = _from; n <= _to; n++) repo.ayahAt(widget.surah, n)];
     final words = <String>[];
@@ -100,12 +101,14 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
       }
     }
     _matcher = RecitationMatcher(words, strict: _strict);
-    _result = _matcher.match('');
-    _sessionBase = '';
-    _committed = '';
-    _partial = '';
+    if (!keepTranscript) {
+      _sessionBase = '';
+      _committed = '';
+      _partial = '';
+      _flaggedWrong.clear();
+    }
+    _result = _matcher.match(keepTranscript ? '$_committed $_partial' : '');
     _hintUntil = -1;
-    _flaggedWrong.clear();
     _celebrated = false;
   }
 
@@ -191,6 +194,12 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
       _committed = '$_sessionBase $finalText'.trim();
       _partial = partialText;
       _result = _matcher.match('$_committed $_partial');
+      // Keep following a reciter who carries on past the chosen range.
+      final surah = ref.read(repositoryProvider).requireValue.surah(widget.surah);
+      if (_result!.complete && _to < surah.numberOfAyahs) {
+        _to = surah.numberOfAyahs;
+        _buildPassage(keepTranscript: true);
+      }
     });
     _giveFeedback(_result!, finalText.isNotEmpty && partialText.isEmpty);
   }
