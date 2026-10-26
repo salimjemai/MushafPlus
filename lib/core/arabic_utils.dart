@@ -33,14 +33,26 @@ String normalizeArabic(String s) {
 /// written alif, while people type الانسان and الرحمن; without alifs both
 /// spellings meet.
 String arabicSearchKey(String s) {
+  // Hamza forms stay: dropping them makes نساءنا look like انسان.
   return normalizeArabic(s)
-      .replaceAll('ؤ', 'و')
-      .replaceAll('ئ', 'ي')
-      .replaceAll('ء', '')
       .replaceAll('ا', '')
       .replaceAll(RegExp('[^ء-ي ]'), '')
       .replaceAll(RegExp(r'\s+'), ' ')
       .trim();
+}
+
+/// Key used to search the Latin transliteration: lower-case letters only,
+/// with doubled long vowels collapsed, so insan finds insaan and
+/// al-insaan.
+String transliterationSearchKey(String s) {
+  return s
+      .toLowerCase()
+      .replaceAll(RegExp('[^a-z]'), '')
+      .replaceAll(RegExp('aa+'), 'a')
+      .replaceAll(RegExp('ee+'), 'i')
+      .replaceAll(RegExp('ii+'), 'i')
+      .replaceAll(RegExp('oo+'), 'u')
+      .replaceAll(RegExp('uu+'), 'u');
 }
 
 /// True if the string contains Arabic letters.

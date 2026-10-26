@@ -143,6 +143,7 @@ class QuranRepository {
   }
 
   List<String>? _searchKeys;
+  List<String>? _translitKeys;
 
   /// Search the Arabic text (diacritic-insensitive) and the transliteration.
   /// Returns global ayah numbers, capped at [limit].
@@ -161,9 +162,11 @@ class QuranRepository {
         }
       }
     } else {
-      final lq = q.toLowerCase();
-      for (var i = 0; i < transliteration.length; i++) {
-        if (transliteration[i].toLowerCase().contains(lq)) {
+      final lq = transliterationSearchKey(q);
+      if (lq.isEmpty) return const [];
+      final keys = _translitKeys ??= [for (final t in transliteration) transliterationSearchKey(t)];
+      for (var i = 0; i < keys.length; i++) {
+        if (keys[i].contains(lq)) {
           results.add(i + 1);
           if (results.length >= limit) break;
         }
