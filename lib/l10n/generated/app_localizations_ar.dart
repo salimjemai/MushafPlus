@@ -1691,9 +1691,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'لا يوجد صوت لهذه اللغة على هذا الجهاز. تُقرأ الأحاديث بأصوات تحويل النص إلى كلام في الجهاز.';
 
   @override
-  String get homeSearchHint => 'ابحث في القرآن: سورة أو آية أو كلمة أو عبارة…';
-
-  @override
-  String get homeSearchHelp =>
-      'بالعربية مع التشكيل أو بدونه، أو بالحروف اللاتينية (insan, bismillah)، أو بالمعنى الإنجليزي، أو باسم السورة أو رقمها.';
+  String get homeSearchHint =>
+      'ابحث في القرآن — سورة أو آية أو كلمة أو عبارة. بالعربية مع التشكيل أو بدونه، أو بالحروف اللاتينية (insan, bismillah)، أو بالمعنى الإنجليزي، أو باسم السورة أو رقمها…';
 }

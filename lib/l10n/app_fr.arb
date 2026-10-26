@@ -485,6 +485,5 @@
   "readAloud": "Lire à voix haute",
   "stopReading": "Arrêter la lecture",
   "ttsUnavailable": "Aucune voix pour cette langue n’est installée sur cet appareil. Les hadiths sont lus par la synthèse vocale de l’appareil.",
-  "homeSearchHint": "Rechercher dans le Coran : une sourate, un verset, un mot ou une expression…",
-  "homeSearchHelp": "En arabe avec ou sans voyelles, en translittération (insan, bismillah), par le sens en anglais, par nom ou numéro de sourate."
+  "homeSearchHint": "Rechercher dans le Coran — une sourate, un verset, un mot ou une expression. Arabe avec ou sans voyelles, translittération (insan, bismillah), sens en anglais, nom ou numéro de sourate…"
 }

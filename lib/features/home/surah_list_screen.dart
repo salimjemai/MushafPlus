@@ -113,40 +113,10 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                 key: const ValueKey('home-finder'),
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TextField(
-                    controller: _controller,
-                    onChanged: (v) => setState(() => _query = v),
-                    textInputAction: TextInputAction.search,
-                    onSubmitted: (v) {
-                      if (v.trim().length >= 2 && hits.isNotEmpty) {
-                        context.go('/search?q=${Uri.encodeQueryComponent(v.trim())}');
-                      }
-                    },
-                    style: const TextStyle(fontSize: 16),
-                    decoration: InputDecoration(
-                      hintText: l.homeSearchHint,
-                      hintMaxLines: 2,
-                      hintStyle: TextStyle(fontSize: 14.5, color: Theme.of(context).colorScheme.onSurfaceVariant, height: 1.3),
-                      prefixIcon: const Padding(padding: EdgeInsetsDirectional.only(start: 6), child: Icon(Icons.search, size: 26)),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-                      filled: true,
-                      suffixIcon: _query.isEmpty
-                          ? null
-                          : IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () {
-                                _controller.clear();
-                                setState(() => _query = '');
-                              },
-                            ),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 4),
-                    child: Text(l.homeSearchHelp, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
-                  ),
-                  const SizedBox(height: 10),
+                  if (!wide) ...[
+                    _searchField(context, l, hits),
+                    const SizedBox(height: 10),
+                  ],
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: SegmentedButton<_Tab>(
@@ -227,7 +197,14 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
           return Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1360),
-              child: Row(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                    child: KeyedSubtree(key: const ValueKey('home-search-wide'), child: _searchField(context, l, hits)),
+                  ),
+                  Expanded(
+                    child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(child: main),
@@ -246,10 +223,50 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                     ),
                   ),
                 ],
+                    ),
+                  ),
+                ],
               ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  /// The one search field: wide, with the tips in its placeholder.
+  Widget _searchField(BuildContext context, AppLocalizations l, List<int> hits) {
+    final scheme = Theme.of(context).colorScheme;
+    return TextField(
+      controller: _controller,
+      onChanged: (v) => setState(() => _query = v),
+      textInputAction: TextInputAction.search,
+      onSubmitted: (v) {
+        if (v.trim().length >= 2 && hits.isNotEmpty) {
+          context.go('/search?q=${Uri.encodeQueryComponent(v.trim())}');
+        }
+      },
+      style: const TextStyle(fontSize: 17),
+      decoration: InputDecoration(
+        hintText: l.homeSearchHint,
+        hintMaxLines: 2,
+        hintStyle: TextStyle(fontSize: 14.5, color: scheme.onSurfaceVariant, height: 1.35),
+        prefixIcon: const Padding(padding: EdgeInsetsDirectional.only(start: 8, end: 4), child: Icon(Icons.search, size: 28)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        filled: true,
+        fillColor: scheme.surfaceContainerHighest.withValues(alpha: 0.6),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: scheme.outlineVariant)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: scheme.outlineVariant)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: scheme.primary, width: 1.6)),
+        suffixIcon: _query.isEmpty
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  _controller.clear();
+                  setState(() => _query = '');
+                },
+              ),
       ),
     );
   }

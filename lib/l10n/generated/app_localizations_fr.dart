@@ -1707,9 +1707,5 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get homeSearchHint =>
-      'Rechercher dans le Coran : une sourate, un verset, un mot ou une expression…';
-
-  @override
-  String get homeSearchHelp =>
-      'En arabe avec ou sans voyelles, en translittération (insan, bismillah), par le sens en anglais, par nom ou numéro de sourate.';
+      'Rechercher dans le Coran — une sourate, un verset, un mot ou une expression. Arabe avec ou sans voyelles, translittération (insan, bismillah), sens en anglais, nom ou numéro de sourate…';
 }

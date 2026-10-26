@@ -1691,9 +1691,6 @@ class AppLocalizationsUr extends AppLocalizations {
       'اس آلے پر اس زبان کی آواز نصب نہیں۔ احادیث آلے کی ٹیکسٹ ٹو اسپیچ آوازوں سے پڑھی جاتی ہیں۔';
 
   @override
-  String get homeSearchHint => 'قرآن میں تلاش کریں: سورت، آیت، لفظ یا جملہ…';
-
-  @override
-  String get homeSearchHelp =>
-      'عربی حرکات کے ساتھ یا بغیر، رومن حروف (insan, bismillah)، انگریزی معنی، یا سورت کا نام یا نمبر۔';
+  String get homeSearchHint =>
+      'قرآن میں تلاش کریں — سورت، آیت، لفظ یا جملہ۔ عربی حرکات کے ساتھ یا بغیر، رومن حروف (insan, bismillah)، انگریزی معنی، یا سورت کا نام یا نمبر…';
 }

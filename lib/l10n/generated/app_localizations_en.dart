@@ -1700,9 +1700,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeSearchHint =>
-      'Search the Quran: a surah, an ayah, a word or a phrase…';
-
-  @override
-  String get homeSearchHelp =>
-      'Arabic with or without harakat, transliteration (insan, bismillah), English meaning, surah name or number.';
+      'Search the Quran — a surah, an ayah, a word or a phrase. Arabic with or without harakat, transliteration (insan, bismillah), English meaning, or a surah name or number…';
 }

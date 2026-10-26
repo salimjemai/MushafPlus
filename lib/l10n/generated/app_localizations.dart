@@ -3019,14 +3019,8 @@ abstract class AppLocalizations {
   /// No description provided for @homeSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Search the Quran: a surah, an ayah, a word or a phrase…'**
+  /// **'Search the Quran — a surah, an ayah, a word or a phrase. Arabic with or without harakat, transliteration (insan, bismillah), English meaning, or a surah name or number…'**
   String get homeSearchHint;
-
-  /// No description provided for @homeSearchHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'Arabic with or without harakat, transliteration (insan, bismillah), English meaning, surah name or number.'**
-  String get homeSearchHelp;
 }
 
 class _AppLocalizationsDelegate

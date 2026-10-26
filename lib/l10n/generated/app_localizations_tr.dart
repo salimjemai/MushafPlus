@@ -1698,9 +1698,6 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu cihazda bu dil için ses yüklü değil. Hadisler cihazın metin okuma sesleriyle okunur.';
 
   @override
-  String get homeSearchHint => 'Kur’an’da ara: sure, ayet, kelime veya ifade…';
-
-  @override
-  String get homeSearchHelp =>
-      'Harekeli veya harekesiz Arapça, çeviri yazı (insan, bismillah), İngilizce anlam, sure adı veya numarası.';
+  String get homeSearchHint =>
+      'Kur’an’da ara — sure, ayet, kelime veya ifade. Harekeli ya da harekesiz Arapça, çeviri yazı (insan, bismillah), İngilizce anlam veya sure adı/numarası…';
 }

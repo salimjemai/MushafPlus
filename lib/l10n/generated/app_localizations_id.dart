@@ -1701,9 +1701,5 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get homeSearchHint =>
-      'Cari di Al-Qur’an: surah, ayat, kata, atau frasa…';
-
-  @override
-  String get homeSearchHelp =>
-      'Arab dengan atau tanpa harakat, transliterasi (insan, bismillah), arti bahasa Inggris, nama atau nomor surah.';
+      'Cari di Al-Qur’an — surah, ayat, kata, atau frasa. Arab dengan atau tanpa harakat, transliterasi (insan, bismillah), arti bahasa Inggris, atau nama/nomor surah…';
 }
