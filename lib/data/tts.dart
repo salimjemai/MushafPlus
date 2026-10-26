@@ -46,9 +46,17 @@ class Tts {
     speaking.value = id;
     var spoke = false;
     try {
+      // Voices the device offers; empty when the platform cannot list them.
+      List<String> voices = const [];
+      try {
+        final v = await _tts.getLanguages;
+        if (v is List) voices = v.map((e) => '$e'.toLowerCase()).toList();
+      } catch (_) {}
       for (final (text, lang) in parts) {
         if (text.trim().isEmpty) continue;
         if (token != _token) break;
+        final family = lang.split('-').first.toLowerCase();
+        if (voices.isNotEmpty && !voices.any((v) => v.startsWith(family))) continue; // no voice: skip this part
         try {
           await _tts.setLanguage(lang);
         } catch (_) {}
