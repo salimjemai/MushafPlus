@@ -1,14 +1,16 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+
+import 'tts_stub.dart' if (dart.library.js_interop) 'tts_web.dart' if (dart.library.io) 'tts_io.dart' as impl;
 
 /// Reads hadith text aloud with the device's text-to-speech voices (there is
-/// no recorded hadith audio anywhere public). Speaks the parts in order and
-/// reports which item is being read so buttons can show a stop state.
+/// no recorded hadith audio anywhere public).
+///
+/// On the web the browser's speech API is driven directly and every
+/// utterance is queued synchronously inside the user's tap, which Safari on
+/// iPhone and iPad requires; long texts are split into short sentences so
+/// Chrome does not cut them off. Native platforms use flutter_tts.
 class Tts {
   Tts._();
-  static final _tts = FlutterTts();
-  static bool _ready = false;
-  static int _token = 0;
 
   /// Id of the item being read, or null.
   static final speaking = ValueNotifier<String?>(null);
@@ -27,55 +29,45 @@ class Tts {
         _ => 'en-US',
       };
 
-  static Future<void> _init() async {
-    if (_ready) return;
-    _ready = true;
-    try {
-      await _tts.awaitSpeakCompletion(true);
-      await _tts.setSpeechRate(0.45);
-      await _tts.setPitch(1.0);
-    } catch (_) {}
-  }
+  /// Speaks [parts] (text, language) one after another. Must be called
+  /// synchronously from a tap handler. Resolves to false when no voice could
+  /// be used.
+  static Future<bool> speak(String id, List<(String, String)> parts) => impl.speak(id, parts, speaking);
 
-  /// Speaks [parts] (text, language) one after another. Returns false when
-  /// no voice exists for the first language.
-  static Future<bool> speak(String id, List<(String, String)> parts) async {
-    await _init();
-    await stop();
-    final token = ++_token;
-    speaking.value = id;
-    var spoke = false;
-    try {
-      // Voices the device offers; empty when the platform cannot list them.
-      List<String> voices = const [];
-      try {
-        final v = await _tts.getLanguages;
-        if (v is List) voices = v.map((e) => '$e'.toLowerCase()).toList();
-      } catch (_) {}
-      for (final (text, lang) in parts) {
-        if (text.trim().isEmpty) continue;
-        if (token != _token) break;
-        final family = lang.split('-').first.toLowerCase();
-        if (voices.isNotEmpty && !voices.any((v) => v.startsWith(family))) continue; // no voice: skip this part
-        try {
-          await _tts.setLanguage(lang);
-        } catch (_) {}
-        final r = await _tts.speak(text);
-        if (r == 1 || r == true) spoke = true;
+  static Future<void> stop() => impl.stop(speaking);
+
+  /// Splits text into utterances of roughly [max] characters at sentence
+  /// and clause boundaries.
+  static List<String> chunk(String text, {int max = 180}) {
+    final out = <String>[];
+    final buf = StringBuffer();
+    for (final piece in text.split(RegExp(r'(?<=[.!?؟।۔:;،,])\s+|\n+'))) {
+      final p = piece.trim();
+      if (p.isEmpty) continue;
+      if (buf.isNotEmpty && buf.length + p.length + 1 > max) {
+        out.add(buf.toString());
+        buf.clear();
       }
-    } catch (_) {
-      // fall through
-    } finally {
-      if (token == _token) speaking.value = null;
+      if (p.length > max) {
+        if (buf.isNotEmpty) {
+          out.add(buf.toString());
+          buf.clear();
+        }
+        // very long clause: cut at spaces
+        var rest = p;
+        while (rest.length > max) {
+          var cut = rest.lastIndexOf(' ', max);
+          if (cut < max ~/ 2) cut = max;
+          out.add(rest.substring(0, cut).trim());
+          rest = rest.substring(cut).trim();
+        }
+        if (rest.isNotEmpty) buf.write(rest);
+        continue;
+      }
+      if (buf.isNotEmpty) buf.write(' ');
+      buf.write(p);
     }
-    return spoke;
-  }
-
-  static Future<void> stop() async {
-    _token++;
-    speaking.value = null;
-    try {
-      await _tts.stop();
-    } catch (_) {}
+    if (buf.isNotEmpty) out.add(buf.toString());
+    return out;
   }
 }
