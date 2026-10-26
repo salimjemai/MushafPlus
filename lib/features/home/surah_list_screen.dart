@@ -93,7 +93,7 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
         builder: (context, constraints) {
           // Wide screens (desktop web, tablets in landscape): the daily cards
           // move to a side panel and the surah list keeps the main column.
-          final wide = constraints.maxWidth >= 960;
+          final wide = constraints.maxWidth >= 900;
           final main = ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
             children: [
