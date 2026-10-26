@@ -89,26 +89,31 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 820),
-          child: ListView(
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          // Wide screens (desktop web, tablets in landscape): the daily cards
+          // move to a side panel and the surah list keeps the main column.
+          final wide = constraints.maxWidth >= 960;
+          final main = ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
             children: [
               // The hero cards come and go with the query; keys keep the text
               // field's element (and the keyboard) alive across that change.
               if (showHero)
-                const Column(
-                  key: ValueKey('home-hero'),
+                Column(
+                  key: const ValueKey('home-hero'),
                   children: [
-                    _ContinueReadingCard(),
-                    SizedBox(height: 12),
-                    _AdhkarCard(),
-                    SizedBox(height: 12),
-                    _TodayCard(),
-                    SizedBox(height: 12),
-                    _VerseOfTheDayCard(),
-                    SizedBox(height: 16),
+                    const _ContinueReadingCard(),
+                    const SizedBox(height: 12),
+                    if (!wide) ...const [
+                      _AdhkarCard(),
+                      SizedBox(height: 12),
+                      _TodayCard(),
+                      SizedBox(height: 12),
+                      _VerseOfTheDayCard(),
+                      SizedBox(height: 4),
+                    ],
+                    const SizedBox(height: 4),
                   ],
                 ),
               Row(
@@ -203,8 +208,36 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                 const _PageGrid(),
               ],
             ],
-          ),
-        ),
+          );
+          if (!wide) {
+            return Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 820), child: main));
+          }
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1360),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: main),
+                  SizedBox(
+                    width: 380,
+                    child: ListView(
+                      key: const ValueKey('home-side'),
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 16, 24),
+                      children: const [
+                        _AdhkarCard(),
+                        SizedBox(height: 12),
+                        _TodayCard(),
+                        SizedBox(height: 12),
+                        _VerseOfTheDayCard(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
