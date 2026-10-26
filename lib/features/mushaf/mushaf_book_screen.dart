@@ -8,6 +8,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../core/arabic_utils.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
+import '../../data/fullscreen.dart';
 import '../../data/models.dart';
 import '../../data/quran_repository.dart';
 import '../../state/audio_controller.dart';
@@ -41,6 +42,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
   final _scaffold = GlobalKey<ScaffoldState>();
   final _zoom = ZoomController();
   bool _programmatic = false;
+  bool _immersive = false;
 
   /// The book starts closed on its cover when opened at the first page.
   late bool _closed = widget.initialPage <= 1;
@@ -78,6 +80,21 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
   void _markRead(int page) {
     final first = ref.quran.ayahsOfPage(page).first;
     ref.read(lastReadProvider.notifier).set(first.number);
+  }
+
+  void _setImmersive(bool on) {
+    setState(() => _immersive = on);
+    if (on) {
+      Fullscreen.enter();
+    } else {
+      Fullscreen.exit();
+    }
+  }
+
+  @override
+  void deactivate() {
+    if (_immersive) Fullscreen.exit();
+    super.deactivate();
   }
 
   MushafLayout _layout(BoxConstraints c) {
@@ -146,6 +163,37 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
           if (p != _page) _goTo(p, layout);
         });
 
+        final bookBody = switch (layout) {
+          MushafLayout.scroll => _scrollLayout(),
+          MushafLayout.flip => Zoomable(controller: _zoom, child: _flipLayout()),
+          _ => Zoomable(controller: _zoom, child: _bookLayout(constraints)),
+        };
+        if (_immersive) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                Positioned.fill(child: bookBody),
+                PositionedDirectional(
+                  top: MediaQuery.paddingOf(context).top + 6,
+                  end: 6,
+                  child: _ImmersiveExit(onTap: () => _setImmersive(false), label: l.exitFullScreen),
+                ),
+                PositionedDirectional(
+                  bottom: MediaQuery.paddingOf(context).bottom + 6,
+                  start: 0,
+                  end: 0,
+                  child: Center(
+                    child: _ImmersivePager(
+                      page: _page,
+                      onPrev: _page > 1 ? () => _goTo(_page - 1, layout) : null,
+                      onNext: _page < QuranRepository.totalPages ? () => _goTo(_page + 1, layout) : null,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
         return Scaffold(
           key: _scaffold,
           drawer: _ChaptersDrawer(onPage: (p) {
@@ -180,12 +228,16 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
                 icon: const Icon(Icons.palette_outlined),
                 onPressed: () => showTajweedLegend(context),
               ),
-              IconButton(
-                tooltip: l.playThisPage,
-                icon: const Icon(Icons.play_circle_outline),
-                onPressed: () => ref
+              PlaybackMenu(
+                playLabel: l.playThisPage,
+                onPlay: () => ref
                     .read(audioProvider.notifier)
                     .playAyah(ayahs.first.number, until: ayahs.last.number),
+              ),
+              IconButton(
+                tooltip: l.fullScreen,
+                icon: const Icon(Icons.fullscreen),
+                onPressed: () => _setImmersive(true),
               ),
               PopupMenuButton<MushafLayout>(
                 tooltip: l.mushafLayout,
@@ -225,11 +277,7 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
                 ),
             ],
           ),
-          body: switch (layout) {
-            MushafLayout.scroll => _scrollLayout(),
-            MushafLayout.flip => Zoomable(controller: _zoom, child: _flipLayout()),
-            _ => Zoomable(controller: _zoom, child: _bookLayout(constraints)),
-          },
+          body: bookBody,
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -336,7 +384,9 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
               : const [Color(0xFFEDE6D6), Color(0xFFD9CFBC)],
         ),
       ),
-      padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+      padding: _immersive || constraints.maxHeight < 500
+          ? const EdgeInsets.fromLTRB(6, 4, 6, 4)
+          : const EdgeInsets.fromLTRB(20, 14, 20, 14),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: BookSpreadView(
@@ -768,6 +818,53 @@ class _Banner extends StatelessWidget {
                       color: ink)),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// Translucent exit button shown in full-screen reading.
+class _ImmersiveExit extends StatelessWidget {
+  const _ImmersiveExit({required this.onTap, required this.label});
+  final VoidCallback onTap;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.black.withValues(alpha: 0.35),
+      shape: const CircleBorder(),
+      child: IconButton(
+        tooltip: label,
+        icon: const Icon(Icons.fullscreen_exit, color: Colors.white),
+        onPressed: onTap,
+      ),
+    );
+  }
+}
+
+/// Minimal page controls shown in full-screen reading.
+class _ImmersivePager extends StatelessWidget {
+  const _ImmersivePager({required this.page, required this.onPrev, required this.onNext});
+  final int page;
+  final VoidCallback? onPrev;
+  final VoidCallback? onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.black.withValues(alpha: 0.35),
+      borderRadius: BorderRadius.circular(24),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(icon: const Icon(Icons.chevron_left, color: Colors.white), onPressed: onPrev),
+            Text('$page / ${QuranRepository.totalPages}', style: const TextStyle(color: Colors.white, fontSize: 12.5)),
+            IconButton(icon: const Icon(Icons.chevron_right, color: Colors.white), onPressed: onNext),
+          ],
+        ),
       ),
     );
   }

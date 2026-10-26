@@ -1594,4 +1594,20 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get tajweedSource =>
       'القواعد والتلوين وفق دليل التجويد في alquran.cloud (رواية حفص، نص تنزيل العثماني) ونظام ألوان مجمع الملك فهد المستخدم في quran.com. تشير الأبيات إلى تحفة الأطفال والمقدمة الجزرية.';
+
+  @override
+  String get fullScreen => 'ملء الشاشة';
+
+  @override
+  String get exitFullScreen => 'الخروج من ملء الشاشة';
+
+  @override
+  String get playbackSpeed => 'السرعة';
+
+  @override
+  String get chooseReciter => 'اختر القارئ';
+
+  @override
+  String get approximateLocation =>
+      'تم العثور على المنطقة فقط (الرمز البريدي أو المدينة)، فالإحداثيات هي مركزها. إن كنت تعرف الإحداثيات الدقيقة فأدخلها أدناه.';
 }

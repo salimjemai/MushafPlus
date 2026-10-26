@@ -1600,4 +1600,20 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get tajweedSource =>
       'Kurallar ve renkler alquran.cloud tecvid rehberine (Hafs rivayeti, Tanzil Osmanî metni) ve quran.com’un kullandığı KFGQPC renk düzenine dayanır. Beyit atıfları Tuhfetü’l-Etfâl ve Mukaddimetü’l-Cezeriyye’yedir.';
+
+  @override
+  String get fullScreen => 'Tam ekran';
+
+  @override
+  String get exitFullScreen => 'Tam ekrandan çık';
+
+  @override
+  String get playbackSpeed => 'Hız';
+
+  @override
+  String get chooseReciter => 'Okuyucu seç';
+
+  @override
+  String get approximateLocation =>
+      'Yalnızca bölge (posta kodu veya şehir) bulundu; koordinatlar bölgenin merkezidir. Tam koordinatları biliyorsanız aşağıya girin.';
 }

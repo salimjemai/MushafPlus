@@ -1608,4 +1608,20 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get tajweedSource =>
       'Règles et couleurs d’après le guide tajwid d’alquran.cloud (riwayah Hafs, texte Tanzil Uthmani) et le code couleur KFGQPC utilisé par quran.com. Les vers renvoient à Tuhfat al-Atfal et à al-Muqaddimah al-Jazariyyah.';
+
+  @override
+  String get fullScreen => 'Plein écran';
+
+  @override
+  String get exitFullScreen => 'Quitter le plein écran';
+
+  @override
+  String get playbackSpeed => 'Vitesse';
+
+  @override
+  String get chooseReciter => 'Choisir un récitateur';
+
+  @override
+  String get approximateLocation =>
+      'Seule la zone (code postal ou ville) a été trouvée ; les coordonnées en sont le centre. Si vous connaissez les coordonnées exactes, saisissez-les ci-dessous.';
 }

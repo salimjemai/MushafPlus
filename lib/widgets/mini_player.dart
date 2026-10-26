@@ -118,7 +118,8 @@ class MiniPlayer extends ConsumerWidget {
 
 /// Dropdown to choose the reciter; reloads the current ayah if one is playing.
 class ReciterDropdown extends ConsumerWidget {
-  const ReciterDropdown({super.key});
+  const ReciterDropdown({super.key, this.isExpanded = false});
+  final bool isExpanded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -126,7 +127,8 @@ class ReciterDropdown extends ConsumerWidget {
     return DropdownButton<String>(
       value: reciters.any((r) => r.id == id) ? id : defaultReciterId,
       underline: const SizedBox.shrink(),
-      isExpanded: false,
+      isExpanded: isExpanded,
+      isDense: true,
       items: [
         for (final r in reciters)
           DropdownMenuItem(value: r.id, child: Text(r.name, overflow: TextOverflow.ellipsis)),
@@ -179,10 +181,25 @@ class ListenBar extends ConsumerWidget {
                   ),
                 ),
               ),
-            Padding(
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 6),
               child: Row(
                 children: [
+                  PopupMenuButton<double>(
+                    tooltip: l.playbackSpeed,
+                    initialValue: audio.speed,
+                    onSelected: ctrl.setSpeed,
+                    itemBuilder: (_) => [
+                      for (final v in speedOptions) PopupMenuItem(value: v, child: Text(speedLabel(v))),
+                    ],
+                    child: Chip(
+                      avatar: Icon(Icons.speed, size: 16, color: audio.speed != 1.0 ? scheme.primary : null),
+                      label: Text(speedLabel(audio.speed)),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   FilterChip(
                     label: Text(l.continuous),
                     avatar: Icon(Icons.all_inclusive, size: 16, color: audio.continuous ? scheme.onSecondaryContainer : null),
@@ -205,14 +222,19 @@ class ListenBar extends ConsumerWidget {
                       visualDensity: VisualDensity.compact,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(14, 0, 14, 8),
+              child: Row(
+                children: [
+                  Icon(Icons.record_voice_over_outlined, size: 18, color: scheme.onSurfaceVariant),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: DefaultTextStyle.merge(
-                        style: const TextStyle(fontSize: 12.5),
-                        child: const ReciterDropdown(),
-                      ),
+                    child: DefaultTextStyle.merge(
+                      style: const TextStyle(fontSize: 13),
+                      child: const ReciterDropdown(isExpanded: true),
                     ),
                   ),
                 ],
@@ -221,6 +243,111 @@ class ListenBar extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+const speedOptions = <double>[0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
+String speedLabel(double v) => '${v == v.roundToDouble() ? v.toInt().toString() : v.toString()}×';
+
+/// Bottom sheet to choose the reciter before (or during) playback.
+Future<void> showReciterPicker(BuildContext context) {
+  return showModalBottomSheet<void>(
+    context: context,
+    showDragHandle: true,
+    useSafeArea: true,
+    isScrollControlled: true,
+    builder: (context) => DraggableScrollableSheet(
+      expand: false,
+      initialChildSize: 0.7,
+      builder: (context, controller) => Consumer(
+        builder: (context, ref, _) {
+          final current = ref.watch(settingsProvider.select((s) => s.reciter));
+          return ListView(
+            controller: controller,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                child: Text(context.l10n.chooseReciter, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+              ),
+              for (final r in reciters)
+                ListTile(
+                  leading: Icon(r.id == current ? Icons.radio_button_checked : Icons.radio_button_off,
+                      color: r.id == current ? Theme.of(context).colorScheme.primary : null),
+                  title: Text(r.name),
+                  subtitle: r.note != null ? Text(r.note!) : null,
+                  onTap: () {
+                    ref.read(settingsProvider.notifier).setReciter(r.id);
+                    ref.read(audioProvider.notifier).reciterChanged();
+                    Navigator.of(context).pop();
+                  },
+                ),
+            ],
+          );
+        },
+      ),
+    ),
+  );
+}
+
+/// Play menu for app bars: play, choose the reciter and speed, AUTO toggle —
+/// all reachable before the first play.
+class PlaybackMenu extends ConsumerWidget {
+  const PlaybackMenu({super.key, required this.onPlay, required this.playLabel});
+  final VoidCallback onPlay;
+  final String playLabel;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final audio = ref.watch(audioProvider);
+    final reciter = reciterById(ref.watch(settingsProvider).reciter);
+    return PopupMenuButton<String>(
+      tooltip: playLabel,
+      icon: const Icon(Icons.play_circle_outline),
+      onSelected: (v) {
+        switch (v) {
+          case 'play':
+            onPlay();
+          case 'reciter':
+            showReciterPicker(context);
+          case 'auto':
+            ref.read(audioProvider.notifier).setContinuous(!audio.continuous);
+          default:
+            if (v.startsWith('speed:')) ref.read(audioProvider.notifier).setSpeed(double.parse(v.substring(6)));
+        }
+      },
+      itemBuilder: (_) => [
+        PopupMenuItem(value: 'play', child: ListTile(leading: const Icon(Icons.play_arrow), title: Text(playLabel), contentPadding: EdgeInsets.zero)),
+        PopupMenuItem(
+          value: 'reciter',
+          child: ListTile(
+            leading: const Icon(Icons.record_voice_over_outlined),
+            title: Text(l.reciter),
+            subtitle: Text(reciter.name, maxLines: 1, overflow: TextOverflow.ellipsis),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+        PopupMenuItem(
+          value: 'auto',
+          child: ListTile(
+            leading: Icon(audio.continuous ? Icons.check_box : Icons.check_box_outline_blank),
+            title: Text(l.continuous),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+        const PopupMenuDivider(),
+        for (final v in speedOptions)
+          PopupMenuItem(
+            value: 'speed:$v',
+            height: 36,
+            child: Row(children: [
+              Icon(audio.speed == v ? Icons.radio_button_checked : Icons.radio_button_off, size: 18),
+              const SizedBox(width: 10),
+              Text('${l.playbackSpeed} ${speedLabel(v)}'),
+            ]),
+          ),
+      ],
     );
   }
 }

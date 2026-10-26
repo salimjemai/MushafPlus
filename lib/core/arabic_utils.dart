@@ -27,6 +27,22 @@ String normalizeArabic(String s) {
   return out;
 }
 
+/// Key used to search the Uthmani text with a plain keyboard: diacritics and
+/// letter variants folded, hamza forms merged, and every alif dropped. The
+/// Uthmani rasm writes ٱلْإِنسَٰنُ with a dagger alef and ٱلرَّحْمَٰنِ without a
+/// written alif, while people type الانسان and الرحمن; without alifs both
+/// spellings meet.
+String arabicSearchKey(String s) {
+  return normalizeArabic(s)
+      .replaceAll('ؤ', 'و')
+      .replaceAll('ئ', 'ي')
+      .replaceAll('ء', '')
+      .replaceAll('ا', '')
+      .replaceAll(RegExp('[^ء-ي ]'), '')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+}
+
 /// True if the string contains Arabic letters.
 bool containsArabic(String s) => RegExp('[؀-ۿ]').hasMatch(s);
 

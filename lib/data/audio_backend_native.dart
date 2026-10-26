@@ -76,6 +76,8 @@ class _NativeAyahPlayer implements AyahPlayer {
   Future<void> stop() => _player.stop();
   @override
   Future<void> seek(Duration position) => _player.seek(position);
+  @override
+  Future<void> setRate(double rate) => _player.setPlaybackRate(rate);
 
   @override
   void dispose() {

@@ -142,6 +142,8 @@ class QuranRepository {
     return list;
   }
 
+  List<String>? _searchKeys;
+
   /// Search the Arabic text (diacritic-insensitive) and the transliteration.
   /// Returns global ayah numbers, capped at [limit].
   List<int> searchArabicAndTransliteration(String query, {int limit = 200}) {
@@ -149,10 +151,12 @@ class QuranRepository {
     if (q.isEmpty) return const [];
     final results = <int>[];
     if (containsArabic(q)) {
-      final nq = normalizeArabic(q);
-      for (final a in ayahs) {
-        if (normalizeArabic(a.text).contains(nq)) {
-          results.add(a.number);
+      final nq = arabicSearchKey(q);
+      if (nq.isEmpty) return const [];
+      final keys = _searchKeys ??= [for (final a in ayahs) arabicSearchKey(a.text)];
+      for (var i = 0; i < keys.length; i++) {
+        if (keys[i].contains(nq)) {
+          results.add(i + 1);
           if (results.length >= limit) break;
         }
       }

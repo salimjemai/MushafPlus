@@ -103,6 +103,12 @@ class _WebAyahPlayer implements AyahPlayer {
   }
 
   @override
+  Future<void> setRate(double rate) async {
+    _el.defaultPlaybackRate = rate;
+    _el.playbackRate = rate;
+  }
+
+  @override
   void dispose() {
     for (final (type, js) in _handlers) {
       _el.removeEventListener(type, js);

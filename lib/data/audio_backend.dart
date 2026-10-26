@@ -21,6 +21,9 @@ abstract class AyahPlayer {
   Future<void> resume();
   Future<void> stop();
   Future<void> seek(Duration position);
+
+  /// Playback speed, 1.0 = normal; kept for later tracks.
+  Future<void> setRate(double rate);
   void dispose();
 }
 

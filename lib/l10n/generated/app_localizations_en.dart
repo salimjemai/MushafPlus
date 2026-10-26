@@ -1601,4 +1601,20 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tajweedSource =>
       'Rules and colouring follow the alquran.cloud tajweed guide (riwayat Hafs, Tanzil Uthmani text) and the KFGQPC colour scheme used by quran.com. Line references point to Tuhfat al-Atfal and al-Muqaddimah al-Jazariyyah.';
+
+  @override
+  String get fullScreen => 'Full screen';
+
+  @override
+  String get exitFullScreen => 'Exit full screen';
+
+  @override
+  String get playbackSpeed => 'Speed';
+
+  @override
+  String get chooseReciter => 'Choose a reciter';
+
+  @override
+  String get approximateLocation =>
+      'Only the area (postal code or city) was found, so the coordinates are its centre. If you know the exact coordinates, enter them below.';
 }

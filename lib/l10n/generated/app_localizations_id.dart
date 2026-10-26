@@ -1602,4 +1602,20 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get tajweedSource =>
       'Hukum dan pewarnaan mengikuti panduan tajwid alquran.cloud (riwayat Hafs, teks Tanzil Utsmani) dan skema warna KFGQPC yang dipakai quran.com. Rujukan bait mengacu pada Tuhfatul Athfal dan al-Muqaddimah al-Jazariyyah.';
+
+  @override
+  String get fullScreen => 'Layar penuh';
+
+  @override
+  String get exitFullScreen => 'Keluar layar penuh';
+
+  @override
+  String get playbackSpeed => 'Kecepatan';
+
+  @override
+  String get chooseReciter => 'Pilih qari';
+
+  @override
+  String get approximateLocation =>
+      'Hanya wilayah (kode pos atau kota) yang ditemukan, jadi koordinatnya adalah pusatnya. Jika Anda tahu koordinat tepatnya, masukkan di bawah.';
 }

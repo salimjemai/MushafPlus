@@ -1118,5 +1118,10 @@
         "type": "String"
       }
     }
-  }
+  },
+  "fullScreen": "Full screen",
+  "exitFullScreen": "Exit full screen",
+  "playbackSpeed": "Speed",
+  "chooseReciter": "Choose a reciter",
+  "approximateLocation": "Only the area (postal code or city) was found, so the coordinates are its centre. If you know the exact coordinates, enter them below."
 }

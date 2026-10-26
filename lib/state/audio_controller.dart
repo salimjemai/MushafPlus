@@ -20,6 +20,7 @@ class AudioState {
     this.loop = false,
     this.continuous = true,
     this.repeatEach = 1,
+    this.speed = 1.0,
     this.position = Duration.zero,
     this.duration = Duration.zero,
     this.error,
@@ -41,6 +42,9 @@ class AudioState {
 
   /// How many times each ayah is repeated before advancing (memorisation).
   final int repeatEach;
+
+  /// Playback speed (0.5 – 2.0).
+  final double speed;
   final Duration position;
   final Duration duration;
   final String? error;
@@ -57,6 +61,7 @@ class AudioState {
     bool? loop,
     bool? continuous,
     int? repeatEach,
+    double? speed,
     Duration? position,
     Duration? duration,
     String? error,
@@ -71,6 +76,7 @@ class AudioState {
       loop: loop ?? this.loop,
       continuous: continuous ?? this.continuous,
       repeatEach: repeatEach ?? this.repeatEach,
+      speed: speed ?? this.speed,
       position: position ?? this.position,
       duration: duration ?? this.duration,
       error: clearError ? null : (error ?? this.error),
@@ -164,6 +170,7 @@ class AudioController extends Notifier<AudioState> {
         if (local != null) source = local;
       }
       await _player.play(source);
+      if (state.speed != 1.0) await _player.setRate(state.speed);
     } catch (e) {
       if (token != _token) return;
       state = state.copyWith(loading: false, playing: false, error: 'Could not play audio ($e)');
@@ -211,6 +218,15 @@ class AudioController extends Notifier<AudioState> {
       continuous: on,
       rangeEnd: a == null ? null : (on ? QuranRepository.totalAyahs : a),
     );
+  }
+
+  /// Playback speed; applies at once and to every following ayah.
+  Future<void> setSpeed(double s) async {
+    final v = s.clamp(0.5, 2.0);
+    state = state.copyWith(speed: v);
+    try {
+      await _player.setRate(v);
+    } catch (_) {}
   }
 
   /// Repeat every ayah [n] times before moving on (1 = no repeat).

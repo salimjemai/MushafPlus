@@ -98,15 +98,19 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
       _candidates = const [];
     });
     try {
-      var results = await geo.searchAddress(query, countryCode: _country.text.trim().length == 2 ? _country.text.trim() : null);
-      if (results.isEmpty && _postal.text.trim().isNotEmpty && _country.text.trim().length == 2) {
-        final z = await geo.lookupPostalCode(_country.text.trim(), _postal.text.trim());
-        if (z != null) results = [z];
-      }
+      final found = await geo.resolve(
+        street: _street.text,
+        city: _city.text,
+        state: _state.text,
+        postalCode: _postal.text,
+        country: _country.text,
+      );
+      final results = found.results;
       if (results.isEmpty) {
         setState(() => _status = context.l10n.noMatchTryCountry);
       } else if (results.length == 1) {
         await _apply(results.first);
+        if (found.approximate && mounted) setState(() => _status = context.l10n.approximateLocation);
       } else {
         setState(() {
           _candidates = results;

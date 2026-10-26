@@ -2847,6 +2847,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rules and colouring follow the alquran.cloud tajweed guide (riwayat Hafs, Tanzil Uthmani text) and the KFGQPC colour scheme used by quran.com. Line references point to Tuhfat al-Atfal and al-Muqaddimah al-Jazariyyah.'**
   String get tajweedSource;
+
+  /// No description provided for @fullScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get fullScreen;
+
+  /// No description provided for @exitFullScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit full screen'**
+  String get exitFullScreen;
+
+  /// No description provided for @playbackSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get playbackSpeed;
+
+  /// No description provided for @chooseReciter.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a reciter'**
+  String get chooseReciter;
+
+  /// No description provided for @approximateLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the area (postal code or city) was found, so the coordinates are its centre. If you know the exact coordinates, enter them below.'**
+  String get approximateLocation;
 }
 
 class _AppLocalizationsDelegate

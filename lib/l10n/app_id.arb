@@ -456,5 +456,10 @@
   "countsValue": "{n} harakat",
   "tuhfaRef": "Tuhfatul Athfal, bait {lines}",
   "jazariyyahRef": "al-Jazariyyah, bait {lines}",
-  "tajweedSource": "Hukum dan pewarnaan mengikuti panduan tajwid alquran.cloud (riwayat Hafs, teks Tanzil Utsmani) dan skema warna KFGQPC yang dipakai quran.com. Rujukan bait mengacu pada Tuhfatul Athfal dan al-Muqaddimah al-Jazariyyah."
+  "tajweedSource": "Hukum dan pewarnaan mengikuti panduan tajwid alquran.cloud (riwayat Hafs, teks Tanzil Utsmani) dan skema warna KFGQPC yang dipakai quran.com. Rujukan bait mengacu pada Tuhfatul Athfal dan al-Muqaddimah al-Jazariyyah.",
+  "fullScreen": "Layar penuh",
+  "exitFullScreen": "Keluar layar penuh",
+  "playbackSpeed": "Kecepatan",
+  "chooseReciter": "Pilih qari",
+  "approximateLocation": "Hanya wilayah (kode pos atau kota) yang ditemukan, jadi koordinatnya adalah pusatnya. Jika Anda tahu koordinat tepatnya, masukkan di bawah."
 }

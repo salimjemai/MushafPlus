@@ -456,5 +456,10 @@
   "countsValue": "{n} hareke",
   "tuhfaRef": "Tuhfetü’l-Etfâl, beyit {lines}",
   "jazariyyahRef": "Cezeriyye, beyit {lines}",
-  "tajweedSource": "Kurallar ve renkler alquran.cloud tecvid rehberine (Hafs rivayeti, Tanzil Osmanî metni) ve quran.com’un kullandığı KFGQPC renk düzenine dayanır. Beyit atıfları Tuhfetü’l-Etfâl ve Mukaddimetü’l-Cezeriyye’yedir."
+  "tajweedSource": "Kurallar ve renkler alquran.cloud tecvid rehberine (Hafs rivayeti, Tanzil Osmanî metni) ve quran.com’un kullandığı KFGQPC renk düzenine dayanır. Beyit atıfları Tuhfetü’l-Etfâl ve Mukaddimetü’l-Cezeriyye’yedir.",
+  "fullScreen": "Tam ekran",
+  "exitFullScreen": "Tam ekrandan çık",
+  "playbackSpeed": "Hız",
+  "chooseReciter": "Okuyucu seç",
+  "approximateLocation": "Yalnızca bölge (posta kodu veya şehir) bulundu; koordinatlar bölgenin merkezidir. Tam koordinatları biliyorsanız aşağıya girin."
 }

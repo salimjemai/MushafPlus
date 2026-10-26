@@ -1594,4 +1594,20 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get tajweedSource =>
       'قواعد اور رنگ alquran.cloud کی تجوید رہنمائی (روایتِ حفص، تنزیل عثمانی متن) اور quran.com کے KFGQPC رنگوں کے مطابق ہیں۔ اشعار کے حوالے تحفۃ الاطفال اور مقدمہ جزریہ کے ہیں۔';
+
+  @override
+  String get fullScreen => 'پوری اسکرین';
+
+  @override
+  String get exitFullScreen => 'پوری اسکرین سے باہر';
+
+  @override
+  String get playbackSpeed => 'رفتار';
+
+  @override
+  String get chooseReciter => 'قاری منتخب کریں';
+
+  @override
+  String get approximateLocation =>
+      'صرف علاقہ (پوسٹل کوڈ یا شہر) ملا، اس لیے نقاط اس کا مرکز ہیں۔ اگر آپ کو درست نقاط معلوم ہیں تو نیچے درج کریں۔';
 }

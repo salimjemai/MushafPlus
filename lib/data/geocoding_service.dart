@@ -47,21 +47,107 @@ class GeocodingService {
     });
     final res = await _client.get(uri, headers: _headers).timeout(const Duration(seconds: 25));
     if (res.statusCode != 200) throw GeocodingException('Address lookup failed (${res.statusCode})');
-    final list = jsonDecode(utf8.decode(res.bodyBytes)) as List;
-    return list.map((e) {
-      final m = e as Map<String, dynamic>;
-      final a = (m['address'] as Map<String, dynamic>?) ?? const {};
-      return GeoResult(
-        latitude: double.parse(m['lat'] as String),
-        longitude: double.parse(m['lon'] as String),
-        displayName: m['display_name'] as String,
-        city: (a['city'] ?? a['town'] ?? a['village'] ?? a['municipality'] ?? a['county']) as String?,
-        state: a['state'] as String?,
-        postcode: a['postcode'] as String?,
-        country: a['country'] as String?,
-        countryCode: (a['country_code'] as String?)?.toUpperCase(),
-      );
-    }).toList();
+    return _parse(jsonDecode(utf8.decode(res.bodyBytes)) as List);
+  }
+
+  /// Structured Nominatim search; empty parts are left out.
+  Future<List<GeoResult>> searchStructured({
+    String? street,
+    String? city,
+    String? state,
+    String? postalCode,
+    String? country,
+    String? countryCode,
+  }) async {
+    String? v(String? s) => (s == null || s.trim().isEmpty) ? null : s.trim();
+    final uri = Uri.https('nominatim.openstreetmap.org', '/search', {
+      if (v(street) != null) 'street': v(street)!,
+      if (v(city) != null) 'city': v(city)!,
+      if (v(state) != null) 'state': v(state)!,
+      if (v(postalCode) != null) 'postalcode': v(postalCode)!,
+      if (v(country) != null) 'country': v(country)!,
+      if (v(countryCode) != null) 'countrycodes': v(countryCode)!.toLowerCase(),
+      'format': 'jsonv2',
+      'limit': '5',
+      'addressdetails': '1',
+    });
+    final res = await _client.get(uri, headers: _headers).timeout(const Duration(seconds: 25));
+    if (res.statusCode != 200) throw GeocodingException('Address lookup failed (${res.statusCode})');
+    return _parse(jsonDecode(utf8.decode(res.bodyBytes)) as List);
+  }
+
+  List<GeoResult> _parse(List list) => list.map((e) {
+        final m = e as Map<String, dynamic>;
+        final a = (m['address'] as Map<String, dynamic>?) ?? const {};
+        return GeoResult(
+          latitude: double.parse(m['lat'] as String),
+          longitude: double.parse(m['lon'] as String),
+          displayName: m['display_name'] as String,
+          city: (a['city'] ?? a['town'] ?? a['village'] ?? a['municipality'] ?? a['county']) as String?,
+          state: a['state'] as String?,
+          postcode: a['postcode'] as String?,
+          country: a['country'] as String?,
+          countryCode: (a['country_code'] as String?)?.toUpperCase(),
+        );
+      }).toList();
+
+  /// Resolves a masjid address anywhere in the world, falling back step by
+  /// step: the exact structured address, the free-text address, street and
+  /// city, the postal code, then the city alone. [approximate] is true when
+  /// only the postal area or the city could be found.
+  Future<({List<GeoResult> results, bool approximate})> resolve({
+    required String street,
+    required String city,
+    required String state,
+    required String postalCode,
+    required String country,
+  }) async {
+    final cc = country.trim().length == 2 ? country.trim().toUpperCase() : null;
+    final countryName = cc == null ? country.trim() : null;
+    Future<void> politeDelay() => Future<void>.delayed(const Duration(milliseconds: 1100));
+
+    final attempts = <Future<List<GeoResult>> Function()>[
+      if (street.trim().isNotEmpty || city.trim().isNotEmpty)
+        () => searchStructured(street: street, city: city, state: state, postalCode: postalCode, country: countryName, countryCode: cc),
+      () => searchAddress([street, city, state, postalCode, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc),
+      if (street.trim().isNotEmpty && city.trim().isNotEmpty)
+        () => searchAddress([street, city, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc),
+    ];
+    for (var i = 0; i < attempts.length; i++) {
+      if (i > 0) await politeDelay();
+      try {
+        final r = await attempts[i]();
+        if (r.isNotEmpty) return (results: r, approximate: false);
+      } on GeocodingException {
+        // try the next strategy
+      }
+    }
+
+    // Approximate: postal area, then the city.
+    if (postalCode.trim().isNotEmpty) {
+      await politeDelay();
+      try {
+        final r = await searchStructured(postalCode: postalCode, country: countryName, countryCode: cc);
+        if (r.isNotEmpty) return (results: r, approximate: true);
+      } on GeocodingException {
+        // ignore
+      }
+      if (cc != null) {
+        try {
+          final z = await lookupPostalCode(cc, postalCode);
+          if (z != null) return (results: [z], approximate: true);
+        } catch (_) {}
+      }
+    }
+    if (city.trim().isNotEmpty) {
+      await politeDelay();
+      final r = await searchStructured(city: city, state: state, country: countryName, countryCode: cc);
+      if (r.isNotEmpty) return (results: r, approximate: true);
+      await politeDelay();
+      final f = await searchAddress([city, state, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc);
+      if (f.isNotEmpty) return (results: f, approximate: true);
+    }
+    return (results: const <GeoResult>[], approximate: false);
   }
 
   /// Postal-code lookup (centre of the ZIP area).

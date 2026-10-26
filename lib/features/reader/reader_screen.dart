@@ -162,10 +162,13 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   context.go('/mushaf?page=${surah.startPage}');
                 case 'play':
                   ref.read(audioProvider.notifier).playSurah(surah.number);
+                case 'reciter':
+                  showReciterPicker(context);
               }
             },
             itemBuilder: (context) => [
               PopupMenuItem(value: 'play', child: ListTile(leading: const Icon(Icons.play_arrow), title: Text(l.playSurah))),
+              PopupMenuItem(value: 'reciter', child: ListTile(leading: const Icon(Icons.record_voice_over_outlined), title: Text(l.reciter))),
               PopupMenuItem(value: 'memorize', child: ListTile(leading: const Icon(Icons.psychology_outlined), title: Text(l.memorizeThisSurah))),
               PopupMenuItem(value: 'recite', child: ListTile(leading: const Icon(Icons.mic_none), title: Text(l.reciteAndCheck))),
               PopupMenuItem(value: 'download', child: ListTile(leading: const Icon(Icons.download_for_offline_outlined), title: Text(l.downloadSurahAudio))),
