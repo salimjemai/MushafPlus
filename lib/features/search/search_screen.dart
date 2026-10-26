@@ -12,7 +12,8 @@ import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({super.key, this.initialQuery});
+  final String? initialQuery;
 
   @override
   ConsumerState<SearchScreen> createState() => _SearchScreenState();
@@ -29,6 +30,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   void initState() {
     super.initState();
+    final q = widget.initialQuery?.trim() ?? '';
+    if (q.isNotEmpty) {
+      _controller.text = q;
+      _query = q;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _run(q));
+    }
     ref
         .read(translationServiceProvider)
         .bundledCorpus(TranslationService.defaultEdition)

@@ -47,7 +47,7 @@ final _routes = <RouteBase>[
       builder: (context, state, child) => HomeShell(child: child),
       routes: [
         GoRoute(path: '/', builder: (c, s) => const SurahListScreen()),
-        GoRoute(path: '/search', builder: (c, s) => const SearchScreen()),
+        GoRoute(path: '/search', builder: (c, s) => SearchScreen(initialQuery: s.uri.queryParameters['q'])),
         GoRoute(
           path: '/hadith',
           builder: (c, s) => const HadithBooksScreen(),

@@ -66,15 +66,22 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
             children: [
-              if (showHero) ...[
-                const _ContinueReadingCard(),
-                const SizedBox(height: 12),
-                const _TodayCard(),
-                const SizedBox(height: 12),
-                const _VerseOfTheDayCard(),
-                const SizedBox(height: 16),
-              ],
+              // The hero cards come and go with the query; keys keep the text
+              // field's element (and the keyboard) alive across that change.
+              if (showHero)
+                const Column(
+                  key: ValueKey('home-hero'),
+                  children: [
+                    _ContinueReadingCard(),
+                    SizedBox(height: 12),
+                    _TodayCard(),
+                    SizedBox(height: 12),
+                    _VerseOfTheDayCard(),
+                    SizedBox(height: 16),
+                  ],
+                ),
               Row(
+                key: const ValueKey('home-finder'),
                 children: [
                   Expanded(
                     child: TextField(
@@ -109,9 +116,20 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                 ],
               ),
               const SizedBox(height: 12),
+              if (_query.trim().length >= 2)
+                Padding(
+                  key: const ValueKey('home-search-all'),
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: FilledButton.tonalIcon(
+                    onPressed: () => context.go('/search?q=${Uri.encodeQueryComponent(_query.trim())}'),
+                    icon: const Icon(Icons.manage_search),
+                    label: Text('${l.searchWholeQuran}: “${_query.trim()}”'),
+                  ),
+                ),
               if (_tab == _Tab.surahs) ...[
                 if (surahs.isEmpty)
                   Padding(
+                    key: const ValueKey('home-no-match'),
                     padding: const EdgeInsets.all(32),
                     child: Center(child: Text(l.noSurahMatches)),
                   ),
