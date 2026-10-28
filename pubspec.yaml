@@ -88,3 +88,8 @@ flutter:
     - family: AmiriQuran
       fonts:
         - asset: assets/fonts/AmiriQuran-Regular.ttf
+    # DigitalKhatt Madina (SIL OFL 1.1): the script of the Madani Mushaf,
+    # used for the line-by-line Mushaf pages.
+    - family: DigitalKhatt
+      fonts:
+        - asset: assets/fonts/DigitalKhatt-Madina.otf

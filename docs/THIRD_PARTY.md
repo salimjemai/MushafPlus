@@ -9,7 +9,7 @@ licences) and in `web/privacy.html`. This file records the audit of
 |---|---|---|---|
 | Tanzil Project | Uthmani Quran text (bundled) | Verbatim copies allowed; must name Tanzil and link to tanzil.net | OK — credited with link |
 | Al Quran Cloud (Islamic Network) | Tajweed edition (bundled), translations, transliteration | Free key-less API; non-commercial reproduction free; credit translators by name | OK — translator names shown; app is free with voluntary tips |
-| Quran.com / Quran Foundation API | Word-by-word, tafsir, word audio | Public content API | OK — credited. No separate terms page found; re-check before store launch |
+| Quran.com / Quran Foundation API | Word-by-word, tafsir, word audio; page line layout (generated once by `tool/gen_pages.mjs` into `assets/data/pages.json`: word positions only, no text) | Public content API | OK — credited. No separate terms page found; re-check before store launch |
 | EveryAyah.com | Verse recitation audio (streamed, cached per ayah) | No terms published on the site; long-standing free source used by many free apps; copyright stays with reciters | ACCEPTED WITH NOTE — credited; keep non-commercial; remove a reciter on request |
 | fawazahmed0/hadith-api | Hadith text and English section names (jsDelivr) | The Unlicense (public domain) | OK |
 | AhmedBaset/hadith-json | Arabic chapter titles (generated once into `assets/data/hadith_books.json`) | No licence file; data scraped from sunnah.com; the titles themselves are classical, public-domain text | LOW RISK — credited; regenerate from another source if asked |
@@ -26,8 +26,10 @@ licences) and in `web/privacy.html`. This file records the audit of
 | tarteel-ai/whisper-base-ar-quran | On-device recitation model (optional 150 MB download) | Apache-2.0 | OK — credited |
 | transformers.js, ONNX Runtime | Run the model in the browser | Apache-2.0 / MIT (licence file vendored in `web/asr/`) | OK |
 | Amiri, Amiri Quran | Arabic fonts (bundled) | SIL OFL 1.1 (`assets/fonts/OFL-Amiri.txt`) | OK |
+| DigitalKhatt Madina font (Amine Anane, Tarteel Inc.) | Madani Mushaf script for the Mushaf pages (bundled, `assets/fonts/DigitalKhatt-Madina.otf`) | SIL OFL 1.1 (`assets/fonts/OFL-DigitalKhatt.txt`, source https://github.com/DigitalKhatt/madinafont) | OK — credited under Mushaf script |
+| ~~KFGQPC Uthmanic Script HAFS, QCF page fonts~~ | the King Fahd Complex's own Mushaf fonts | Licence file: "This Font is the property of King Fahd Glorious Quran Printing Complex … may not be reproduced, modified without the express written approval" | NOT USED 2026-10-28 — bundling is reproduction; usable only with the Complex's written approval |
 | Flutter / pub packages | App framework | BSD/MIT/Apache | OK — Flutter's licence page is reachable from Data sources |
-| QuranFlash, Madani Mushaf scans | — | Copyrighted page images | NOT USED. Our pages are rendered from text; a true Madani layout must come from the KFGQPC fonts and line data, which are published for free use |
+| QuranFlash, Madani Mushaf scans | — | Copyrighted page images | NOT USED. Our pages are rendered from the Tanzil text, line by line after the quran.com page data, in the OFL DigitalKhatt Madina font |
 
 ## Adding a source
 

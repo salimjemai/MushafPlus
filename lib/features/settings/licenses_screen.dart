@@ -13,12 +13,13 @@ class LicensesScreen extends StatelessWidget {
   static const _sources = <(String, String, String)>[
     ('Quran text', 'Tanzil Project — Uthmani text, reproduced verbatim as the Tanzil terms require, with this link back to tanzil.net.', 'https://tanzil.net'),
     ('Tajweed markup, translations, transliteration', 'Al Quran Cloud (Islamic Network). Free, key-less API; non-commercial reproduction permitted; translators are credited by name in the app.', 'https://alquran.cloud/terms-and-conditions'),
-    ('Word-by-word, tafsir, word audio', 'Quran.com / Quran Foundation content API.', 'https://api-docs.quran.foundation'),
+    ('Word-by-word, tafsir, word audio, page layout', 'Quran.com / Quran Foundation content API. The line layout of the 604 Mushaf pages (which words sit on which line) comes from its page data.', 'https://api-docs.quran.foundation'),
     ('Recitation audio', 'EveryAyah.com, streamed verse by verse. Copyright in each recitation remains with the reciter.', 'https://everyayah.com'),
     ('Hadith collections', 'fawazahmed0/hadith-api (The Unlicense). Arabic chapter titles compiled with AhmedBaset/hadith-json from the classical texts.', 'https://github.com/fawazahmed0/hadith-api'),
     ('Hisn al-Muslim', 'hisnmuslim.com public API (text and audio).', 'https://www.hisnmuslim.com'),
     ('Address and place lookup', '© OpenStreetMap contributors, data under the ODbL via Nominatim; Open-Meteo geocoding (CC BY 4.0); Zippopotam; timeapi.io for time zones; GeoJS for the country guess.', 'https://www.openstreetmap.org/copyright'),
     ('Voice model', 'tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js (Apache-2.0) and ONNX Runtime (MIT). Downloaded only when you choose it.', 'https://huggingface.co/tarteel-ai/whisper-base-ar-quran'),
+    ('Mushaf script', 'DigitalKhatt Madina font by Amine Anane and Tarteel Inc., SIL Open Font License 1.1: a free font in the script of the Madani Mushaf (not the King Fahd Complex font, whose licence does not allow it to be bundled).', 'https://github.com/DigitalKhatt/madinafont'),
     ('Fonts', 'Amiri and Amiri Quran by Khaled Hosny, SIL Open Font License 1.1. Material Icons, Apache-2.0.', 'https://github.com/aliftype/amiri'),
   ];
 
