@@ -43,7 +43,7 @@ flutter run -d windows       # desktop (needs Visual Studio C++ workload + Devel
 flutter run                  # connected Android/iOS device
 ```
 
-Build release artefacts with `flutter build web`, `flutter build apk`, `flutter build windows`, etc.
+Build release artefacts with `flutter build web`, `flutter build apk`, `flutter build windows`, etc. Before a web build, run `node tool/vendor_asr.mjs` once: it fetches the pinned transformers.js build (SHA-256 checked) that the on-device voice model worker in `web/asr/` imports; the file is git-ignored.
 
 ### Android release signing
 

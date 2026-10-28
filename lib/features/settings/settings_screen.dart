@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -143,6 +144,26 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+              if (kIsWeb)
+                _Section(
+                  title: l.reciteAndCheck,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.graphic_eq),
+                      title: Text(l.recognitionEngine),
+                      subtitle: Text(s.useVoiceModel ? l.engineVoiceModel : l.engineBrowser),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => showRecognitionEngineDialog(context, ref),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                      child: Text(
+                        l.engineVoiceModelHelp,
+                        style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4),
+                      ),
+                    ),
+                  ],
+                ),
               _Section(
                 title: l.profile,
                 children: [
@@ -210,8 +231,7 @@ class SettingsScreen extends ConsumerWidget {
                       value: wordByWordLanguages.containsKey(s.wordLanguage) ? s.wordLanguage : 'en',
                       underline: const SizedBox.shrink(),
                       items: [
-                        for (final e in wordByWordLanguages.entries)
-                          DropdownMenuItem(value: e.key, child: Text(e.value)),
+                        for (final e in wordByWordLanguages.entries) DropdownMenuItem(value: e.key, child: Text(e.value)),
                       ],
                       onChanged: (v) {
                         if (v != null) n.setWordLanguage(v);
@@ -336,7 +356,8 @@ class SettingsScreen extends ConsumerWidget {
                     leading: const Icon(Icons.privacy_tip_outlined),
                     title: Text(l.privacyPolicy),
                     trailing: const Icon(Icons.open_in_new, size: 18),
-                    onTap: () => launchUrl(Uri.parse('${publicSiteUrl}privacy.html'), mode: LaunchMode.externalApplication, webOnlyWindowName: '_blank'),
+                    onTap: () => launchUrl(Uri.parse('${publicSiteUrl}privacy.html'),
+                        mode: LaunchMode.externalApplication, webOnlyWindowName: '_blank'),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -353,6 +374,48 @@ class SettingsScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Lets the user pick the recite & check engine: the browser's own
+/// recogniser (fast, letters only) or the on-device Mushaf+ voice model
+/// (one-time download, vowel marks too). Returns true when the choice changed.
+Future<bool> showRecognitionEngineDialog(BuildContext context, WidgetRef ref) async {
+  final l = context.l10n;
+  final current = ref.read(settingsProvider).recognitionEngine;
+  final choice = await showDialog<String>(
+    context: context,
+    builder: (context) => SimpleDialog(
+      title: Text(l.recognitionEngine),
+      children: [
+        RadioGroup<String>(
+          groupValue: current,
+          onChanged: (v) => Navigator.pop(context, v),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RadioListTile<String>(
+                value: 'browser',
+                title: Text(l.engineBrowser),
+                subtitle: Text(l.engineBrowserDesc),
+              ),
+              RadioListTile<String>(
+                value: 'voice',
+                title: Text(l.engineVoiceModel),
+                subtitle: Text(l.engineVoiceModelDesc),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+          child: Text(l.feedbackDisclaimer, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        ),
+      ],
+    ),
+  );
+  if (choice == null || choice == current) return false;
+  ref.read(settingsProvider.notifier).setRecognitionEngine(choice);
+  return true;
 }
 
 class _Section extends StatelessWidget {

@@ -420,7 +420,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get credits =>
-      'النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL).';
+      'النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0).';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2065,4 +2065,119 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get supportFootnote =>
       'المساهمات هدايا تطوعية للمطوّر وليست مشتريات، ولا تُخصم من الضرائب.';
+
+  @override
+  String get recognitionEngine => 'محرك التعرف';
+
+  @override
+  String get engineBrowser => 'المتصفح';
+
+  @override
+  String get engineBrowserDesc => 'سريع، الحروف فقط';
+
+  @override
+  String get engineVoiceModel => 'نموذج مصحف+ الصوتي';
+
+  @override
+  String get engineVoiceModelDesc =>
+      'تنزيل لمرة واحدة بحجم 150 م.ب، يرصد أخطاء الحركات';
+
+  @override
+  String get engineVoiceModelHelp =>
+      'ينزّل نموذج مصحف+ الصوتي نحو 150 م.ب مرة واحدة ثم يعمل على هذا الجهاز داخل المتصفح. يتحقق من الحركات إضافة إلى الحروف. يحتاج إلى إصدار حديث من كروم أو إيدج أو سفاري.';
+
+  @override
+  String get voiceModelDownloadTitle => 'تنزيل نموذج مصحف+ الصوتي؟';
+
+  @override
+  String voiceModelDownloadBody(int size) {
+    return 'نحو $size م.ب تُنزَّل مرة واحدة وتُحفظ على هذا الجهاز. بعدها يعمل التعرف داخل متصفحك ولا يغادر صوتك جهازك.';
+  }
+
+  @override
+  String voiceModelDownloading(int done, int total) {
+    return 'جارٍ تنزيل النموذج الصوتي… $done من $total م.ب';
+  }
+
+  @override
+  String get voiceModelPreparing => 'جارٍ تجهيز النموذج الصوتي…';
+
+  @override
+  String get voiceModelFailed => 'تعذر تحميل النموذج الصوتي.';
+
+  @override
+  String get voiceModelSlow =>
+      'لا يوجد تسريع رسومي في هذا المتصفح: قد تتأخر النتائج عدة ثوانٍ.';
+
+  @override
+  String get usingBrowserEngine => 'يُستخدم محرك المتصفح حاليًا.';
+
+  @override
+  String get vowelSlips => 'زلات حركات';
+
+  @override
+  String get letterErrors => 'أخطاء حروف';
+
+  @override
+  String reciteSummary(int correct, int vowel, int letter) {
+    return '$correct صحيحة · $vowel زلات حركات · $letter أخطاء حروف';
+  }
+
+  @override
+  String get feedbackDisclaimer =>
+      'قد يخطئ التقييم الآلي؛ وهو لا يغني عن المعلّم.';
+
+  @override
+  String vowelSlipLine(String heard, String letter, String expected) {
+    return 'سُمعت $heard على $letter، والمتوقع $expected';
+  }
+
+  @override
+  String get wordCorrect => 'صحيحة';
+
+  @override
+  String get wordVowelSlip => 'زلة حركة';
+
+  @override
+  String get wordWrong => 'كلمة خاطئة';
+
+  @override
+  String get wordMissed => 'ساقطة';
+
+  @override
+  String get wordPending => 'لم يُصل إليها بعد';
+
+  @override
+  String get markFatha => 'فتحة';
+
+  @override
+  String get markDamma => 'ضمة';
+
+  @override
+  String get markKasra => 'كسرة';
+
+  @override
+  String get markSukun => 'سكون';
+
+  @override
+  String get markShadda => 'شدة';
+
+  @override
+  String get markFathatan => 'فتحتان';
+
+  @override
+  String get markDammatan => 'ضمتان';
+
+  @override
+  String get markKasratan => 'كسرتان';
+
+  @override
+  String get markNone => 'بلا حركة';
+
+  @override
+  String get markNoShadda => 'بلا شدة';
+
+  @override
+  String get voiceModelHelp =>
+      'يتحقق نموذج مصحف+ الصوتي من الحركات أيضًا: تظهر زلة الحركة باللون الكهرماني. انقر أي كلمة للتفاصيل.';
 }

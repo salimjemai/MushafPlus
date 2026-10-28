@@ -419,7 +419,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get credits =>
-      'عربی متن: تنزیل عثمانی۔ تراجم اور تلفظ: Al Quran Cloud۔ لفظ بہ لفظ اور تفسیر: Quran.com۔ تلاوت: EveryAyah.com۔ حدیث: fawazahmed0/hadith-api۔ فونٹس: امیری اور امیری قرآن (SIL لائسنس)۔';
+      'عربی متن: تنزیل عثمانی۔ تراجم اور تلفظ: Al Quran Cloud۔ لفظ بہ لفظ اور تفسیر: Quran.com۔ تلاوت: EveryAyah.com۔ حدیث: fawazahmed0/hadith-api۔ فونٹس: امیری اور امیری قرآن (SIL لائسنس)۔ صوتی ماڈل: tarteel-ai/whisper-base-ar-quran سے ماخوذ (Apache-2.0، OpenAI Whisper پر مبنی)، آلے پر transformers.js اور ONNX Runtime (Apache-2.0) کے ذریعے چلتا ہے۔';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2067,4 +2067,119 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get supportFootnote =>
       'تعاون ڈویلپر کے لیے رضاکارانہ تحفہ ہے، خریداری نہیں، اور ٹیکس میں قابلِ کٹوتی نہیں۔';
+
+  @override
+  String get recognitionEngine => 'شناخت کا انجن';
+
+  @override
+  String get engineBrowser => 'براؤزر';
+
+  @override
+  String get engineBrowserDesc => 'تیز، صرف حروف';
+
+  @override
+  String get engineVoiceModel => 'مصحف+ صوتی ماڈل';
+
+  @override
+  String get engineVoiceModelDesc =>
+      'ایک بار 150 MB ڈاؤن لوڈ، حرکات کی غلطیاں نشان زد کرتا ہے';
+
+  @override
+  String get engineVoiceModelHelp =>
+      'مصحف+ صوتی ماڈل تقریباً 150 MB ایک بار ڈاؤن لوڈ کرتا ہے، پھر اسی آلے پر براؤزر میں چلتا ہے۔ حروف کے ساتھ حرکات بھی جانچتا ہے۔ جدید Chrome، Edge یا Safari درکار ہے۔';
+
+  @override
+  String get voiceModelDownloadTitle => 'مصحف+ صوتی ماڈل ڈاؤن لوڈ کریں؟';
+
+  @override
+  String voiceModelDownloadBody(int size) {
+    return 'تقریباً $size MB، ایک بار ڈاؤن لوڈ ہو کر اسی آلے پر محفوظ رہتا ہے۔ پھر شناخت آپ کے براؤزر میں ہوتی ہے؛ آپ کی تلاوت آلے سے باہر نہیں جاتی۔';
+  }
+
+  @override
+  String voiceModelDownloading(int done, int total) {
+    return 'صوتی ماڈل ڈاؤن لوڈ ہو رہا ہے… $done / $total MB';
+  }
+
+  @override
+  String get voiceModelPreparing => 'صوتی ماڈل تیار ہو رہا ہے…';
+
+  @override
+  String get voiceModelFailed => 'صوتی ماڈل لوڈ نہیں ہو سکا۔';
+
+  @override
+  String get voiceModelSlow =>
+      'اس براؤزر میں گرافکس ایکسیلریشن نہیں: نتائج چند سیکنڈ تاخیر سے آ سکتے ہیں۔';
+
+  @override
+  String get usingBrowserEngine => 'فی الحال براؤزر انجن استعمال ہو رہا ہے۔';
+
+  @override
+  String get vowelSlips => 'حرکات کی لغزشیں';
+
+  @override
+  String get letterErrors => 'حروف کی غلطیاں';
+
+  @override
+  String reciteSummary(int correct, int vowel, int letter) {
+    return '$correct درست · $vowel حرکات کی لغزشیں · $letter حروف کی غلطیاں';
+  }
+
+  @override
+  String get feedbackDisclaimer =>
+      'خودکار رائے غلط ہو سکتی ہے؛ یہ استاد کا متبادل نہیں۔';
+
+  @override
+  String vowelSlipLine(String heard, String letter, String expected) {
+    return '$letter پر $heard سنا گیا، متوقع $expected';
+  }
+
+  @override
+  String get wordCorrect => 'درست';
+
+  @override
+  String get wordVowelSlip => 'حرکت کی لغزش';
+
+  @override
+  String get wordWrong => 'غلط لفظ';
+
+  @override
+  String get wordMissed => 'چھوٹ گیا';
+
+  @override
+  String get wordPending => 'ابھی نہیں پہنچا';
+
+  @override
+  String get markFatha => 'زبر';
+
+  @override
+  String get markDamma => 'پیش';
+
+  @override
+  String get markKasra => 'زیر';
+
+  @override
+  String get markSukun => 'سکون';
+
+  @override
+  String get markShadda => 'تشدید';
+
+  @override
+  String get markFathatan => 'دو زبر';
+
+  @override
+  String get markDammatan => 'دو پیش';
+
+  @override
+  String get markKasratan => 'دو زیر';
+
+  @override
+  String get markNone => 'بغیر حرکت';
+
+  @override
+  String get markNoShadda => 'بغیر تشدید';
+
+  @override
+  String get voiceModelHelp =>
+      'مصحف+ صوتی ماڈل حرکات بھی جانچتا ہے: حرکت کی لغزش عنبری رنگ میں دکھتی ہے۔ تفصیل کے لیے کسی لفظ پر ٹیپ کریں۔';
 }

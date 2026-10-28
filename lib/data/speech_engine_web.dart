@@ -4,8 +4,10 @@ import 'dart:js_interop_unsafe';
 import 'package:web/web.dart' as web;
 
 import 'speech_engine.dart';
+import 'speech_engine_whisper_web.dart';
 
-SpeechEngine createSpeechEngine() => _WebSpeechEngine();
+SpeechEngine createSpeechEngine({bool voiceModel = false}) =>
+    voiceModel && WhisperWebSpeechEngine.supported ? WhisperWebSpeechEngine() : _WebSpeechEngine();
 
 /// Direct Web Speech API client.
 ///

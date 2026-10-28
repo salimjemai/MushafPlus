@@ -282,6 +282,7 @@ class _WatchRecitePageState extends ConsumerState<WatchRecitePage> {
       final color = switch (w.status) {
         WordStatus.matched => Colors.greenAccent,
         WordStatus.wrong => Colors.redAccent,
+        WordStatus.vowel => Colors.amberAccent,
         WordStatus.missed => Colors.orangeAccent,
         WordStatus.pending => i == r.nextIndex ? AppColors.gold : scheme.onSurface,
       };

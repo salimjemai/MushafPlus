@@ -422,7 +422,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get credits =>
-      'Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı).';
+      'Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran\'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır.';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2076,4 +2076,119 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get supportFootnote =>
       'Katkılar geliştiriciye gönüllü hediyedir, satın alma değildir ve vergiden düşülemez.';
+
+  @override
+  String get recognitionEngine => 'Tanıma motoru';
+
+  @override
+  String get engineBrowser => 'Tarayıcı';
+
+  @override
+  String get engineBrowserDesc => 'Hızlı, yalnızca harfler';
+
+  @override
+  String get engineVoiceModel => 'Mushaf+ ses modeli';
+
+  @override
+  String get engineVoiceModelDesc =>
+      'Tek seferlik 150 MB indirme, hareke hatalarını işaretler';
+
+  @override
+  String get engineVoiceModelHelp =>
+      'Mushaf+ ses modeli yaklaşık 150 MB\'ı bir kez indirir, sonra bu cihazda tarayıcı içinde çalışır. Harflerin yanı sıra harekeleri de denetler. Güncel bir Chrome, Edge veya Safari gerektirir.';
+
+  @override
+  String get voiceModelDownloadTitle => 'Mushaf+ ses modeli indirilsin mi?';
+
+  @override
+  String voiceModelDownloadBody(int size) {
+    return 'Yaklaşık $size MB, bir kez indirilir ve bu cihazda saklanır. Tanıma sonra tarayıcınızda çalışır; okuduklarınız cihazınızdan çıkmaz.';
+  }
+
+  @override
+  String voiceModelDownloading(int done, int total) {
+    return 'Ses modeli indiriliyor… $done / $total MB';
+  }
+
+  @override
+  String get voiceModelPreparing => 'Ses modeli hazırlanıyor…';
+
+  @override
+  String get voiceModelFailed => 'Ses modeli yüklenemedi.';
+
+  @override
+  String get voiceModelSlow =>
+      'Bu tarayıcıda grafik hızlandırma yok: sonuçlar birkaç saniye gecikebilir.';
+
+  @override
+  String get usingBrowserEngine => 'Şimdilik tarayıcı motoru kullanılıyor.';
+
+  @override
+  String get vowelSlips => 'hareke hatası';
+
+  @override
+  String get letterErrors => 'harf hatası';
+
+  @override
+  String reciteSummary(int correct, int vowel, int letter) {
+    return '$correct doğru · $vowel hareke hatası · $letter harf hatası';
+  }
+
+  @override
+  String get feedbackDisclaimer =>
+      'Otomatik geri bildirim yanılabilir; bir hocanın yerini tutmaz.';
+
+  @override
+  String vowelSlipLine(String heard, String letter, String expected) {
+    return '$letter üzerinde $heard duyuldu, beklenen $expected';
+  }
+
+  @override
+  String get wordCorrect => 'Doğru';
+
+  @override
+  String get wordVowelSlip => 'Hareke hatası';
+
+  @override
+  String get wordWrong => 'Yanlış kelime';
+
+  @override
+  String get wordMissed => 'Atlandı';
+
+  @override
+  String get wordPending => 'Henüz ulaşılmadı';
+
+  @override
+  String get markFatha => 'fetha';
+
+  @override
+  String get markDamma => 'damme';
+
+  @override
+  String get markKasra => 'kesre';
+
+  @override
+  String get markSukun => 'sükûn';
+
+  @override
+  String get markShadda => 'şedde';
+
+  @override
+  String get markFathatan => 'fethatan';
+
+  @override
+  String get markDammatan => 'dammetan';
+
+  @override
+  String get markKasratan => 'kesretan';
+
+  @override
+  String get markNone => 'hareke yok';
+
+  @override
+  String get markNoShadda => 'şedde yok';
+
+  @override
+  String get voiceModelHelp =>
+      'Mushaf+ ses modeli harekeleri de denetler: hareke hatası kehribar renginde görünür. Ayrıntılar için bir kelimeye dokunun.';
 }

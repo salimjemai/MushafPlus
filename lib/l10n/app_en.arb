@@ -277,7 +277,7 @@
   "downloadedDataCleared": "Downloaded data cleared",
   "about": "About",
   "versionBuiltWith": "Version 1.0.0 · Built with Flutter",
-  "credits": "Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License).",
+  "credits": "Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0).",
   "selectedOfMax": "{selected} of {max} selected",
   "@selectedOfMax": {
     "placeholders": {
@@ -1385,5 +1385,82 @@
   "donateComingSoon": "Donation options are being set up. Thank you for your patience, and for using Mushaf+.",
   "bankTransfer": "Bank transfer",
   "copied": "Copied",
-  "supportFootnote": "Contributions are voluntary gifts to the developer, not purchases, and are not tax-deductible."
+  "supportFootnote": "Contributions are voluntary gifts to the developer, not purchases, and are not tax-deductible.",
+  "recognitionEngine": "Recognition engine",
+  "engineBrowser": "Browser",
+  "engineBrowserDesc": "Fast, letters only",
+  "engineVoiceModel": "Mushaf+ voice model",
+  "engineVoiceModelDesc": "150 MB one-time download, marks vowel mistakes",
+  "engineVoiceModelHelp": "The Mushaf+ voice model downloads about 150 MB once, then runs on this device inside the browser. It checks vowel marks (harakat) as well as letters. Needs a recent Chrome, Edge or Safari.",
+  "voiceModelDownloadTitle": "Download the Mushaf+ voice model?",
+  "voiceModelDownloadBody": "About {size} MB, downloaded once and kept on this device. Recognition then runs in your browser and nothing you recite leaves your device.",
+  "@voiceModelDownloadBody": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceModelDownloading": "Downloading the voice model… {done} of {total} MB",
+  "@voiceModelDownloading": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceModelPreparing": "Preparing the voice model…",
+  "voiceModelFailed": "The voice model could not be loaded.",
+  "voiceModelSlow": "No graphics acceleration in this browser: results may lag by several seconds.",
+  "usingBrowserEngine": "Using the browser engine for now.",
+  "vowelSlips": "vowel slips",
+  "letterErrors": "letter errors",
+  "reciteSummary": "{correct} correct · {vowel} vowel slips · {letter} letter errors",
+  "@reciteSummary": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "vowel": {
+        "type": "int"
+      },
+      "letter": {
+        "type": "int"
+      }
+    }
+  },
+  "feedbackDisclaimer": "Automatic feedback can be wrong; it does not replace a teacher.",
+  "vowelSlipLine": "Heard {heard} on {letter}, expected {expected}",
+  "@vowelSlipLine": {
+    "placeholders": {
+      "heard": {
+        "type": "String"
+      },
+      "letter": {
+        "type": "String"
+      },
+      "expected": {
+        "type": "String"
+      }
+    }
+  },
+  "wordCorrect": "Correct",
+  "wordVowelSlip": "Vowel slip",
+  "wordWrong": "Wrong word",
+  "wordMissed": "Skipped",
+  "wordPending": "Not reached yet",
+  "markFatha": "fatha",
+  "markDamma": "damma",
+  "markKasra": "kasra",
+  "markSukun": "sukun",
+  "markShadda": "shadda",
+  "markFathatan": "fathatan",
+  "markDammatan": "dammatan",
+  "markKasratan": "kasratan",
+  "markNone": "no mark",
+  "markNoShadda": "no shadda",
+  "voiceModelHelp": "The Mushaf+ voice model also checks vowel marks (harakat): a vowel slip shows in amber. Tap any word for details."
 }

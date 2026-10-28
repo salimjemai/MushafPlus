@@ -111,6 +111,7 @@ class AppSettings {
     this.locale,
     this.pageAnimation = PageAnimation.curl,
     this.adhanId = 'makkah',
+    this.recognitionEngine = 'browser',
   });
 
   final ThemeMode themeMode;
@@ -157,6 +158,12 @@ class AppSettings {
   /// Preferred adhan recording.
   final String adhanId;
 
+  /// Recite & check engine: 'browser' (the platform recogniser, letters
+  /// only) or 'voice' (the on-device Mushaf+ voice model, web only).
+  final String recognitionEngine;
+
+  bool get useVoiceModel => recognitionEngine == 'voice';
+
   static const maxTranslations = 4;
 
   AppSettings copyWith({
@@ -189,6 +196,7 @@ class AppSettings {
     bool clearLocale = false,
     PageAnimation? pageAnimation,
     String? adhanId,
+    String? recognitionEngine,
   }) {
     return AppSettings(
       themeMode: themeMode ?? this.themeMode,
@@ -218,6 +226,7 @@ class AppSettings {
       locale: clearLocale ? null : (locale ?? this.locale),
       pageAnimation: pageAnimation ?? this.pageAnimation,
       adhanId: adhanId ?? this.adhanId,
+      recognitionEngine: recognitionEngine ?? this.recognitionEngine,
     );
   }
 
@@ -249,6 +258,7 @@ class AppSettings {
         if (locale != null) 'locale': locale,
         'pageAnimation': pageAnimation.index,
         'adhanId': adhanId,
+        'recognitionEngine': recognitionEngine,
       };
 
   factory AppSettings.fromMap(Map<dynamic, dynamic> m) {
@@ -281,6 +291,7 @@ class AppSettings {
       locale: m['locale'] as String?,
       pageAnimation: PageAnimation.values[((m['pageAnimation'] as int?) ?? 0).clamp(0, PageAnimation.values.length - 1)],
       adhanId: (m['adhanId'] as String?) ?? d.adhanId,
+      recognitionEngine: (m['recognitionEngine'] as String?) ?? d.recognitionEngine,
     );
   }
 }
@@ -325,6 +336,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setMushafLayout(MushafLayout l) => _update(state.copyWith(mushafLayout: l));
   void setPageAnimation(PageAnimation a) => _update(state.copyWith(pageAnimation: a));
   void setAdhanId(String id) => _update(state.copyWith(adhanId: id));
+  void setRecognitionEngine(String id) => _update(state.copyWith(recognitionEngine: id));
   void setLocale(String? code) =>
       _update(code == null ? state.copyWith(clearLocale: true) : state.copyWith(locale: code));
 

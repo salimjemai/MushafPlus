@@ -24,6 +24,8 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      - name: Fetch the pinned transformers.js build for the voice model worker
+        run: node tool/vendor_asr.mjs
       - name: Build web (served from /<repo-name>/)
         run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
       - uses: actions/upload-pages-artifact@v3
