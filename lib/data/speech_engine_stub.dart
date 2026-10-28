@@ -1,3 +1,3 @@
 import 'speech_engine.dart';
 
-SpeechEngine createSpeechEngine() => throw UnsupportedError('No speech engine on this platform');
+SpeechEngine createSpeechEngine({bool voiceModel = false}) => throw UnsupportedError('No speech engine on this platform');

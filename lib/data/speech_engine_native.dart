@@ -4,7 +4,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 
 import 'speech_engine.dart';
 
-SpeechEngine createSpeechEngine() => _PluginSpeechEngine();
+SpeechEngine createSpeechEngine({bool voiceModel = false}) => _PluginSpeechEngine();
 
 /// Android, iOS, macOS and Windows via the speech_to_text plugin.
 class _PluginSpeechEngine implements SpeechEngine {

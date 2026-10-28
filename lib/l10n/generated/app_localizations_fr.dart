@@ -425,7 +425,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get credits =>
-      'Texte arabe : édition Tanzil Uthmani. Traductions et translittération : Al Quran Cloud. Mot à mot et tafsir : Quran.com. Récitation : EveryAyah.com. Hadith : fawazahmed0/hadith-api. Polices : Amiri et Amiri Quran (licence SIL).';
+      'Texte arabe : édition Tanzil Uthmani. Traductions et translittération : Al Quran Cloud. Mot à mot et tafsir : Quran.com. Récitation : EveryAyah.com. Hadith : fawazahmed0/hadith-api. Polices : Amiri et Amiri Quran (licence SIL). Modèle vocal : dérivé de tarteel-ai/whisper-base-ar-quran (Apache-2.0, affiné à partir d’OpenAI Whisper), exécuté sur l’appareil avec transformers.js et ONNX Runtime (Apache-2.0).';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2028,4 +2028,120 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'Packs texte enregistrés. Les packs audio se téléchargeront en Wi-Fi (ou touchez le bouton ci-dessus pour les télécharger maintenant).';
+
+  @override
+  String get recognitionEngine => 'Moteur de reconnaissance';
+
+  @override
+  String get engineBrowser => 'Navigateur';
+
+  @override
+  String get engineBrowserDesc => 'Rapide, lettres seulement';
+
+  @override
+  String get engineVoiceModel => 'Modèle vocal Mushaf+';
+
+  @override
+  String get engineVoiceModelDesc =>
+      'Téléchargement unique de 150 Mo, signale les erreurs de voyelles';
+
+  @override
+  String get engineVoiceModelHelp =>
+      'Le modèle vocal Mushaf+ télécharge environ 150 Mo une seule fois, puis fonctionne sur cet appareil dans le navigateur. Il vérifie les voyelles (harakat) en plus des lettres. Nécessite un Chrome, Edge ou Safari récent.';
+
+  @override
+  String get voiceModelDownloadTitle => 'Télécharger le modèle vocal Mushaf+ ?';
+
+  @override
+  String voiceModelDownloadBody(int size) {
+    return 'Environ $size Mo, téléchargés une seule fois et conservés sur cet appareil. La reconnaissance se fait ensuite dans votre navigateur ; rien de ce que vous récitez ne quitte l’appareil.';
+  }
+
+  @override
+  String voiceModelDownloading(int done, int total) {
+    return 'Téléchargement du modèle vocal… $done sur $total Mo';
+  }
+
+  @override
+  String get voiceModelPreparing => 'Préparation du modèle vocal…';
+
+  @override
+  String get voiceModelFailed => 'Le modèle vocal n’a pas pu être chargé.';
+
+  @override
+  String get voiceModelSlow =>
+      'Pas d’accélération graphique dans ce navigateur : les résultats peuvent prendre plusieurs secondes.';
+
+  @override
+  String get usingBrowserEngine =>
+      'Moteur du navigateur utilisé pour l’instant.';
+
+  @override
+  String get vowelSlips => 'erreurs de voyelles';
+
+  @override
+  String get letterErrors => 'erreurs de lettres';
+
+  @override
+  String reciteSummary(int correct, int vowel, int letter) {
+    return '$correct justes · $vowel erreurs de voyelles · $letter erreurs de lettres';
+  }
+
+  @override
+  String get feedbackDisclaimer =>
+      'Le retour automatique peut se tromper ; il ne remplace pas un enseignant.';
+
+  @override
+  String vowelSlipLine(String heard, String letter, String expected) {
+    return 'Entendu $heard sur $letter, attendu $expected';
+  }
+
+  @override
+  String get wordCorrect => 'Juste';
+
+  @override
+  String get wordVowelSlip => 'Erreur de voyelle';
+
+  @override
+  String get wordWrong => 'Mot erroné';
+
+  @override
+  String get wordMissed => 'Omis';
+
+  @override
+  String get wordPending => 'Pas encore atteint';
+
+  @override
+  String get markFatha => 'fatha';
+
+  @override
+  String get markDamma => 'damma';
+
+  @override
+  String get markKasra => 'kasra';
+
+  @override
+  String get markSukun => 'soukoun';
+
+  @override
+  String get markShadda => 'chadda';
+
+  @override
+  String get markFathatan => 'fathatan';
+
+  @override
+  String get markDammatan => 'dammatan';
+
+  @override
+  String get markKasratan => 'kasratan';
+
+  @override
+  String get markNone => 'sans voyelle';
+
+  @override
+  String get markNoShadda => 'sans chadda';
+
+  @override
+  String get voiceModelHelp =>
+      'Le modèle vocal Mushaf+ vérifie aussi les voyelles (harakat) : une erreur de voyelle apparaît en ambre. Touchez un mot pour les détails.';
 }

@@ -423,7 +423,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get credits =>
-      'Teks Arab: edisi Tanzil Utsmani. Terjemahan dan transliterasi: Al Quran Cloud. Kata per kata dan tafsir: Quran.com. Tilawah: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Font: Amiri & Amiri Quran (Lisensi SIL).';
+      'Teks Arab: edisi Tanzil Utsmani. Terjemahan dan transliterasi: Al Quran Cloud. Kata per kata dan tafsir: Quran.com. Tilawah: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Font: Amiri & Amiri Quran (Lisensi SIL). Model suara: diturunkan dari tarteel-ai/whisper-base-ar-quran (Apache-2.0, penyetelan dari OpenAI Whisper), dijalankan di perangkat dengan transformers.js dan ONNX Runtime (Apache-2.0).';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2019,4 +2019,119 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'Paket teks tersimpan. Paket audio akan terunduh saat Anda memakai Wi-Fi (atau ketuk tombol di atas untuk mengunduh sekarang).';
+
+  @override
+  String get recognitionEngine => 'Mesin pengenalan';
+
+  @override
+  String get engineBrowser => 'Peramban';
+
+  @override
+  String get engineBrowserDesc => 'Cepat, huruf saja';
+
+  @override
+  String get engineVoiceModel => 'Model suara Mushaf+';
+
+  @override
+  String get engineVoiceModelDesc =>
+      'Unduhan sekali 150 MB, menandai kesalahan harakat';
+
+  @override
+  String get engineVoiceModelHelp =>
+      'Model suara Mushaf+ mengunduh sekitar 150 MB sekali, lalu berjalan di perangkat ini di dalam peramban. Memeriksa harakat selain huruf. Memerlukan Chrome, Edge, atau Safari versi terbaru.';
+
+  @override
+  String get voiceModelDownloadTitle => 'Unduh model suara Mushaf+?';
+
+  @override
+  String voiceModelDownloadBody(int size) {
+    return 'Sekitar $size MB, diunduh sekali dan disimpan di perangkat ini. Pengenalan kemudian berjalan di peramban Anda; bacaan Anda tidak meninggalkan perangkat.';
+  }
+
+  @override
+  String voiceModelDownloading(int done, int total) {
+    return 'Mengunduh model suara… $done dari $total MB';
+  }
+
+  @override
+  String get voiceModelPreparing => 'Menyiapkan model suara…';
+
+  @override
+  String get voiceModelFailed => 'Model suara tidak dapat dimuat.';
+
+  @override
+  String get voiceModelSlow =>
+      'Tidak ada akselerasi grafis di peramban ini: hasil bisa tertunda beberapa detik.';
+
+  @override
+  String get usingBrowserEngine => 'Memakai mesin peramban untuk saat ini.';
+
+  @override
+  String get vowelSlips => 'kesalahan harakat';
+
+  @override
+  String get letterErrors => 'kesalahan huruf';
+
+  @override
+  String reciteSummary(int correct, int vowel, int letter) {
+    return '$correct benar · $vowel kesalahan harakat · $letter kesalahan huruf';
+  }
+
+  @override
+  String get feedbackDisclaimer =>
+      'Umpan balik otomatis bisa keliru; tidak menggantikan guru.';
+
+  @override
+  String vowelSlipLine(String heard, String letter, String expected) {
+    return 'Terdengar $heard pada $letter, seharusnya $expected';
+  }
+
+  @override
+  String get wordCorrect => 'Benar';
+
+  @override
+  String get wordVowelSlip => 'Kesalahan harakat';
+
+  @override
+  String get wordWrong => 'Kata salah';
+
+  @override
+  String get wordMissed => 'Terlewat';
+
+  @override
+  String get wordPending => 'Belum sampai';
+
+  @override
+  String get markFatha => 'fathah';
+
+  @override
+  String get markDamma => 'dhammah';
+
+  @override
+  String get markKasra => 'kasrah';
+
+  @override
+  String get markSukun => 'sukun';
+
+  @override
+  String get markShadda => 'syaddah';
+
+  @override
+  String get markFathatan => 'fathatain';
+
+  @override
+  String get markDammatan => 'dhammatain';
+
+  @override
+  String get markKasratan => 'kasratain';
+
+  @override
+  String get markNone => 'tanpa harakat';
+
+  @override
+  String get markNoShadda => 'tanpa syaddah';
+
+  @override
+  String get voiceModelHelp =>
+      'Model suara Mushaf+ juga memeriksa harakat: kesalahan harakat ditampilkan berwarna kuning tua. Ketuk kata mana pun untuk rincian.';
 }

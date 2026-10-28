@@ -422,7 +422,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get credits =>
-      'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License).';
+      'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0).';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2020,4 +2020,119 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'Text packs are saved. Audio packs will download when you are on Wi-Fi (or tap the button above to download now).';
+
+  @override
+  String get recognitionEngine => 'Recognition engine';
+
+  @override
+  String get engineBrowser => 'Browser';
+
+  @override
+  String get engineBrowserDesc => 'Fast, letters only';
+
+  @override
+  String get engineVoiceModel => 'Mushaf+ voice model';
+
+  @override
+  String get engineVoiceModelDesc =>
+      '150 MB one-time download, marks vowel mistakes';
+
+  @override
+  String get engineVoiceModelHelp =>
+      'The Mushaf+ voice model downloads about 150 MB once, then runs on this device inside the browser. It checks vowel marks (harakat) as well as letters. Needs a recent Chrome, Edge or Safari.';
+
+  @override
+  String get voiceModelDownloadTitle => 'Download the Mushaf+ voice model?';
+
+  @override
+  String voiceModelDownloadBody(int size) {
+    return 'About $size MB, downloaded once and kept on this device. Recognition then runs in your browser and nothing you recite leaves your device.';
+  }
+
+  @override
+  String voiceModelDownloading(int done, int total) {
+    return 'Downloading the voice model… $done of $total MB';
+  }
+
+  @override
+  String get voiceModelPreparing => 'Preparing the voice model…';
+
+  @override
+  String get voiceModelFailed => 'The voice model could not be loaded.';
+
+  @override
+  String get voiceModelSlow =>
+      'No graphics acceleration in this browser: results may lag by several seconds.';
+
+  @override
+  String get usingBrowserEngine => 'Using the browser engine for now.';
+
+  @override
+  String get vowelSlips => 'vowel slips';
+
+  @override
+  String get letterErrors => 'letter errors';
+
+  @override
+  String reciteSummary(int correct, int vowel, int letter) {
+    return '$correct correct · $vowel vowel slips · $letter letter errors';
+  }
+
+  @override
+  String get feedbackDisclaimer =>
+      'Automatic feedback can be wrong; it does not replace a teacher.';
+
+  @override
+  String vowelSlipLine(String heard, String letter, String expected) {
+    return 'Heard $heard on $letter, expected $expected';
+  }
+
+  @override
+  String get wordCorrect => 'Correct';
+
+  @override
+  String get wordVowelSlip => 'Vowel slip';
+
+  @override
+  String get wordWrong => 'Wrong word';
+
+  @override
+  String get wordMissed => 'Skipped';
+
+  @override
+  String get wordPending => 'Not reached yet';
+
+  @override
+  String get markFatha => 'fatha';
+
+  @override
+  String get markDamma => 'damma';
+
+  @override
+  String get markKasra => 'kasra';
+
+  @override
+  String get markSukun => 'sukun';
+
+  @override
+  String get markShadda => 'shadda';
+
+  @override
+  String get markFathatan => 'fathatan';
+
+  @override
+  String get markDammatan => 'dammatan';
+
+  @override
+  String get markKasratan => 'kasratan';
+
+  @override
+  String get markNone => 'no mark';
+
+  @override
+  String get markNoShadda => 'no shadda';
+
+  @override
+  String get voiceModelHelp =>
+      'The Mushaf+ voice model also checks vowel marks (harakat): a vowel slip shows in amber. Tap any word for details.';
 }

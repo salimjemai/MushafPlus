@@ -16,6 +16,7 @@ import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
 import '../../widgets/mini_player.dart';
 import '../plan/plan_screen.dart';
+import '../settings/settings_screen.dart' show showRecognitionEngineDialog;
 
 /// Listens to the user reciting a passage from memory and checks it word by
 /// word against the Uthmani text: matched words turn green, wrong words red
@@ -35,7 +36,8 @@ class ReciteScreen extends ConsumerStatefulWidget {
 }
 
 class _ReciteScreenState extends ConsumerState<ReciteScreen> {
-  final _engine = createSpeechEngine();
+  late SpeechEngine _engine;
+  bool _voiceModel = false; // which engine _engine is
   bool _available = false;
   bool _initialised = false;
   bool _active = false; // user wants to be listening
@@ -65,6 +67,8 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
   @override
   void initState() {
     super.initState();
+    _voiceModel = ref.read(settingsProvider).useVoiceModel;
+    _engine = createSpeechEngine(voiceModel: _voiceModel);
     final s = ref.read(repositoryProvider).requireValue.surah(widget.surah);
     _from = (widget.from ?? 1).clamp(1, s.numberOfAyahs);
     // Default to the rest of the surah: reciters rarely stop after a few ayahs.
@@ -79,10 +83,32 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     }
   }
 
+  /// Replaces the engine when the recognition setting changes (the setting
+  /// is edited from the app bar or the settings screen).
+  Future<void> _useEngine(bool voiceModel) async {
+    if (voiceModel == _voiceModel) return;
+    final wasActive = _active;
+    _active = false;
+    _restart?.cancel();
+    await _engine.stop();
+    if (!mounted) return;
+    setState(() {
+      _voiceModel = voiceModel;
+      _engine = createSpeechEngine(voiceModel: voiceModel);
+      _initialised = false;
+      _available = false;
+      _engineListening = false;
+      _error = null;
+      _notice = null;
+      _lastResultAt = null;
+    });
+    if (wasActive) await _toggle();
+  }
+
   void _setStrict(bool v) {
     setState(() {
       _strict = v;
-      _matcher = RecitationMatcher(_matcher.originalWords, strict: v);
+      _matcher = RecitationMatcher(_matcher.originalWords, strict: v, stops: _matcher.stops);
       _flaggedWrong.clear();
       _result = _matcher.match('$_committed $_partial');
     });
@@ -100,7 +126,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
         _wordAyah.add(i);
       }
     }
-    _matcher = RecitationMatcher(words, strict: _strict);
+    _matcher = RecitationMatcher(words, strict: _strict, stops: RecitationMatcher.stopsOf(_ayahs.map((a) => a.text)));
     if (!keepTranscript) {
       _sessionBase = '';
       _committed = '';
@@ -232,12 +258,107 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     FeedbackTone.unlock(); // inside the tap, so browsers allow the tones later
     final ok = await _init();
     if (!ok) return;
+    if (!await _prepareEngine()) return;
     setState(() {
       _active = true;
       _error = null;
       _notice = null;
     });
     await _listen();
+  }
+
+  /// For the Mushaf+ voice model: asks before the one-time download, then
+  /// shows the download / load progress. Returns false when listening should
+  /// not start. Declining the download falls back to the browser engine for
+  /// this screen without changing the setting.
+  Future<bool> _prepareEngine() async {
+    final engine = _engine;
+    if (engine is! DownloadableSpeechEngine || engine.isReady) return true;
+    final l = context.l10n;
+    final cached = await engine.isCached();
+    if (!mounted) return false;
+    if (!cached) {
+      final mb = (engine.approximateDownloadBytes / 1e6).round();
+      final go = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l.voiceModelDownloadTitle),
+          content: Text(l.voiceModelDownloadBody(mb)),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, false), child: Text(l.cancel)),
+            FilledButton(onPressed: () => Navigator.pop(context, true), child: Text(l.download)),
+          ],
+        ),
+      );
+      if (!mounted) return false;
+      if (go != true) {
+        // Use the browser recogniser for now; the setting stays as chosen.
+        setState(() {
+          _voiceModel = false;
+          _engine = createSpeechEngine(voiceModel: false);
+          _initialised = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.usingBrowserEngine)));
+        return _init();
+      }
+    }
+    final progress = ValueNotifier<ModelLoadProgress>(const ModelLoadProgress(stage: 'init', loaded: 0, total: 0));
+    String? failure;
+    var finished = false;
+    BuildContext? dialogContext;
+    void closeDialog() {
+      final c = dialogContext;
+      if (c != null && c.mounted) Navigator.of(c).pop();
+    }
+
+    engine.prepare(onProgress: (p) => progress.value = p).then((_) {
+      finished = true;
+      closeDialog();
+    }, onError: (Object e) {
+      failure = '$e';
+      finished = true;
+      closeDialog();
+    });
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        dialogContext = context;
+        if (finished) WidgetsBinding.instance.addPostFrameCallback((_) => closeDialog());
+        return PopScope(
+          canPop: false,
+          child: AlertDialog(
+            title: Text(l.engineVoiceModel),
+            content: ValueListenableBuilder<ModelLoadProgress>(
+              valueListenable: progress,
+              builder: (context, p, _) {
+                final downloading = p.stage == 'download' && p.total > 0;
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(downloading ? l.voiceModelDownloading((p.loaded / 1e6).round(), (p.total / 1e6).round()) : l.voiceModelPreparing),
+                    const SizedBox(height: 12),
+                    LinearProgressIndicator(value: downloading ? (p.loaded / p.total).clamp(0, 1).toDouble() : null),
+                    if (!engine.accelerated) ...[
+                      const SizedBox(height: 12),
+                      Text(l.voiceModelSlow, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    ],
+                  ],
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+    progress.dispose();
+    if (!mounted) return false;
+    if (failure != null) {
+      setState(() => _error = '${l.voiceModelFailed} $failure');
+      return false;
+    }
+    return engine.isReady;
   }
 
   void _reset() {
@@ -267,6 +388,12 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     final scheme = Theme.of(context).colorScheme;
     final r = _result!;
     final cursorAyah = r.nextIndex < _wordAyah.length ? _wordAyah[r.nextIndex] : _ayahs.length - 1;
+    if (kIsWeb && settings.useVoiceModel != _voiceModel) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _useEngine(settings.useVoiceModel);
+      });
+    }
+    final voice = _voiceModel;
 
     return Scaffold(
       appBar: AppBar(
@@ -283,6 +410,12 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
           ],
         ),
         actions: [
+          if (kIsWeb)
+            IconButton(
+              tooltip: l.recognitionEngine,
+              icon: Icon(voice ? Icons.graphic_eq : Icons.record_voice_over_outlined),
+              onPressed: () => showRecognitionEngineDialog(context, ref),
+            ),
           IconButton(
             tooltip: _hideText ? l.showText : l.hideText,
             icon: Icon(_hideText ? Icons.visibility_outlined : Icons.visibility_off_outlined),
@@ -319,13 +452,16 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                               runSpacing: 6,
                               children: [
                                 _Stat(color: Colors.green, label: l.matchedWords, value: r.matched),
+                                if (voice || r.vowel > 0) _Stat(color: Colors.amber.shade700, label: l.vowelSlips, value: r.vowel),
                                 _Stat(color: Colors.red, label: l.wrongWords, value: r.wrong),
                                 _Stat(color: Colors.orange, label: l.missedWords, value: r.missed),
                               ],
                             ),
                             const SizedBox(height: 8),
-                            Text(l.wordsReached(r.reached, r.words.length),
-                                style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant)),
+                            if (voice || r.vowel > 0)
+                              Text(l.reciteSummary(r.matched, r.vowel, r.wrong),
+                                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: scheme.onSurface)),
+                            Text(l.wordsReached(r.reached, r.words.length), style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant)),
                             const SizedBox(height: 4),
                             Row(
                               children: [
@@ -389,6 +525,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                           hintUntil: _hintUntil,
                           isCurrent: a == cursorAyah,
                           style: ArabicStyles.ayah(context, scale: settings.arabicScale * 0.9, font: settings.arabicFont),
+                          onTap: (index, match) => _showWordSheet(index, match, settings),
                         ),
                         if (a < _ayahs.length - 1) Divider(color: scheme.outlineVariant.withValues(alpha: 0.4), height: 18),
                       ],
@@ -447,10 +584,24 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                 style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4),
               ),
               Text(
-                l.strictHelp,
+                voice ? l.voiceModelHelp : l.strictHelp,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4),
               ),
+              if (voice) ...[
+                const SizedBox(height: 4),
+                Text(
+                  l.feedbackDisclaimer,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4),
+                ),
+                if (_engine is DownloadableSpeechEngine && !(_engine as DownloadableSpeechEngine).accelerated)
+                  Text(
+                    l.voiceModelSlow,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4),
+                  ),
+              ],
               const SizedBox(height: 8),
             ],
           ),
@@ -476,6 +627,83 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
       ),
     );
   }
+
+  /// Details for a tapped word: its status, the vowel slips with the mark
+  /// names (or what was heard for a wrong word), and the reminder that
+  /// automatic feedback is not a teacher.
+  Future<void> _showWordSheet(int index, WordMatch m, AppSettings settings) async {
+    final l = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
+    final (label, color) = switch (m.status) {
+      WordStatus.matched => (l.wordCorrect, Colors.green),
+      WordStatus.vowel => (l.wordVowelSlip, Colors.amber.shade800),
+      WordStatus.wrong => (l.wordWrong, Colors.red),
+      WordStatus.missed => (l.wordMissed, Colors.orange),
+      WordStatus.pending => (l.wordPending, scheme.onSurfaceVariant),
+    };
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(m.original,
+                  textAlign: TextAlign.center,
+                  textDirection: TextDirection.rtl,
+                  style: ArabicStyles.ayah(context, scale: settings.arabicScale * 1.1, font: settings.arabicFont)),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+                  const SizedBox(width: 6),
+                  Text(label, style: TextStyle(fontWeight: FontWeight.w600, color: color)),
+                ],
+              ),
+              if (m.status == WordStatus.vowel) ...[
+                const SizedBox(height: 12),
+                for (final v in m.vowelErrors)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Text(
+                      l.vowelSlipLine(_markLabel(l, v.heardName), v.letter, _markLabel(l, v.expectedName)),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ),
+              ],
+              if (m.heard != null && (m.status == WordStatus.wrong || m.status == WordStatus.vowel)) ...[
+                const SizedBox(height: 8),
+                Text('${l.heard}: ${m.heard}',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(fontSize: 16, color: scheme.onSurfaceVariant)),
+              ],
+              const SizedBox(height: 14),
+              Text(l.feedbackDisclaimer, textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static String _markLabel(AppLocalizations l, String name) => switch (name) {
+        'fatha' => l.markFatha,
+        'damma' => l.markDamma,
+        'kasra' => l.markKasra,
+        'sukun' => l.markSukun,
+        'shadda' => l.markShadda,
+        'fathatan' => l.markFathatan,
+        'dammatan' => l.markDammatan,
+        'kasratan' => l.markKasratan,
+        'no shadda' => l.markNoShadda,
+        _ => l.markNone,
+      };
 
   Future<void> _pickRange(Surah surah) async {
     var from = _from;
@@ -547,6 +775,7 @@ class _AyahWords extends StatelessWidget {
     required this.hintUntil,
     required this.isCurrent,
     required this.style,
+    required this.onTap,
   });
 
   final Ayah ayah;
@@ -556,6 +785,7 @@ class _AyahWords extends StatelessWidget {
   final int hintUntil;
   final bool isCurrent;
   final TextStyle style;
+  final void Function(int index, WordMatch match) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -567,8 +797,7 @@ class _AyahWords extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         for (final w in words) _wordChip(context, w.index, w.match, scheme),
-        Text(ayahEndMarker(ayah.numberInSurah),
-            style: style.copyWith(fontFamily: ArabicStyles.nameFont, color: scheme.secondary)),
+        Text(ayahEndMarker(ayah.numberInSurah), style: style.copyWith(fontFamily: ArabicStyles.nameFont, color: scheme.secondary)),
       ],
     );
   }
@@ -585,6 +814,9 @@ class _AyahWords extends StatelessWidget {
       case WordStatus.wrong:
         bg = Colors.red.withValues(alpha: 0.2);
         fg = Colors.red.shade800;
+      case WordStatus.vowel:
+        bg = Colors.amber.withValues(alpha: 0.28);
+        fg = Colors.amber.shade900;
       case WordStatus.missed:
         bg = Colors.orange.withValues(alpha: 0.2);
         fg = Colors.orange.shade900;
@@ -595,26 +827,31 @@ class _AyahWords extends StatelessWidget {
     final dark = Theme.of(context).brightness == Brightness.dark;
     if (dark && m.status == WordStatus.matched) fg = Colors.greenAccent.shade200;
     if (dark && m.status == WordStatus.wrong) fg = Colors.redAccent.shade100;
+    if (dark && m.status == WordStatus.vowel) fg = Colors.amberAccent.shade200;
     if (dark && m.status == WordStatus.missed) fg = Colors.orangeAccent.shade200;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(8),
-        border: index == cursor ? Border.all(color: scheme.primary, width: 1.2) : null,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            revealed ? m.original : '•••',
-            textDirection: TextDirection.rtl,
-            style: style.copyWith(color: revealed ? fg : scheme.onSurfaceVariant.withValues(alpha: 0.5), decoration: deco),
-          ),
-          if (m.status == WordStatus.wrong && m.heard != null)
-            Text(m.heard!, textDirection: TextDirection.rtl, style: TextStyle(fontSize: 11, color: fg)),
-        ],
+    return InkWell(
+      onTap: revealed ? () => onTap(index, m) : null,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(8),
+          border: index == cursor ? Border.all(color: scheme.primary, width: 1.2) : null,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              revealed ? m.original : '•••',
+              textDirection: TextDirection.rtl,
+              style: style.copyWith(color: revealed ? fg : scheme.onSurfaceVariant.withValues(alpha: 0.5), decoration: deco),
+            ),
+            if ((m.status == WordStatus.wrong || m.status == WordStatus.vowel) && m.heard != null)
+              Text(m.heard!, textDirection: TextDirection.rtl, style: TextStyle(fontSize: 11, color: fg)),
+          ],
+        ),
       ),
     );
   }

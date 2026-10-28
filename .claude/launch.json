@@ -4,14 +4,30 @@
     {
       "name": "quran-web",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["tool/serve.mjs", "8080"],
+      "runtimeArgs": [
+        "tool/serve.mjs",
+        "8080"
+      ],
       "port": 8080
     },
     {
       "name": "asr-prototype",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["tool/serve.mjs", "8090", "tool/asr_prototype"],
+      "runtimeArgs": [
+        "tool/serve.mjs",
+        "8090",
+        "tool/asr_prototype"
+      ],
       "port": 8090
+    },
+    {
+      "name": "quran-web-8086",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "tool/serve.mjs",
+        "8086"
+      ],
+      "port": 8086
     }
   ]
 }

@@ -841,7 +841,7 @@ abstract class AppLocalizations {
   /// No description provided for @credits.
   ///
   /// In en, this message translates to:
-  /// **'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License).'**
+  /// **'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0).'**
   String get credits;
 
   /// No description provided for @selectedOfMax.
@@ -3567,6 +3567,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Text packs are saved. Audio packs will download when you are on Wi-Fi (or tap the button above to download now).'**
   String get waitingForWifi;
+
+  /// No description provided for @recognitionEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Recognition engine'**
+  String get recognitionEngine;
+
+  /// No description provided for @engineBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Browser'**
+  String get engineBrowser;
+
+  /// No description provided for @engineBrowserDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast, letters only'**
+  String get engineBrowserDesc;
+
+  /// No description provided for @engineVoiceModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mushaf+ voice model'**
+  String get engineVoiceModel;
+
+  /// No description provided for @engineVoiceModelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'150 MB one-time download, marks vowel mistakes'**
+  String get engineVoiceModelDesc;
+
+  /// No description provided for @engineVoiceModelHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The Mushaf+ voice model downloads about 150 MB once, then runs on this device inside the browser. It checks vowel marks (harakat) as well as letters. Needs a recent Chrome, Edge or Safari.'**
+  String get engineVoiceModelHelp;
+
+  /// No description provided for @voiceModelDownloadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download the Mushaf+ voice model?'**
+  String get voiceModelDownloadTitle;
+
+  /// No description provided for @voiceModelDownloadBody.
+  ///
+  /// In en, this message translates to:
+  /// **'About {size} MB, downloaded once and kept on this device. Recognition then runs in your browser and nothing you recite leaves your device.'**
+  String voiceModelDownloadBody(int size);
+
+  /// No description provided for @voiceModelDownloading.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading the voice model… {done} of {total} MB'**
+  String voiceModelDownloading(int done, int total);
+
+  /// No description provided for @voiceModelPreparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing the voice model…'**
+  String get voiceModelPreparing;
+
+  /// No description provided for @voiceModelFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The voice model could not be loaded.'**
+  String get voiceModelFailed;
+
+  /// No description provided for @voiceModelSlow.
+  ///
+  /// In en, this message translates to:
+  /// **'No graphics acceleration in this browser: results may lag by several seconds.'**
+  String get voiceModelSlow;
+
+  /// No description provided for @usingBrowserEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Using the browser engine for now.'**
+  String get usingBrowserEngine;
+
+  /// No description provided for @vowelSlips.
+  ///
+  /// In en, this message translates to:
+  /// **'vowel slips'**
+  String get vowelSlips;
+
+  /// No description provided for @letterErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'letter errors'**
+  String get letterErrors;
+
+  /// No description provided for @reciteSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{correct} correct · {vowel} vowel slips · {letter} letter errors'**
+  String reciteSummary(int correct, int vowel, int letter);
+
+  /// No description provided for @feedbackDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic feedback can be wrong; it does not replace a teacher.'**
+  String get feedbackDisclaimer;
+
+  /// No description provided for @vowelSlipLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Heard {heard} on {letter}, expected {expected}'**
+  String vowelSlipLine(String heard, String letter, String expected);
+
+  /// No description provided for @wordCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get wordCorrect;
+
+  /// No description provided for @wordVowelSlip.
+  ///
+  /// In en, this message translates to:
+  /// **'Vowel slip'**
+  String get wordVowelSlip;
+
+  /// No description provided for @wordWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong word'**
+  String get wordWrong;
+
+  /// No description provided for @wordMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get wordMissed;
+
+  /// No description provided for @wordPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Not reached yet'**
+  String get wordPending;
+
+  /// No description provided for @markFatha.
+  ///
+  /// In en, this message translates to:
+  /// **'fatha'**
+  String get markFatha;
+
+  /// No description provided for @markDamma.
+  ///
+  /// In en, this message translates to:
+  /// **'damma'**
+  String get markDamma;
+
+  /// No description provided for @markKasra.
+  ///
+  /// In en, this message translates to:
+  /// **'kasra'**
+  String get markKasra;
+
+  /// No description provided for @markSukun.
+  ///
+  /// In en, this message translates to:
+  /// **'sukun'**
+  String get markSukun;
+
+  /// No description provided for @markShadda.
+  ///
+  /// In en, this message translates to:
+  /// **'shadda'**
+  String get markShadda;
+
+  /// No description provided for @markFathatan.
+  ///
+  /// In en, this message translates to:
+  /// **'fathatan'**
+  String get markFathatan;
+
+  /// No description provided for @markDammatan.
+  ///
+  /// In en, this message translates to:
+  /// **'dammatan'**
+  String get markDammatan;
+
+  /// No description provided for @markKasratan.
+  ///
+  /// In en, this message translates to:
+  /// **'kasratan'**
+  String get markKasratan;
+
+  /// No description provided for @markNone.
+  ///
+  /// In en, this message translates to:
+  /// **'no mark'**
+  String get markNone;
+
+  /// No description provided for @markNoShadda.
+  ///
+  /// In en, this message translates to:
+  /// **'no shadda'**
+  String get markNoShadda;
+
+  /// No description provided for @voiceModelHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The Mushaf+ voice model also checks vowel marks (harakat): a vowel slip shows in amber. Tap any word for details.'**
+  String get voiceModelHelp;
 }
 
 class _AppLocalizationsDelegate
