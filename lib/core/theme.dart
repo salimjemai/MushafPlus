@@ -111,6 +111,10 @@ class ArabicStyles {
   static const quranFont = 'AmiriQuran';
   static const nameFont = 'Amiri';
 
+  /// The Madani Mushaf script (DigitalKhatt Madina, OFL) used by the
+  /// line-by-line Mushaf pages.
+  static const mushafFont = 'DigitalKhatt';
+
   static TextStyle ayah(BuildContext context, {double scale = 1, String font = quranFont}) {
     return TextStyle(
       fontFamily: font,

@@ -10,6 +10,7 @@ import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/fullscreen.dart';
 import '../../data/models.dart';
+import '../../data/mushaf_pages.dart';
 import '../../data/quran_repository.dart';
 import '../../state/audio_controller.dart';
 import '../../state/providers.dart';
@@ -22,6 +23,7 @@ import '../reader/mushaf_view.dart';
 import '../reader/reader_settings_sheet.dart';
 import '../reader/tajweed_guide.dart';
 import '../reader/verse_panel.dart';
+import 'mushaf_page_lines.dart';
 
 /// The Quran as a printed book: 604 pages in a vertical scroll, a one-page
 /// flip, or a two-page spread you flip like a real Mushaf.
@@ -660,13 +662,28 @@ class MushafPage extends ConsumerWidget {
             .copyWith(fontSize: 27, height: 1.95, color: ink)
         : null;
 
+    // The line-by-line layout of the printed Mushaf; the flowing text below
+    // is the fallback for a page the layout asset does not cover.
+    final pagesAsync = ref.watch(mushafPagesProvider);
+    final layout = pagesAsync.asData?.value.page(page);
+    final lines = layout == null
+        ? null
+        : MushafPageLines(
+            key: ValueKey('ml$page'),
+            layout: layout,
+            ink: ink,
+            frame: frame,
+            onAyahTap: onAyahTap,
+            onWordTap: onWordTap,
+          );
+
     final body = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final g in groups) ...[
           if (g.first.numberInSurah == 1)
-            _Banner(surah: repo.surah(g.first.surah), frame: frame, ink: ink),
+            SurahBanner(surah: repo.surah(g.first.surah), frame: frame, ink: ink, showBasmala: true),
           _InkTheme(
             ink: ink,
             child: MushafText(
@@ -721,9 +738,21 @@ class MushafPage extends ConsumerWidget {
                   ],
                 ),
                 Divider(color: frame.withValues(alpha: 0.5), height: 14),
-                if (fitToPage && opening)
+                if (lines != null && opening)
                   // Opening pages hold a small centred block of text inside
                   // the big frame, as in the printed Mushaf.
+                  (fitToPage
+                      ? Expanded(
+                          child: Center(
+                            child: FractionallySizedBox(widthFactor: 0.84, heightFactor: 0.8, child: lines),
+                          ),
+                        )
+                      : Center(child: FractionallySizedBox(widthFactor: 0.84, child: lines)))
+                else if (lines != null)
+                  (fitToPage ? Expanded(child: lines) : lines)
+                else if (pagesAsync.isLoading)
+                  (fitToPage ? const Expanded(child: SizedBox()) : const SizedBox(height: 240))
+                else if (fitToPage && opening)
                   Expanded(
                     child: Center(
                       child: FittedBox(
@@ -776,65 +805,6 @@ class _InkTheme extends StatelessWidget {
   }
 }
 
-class _Banner extends StatelessWidget {
-  const _Banner({required this.surah, required this.frame, required this.ink});
-  final Surah surah;
-  final Color frame;
-  final Color ink;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Column(
-        children: [
-          Container(
-            height: 54,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF0E5C47), Color(0xFF177A5E), Color(0xFF0E5C47)],
-              ),
-              border: Border.symmetric(horizontal: BorderSide(color: frame, width: 1.4)),
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned.fill(child: CustomPaint(painter: _BandPatternPainter(color: frame.withValues(alpha: 0.35)))),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFDF6E3),
-                    borderRadius: BorderRadius.circular(22),
-                    border: Border.all(color: AppColors.gold, width: 1.4),
-                    boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 1))],
-                  ),
-                  child: Text(surah.name,
-                      style: const TextStyle(
-                          fontFamily: ArabicStyles.nameFont,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF0E5C47))),
-                ),
-              ],
-            ),
-          ),
-          if (surah.hasBismillahHeader)
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Text(bismillah,
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(
-                      fontFamily: ArabicStyles.quranFont,
-                      fontSize: 24,
-                      height: 1.8,
-                      color: ink)),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
 /// Translucent exit button shown in full-screen reading.
 class _ImmersiveExit extends StatelessWidget {
   const _ImmersiveExit({required this.onTap, required this.label});
@@ -883,31 +853,6 @@ class _ImmersivePager extends StatelessWidget {
 }
 
 /// Interlaced geometric lattice drawn over the surah band.
-class _BandPatternPainter extends CustomPainter {
-  const _BandPatternPainter({required this.color});
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final p = Paint()
-      ..color = color
-      ..strokeWidth = 0.9
-      ..style = PaintingStyle.stroke;
-    const step = 16.0;
-    for (var x = -size.height; x < size.width + size.height; x += step) {
-      canvas.drawLine(Offset(x, 0), Offset(x + size.height, size.height), p);
-      canvas.drawLine(Offset(x + size.height, 0), Offset(x, size.height), p);
-    }
-    final dot = Paint()..color = color;
-    for (var x = step / 2; x < size.width; x += step) {
-      canvas.drawCircle(Offset(x, size.height / 2), 1.3, dot);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _BandPatternPainter old) => old.color != color;
-}
-
 class _PageBar extends StatelessWidget {
   const _PageBar(
       {required this.page, required this.onChanged, required this.onGoTo});
