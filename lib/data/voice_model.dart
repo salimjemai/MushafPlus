@@ -46,13 +46,14 @@ class VoiceModelPack {
 }
 
 /// The pack the apps download. Sizes are those of the `voice-model-v1`
-/// release assets (see the workflow's run summary).
+/// release assets (its manifest.json; about 108 MB in all). The lighter
+/// `tiny` export (64 MB) is in the same release: change [variant] to use it.
 const voiceModelPack = VoiceModelPack(
   variant: 'base',
   releaseTag: 'voice-model-v1',
   files: [
-    VoiceModelFile('whisper-base-ar-quran-encoder.int8.onnx', 21 * 1000 * 1000),
-    VoiceModelFile('whisper-base-ar-quran-decoder.int8.onnx', 62 * 1000 * 1000),
-    VoiceModelFile('whisper-base-ar-quran-tokens.txt', 800 * 1000),
+    VoiceModelFile('whisper-base-ar-quran-encoder.int8.onnx', 29104823),
+    VoiceModelFile('whisper-base-ar-quran-decoder.int8.onnx', 77759042),
+    VoiceModelFile('whisper-base-ar-quran-tokens.txt', 816730),
   ],
 );

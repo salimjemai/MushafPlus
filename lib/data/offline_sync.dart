@@ -134,7 +134,7 @@ class OfflineSync extends Notifier<OfflineSyncState> {
   }
 
   /// The on-device voice model of the recitation checker (Android, iOS):
-  /// a few files, about 85 MB, fetched only once the user has chosen that
+  /// a few files, about 108 MB, fetched only once the user has chosen that
   /// engine (or from the packs screen). Kept apart from the audio cache.
   Future<List<OfflineTask>> voiceModelTasks() async {
     if (!voiceModelAvailable || !Downloads.supportsCache) return const [];
