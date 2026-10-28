@@ -2,17 +2,21 @@ import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
+import 'device_form.dart';
 import 'speech_engine.dart';
 import 'speech_engine_sherpa.dart';
 
-/// The platform recogniser, or, on Android and iOS when asked, the on-device
-/// Mushaf+ voice model (sherpa-onnx).
+/// The platform recogniser, or, on Android and iOS phones and tablets when
+/// asked, the on-device Mushaf+ voice model (sherpa-onnx).
 SpeechEngine createSpeechEngine({bool voiceModel = false}) =>
-    voiceModel && SherpaSpeechEngine.supported ? SherpaSpeechEngine() : _PluginSpeechEngine();
+    voiceModel && voiceModelAvailable ? SherpaSpeechEngine() : _PluginSpeechEngine();
 
 bool voiceModelCrashedLastTime() => false;
 
-bool get voiceModelAvailable => SherpaSpeechEngine.supported;
+/// The native engine exists on Android and iOS, but never on a watch: the
+/// Wear OS build leaves the sherpa-onnx libraries out of its APK (see
+/// android/app/build.gradle.kts), so opening them there would fail.
+bool get voiceModelAvailable => SherpaSpeechEngine.supported && !DeviceForm.current.watch;
 
 /// Android, iOS, macOS and Windows via the speech_to_text plugin.
 class _PluginSpeechEngine implements SpeechEngine {

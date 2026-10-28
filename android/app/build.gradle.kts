@@ -76,6 +76,23 @@ android {
     }
 }
 
+// The on-device voice model ("Recite & check" on phones and tablets, package
+// sherpa_onnx) brings three native libraries per ABI, about 27 MB on arm64:
+// sherpa_onnx_android_<abi>/android/src/main/jniLibs/<abi>/. The watch
+// interface never opens that engine (lib/data/speech_engine_native.dart
+// refuses it on a watch), so the wear APK and App Bundle leave them out.
+androidComponents {
+    onVariants { variant ->
+        if (variant.flavorName == "wear") {
+            variant.packaging.jniLibs.excludes.addAll(
+                "**/libsherpa-onnx-c-api.so",
+                "**/libsherpa-onnx-cxx-api.so",
+                "**/libonnxruntime.so",
+            )
+        }
+    }
+}
+
 kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
