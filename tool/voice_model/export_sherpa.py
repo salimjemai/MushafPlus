@@ -46,6 +46,19 @@ def main() -> None:
     with disable_sdpa():
         mod.main()
 
+    # The upstream int8 pass quantises MatMul weights only, which leaves the
+    # token embedding table (n_vocab x n_text_state, 80 to 106 MB in fp32) as
+    # most of the decoder file. Quantise the Gather that reads it too (ONNX
+    # Runtime dequantises on the fly), which cuts the decoder to a third.
+    from onnxruntime.quantization import QuantType, quantize_dynamic
+
+    quantize_dynamic(
+        model_input=f"{a.name}-decoder.onnx",
+        model_output=f"{a.name}-decoder.int8.onnx",
+        op_types_to_quantize=["MatMul", "Gather"],
+        weight_type=QuantType.QInt8,
+    )
+
 
 if __name__ == "__main__":
     main()
