@@ -2205,4 +2205,32 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get voiceModelCrashed =>
       'نفدت ذاكرة هذا الجهاز أثناء تشغيل نموذج Mushaf+ الصوتي في المرة الماضية، لذا يُستخدم محرك المتصفح الآن. يمكنك تجربة النموذج الصوتي مجددًا من الإعدادات ← تسميع وتصحيح.';
+
+  @override
+  String get engineDevice => 'متعرّف الهاتف';
+
+  @override
+  String engineVoiceModelDescApp(int size) {
+    return 'تنزيل لمرة واحدة بحجم $size م.ب، يرصد أخطاء الحركات';
+  }
+
+  @override
+  String engineVoiceModelHelpApp(int size) {
+    return 'ينزّل نموذج مصحف+ الصوتي نحو $size م.ب مرة واحدة ثم يعمل على هذا الجهاز: لا يغادر صوتك جهازك. يتحقق من الحركات إضافة إلى الحروف، ويجيب بعد لحظة من كل وقفة.';
+  }
+
+  @override
+  String voiceModelDownloadBodyApp(int size) {
+    return 'نحو $size م.ب تُنزَّل مرة واحدة وتُحفظ داخل التطبيق. بعدها يعمل التعرف على هذا الجهاز ولا يغادر صوتك جهازك.';
+  }
+
+  @override
+  String get voiceModelSlowDevice =>
+      'هذا الجهاز بطيء مع النموذج الصوتي: قد تتأخر النتائج عدة ثوانٍ.';
+
+  @override
+  String get usingDeviceEngine => 'يُستخدم متعرّف الهاتف الآن.';
+
+  @override
+  String get voiceModelPack => 'نموذج مصحف+ الصوتي';
 }

@@ -1479,5 +1479,33 @@
       }
     }
   },
-  "voiceModelCrashed": "The Mushaf+ voice model ran out of memory on this device last time, so the browser recogniser is being used instead. You can try the voice model again from Settings → Recite & check."
+  "voiceModelCrashed": "The Mushaf+ voice model ran out of memory on this device last time, so the browser recogniser is being used instead. You can try the voice model again from Settings → Recite & check.",
+  "engineDevice": "Phone's recogniser",
+  "engineVoiceModelDescApp": "{size} MB one-time download, marks vowel mistakes",
+  "@engineVoiceModelDescApp": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "engineVoiceModelHelpApp": "The Mushaf+ voice model downloads about {size} MB once, then runs on this device: nothing you recite leaves it. It checks vowel marks (harakat) as well as letters, and answers a moment after each pause.",
+  "@engineVoiceModelHelpApp": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceModelDownloadBodyApp": "About {size} MB, downloaded once and kept in the app. Recognition then runs on this device and nothing you recite leaves it.",
+  "@voiceModelDownloadBodyApp": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceModelSlowDevice": "This device is slow for the voice model: results may lag by several seconds.",
+  "usingDeviceEngine": "Using the phone's recogniser for now.",
+  "voiceModelPack": "Mushaf+ voice model"
 }

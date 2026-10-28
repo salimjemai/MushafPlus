@@ -13,3 +13,6 @@ Future<int> cachedCount(String reciterId, int surah) async => 0;
 Future<int> clearAudioCache() async => 0;
 Future<String?> cachedFile(String folder, String name) async => null;
 Future<String> cacheFile(String folder, String name, String url) => throw UnsupportedError('no cache');
+Future<String?> cachedModelPath(String folder, String name) async => null;
+Future<String> cacheModel(String folder, String name, String url, {void Function(int received, int total)? onProgress}) =>
+    throw UnsupportedError('no model store');

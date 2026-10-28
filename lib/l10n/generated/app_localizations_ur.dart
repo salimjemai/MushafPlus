@@ -2207,4 +2207,33 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get voiceModelCrashed =>
       'پچھلی بار اس آلے پر Mushaf+ وائس ماڈل کی میموری ختم ہو گئی تھی، اس لیے اب براؤزر کا انجن استعمال ہو رہا ہے۔ آپ ترتیبات ← تلاوت اور جانچ سے وائس ماڈل دوبارہ آزما سکتے ہیں۔';
+
+  @override
+  String get engineDevice => 'فون کا شناخت کنندہ';
+
+  @override
+  String engineVoiceModelDescApp(int size) {
+    return '$size ایم بی کا ایک بار ڈاؤن لوڈ، حرکات کی غلطیاں نشان زد کرتا ہے';
+  }
+
+  @override
+  String engineVoiceModelHelpApp(int size) {
+    return 'مصحف+ وائس ماڈل تقریباً $size ایم بی ایک بار ڈاؤن لوڈ کرتا ہے، پھر اسی آلے پر چلتا ہے: آپ کی تلاوت آلے سے باہر نہیں جاتی۔ یہ حروف کے ساتھ حرکات کی بھی جانچ کرتا ہے اور ہر وقفے کے بعد ایک لمحے میں جواب دیتا ہے۔';
+  }
+
+  @override
+  String voiceModelDownloadBodyApp(int size) {
+    return 'تقریباً $size ایم بی، ایک بار ڈاؤن لوڈ ہو کر ایپ میں محفوظ رہتا ہے۔ اس کے بعد شناخت اسی آلے پر ہوتی ہے اور آپ کی تلاوت آلے سے باہر نہیں جاتی۔';
+  }
+
+  @override
+  String get voiceModelSlowDevice =>
+      'یہ آلہ وائس ماڈل کے لیے سست ہے: نتائج کئی سیکنڈ تاخیر سے آ سکتے ہیں۔';
+
+  @override
+  String get usingDeviceEngine =>
+      'فی الحال فون کا شناخت کنندہ استعمال ہو رہا ہے۔';
+
+  @override
+  String get voiceModelPack => 'مصحف+ وائس ماڈل';
 }

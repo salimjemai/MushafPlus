@@ -7,11 +7,13 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/arabic_utils.dart';
 import '../../data/countries.dart';
 import '../../data/region.dart';
+import '../../data/speech_engine.dart';
 import '../../widgets/region_chip.dart';
 import '../../data/masjid_share.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/storage.dart';
+import '../../data/voice_model.dart';
 import '../../state/providers.dart';
 import '../../widgets/mini_player.dart';
 
@@ -150,21 +152,21 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              if (kIsWeb)
+              if (voiceModelAvailable)
                 _Section(
                   title: l.reciteAndCheck,
                   children: [
                     ListTile(
                       leading: const Icon(Icons.graphic_eq),
                       title: Text(l.recognitionEngine),
-                      subtitle: Text(s.useVoiceModel ? l.engineVoiceModel : l.engineBrowser),
+                      subtitle: Text(s.useVoiceModel ? l.engineVoiceModel : (kIsWeb ? l.engineBrowser : l.engineDevice)),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => showRecognitionEngineDialog(context, ref),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                       child: Text(
-                        l.engineVoiceModelHelp,
+                        kIsWeb ? l.engineVoiceModelHelp : l.engineVoiceModelHelpApp((voiceModelPack.totalBytes / 1e6).round()),
                         style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4),
                       ),
                     ),
@@ -389,9 +391,11 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-/// Lets the user pick the recite & check engine: the browser's own
-/// recogniser (fast, letters only) or the on-device Mushaf+ voice model
-/// (one-time download, vowel marks too). Returns true when the choice changed.
+/// Lets the user pick the recite & check engine: the browser's or the
+/// phone's own recogniser (fast, letters only) or the on-device Mushaf+ voice
+/// model (one-time download, vowel marks too). The stored id of the platform
+/// recogniser is 'browser' on every platform. Returns true when the choice
+/// changed.
 Future<bool> showRecognitionEngineDialog(BuildContext context, WidgetRef ref) async {
   final l = context.l10n;
   final current = ref.read(settingsProvider).recognitionEngine;
@@ -408,13 +412,13 @@ Future<bool> showRecognitionEngineDialog(BuildContext context, WidgetRef ref) as
             children: [
               RadioListTile<String>(
                 value: 'browser',
-                title: Text(l.engineBrowser),
+                title: Text(kIsWeb ? l.engineBrowser : l.engineDevice),
                 subtitle: Text(l.engineBrowserDesc),
               ),
               RadioListTile<String>(
                 value: 'voice',
                 title: Text(l.engineVoiceModel),
-                subtitle: Text(l.engineVoiceModelDesc),
+                subtitle: Text(kIsWeb ? l.engineVoiceModelDesc : l.engineVoiceModelDescApp((voiceModelPack.totalBytes / 1e6).round())),
               ),
             ],
           ),

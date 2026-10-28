@@ -2217,4 +2217,33 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get voiceModelCrashed =>
       'Terakhir kali model suara Mushaf+ kehabisan memori di perangkat ini, jadi pengenal suara peramban yang dipakai. Anda bisa mencoba model suara lagi dari Pengaturan → Baca & periksa.';
+
+  @override
+  String get engineDevice => 'Pengenal suara ponsel';
+
+  @override
+  String engineVoiceModelDescApp(int size) {
+    return 'Unduhan sekali $size MB, menandai kesalahan harakat';
+  }
+
+  @override
+  String engineVoiceModelHelpApp(int size) {
+    return 'Model suara Mushaf+ mengunduh sekitar $size MB sekali, lalu berjalan di perangkat ini: bacaan Anda tidak meninggalkan perangkat. Memeriksa harakat selain huruf, dan menjawab sesaat setelah setiap jeda.';
+  }
+
+  @override
+  String voiceModelDownloadBodyApp(int size) {
+    return 'Sekitar $size MB, diunduh sekali dan disimpan di dalam aplikasi. Pengenalan kemudian berjalan di perangkat ini; bacaan Anda tidak meninggalkan perangkat.';
+  }
+
+  @override
+  String get voiceModelSlowDevice =>
+      'Perangkat ini lambat untuk model suara: hasil bisa tertunda beberapa detik.';
+
+  @override
+  String get usingDeviceEngine =>
+      'Pengenal suara ponsel dipakai untuk saat ini.';
+
+  @override
+  String get voiceModelPack => 'Model suara Mushaf+';
 }

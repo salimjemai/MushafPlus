@@ -11,6 +11,8 @@ SpeechEngine createSpeechEngine({bool voiceModel = false}) =>
 
 bool voiceModelCrashedLastTime() => WhisperWebSpeechEngine.consumeCrashFlag();
 
+bool get voiceModelAvailable => WhisperWebSpeechEngine.supported;
+
 /// Direct Web Speech API client.
 ///
 /// Chrome and Edge deliver interim and final results in one long continuous

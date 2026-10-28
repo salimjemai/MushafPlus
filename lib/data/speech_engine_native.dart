@@ -3,10 +3,16 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import 'speech_engine.dart';
+import 'speech_engine_sherpa.dart';
 
-SpeechEngine createSpeechEngine({bool voiceModel = false}) => _PluginSpeechEngine();
+/// The platform recogniser, or, on Android and iOS when asked, the on-device
+/// Mushaf+ voice model (sherpa-onnx).
+SpeechEngine createSpeechEngine({bool voiceModel = false}) =>
+    voiceModel && SherpaSpeechEngine.supported ? SherpaSpeechEngine() : _PluginSpeechEngine();
 
 bool voiceModelCrashedLastTime() => false;
+
+bool get voiceModelAvailable => SherpaSpeechEngine.supported;
 
 /// Android, iOS, macOS and Windows via the speech_to_text plugin.
 class _PluginSpeechEngine implements SpeechEngine {

@@ -297,7 +297,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(l.voiceModelDownloadTitle),
-          content: Text(l.voiceModelDownloadBody(mb)),
+          content: Text(kIsWeb ? l.voiceModelDownloadBody(mb) : l.voiceModelDownloadBodyApp(mb)),
           actions: [
             TextButton(onPressed: () => Navigator.pop(context, false), child: Text(l.cancel)),
             FilledButton(onPressed: () => Navigator.pop(context, true), child: Text(l.download)),
@@ -312,7 +312,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
           _engine = createSpeechEngine(voiceModel: false);
           _initialised = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.usingBrowserEngine)));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(kIsWeb ? l.usingBrowserEngine : l.usingDeviceEngine)));
         return _init();
       }
     }
@@ -356,7 +356,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                     LinearProgressIndicator(value: downloading ? (p.loaded / p.total).clamp(0, 1).toDouble() : null),
                     if (!engine.accelerated) ...[
                       const SizedBox(height: 12),
-                      Text(l.voiceModelSlow, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                      Text(kIsWeb ? l.voiceModelSlow : l.voiceModelSlowDevice, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
                     ],
                   ],
                 );
@@ -402,7 +402,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
     final scheme = Theme.of(context).colorScheme;
     final r = _result!;
     final cursorAyah = r.nextIndex < _wordAyah.length ? _wordAyah[r.nextIndex] : _ayahs.length - 1;
-    if (kIsWeb && settings.useVoiceModel != _voiceModel) {
+    if (voiceModelAvailable && settings.useVoiceModel != _voiceModel) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _useEngine(settings.useVoiceModel);
       });
@@ -424,7 +424,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
           ],
         ),
         actions: [
-          if (kIsWeb)
+          if (voiceModelAvailable)
             IconButton(
               tooltip: l.recognitionEngine,
               icon: Icon(voice ? Icons.graphic_eq : Icons.record_voice_over_outlined),
@@ -611,7 +611,7 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                 ),
                 if (_engine is DownloadableSpeechEngine && !(_engine as DownloadableSpeechEngine).accelerated)
                   Text(
-                    l.voiceModelSlow,
+                    kIsWeb ? l.voiceModelSlow : l.voiceModelSlowDevice,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4),
                   ),

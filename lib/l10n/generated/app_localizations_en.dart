@@ -2218,4 +2218,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get voiceModelCrashed =>
       'The Mushaf+ voice model ran out of memory on this device last time, so the browser recogniser is being used instead. You can try the voice model again from Settings → Recite & check.';
+
+  @override
+  String get engineDevice => 'Phone\'s recogniser';
+
+  @override
+  String engineVoiceModelDescApp(int size) {
+    return '$size MB one-time download, marks vowel mistakes';
+  }
+
+  @override
+  String engineVoiceModelHelpApp(int size) {
+    return 'The Mushaf+ voice model downloads about $size MB once, then runs on this device: nothing you recite leaves it. It checks vowel marks (harakat) as well as letters, and answers a moment after each pause.';
+  }
+
+  @override
+  String voiceModelDownloadBodyApp(int size) {
+    return 'About $size MB, downloaded once and kept in the app. Recognition then runs on this device and nothing you recite leaves it.';
+  }
+
+  @override
+  String get voiceModelSlowDevice =>
+      'This device is slow for the voice model: results may lag by several seconds.';
+
+  @override
+  String get usingDeviceEngine => 'Using the phone\'s recogniser for now.';
+
+  @override
+  String get voiceModelPack => 'Mushaf+ voice model';
 }
