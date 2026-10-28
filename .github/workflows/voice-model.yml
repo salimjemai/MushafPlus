@@ -1,0 +1,135 @@
+name: Voice model (export to sherpa-onnx)
+
+# Exports Tarteel AI's Quran Whisper fine-tunes (Apache-2.0) to the ONNX files
+# sherpa-onnx loads, quantises them to int8, checks that the int8 model
+# transcribes a real recitation with vowel marks, and publishes the files as
+# assets of a GitHub Release. The installed apps download them from there on
+# first use (lib/data/voice_model.dart); nothing large is committed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to publish the model files under
+        default: voice-model-v1
+        required: true
+      sherpa_ref:
+        description: sherpa-onnx git ref whose scripts/whisper/export-onnx.py is used
+        default: v2.0.1
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    name: Export ${{ matrix.model }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        model: [whisper-base-ar-quran, whisper-tiny-ar-quran]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install the export toolchain
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python3 -m pip install openai-whisper onnx onnxruntime kaldi-native-fbank numpy
+          python3 -c "import torch, whisper, onnx, onnxruntime; print(torch.__version__, onnx.__version__, onnxruntime.__version__)"
+      - name: Fetch sherpa-onnx's export and test scripts (${{ inputs.sherpa_ref }})
+        run: |
+          mkdir -p sherpa
+          curl -fsSL -o sherpa/export-onnx.py "https://raw.githubusercontent.com/k2-fsa/sherpa-onnx/${{ inputs.sherpa_ref }}/scripts/whisper/export-onnx.py"
+          curl -fsSL -o sherpa/test.py "https://raw.githubusercontent.com/k2-fsa/sherpa-onnx/${{ inputs.sherpa_ref }}/scripts/whisper/test.py"
+          curl -fsSL -o sherpa/LICENSE "https://raw.githubusercontent.com/k2-fsa/sherpa-onnx/${{ inputs.sherpa_ref }}/LICENSE"
+      - name: Download the fine-tune from Hugging Face
+        run: |
+          mkdir -p hf
+          curl -fsSL -o hf/config.json "https://huggingface.co/tarteel-ai/${{ matrix.model }}/resolve/main/config.json"
+          curl -fsSL -o hf/pytorch_model.bin "https://huggingface.co/tarteel-ai/${{ matrix.model }}/resolve/main/pytorch_model.bin"
+          curl -fsSL -o hf/README.md "https://huggingface.co/tarteel-ai/${{ matrix.model }}/resolve/main/README.md"
+          ls -l hf
+      - name: Convert to the openai-whisper checkpoint layout
+        run: python3 tool/voice_model/hf_to_openai.py --config hf/config.json --weights hf/pytorch_model.bin --out model.pt
+      - name: Export to ONNX and quantise to int8
+        run: |
+          mkdir -p out && cd out
+          python3 ../tool/voice_model/export_sherpa.py --script ../sherpa/export-onnx.py --checkpoint ../model.pt --name "${{ matrix.model }}"
+          ls -l
+      - name: Check the int8 model on a real recitation (Al-Fatiha 1, Alafasy, from everyayah.com)
+        run: |
+          curl -fsSL -o fatiha.mp3 https://everyayah.com/data/Alafasy_128kbps/001001.mp3
+          ffmpeg -loglevel error -y -i fatiha.mp3 -ac 1 -ar 16000 -sample_fmt s16 fatiha.wav
+          cd out
+          python3 ../sherpa/test.py \
+            --encoder "${{ matrix.model }}-encoder.int8.onnx" \
+            --decoder "${{ matrix.model }}-decoder.int8.onnx" \
+            --tokens "${{ matrix.model }}-tokens.txt" \
+            --language ar --task transcribe ../fatiha.wav | tee ../transcript.txt
+          python3 - <<'EOF'
+          import re, unicodedata
+          text = open("../transcript.txt", encoding="utf-8").read()
+          arabic = [l for l in text.splitlines() if re.search(r"[؀-ۿ]", l)]
+          assert arabic, "no Arabic in the transcript:\n" + text
+          last = arabic[-1]
+          marks = sum(1 for ch in last if "ً" <= ch <= "ْ")
+          bare = "".join(ch for ch in last if not ("ً" <= ch <= "ْ" or ch == "ٰ"))
+          print("transcript:", last)
+          print("vowel marks:", marks)
+          assert marks >= 5, "the model returned no vowel marks"
+          assert "بسم" in bare.replace("ٱ", "ا") and "الرحيم" in bare.replace("ٱ", "ا"), "unexpected words"
+          EOF
+      - name: Package
+        run: |
+          cd out
+          rm -f "${{ matrix.model }}-encoder.onnx" "${{ matrix.model }}-decoder.onnx"
+          python3 - <<'EOF'
+          import hashlib, json, os
+          files = sorted(f for f in os.listdir(".") if f.endswith((".onnx", ".txt")))
+          manifest = [{"file": f, "bytes": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()} for f in files]
+          json.dump(manifest, open("${{ matrix.model }}-manifest.json", "w"), indent=2)
+          print(json.dumps(manifest, indent=2))
+          EOF
+          cp ../hf/README.md "${{ matrix.model }}-MODEL_CARD.md"
+          echo "## ${{ matrix.model }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          cat "${{ matrix.model }}-manifest.json" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "Transcript of Al-Fatiha 1 (int8): $(tail -n 1 ../transcript.txt)" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.model }}
+          path: out/
+          if-no-files-found: error
+
+  release:
+    name: Publish release ${{ inputs.tag }}
+    runs-on: ubuntu-latest
+    needs: export
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: assets
+          merge-multiple: true
+      - name: Licence files
+        run: |
+          curl -fsSL -o assets/LICENSE https://www.apache.org/licenses/LICENSE-2.0.txt
+          cp tool/voice_model/NOTICE assets/NOTICE
+          ls -l assets
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
+          name: Mushaf+ voice model ${{ inputs.tag }}
+          target_commitish: ${{ github.sha }}
+          body: |
+            On-device recitation models for the installed Mushaf+ apps (Android, iOS): Tarteel AI's
+            `whisper-base-ar-quran` and `whisper-tiny-ar-quran` (Apache-2.0), exported to the sherpa-onnx
+            layout and quantised to int8 by the "Voice model" workflow. The app downloads the files it
+            needs from here on first use; see NOTICE and LICENSE for the terms.
+          files: assets/*
+          fail_on_unmatched_files: true

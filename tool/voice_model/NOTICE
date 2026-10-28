@@ -1,0 +1,23 @@
+Mushaf+ voice model files
+=========================
+
+These files are the Quran recitation models of Tarteel AI, converted to the
+ONNX layout that sherpa-onnx loads, so that the installed Mushaf+ apps can
+recognise a recitation on the device. Only the file layout was changed; the
+weights are the original fine-tuned weights.
+
+whisper-base-ar-quran-*   from https://huggingface.co/tarteel-ai/whisper-base-ar-quran
+whisper-tiny-ar-quran-*   from https://huggingface.co/tarteel-ai/whisper-tiny-ar-quran
+
+  Copyright Tarteel AI. Licensed under the Apache License, Version 2.0 (see
+  LICENSE). Fine-tuned from OpenAI Whisper (Copyright OpenAI, MIT License),
+  whose tokenizer vocabulary the *-tokens.txt file reproduces.
+
+Conversion: tool/voice_model/hf_to_openai.py and export_sherpa.py in
+https://github.com/salimjemai/MushafPlus, using scripts/whisper/export-onnx.py
+from https://github.com/k2-fsa/sherpa-onnx (Copyright Xiaomi Corporation,
+Apache License 2.0) and the dynamic int8 quantiser of ONNX Runtime
+(Copyright Microsoft Corporation, MIT License).
+
+The model files are distributed under the Apache License, Version 2.0. You
+may redistribute them, with this NOTICE and the LICENSE file.
