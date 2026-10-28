@@ -43,6 +43,7 @@ class SherpaSpeechEngine implements DownloadableSpeechEngine {
   int _lastMs = 0; // duration of the last recognition pass
   Future<void>? _loading;
   String? _loadError;
+  bool _releaseAfterLoad = false; // the screen went away while loading
   _Session? _session;
 
   /// Where the native engine exists: the phone and tablet apps.
@@ -145,7 +146,13 @@ class SherpaSpeechEngine implements DownloadableSpeechEngine {
     final running = _loading;
     if (running != null) return running;
     _loadError = null;
-    return _loading = _prepare(onProgress).whenComplete(() => _loading = null);
+    return _loading = _prepare(onProgress).whenComplete(() {
+      _loading = null;
+      if (_releaseAfterLoad) {
+        _releaseAfterLoad = false;
+        release();
+      }
+    });
   }
 
   Future<void> _prepare(void Function(ModelLoadProgress p)? onProgress) async {
@@ -229,7 +236,11 @@ class SherpaSpeechEngine implements DownloadableSpeechEngine {
   /// files on the device (a second or two).
   @override
   void release() {
-    if (_session != null || _loading != null) return;
+    if (_session != null) return;
+    if (_loading != null) {
+      _releaseAfterLoad = true; // freed as soon as the load completes
+      return;
+    }
     _worker?.close();
     _worker = null;
     _loaded = false;
