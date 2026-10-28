@@ -8,6 +8,14 @@ a module and points its `load_model` at our checkpoint; everything else (the
 encoder/decoder graph, the metadata sherpa-onnx reads, the tokens file and the
 int8 quantisation) is the upstream code, unmodified.
 
+One addition: the upstream int8 pass quantises MatMul weights only and leaves
+the token embedding table (n_vocab x n_text_state, 80 to 106 MB in fp32) as
+most of the decoder file, because ONNX Runtime's dynamic quantiser does not
+touch the Gather that reads it. `shrink_embedding` stores that table as
+per-row int8 (scale per token, like per-channel weight quantisation) and
+reads it back with Gather -> Cast -> Mul, which are plain ONNX ops; the int8
+decoder is then produced from that graph.
+
 Usage: python3 export_sherpa.py --script export-onnx.py --checkpoint model.pt --name whisper-base-ar-quran
 
 Writes, in the current directory: {name}-encoder.onnx, {name}-decoder.onnx,
@@ -16,10 +24,66 @@ Writes, in the current directory: {name}-encoder.onnx, {name}-decoder.onnx,
 
 import argparse
 import importlib.util
+import os
 import sys
 
+import numpy as np
+import onnx
 import torch
 import whisper
+from onnx import helper, numpy_helper
+from onnxruntime.quantization import QuantType, quantize_dynamic
+
+
+def shrink_embedding(src: str, dst: str, min_rows: int = 10000) -> None:
+    """Rewrites the token-embedding Gather of the decoder at [src] to read a
+    per-row int8 table and writes the result to [dst]."""
+    model = onnx.load(src)
+    graph = model.graph
+    inits = {i.name: i for i in graph.initializer}
+    uses = {}
+    for node in graph.node:
+        for name in node.input:
+            uses[name] = uses.get(name, 0) + 1
+    done = 0
+    for node in list(graph.node):
+        if node.op_type != "Gather" or node.input[0] not in inits:
+            continue
+        table = inits[node.input[0]]
+        if table.data_type != onnx.TensorProto.FLOAT or len(table.dims) != 2 or table.dims[0] < min_rows:
+            continue
+        axis = next((a.i for a in node.attribute if a.name == "axis"), 0)
+        if axis != 0:
+            continue
+        w = numpy_helper.to_array(table).astype(np.float32)
+        scale = np.maximum(np.abs(w).max(axis=1), 1e-8) / 127.0
+        q = np.clip(np.rint(w / scale[:, None]), -127, 127).astype(np.int8)
+        base = node.input[0]
+        q_name, s_name = f"{base}_int8", f"{base}_row_scale"
+        graph.initializer.extend([numpy_helper.from_array(q, q_name), numpy_helper.from_array(scale.astype(np.float32), s_name)])
+        out = node.output[0]
+        gathered_q, gathered_s, gathered_f, scale_u = f"{out}_q", f"{out}_s", f"{out}_f", f"{out}_su"
+        axes_name = f"{out}_unsq_axes"
+        graph.initializer.append(numpy_helper.from_array(np.array([-1], dtype=np.int64), axes_name))
+        new_nodes = [
+            helper.make_node("Gather", [q_name, node.input[1]], [gathered_q], axis=0, name=f"{node.name}_int8"),
+            helper.make_node("Cast", [gathered_q], [gathered_f], to=onnx.TensorProto.FLOAT, name=f"{node.name}_cast"),
+            helper.make_node("Gather", [s_name, node.input[1]], [gathered_s], axis=0, name=f"{node.name}_scale"),
+            helper.make_node("Unsqueeze", [gathered_s, axes_name], [scale_u], name=f"{node.name}_unsqueeze"),
+            helper.make_node("Mul", [gathered_f, scale_u], [out], name=f"{node.name}_dequant"),
+        ]
+        idx = list(graph.node).index(node)
+        graph.node.remove(node)
+        for k, n in enumerate(new_nodes):
+            graph.node.insert(idx + k, n)
+        if uses[base] == 1:
+            graph.initializer.remove(table)
+        done += 1
+        print(f"embedding {base}: {table.dims[0]} x {table.dims[1]} stored as per-row int8 (table still referenced elsewhere: {uses[base] > 1})")
+    if done != 1:
+        raise SystemExit(f"expected one token-embedding Gather, rewrote {done}")
+    onnx.checker.check_model(model)
+    onnx.save(model, dst)
 
 
 def main() -> None:
@@ -46,18 +110,18 @@ def main() -> None:
     with disable_sdpa():
         mod.main()
 
-    # The upstream int8 pass quantises MatMul weights only, which leaves the
-    # token embedding table (n_vocab x n_text_state, 80 to 106 MB in fp32) as
-    # most of the decoder file. Quantise the Gather that reads it too (ONNX
-    # Runtime dequantises on the fly), which cuts the decoder to a third.
-    from onnxruntime.quantization import QuantType, quantize_dynamic
-
+    small = f"{a.name}-decoder.small-embedding.onnx"
+    shrink_embedding(f"{a.name}-decoder.onnx", small)
     quantize_dynamic(
-        model_input=f"{a.name}-decoder.onnx",
+        model_input=small,
         model_output=f"{a.name}-decoder.int8.onnx",
-        op_types_to_quantize=["MatMul", "Gather"],
+        op_types_to_quantize=["MatMul"],
         weight_type=QuantType.QInt8,
     )
+    os.remove(small)
+    for f in sorted(os.listdir(".")):
+        if f.startswith(a.name):
+            print(f"{os.path.getsize(f) / 1e6:8.1f} MB  {f}")
 
 
 if __name__ == "__main__":

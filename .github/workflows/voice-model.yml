@@ -37,7 +37,6 @@ jobs:
       - name: Install the export toolchain
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends ffmpeg > /dev/null
-          curl -fsSL -o fatiha.mp3|
           python3 -m pip install --upgrade pip
           python3 -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
           python3 -m pip install openai-whisper onnx onnxruntime kaldi-native-fbank numpy
@@ -47,7 +46,6 @@ jobs:
           mkdir -p sherpa
           curl -fsSL -o sherpa/export-onnx.py "https://raw.githubusercontent.com/k2-fsa/sherpa-onnx/${{ inputs.sherpa_ref }}/scripts/whisper/export-onnx.py"
           curl -fsSL -o sherpa/test.py "https://raw.githubusercontent.com/k2-fsa/sherpa-onnx/${{ inputs.sherpa_ref }}/scripts/whisper/test.py"
-          curl -fsSL -o sherpa/LICENSE "https://raw.githubusercontent.com/k2-fsa/sherpa-onnx/${{ inputs.sherpa_ref }}/LICENSE"
       - name: Download the fine-tune from Hugging Face
         run: |
           mkdir -p hf
@@ -61,7 +59,6 @@ jobs:
         run: |
           mkdir -p out && cd out
           python3 ../tool/voice_model/export_sherpa.py --script ../sherpa/export-onnx.py --checkpoint ../model.pt --name "${{ matrix.model }}"
-          ls -l
       - name: Check the int8 model on a real recitation (Al-Fatiha 1, Alafasy, from everyayah.com)
         run: |
           curl -fsSL -o fatiha.mp3 https://everyayah.com/data/Alafasy_128kbps/001001.mp3
@@ -72,36 +69,21 @@ jobs:
             --decoder "${{ matrix.model }}-decoder.int8.onnx" \
             --tokens "${{ matrix.model }}-tokens.txt" \
             --language ar --task transcribe ../fatiha.wav | tee ../transcript.txt
-          python3 - <<'EOF'
-          import re, unicodedata
-          text = open("../transcript.txt", encoding="utf-8").read()
-          arabic = [l for l in text.splitlines() if re.search(r"[؀-ۿ]", l)]
-          assert arabic, "no Arabic in the transcript:\n" + text
-          last = arabic[-1]
-          marks = sum(1 for ch in last if "ً" <= ch <= "ْ")
-          bare = "".join(ch for ch in last if not ("ً" <= ch <= "ْ" or ch == "ٰ"))
-          print("transcript:", last)
-          print("vowel marks:", marks)
-          assert marks >= 5, "the model returned no vowel marks"
-          assert "بسم" in bare.replace("ٱ", "ا") and "الرحيم" in bare.replace("ٱ", "ا"), "unexpected words"
-          EOF
+          python3 ../tool/voice_model/check_transcript.py ../transcript.txt
       - name: Package
         run: |
           cd out
           rm -f "${{ matrix.model }}-encoder.onnx" "${{ matrix.model }}-decoder.onnx"
-          python3 - <<'EOF'
-          import hashlib, json, os
-          files = sorted(f for f in os.listdir(".") if f.endswith((".onnx", ".txt")))
-          manifest = [{"file": f, "bytes": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()} for f in files]
-          json.dump(manifest, open("${{ matrix.model }}-manifest.json", "w"), indent=2)
-          print(json.dumps(manifest, indent=2))
-          EOF
+          python3 ../tool/voice_model/manifest.py "${{ matrix.model }}" > "${{ matrix.model }}-manifest.json"
+          cat "${{ matrix.model }}-manifest.json"
           cp ../hf/README.md "${{ matrix.model }}-MODEL_CARD.md"
-          echo "## ${{ matrix.model }}" >> "$GITHUB_STEP_SUMMARY"
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
-          cat "${{ matrix.model }}-manifest.json" >> "$GITHUB_STEP_SUMMARY"
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
-          echo "Transcript of Al-Fatiha 1 (int8): $(tail -n 1 ../transcript.txt)" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "## ${{ matrix.model }}"
+            echo '```'
+            cat "${{ matrix.model }}-manifest.json"
+            echo '```'
+            echo "Transcript of Al-Fatiha 1 (int8): $(grep -v '^\s*$' ../transcript.txt | tail -n 1)"
+          } >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.model }}
