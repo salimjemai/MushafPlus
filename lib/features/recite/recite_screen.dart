@@ -153,7 +153,10 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
   void dispose() {
     _restart?.cancel();
     _active = false;
-    _engine.stop();
+    final engine = _engine;
+    engine.stop().whenComplete(() {
+      if (engine is DownloadableSpeechEngine) engine.release();
+    });
     super.dispose();
   }
 

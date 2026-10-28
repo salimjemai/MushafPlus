@@ -42,6 +42,27 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
+  <script>
+    // Cross-origin isolation lets the Mushaf+ voice model run its wasm
+    // backend on several CPU threads (see coi-serviceworker.js). WebKit has
+    // no COEP "credentialless", so the worker is skipped there.
+    (function () {
+      if (!('serviceWorker' in navigator) || window.crossOriginIsolated) return;
+      var ua = navigator.userAgent;
+      var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+      var webkit = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Firefox|OPR/.test(ua);
+      if (ios || webkit) return;
+      var key = 'mushaf.coiReload';
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        // The worker now controls this page, but this document was served
+        // without the headers: reload once (per tab) to pick them up.
+        if (window.crossOriginIsolated || sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, '1');
+        location.reload();
+      });
+      navigator.serviceWorker.register('coi-serviceworker.js').catch(function () {});
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

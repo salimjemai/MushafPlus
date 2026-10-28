@@ -298,6 +298,21 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
     if (s != null) await s.close();
     _setBusy(false);
   }
+
+  /// On phones and tablets the loaded model keeps roughly half a gigabyte of
+  /// wasm memory resident, which slows the whole app, so the worker is
+  /// terminated when the recite screen goes away; the next session reloads
+  /// the model from the browser cache. Desktops keep it loaded.
+  @override
+  void release() {
+    if (!_isMobile || _session != null || _loading != null) return;
+    _worker?.terminate();
+    _worker = null;
+    _loaded = false;
+    _probe?.complete(false);
+    _probe = null;
+    _pending.clear();
+  }
 }
 
 /// One listening session: microphone capture, segmentation and the queue of
@@ -332,6 +347,11 @@ class _Session {
   bool _busy = false;
   String _final = '';
   String _partial = '';
+
+  /// Seconds between partial transcriptions: [_partialEverySeconds], or more
+  /// on slow backends so that a single-threaded wasm phone is not kept busy
+  /// re-transcribing back to back.
+  double _partialGap = _partialEverySeconds;
 
   Future<void> open() async {
     final constraints = web.MediaStreamConstraints(
@@ -451,7 +471,7 @@ class _Session {
       _splitSegment();
       return;
     }
-    if ((_total - _lastSent) / _sampleRate >= _partialEverySeconds) {
+    if ((_total - _lastSent) / _sampleRate >= _partialGap) {
       _lastSent = _total;
       _partialRequest = (_segmentId, _concat(_chunks, 0, _chunks.length));
       _pump();
@@ -556,8 +576,10 @@ class _Session {
     if (req != null) {
       _partialRequest = null;
       _busy = true;
+      final clock = Stopwatch()..start();
       engine._transcribe(req.$2).then((text) {
         _busy = false;
+        _partialGap = math.max(_partialEverySeconds, clock.elapsedMilliseconds / 1000 * 1.5);
         if (_closed) return;
         if (req.$1 == _segmentId) {
           _partial = text;

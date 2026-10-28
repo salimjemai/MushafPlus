@@ -69,6 +69,11 @@ abstract class DownloadableSpeechEngine implements SpeechEngine {
 
   /// Downloads (if needed) and loads the model, reporting progress.
   Future<void> prepare({void Function(ModelLoadProgress p)? onProgress});
+
+  /// Called when the screen that used the engine goes away: frees the model
+  /// where memory is tight (phones and tablets), so the rest of the app does
+  /// not slow down; it is reloaded from the on-device cache next time.
+  void release();
 }
 
 /// Creates the engine for this platform. [voiceModel] asks for the on-device

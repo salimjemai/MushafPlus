@@ -71,6 +71,11 @@ async function load(msg) {
     for (const f of Object.values(files)) { loaded += f.loaded || 0; total += f.total || 0; }
     post({ type: 'progress', stage, loaded, total, file: file ?? '' });
   };
+  if (msg.device === 'wasm') {
+    const threads = self.crossOriginIsolated ? Math.min(4, Math.ceil((navigator.hardwareConcurrency || 1) / 2)) : 1;
+    env.backends.onnx.wasm.numThreads = threads;
+    console.log(`[asr] wasm threads: ${threads} (crossOriginIsolated=${self.crossOriginIsolated}, cores=${navigator.hardwareConcurrency})`);
+  }
   asr = await pipeline('automatic-speech-recognition', msg.model, {
     device: msg.device,
     dtype: msg.dtype,
