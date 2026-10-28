@@ -109,6 +109,36 @@ def shrink_embedding(src: str, dst: str, min_rows: int = 10000) -> None:
                             consumer.input[k] = t_name
                 graph.node.remove(other)
                 folded += 1
+        # sherpa-onnx's exporter computes the logits as
+        # matmul(table, x.permute(0, 2, 1)).permute(0, 2, 1): the table is the
+        # left operand, which the MatMul quantiser leaves alone (it quantises
+        # right-hand initializers). Rewrite that product as
+        # transpose(matmul(transpose(x), table_T)), the same values; the
+        # transposes cancel with their neighbours inside ONNX Runtime.
+        for mm in list(graph.node):
+            if mm.op_type != "MatMul" or mm.input[0] != base:
+                continue
+            y = mm.input[1]
+            producer = next((n for n in graph.node if y in n.output), None)
+            rank = 3
+            if producer is not None and producer.op_type == "Transpose":
+                rank = len(next(a.ints for a in producer.attribute if a.name == "perm"))
+            perm = list(range(rank))
+            perm[-1], perm[-2] = perm[-2], perm[-1]
+            t_name = f"{base}_T"
+            if t_name not in inits:
+                graph.initializer.append(numpy_helper.from_array(np.ascontiguousarray(w.T), t_name))
+                inits[t_name] = True
+            y_t, pre = f"{y}_swapped", f"{mm.output[0]}_swapped"
+            before = helper.make_node("Transpose", [y], [y_t], perm=perm, name=f"{mm.name}_swap_in")
+            after = helper.make_node("Transpose", [pre], [mm.output[0]], perm=perm, name=f"{mm.name}_swap_out")
+            mm.input[0] = y_t
+            mm.input[1] = t_name
+            mm.output[0] = pre
+            pos = list(graph.node).index(mm)
+            graph.node.insert(pos, before)
+            graph.node.insert(pos + 2, after)
+            folded += 1
         remaining = [n.name or n.op_type for n in graph.node if base in n.input]
         if not remaining:
             graph.initializer.remove(table)
