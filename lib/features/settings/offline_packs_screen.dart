@@ -246,7 +246,7 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
               _PackCard(
                 icon: Icons.campaign_outlined,
                 title: l.adhanPack,
-                subtitle: '${l.filesSaved(_adhanCached, adhans.length)} · ${l.approxSize('6 MB')}',
+                subtitle: '${l.filesSaved(_adhanCached, adhans.length)} · ${l.approxSize('50 MB')}',
                 progress: adhans.isEmpty ? 0 : _adhanCached / adhans.length,
                 enabled: native && !running && _adhanCached < adhans.length,
                 onDownload: () => syncer.run(syncer.adhanTasks()),

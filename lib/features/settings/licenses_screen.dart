@@ -60,7 +60,7 @@ class LicensesScreen extends StatelessWidget {
                     children: [
                       const Text('Adhan recordings', style: TextStyle(fontWeight: FontWeight.w700)),
                       const SizedBox(height: 4),
-                      Text('From Wikimedia Commons, converted to mono MP3 for playback on every platform and served from the app\'s own site. Each recording remains under its original licence:',
+                      Text('Live and field recordings released by their recorders under CC0, the Public Domain Mark or CC BY-SA on the Internet Archive and Wikimedia Commons. Copies are hosted on the app\x27s own site (Ogg and WAV originals converted to mono MP3); each recording keeps its original licence and author:',
                           style: TextStyle(height: 1.4, color: scheme.onSurfaceVariant)),
                       for (final a in adhans)
                         ListTile(
