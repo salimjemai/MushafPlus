@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/arabic_utils.dart';
 import '../../core/theme.dart';
+import 'medina_ornaments.dart';
 import '../../data/models.dart';
 import '../../data/mushaf_pages.dart';
 import '../../data/tajweed.dart';
@@ -167,7 +168,7 @@ class _MushafPageLinesState extends ConsumerState<MushafPageLines> {
         fontFamily: ArabicStyles.nameFont,
         fontSize: fontSize * 0.95,
         height: 1.0,
-        color: scheme.secondary,
+        color: MedinaPalette.of(scheme.brightness == Brightness.dark).green,
       );
 
   /// Shrinks the glyphs when the widest line would not fit [width].
@@ -344,25 +345,19 @@ class SurahBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final h = height ?? 54.0;
-    final band = Container(
+    final palette = MedinaPalette.of(Theme.of(context).brightness == Brightness.dark);
+    final band = SizedBox(
       height: h,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0E5C47), Color(0xFF177A5E), Color(0xFF0E5C47)],
-        ),
-        border: Border.symmetric(horizontal: BorderSide(color: frame, width: h > 40 ? 1.4 : 1)),
-      ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned.fill(child: CustomPaint(painter: BandPatternPainter(color: frame.withValues(alpha: 0.35)))),
+          Positioned.fill(child: CustomPaint(painter: MedinaBandPainter(palette: palette))),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: h * 0.48, vertical: h * 0.07),
+            padding: EdgeInsets.symmetric(horizontal: h * 0.5, vertical: h * 0.06),
             decoration: BoxDecoration(
-              color: const Color(0xFFFDF6E3),
-              borderRadius: BorderRadius.circular(h * 0.4),
-              border: Border.all(color: AppColors.gold, width: h > 40 ? 1.4 : 1),
-              boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 1))],
+              color: palette.paper,
+              borderRadius: BorderRadius.circular(h * 0.45),
+              border: Border.all(color: palette.green, width: h > 40 ? 1.4 : 1),
             ),
             child: Text(surah.name,
                 style: TextStyle(
@@ -370,7 +365,7 @@ class SurahBanner extends StatelessWidget {
                     fontSize: h * 0.44,
                     height: 1.3,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xFF0E5C47))),
+                    color: palette.greenDark)),
           ),
         ],
       ),

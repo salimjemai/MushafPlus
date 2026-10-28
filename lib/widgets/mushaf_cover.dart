@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/theme.dart';
+import '../features/mushaf/medina_ornaments.dart';
 import 'surah_number_badge.dart';
 
 /// A closed Mushaf cover: deep leather with gold tooling, a central
@@ -19,7 +20,7 @@ class MushafCover extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF13261F), Color(0xFF07110D)],
+          colors: [Color(0xFF1E6A44), Color(0xFF0F3F2A)],
         ),
         boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.5), blurRadius: 18, offset: const Offset(-4, 8))],
       ),
@@ -27,8 +28,9 @@ class MushafCover extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           CustomPaint(painter: IslamicPatternPainter(color: gold.withValues(alpha: 0.10), cell: 28)),
+          CustomPaint(painter: CoverToolingPainter(gold: gold.withValues(alpha: 0.85))),
           Padding(
-            padding: const EdgeInsets.all(14),
+            padding: const EdgeInsets.all(34),
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: gold.withValues(alpha: 0.9), width: 2),

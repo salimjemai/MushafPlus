@@ -23,6 +23,7 @@ import '../reader/mushaf_view.dart';
 import '../reader/reader_settings_sheet.dart';
 import '../reader/tajweed_guide.dart';
 import '../reader/verse_panel.dart';
+import 'medina_ornaments.dart';
 import 'mushaf_page_lines.dart';
 
 /// The Quran as a printed book: 604 pages in a vertical scroll, a one-page
@@ -641,9 +642,10 @@ class MushafPage extends ConsumerWidget {
     final settings = ref.watch(settingsProvider);
     final ayahs = repo.ayahsOfPage(page);
     final dark = Theme.of(context).brightness == Brightness.dark;
-    final paper = dark ? const Color(0xFF1C1A15) : const Color(0xFFFDF6E3);
-    final ink = dark ? const Color(0xFFE8E2D0) : const Color(0xFF2B2416);
-    final frame = AppColors.gold.withValues(alpha: dark ? 0.55 : 0.8);
+    final palette = MedinaPalette.of(dark);
+    final paper = palette.paper;
+    final ink = palette.ink;
+    final frame = palette.green;
 
     final groups = <List<Ayah>>[];
     for (final a in ayahs) {
@@ -709,35 +711,35 @@ class MushafPage extends ConsumerWidget {
               offset: const Offset(0, 6))
         ],
       ),
-      padding: EdgeInsets.all(opening ? 8 : 10),
-      child: CustomPaint(
-        painter: _PageFramePainter(opening: opening, gold: frame, dark: dark),
-        child: Padding(
-          padding: opening
-              ? const EdgeInsets.fromLTRB(40, 46, 40, 44)
-              : const EdgeInsets.fromLTRB(20, 12, 20, 14),
-          child: DefaultTextStyle(
-            style: TextStyle(color: ink),
-            child: Column(
+      padding: const EdgeInsets.fromLTRB(10, 6, 10, 6),
+      child: DefaultTextStyle(
+        style: TextStyle(color: ink),
+        child: Column(
+          mainAxisSize: fitToPage ? MainAxisSize.max : MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Running head outside the frame, as printed: juz on the left,
+            // surah on the right.
+            Padding(
+              padding: const EdgeInsets.fromLTRB(6, 0, 6, 3),
+              child: Row(
+                children: [
+                  Text('الجزء ${toArabicDigits(ayahs.first.juz)}',
+                      style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 13, color: ink.withValues(alpha: 0.75))),
+                  const Spacer(),
+                  Text(headSurah.name,
+                      style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 14, color: ink.withValues(alpha: 0.85))),
+                ],
+              ),
+            ),
+            _Framed(
+              opening: opening,
+              palette: palette,
+              expand: fitToPage,
+              child: Column(
               mainAxisSize: fitToPage ? MainAxisSize.max : MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  children: [
-                    Text('الجزء ${toArabicDigits(ayahs.first.juz)}',
-                        style: TextStyle(
-                            fontFamily: ArabicStyles.nameFont,
-                            fontSize: 14,
-                            color: ink.withValues(alpha: 0.75))),
-                    const Spacer(),
-                    Text(headSurah.name,
-                        style: TextStyle(
-                            fontFamily: ArabicStyles.nameFont,
-                            fontSize: 15,
-                            color: ink.withValues(alpha: 0.85))),
-                  ],
-                ),
-                Divider(color: frame.withValues(alpha: 0.5), height: 14),
                 if (lines != null && opening)
                   // Opening pages hold a small centred block of text inside
                   // the big frame, as in the printed Mushaf.
@@ -771,20 +773,41 @@ class MushafPage extends ConsumerWidget {
                   )
                 else
                   body,
-                const SizedBox(height: 8),
-                Center(
-                  child: Text(toArabicDigits(page),
-                      style: TextStyle(
-                          fontFamily: ArabicStyles.nameFont,
-                          fontSize: 16,
-                          color: ink.withValues(alpha: 0.8))),
-                ),
               ],
+              ),
             ),
-          ),
+            const SizedBox(height: 3),
+            Center(
+              child: Text(toArabicDigits(page),
+                  style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 15, color: ink.withValues(alpha: 0.8))),
+            ),
+          ],
         ),
       ),
     );
+  }
+}
+
+/// The ornamental frame around a page body, sized to the page.
+class _Framed extends StatelessWidget {
+  const _Framed({required this.opening, required this.palette, required this.expand, required this.child});
+  final bool opening;
+  final MedinaPalette palette;
+  final bool expand;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final frame = LayoutBuilder(
+      builder: (context, c) {
+        final size = Size(c.maxWidth, c.maxHeight.isFinite ? c.maxHeight : c.maxWidth / MushafPage.pageAspect);
+        return CustomPaint(
+          painter: MedinaFramePainter(opening: opening, palette: palette),
+          child: Padding(padding: MedinaFramePainter.insetFor(size, opening), child: child),
+        );
+      },
+    );
+    return expand ? Expanded(child: frame) : frame;
   }
 }
 
@@ -912,182 +935,3 @@ class _PageBar extends StatelessWidget {
   }
 }
 
-/// Frame of a Mushaf page. [opening] pages get the illuminated border of the
-/// first two pages of a printed Mushaf: a lapis band filled with gold
-/// rosettes and lozenges, corner stars, cusped medallions at the top and
-/// bottom and a ruled inner frame. Other pages get a double gold rule with
-/// small corner stars.
-class _PageFramePainter extends CustomPainter {
-  const _PageFramePainter({required this.opening, required this.gold, required this.dark});
-  final bool opening;
-  final Color gold;
-  final bool dark;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (opening) {
-      _paintOpening(canvas, size);
-    } else {
-      _paintPlain(canvas, size);
-    }
-  }
-
-  void _paintPlain(Canvas canvas, Size size) {
-    final rule = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = gold
-      ..strokeWidth = 1.4;
-    final thin = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = gold.withValues(alpha: 0.5)
-      ..strokeWidth = 0.8;
-    final outer = Offset.zero & size;
-    final inner = outer.deflate(5);
-    canvas.drawRRect(RRect.fromRectAndRadius(outer, const Radius.circular(3)), rule);
-    canvas.drawRect(inner, thin);
-    final fill = Paint()..color = gold.withValues(alpha: 0.9);
-    for (final c in [inner.topLeft, inner.topRight, inner.bottomLeft, inner.bottomRight]) {
-      final dx = c.dx == inner.left ? 9.0 : -9.0;
-      final dy = c.dy == inner.top ? 9.0 : -9.0;
-      _star(canvas, c + Offset(dx, dy), 4.2, fill);
-    }
-    // Small lozenges at the middle of the top and bottom rules.
-    for (final y in [inner.top, inner.bottom]) {
-      _lozenge(canvas, Offset(size.width / 2, y), 5, 3, Paint()..color = gold);
-    }
-  }
-
-  void _paintOpening(Canvas canvas, Size size) {
-    final lapis = dark ? const Color(0xFF233B7A) : const Color(0xFF1F3C88);
-    final lapisLight = dark ? const Color(0xFF2E4C96) : const Color(0xFF3458A8);
-    final cream = dark ? const Color(0xFF2A2720) : const Color(0xFFF7EBCF);
-    final t = (size.shortestSide * 0.075).clamp(18.0, 30.0); // band thickness
-    final outer = Offset.zero & size;
-    final bandInner = outer.deflate(t);
-    final goldLine = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = gold
-      ..strokeWidth = 1.6;
-    final hair = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = gold.withValues(alpha: 0.7)
-      ..strokeWidth = 0.8;
-    final goldFill = Paint()..color = gold;
-    final creamFill = Paint()..color = cream;
-
-    // Band.
-    canvas.drawPath(
-      Path()
-        ..fillType = PathFillType.evenOdd
-        ..addRect(outer)
-        ..addRect(bandInner),
-      Paint()..color = lapis,
-    );
-    canvas.drawRect(outer.deflate(0.8), goldLine);
-    canvas.drawRect(bandInner, goldLine);
-    canvas.drawRect(outer.deflate(t * 0.5), hair);
-
-    // Corner squares with eight-point stars.
-    for (final c in [outer.topLeft, outer.topRight, outer.bottomLeft, outer.bottomRight]) {
-      final sx = c.dx == 0 ? 0.0 : -t;
-      final sy = c.dy == 0 ? 0.0 : -t;
-      final sq = Rect.fromLTWH(c.dx + sx, c.dy + sy, t, t);
-      canvas.drawRect(sq, Paint()..color = lapisLight);
-      canvas.drawRect(sq, goldLine);
-      _star(canvas, sq.center, t * 0.36, goldFill);
-      canvas.drawCircle(sq.center, t * 0.11, creamFill);
-    }
-
-    // Rosettes and lozenges along the four sides.
-    final step = t * 1.35;
-    void motifs(Offset a, Offset b) {
-      final len = (b - a).distance;
-      final n = (len / step).floor();
-      if (n < 1) return;
-      final gap = len / n;
-      final dir = (b - a) / len;
-      for (var i = 0; i < n; i++) {
-        final p = a + dir * (gap * (i + 0.5));
-        if (i.isEven) {
-          _rosette(canvas, p, t * 0.3, goldFill, creamFill);
-        } else {
-          _lozenge(canvas, p, t * 0.22, t * 0.14, goldFill);
-          canvas.drawCircle(p, t * 0.05, creamFill);
-        }
-      }
-    }
-
-    final m = t / 2;
-    motifs(Offset(t, m), Offset(size.width - t, m));
-    motifs(Offset(t, size.height - m), Offset(size.width - t, size.height - m));
-    motifs(Offset(m, t), Offset(m, size.height - t));
-    motifs(Offset(size.width - m, t), Offset(size.width - m, size.height - t));
-
-    // Cusped medallions at the top and bottom, reaching into the page.
-    for (final top in [true, false]) {
-      final cy = top ? t : size.height - t;
-      final r = t * 1.15;
-      final path = Path();
-      const lobes = 7;
-      for (var i = 0; i <= lobes; i++) {
-        final a0 = math.pi * i / lobes;
-        final a1 = math.pi * (i + 1) / lobes;
-        final mid = (a0 + a1) / 2;
-        final p0 = Offset(size.width / 2 + r * math.cos(a0), cy + (top ? 1 : -1) * r * math.sin(a0));
-        final pm = Offset(size.width / 2 + r * 1.18 * math.cos(mid), cy + (top ? 1 : -1) * r * 1.18 * math.sin(mid));
-        final p1 = Offset(size.width / 2 + r * math.cos(a1), cy + (top ? 1 : -1) * r * math.sin(a1));
-        if (i == 0) path.moveTo(p0.dx, p0.dy);
-        if (i < lobes) path.quadraticBezierTo(pm.dx, pm.dy, p1.dx, p1.dy);
-      }
-      path.close();
-      canvas.drawPath(path, Paint()..color = lapis);
-      canvas.drawPath(path, goldLine);
-      _star(canvas, Offset(size.width / 2, cy + (top ? 1 : -1) * r * 0.42), r * 0.36, goldFill);
-      canvas.drawCircle(Offset(size.width / 2, cy + (top ? 1 : -1) * r * 0.42), r * 0.1, creamFill);
-    }
-
-    // Ruled inner frame around the text block.
-    final text = bandInner.deflate(7);
-    canvas.drawRect(text, goldLine);
-    canvas.drawRect(text.deflate(3), hair);
-  }
-
-  static void _star(Canvas canvas, Offset c, double r, Paint paint) {
-    final p = Path();
-    for (var i = 0; i < 16; i++) {
-      final rr = i.isEven ? r : r * 0.55;
-      final a = math.pi / 8 * i - math.pi / 2;
-      final pt = Offset(c.dx + rr * math.cos(a), c.dy + rr * math.sin(a));
-      if (i == 0) {
-        p.moveTo(pt.dx, pt.dy);
-      } else {
-        p.lineTo(pt.dx, pt.dy);
-      }
-    }
-    p.close();
-    canvas.drawPath(p, paint);
-  }
-
-  static void _rosette(Canvas canvas, Offset c, double r, Paint petal, Paint heart) {
-    for (var i = 0; i < 8; i++) {
-      final a = math.pi / 4 * i;
-      canvas.drawCircle(Offset(c.dx + r * 0.62 * math.cos(a), c.dy + r * 0.62 * math.sin(a)), r * 0.42, petal);
-    }
-    canvas.drawCircle(c, r * 0.36, heart);
-  }
-
-  static void _lozenge(Canvas canvas, Offset c, double w, double h, Paint paint) {
-    canvas.drawPath(
-      Path()
-        ..moveTo(c.dx, c.dy - h)
-        ..lineTo(c.dx + w, c.dy)
-        ..lineTo(c.dx, c.dy + h)
-        ..lineTo(c.dx - w, c.dy)
-        ..close(),
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _PageFramePainter old) => old.opening != opening || old.gold != gold || old.dark != dark;
-}
