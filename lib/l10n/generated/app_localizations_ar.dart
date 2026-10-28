@@ -420,7 +420,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get credits =>
-      'النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0). تلاوات الحديث: Hadith.to.';
+      'النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0).';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -1209,7 +1209,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get adhanCredits =>
-      'التسجيلات من مجموعتي \"adhans\" و\"azan-alafasy\" في أرشيف الإنترنت.';
+      'التسجيلات من ويكيميديا كومنز بترخيصَي CC0 وCC BY-SA 4.0، محوَّلة إلى MP3؛ اضغط سطر النسب لفتح الملف الأصلي وترخيصه.';
 
   @override
   String downloaded(String name) {
@@ -2183,4 +2183,23 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get playRecitation => 'تشغيل التلاوة';
+
+  @override
+  String get addressLookupCredit =>
+      'البحث عن العناوين: © مساهمو OpenStreetMap ‏(ODbL)، ترميز Open-Meteo الجغرافي (CC BY 4.0)، Zippopotam.';
+
+  @override
+  String get dataSourcesLicences => 'مصادر البيانات والتراخيص';
+
+  @override
+  String get dataSourcesLicencesHint =>
+      'من أين تأتي النصوص والصوت والخرائط، وشروطها';
+
+  @override
+  String get openSourceLicences => 'تراخيص المصادر المفتوحة';
+
+  @override
+  String recordingCredit(String author, String license) {
+    return 'التسجيل: $author · $license · ويكيميديا كومنز';
+  }
 }

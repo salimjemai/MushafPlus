@@ -277,7 +277,7 @@
   "downloadedDataCleared": "Downloaded data cleared",
   "about": "About",
   "versionBuiltWith": "Version 1.0.0 · Built with Flutter",
-  "credits": "Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0). Hadith recitations: Hadith.to.",
+  "credits": "Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0).",
   "selectedOfMax": "{selected} of {max} selected",
   "@selectedOfMax": {
     "placeholders": {
@@ -939,7 +939,7 @@
   "qiblaHelp": "Keep the phone flat and away from magnets or metal. The Kaaba marker on the dial shows the Qibla; the arrow at the top is where you are facing.",
   "adhan": "Adhan",
   "adhanIntro": "Listen to the call to prayer from different muezzins, download any recording, and choose the default used for your prayer times.",
-  "adhanCredits": "Recordings courtesy of the Internet Archive collections \"adhans\" and \"azan-alafasy\".",
+  "adhanCredits": "Recordings from Wikimedia Commons under CC0 and CC BY-SA 4.0, converted to MP3; tap a credit line to open the original file and its licence.",
   "downloaded": "Downloaded {name}",
   "@downloaded": {
     "placeholders": {
@@ -1463,5 +1463,20 @@
   "markNone": "no mark",
   "markNoShadda": "no shadda",
   "voiceModelHelp": "The Mushaf+ voice model also checks vowel marks (harakat): a vowel slip shows in amber. Tap any word for details.",
-  "playRecitation": "Play recitation"
+  "playRecitation": "Play recitation",
+  "addressLookupCredit": "Address lookup: © OpenStreetMap contributors (ODbL), Open-Meteo geocoding (CC BY 4.0), Zippopotam.",
+  "dataSourcesLicences": "Data sources & licences",
+  "dataSourcesLicencesHint": "Where the texts, audio and maps come from, and their terms",
+  "openSourceLicences": "Open-source licences",
+  "recordingCredit": "Recording: {author} · {license} · Wikimedia Commons",
+  "@recordingCredit": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "license": {
+        "type": "String"
+      }
+    }
+  }
 }

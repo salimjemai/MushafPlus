@@ -122,7 +122,7 @@
   "downloadedDataCleared": "تم مسح البيانات المنزّلة",
   "about": "حول",
   "versionBuiltWith": "الإصدار 1.0.0 · مبني بـ Flutter",
-  "credits": "النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0). تلاوات الحديث: Hadith.to.",
+  "credits": "النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0).",
   "selectedOfMax": "{selected} من {max} محددة",
   "searchLanguageOrTranslator": "ابحث عن لغة أو مترجم",
   "nTranslations": "{count, plural, =1{ترجمة واحدة} other{{count} ترجمات}}",
@@ -343,7 +343,7 @@
   "qiblaHelp": "أبقِ الهاتف مستويًا وبعيدًا عن المغناطيس والمعادن. علامة الكعبة على القرص تشير إلى القبلة، والسهم في الأعلى هو اتجاهك.",
   "adhan": "الأذان",
   "adhanIntro": "استمع إلى الأذان بأصوات مؤذنين مختلفين، ونزّل أي تسجيل، واختر الأذان الافتراضي لمواقيت صلاتك.",
-  "adhanCredits": "التسجيلات من مجموعتي \"adhans\" و\"azan-alafasy\" في أرشيف الإنترنت.",
+  "adhanCredits": "التسجيلات من ويكيميديا كومنز بترخيصَي CC0 وCC BY-SA 4.0، محوَّلة إلى MP3؛ اضغط سطر النسب لفتح الملف الأصلي وترخيصه.",
   "downloaded": "تم تنزيل {name}",
   "downloadFailed": "فشل التنزيل: {error}",
   "downloadSurahAudio": "تنزيل صوت السورة للاستماع دون اتصال",
@@ -627,5 +627,10 @@
   "markNone": "بلا حركة",
   "markNoShadda": "بلا شدة",
   "voiceModelHelp": "يتحقق نموذج مصحف+ الصوتي من الحركات أيضًا: تظهر زلة الحركة باللون الكهرماني. انقر أي كلمة للتفاصيل.",
-  "playRecitation": "تشغيل التلاوة"
+  "playRecitation": "تشغيل التلاوة",
+  "addressLookupCredit": "البحث عن العناوين: © مساهمو OpenStreetMap ‏(ODbL)، ترميز Open-Meteo الجغرافي (CC BY 4.0)، Zippopotam.",
+  "dataSourcesLicences": "مصادر البيانات والتراخيص",
+  "dataSourcesLicencesHint": "من أين تأتي النصوص والصوت والخرائط، وشروطها",
+  "openSourceLicences": "تراخيص المصادر المفتوحة",
+  "recordingCredit": "التسجيل: {author} · {license} · ويكيميديا كومنز"
 }

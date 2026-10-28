@@ -10,18 +10,22 @@ import 'tts.dart';
 /// human recordings for the seven major collections, numbered like our
 /// fawazahmed0 data. The three forty-hadith collections only have synthetic
 /// voices there, so they keep the device voice instead.
+/// Hadith.to publishes no licence or terms of use. The recordings stay off
+/// until written permission is on file; the device voice is used meanwhile.
+const hadithRecordingsEnabled = false;
+
 const _recordedBooks = <String>{'bukhari', 'muslim', 'nasai', 'abudawud', 'tirmidhi', 'ibnmajah', 'malik'};
 
 /// Direct CDN url of the recording for [book]/[number], or null when the
 /// book has none or the number is fractional. Built locally so playback can
 /// start synchronously inside the tap (iOS Safari).
 String? hadithAudioUrl(String book, num number) {
-  if (!_recordedBooks.contains(book)) return null;
+  if (!hadithRecordingsEnabled || !_recordedBooks.contains(book)) return null;
   if (number != number.toInt() || number < 1) return null;
   return 'https://cdn.hadith.to/$book/${number.toInt().toString().padLeft(4, '0')}.mp3';
 }
 
-bool hasRecordedHadith(String book) => _recordedBooks.contains(book);
+bool hasRecordedHadith(String book) => hadithRecordingsEnabled && _recordedBooks.contains(book);
 
 /// One hadith to read: its recording (if any) and what the device voice
 /// should say. [arabic] is only spoken when there is no recording.

@@ -841,7 +841,7 @@ abstract class AppLocalizations {
   /// No description provided for @credits.
   ///
   /// In en, this message translates to:
-  /// **'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0). Hadith recitations: Hadith.to.'**
+  /// **'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0).'**
   String get credits;
 
   /// No description provided for @selectedOfMax.
@@ -2167,7 +2167,7 @@ abstract class AppLocalizations {
   /// No description provided for @adhanCredits.
   ///
   /// In en, this message translates to:
-  /// **'Recordings courtesy of the Internet Archive collections \"adhans\" and \"azan-alafasy\".'**
+  /// **'Recordings from Wikimedia Commons under CC0 and CC BY-SA 4.0, converted to MP3; tap a credit line to open the original file and its licence.'**
   String get adhanCredits;
 
   /// No description provided for @downloaded.
@@ -3873,6 +3873,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Play recitation'**
   String get playRecitation;
+
+  /// No description provided for @addressLookupCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Address lookup: © OpenStreetMap contributors (ODbL), Open-Meteo geocoding (CC BY 4.0), Zippopotam.'**
+  String get addressLookupCredit;
+
+  /// No description provided for @dataSourcesLicences.
+  ///
+  /// In en, this message translates to:
+  /// **'Data sources & licences'**
+  String get dataSourcesLicences;
+
+  /// No description provided for @dataSourcesLicencesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Where the texts, audio and maps come from, and their terms'**
+  String get dataSourcesLicencesHint;
+
+  /// No description provided for @openSourceLicences.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source licences'**
+  String get openSourceLicences;
+
+  /// No description provided for @recordingCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording: {author} · {license} · Wikimedia Commons'**
+  String recordingCredit(String author, String license);
 }
 
 class _AppLocalizationsDelegate

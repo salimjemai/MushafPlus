@@ -122,7 +122,7 @@
   "downloadedDataCleared": "ڈاؤن لوڈ شدہ ڈیٹا صاف ہو گیا",
   "about": "تعارف",
   "versionBuiltWith": "ورژن 1.0.0 · Flutter سے بنایا گیا",
-  "credits": "عربی متن: تنزیل عثمانی۔ تراجم اور تلفظ: Al Quran Cloud۔ لفظ بہ لفظ اور تفسیر: Quran.com۔ تلاوت: EveryAyah.com۔ حدیث: fawazahmed0/hadith-api۔ فونٹس: امیری اور امیری قرآن (SIL لائسنس)۔ صوتی ماڈل: tarteel-ai/whisper-base-ar-quran سے ماخوذ (Apache-2.0، OpenAI Whisper پر مبنی)، آلے پر transformers.js اور ONNX Runtime (Apache-2.0) کے ذریعے چلتا ہے۔ حدیث کی تلاوتیں: Hadith.to۔",
+  "credits": "عربی متن: تنزیل عثمانی۔ تراجم اور تلفظ: Al Quran Cloud۔ لفظ بہ لفظ اور تفسیر: Quran.com۔ تلاوت: EveryAyah.com۔ حدیث: fawazahmed0/hadith-api۔ فونٹس: امیری اور امیری قرآن (SIL لائسنس)۔ صوتی ماڈل: tarteel-ai/whisper-base-ar-quran سے ماخوذ (Apache-2.0، OpenAI Whisper پر مبنی)، آلے پر transformers.js اور ONNX Runtime (Apache-2.0) کے ذریعے چلتا ہے۔",
   "selectedOfMax": "{max} میں سے {selected} منتخب",
   "searchLanguageOrTranslator": "زبان یا مترجم تلاش کریں",
   "nTranslations": "{count, plural, =1{1 ترجمہ} other{{count} تراجم}}",
@@ -343,7 +343,7 @@
   "qiblaHelp": "فون کو ہموار اور مقناطیس یا دھات سے دور رکھیں۔ ڈائل پر کعبہ کا نشان قبلہ دکھاتا ہے؛ اوپر کا تیر آپ کا رخ ہے۔",
   "adhan": "اذان",
   "adhanIntro": "مختلف مؤذنوں کی اذان سنیں، کوئی بھی ریکارڈنگ ڈاؤن لوڈ کریں اور اپنے اوقاتِ نماز کے لیے طے شدہ اذان منتخب کریں۔",
-  "adhanCredits": "ریکارڈنگز انٹرنیٹ آرکائیو کے \"adhans\" اور \"azan-alafasy\" مجموعوں سے۔",
+  "adhanCredits": "ریکارڈنگز وکیمیڈیا کامنز سے CC0 اور CC BY-SA 4.0 کے تحت، MP3 میں تبدیل شدہ؛ اصل فائل اور لائسنس کھولنے کے لیے کریڈٹ لائن دبائیں۔",
   "downloaded": "{name} ڈاؤن لوڈ ہو گئی",
   "downloadFailed": "ڈاؤن لوڈ ناکام: {error}",
   "downloadSurahAudio": "سورت کی آڈیو آف لائن کے لیے ڈاؤن لوڈ کریں",
@@ -627,5 +627,10 @@
   "markNone": "بغیر حرکت",
   "markNoShadda": "بغیر تشدید",
   "voiceModelHelp": "مصحف+ صوتی ماڈل حرکات بھی جانچتا ہے: حرکت کی لغزش عنبری رنگ میں دکھتی ہے۔ تفصیل کے لیے کسی لفظ پر ٹیپ کریں۔",
-  "playRecitation": "تلاوت چلائیں"
+  "playRecitation": "تلاوت چلائیں",
+  "addressLookupCredit": "پتہ تلاش: © OpenStreetMap معاونین (ODbL)، Open-Meteo جیوکوڈنگ (CC BY 4.0)، Zippopotam۔",
+  "dataSourcesLicences": "ڈیٹا کے ذرائع اور لائسنس",
+  "dataSourcesLicencesHint": "متن، آڈیو اور نقشے کہاں سے آتے ہیں اور ان کی شرائط",
+  "openSourceLicences": "اوپن سورس لائسنس",
+  "recordingCredit": "ریکارڈنگ: {author} · {license} · وکیمیڈیا کامنز"
 }

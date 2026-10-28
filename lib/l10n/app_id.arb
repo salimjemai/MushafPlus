@@ -122,7 +122,7 @@
   "downloadedDataCleared": "Data unduhan dihapus",
   "about": "Tentang",
   "versionBuiltWith": "Versi 1.0.0 · Dibuat dengan Flutter",
-  "credits": "Teks Arab: edisi Tanzil Utsmani. Terjemahan dan transliterasi: Al Quran Cloud. Kata per kata dan tafsir: Quran.com. Tilawah: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Font: Amiri & Amiri Quran (Lisensi SIL). Model suara: diturunkan dari tarteel-ai/whisper-base-ar-quran (Apache-2.0, penyetelan dari OpenAI Whisper), dijalankan di perangkat dengan transformers.js dan ONNX Runtime (Apache-2.0). Bacaan hadis: Hadith.to.",
+  "credits": "Teks Arab: edisi Tanzil Utsmani. Terjemahan dan transliterasi: Al Quran Cloud. Kata per kata dan tafsir: Quran.com. Tilawah: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Font: Amiri & Amiri Quran (Lisensi SIL). Model suara: diturunkan dari tarteel-ai/whisper-base-ar-quran (Apache-2.0, penyetelan dari OpenAI Whisper), dijalankan di perangkat dengan transformers.js dan ONNX Runtime (Apache-2.0).",
   "selectedOfMax": "{selected} dari {max} dipilih",
   "searchLanguageOrTranslator": "Cari bahasa atau penerjemah",
   "nTranslations": "{count, plural, =1{1 terjemahan} other{{count} terjemahan}}",
@@ -343,7 +343,7 @@
   "qiblaHelp": "Pegang ponsel mendatar, jauh dari magnet atau logam. Penanda Ka'bah di dial menunjukkan kiblat; panah di atas adalah arah Anda.",
   "adhan": "Azan",
   "adhanIntro": "Dengarkan azan dari berbagai muazin, unduh rekaman, dan pilih azan bawaan untuk jadwal salat Anda.",
-  "adhanCredits": "Rekaman dari koleksi Internet Archive \"adhans\" dan \"azan-alafasy\".",
+  "adhanCredits": "Rekaman dari Wikimedia Commons berlisensi CC0 dan CC BY-SA 4.0, dikonversi ke MP3; ketuk baris kredit untuk membuka berkas asli dan lisensinya.",
   "downloaded": "{name} diunduh",
   "downloadFailed": "Unduhan gagal: {error}",
   "downloadSurahAudio": "Unduh audio surah untuk offline",
@@ -627,5 +627,10 @@
   "markNone": "tanpa harakat",
   "markNoShadda": "tanpa syaddah",
   "voiceModelHelp": "Model suara Mushaf+ juga memeriksa harakat: kesalahan harakat ditampilkan berwarna kuning tua. Ketuk kata mana pun untuk rincian.",
-  "playRecitation": "Putar bacaan"
+  "playRecitation": "Putar bacaan",
+  "addressLookupCredit": "Pencarian alamat: © kontributor OpenStreetMap (ODbL), geocoding Open-Meteo (CC BY 4.0), Zippopotam.",
+  "dataSourcesLicences": "Sumber data & lisensi",
+  "dataSourcesLicencesHint": "Asal teks, audio dan peta, serta ketentuannya",
+  "openSourceLicences": "Lisensi sumber terbuka",
+  "recordingCredit": "Rekaman: {author} · {license} · Wikimedia Commons"
 }

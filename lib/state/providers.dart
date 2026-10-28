@@ -110,7 +110,7 @@ class AppSettings {
     this.mushafLayout = MushafLayout.auto,
     this.locale,
     this.pageAnimation = PageAnimation.curl,
-    this.adhanId = 'makkah',
+    this.adhanId = 'commons_aaqib_azeez',
     this.recognitionEngine = 'browser',
   });
 

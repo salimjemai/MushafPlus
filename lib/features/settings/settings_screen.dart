@@ -359,6 +359,13 @@ class SettingsScreen extends ConsumerWidget {
                     subtitle: Text(l.versionBuiltWith),
                   ),
                   ListTile(
+                    leading: const Icon(Icons.source_outlined),
+                    title: Text(l.dataSourcesLicences),
+                    subtitle: Text(l.dataSourcesLicencesHint),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push('/settings/licenses'),
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.privacy_tip_outlined),
                     title: Text(l.privacyPolicy),
                     trailing: const Icon(Icons.open_in_new, size: 18),

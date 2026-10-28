@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/l10n.dart';
 import '../../data/adhans.dart';
@@ -164,6 +165,10 @@ class _AdhanScreenState extends ConsumerState<AdhanScreen> {
                                   Text(
                                     '${a.place} · ${_fmt(Duration(seconds: a.seconds))}${a.fajr ? ' · ${l.fajr}' : ''}',
                                     style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant),
+                                  ),
+                                  InkWell(
+                                    onTap: () => launchUrl(Uri.parse(a.sourceUrl), mode: LaunchMode.externalApplication, webOnlyWindowName: '_blank'),
+                                    child: Text(l.recordingCredit(a.author, a.license), style: TextStyle(fontSize: 11, color: scheme.primary)),
                                   ),
                                 ],
                               ),

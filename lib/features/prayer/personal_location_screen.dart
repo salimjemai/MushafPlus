@@ -309,6 +309,8 @@ class _PersonalLocationScreenState extends ConsumerState<PersonalLocationScreen>
               ],
               const SizedBox(height: 12),
               Text(l.masjidAdminHint, style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4)),
+              const SizedBox(height: 16),
+              Text(l.addressLookupCredit, style: TextStyle(fontSize: 11.5, color: Theme.of(context).colorScheme.outline, height: 1.4)),
             ],
           ),
         ),

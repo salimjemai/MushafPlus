@@ -422,7 +422,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get credits =>
-      'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0). Hadith recitations: Hadith.to.';
+      'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0).';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -1215,7 +1215,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adhanCredits =>
-      'Recordings courtesy of the Internet Archive collections \"adhans\" and \"azan-alafasy\".';
+      'Recordings from Wikimedia Commons under CC0 and CC BY-SA 4.0, converted to MP3; tap a credit line to open the original file and its licence.';
 
   @override
   String downloaded(String name) {
@@ -2195,4 +2195,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get playRecitation => 'Play recitation';
+
+  @override
+  String get addressLookupCredit =>
+      'Address lookup: © OpenStreetMap contributors (ODbL), Open-Meteo geocoding (CC BY 4.0), Zippopotam.';
+
+  @override
+  String get dataSourcesLicences => 'Data sources & licences';
+
+  @override
+  String get dataSourcesLicencesHint =>
+      'Where the texts, audio and maps come from, and their terms';
+
+  @override
+  String get openSourceLicences => 'Open-source licences';
+
+  @override
+  String recordingCredit(String author, String license) {
+    return 'Recording: $author · $license · Wikimedia Commons';
+  }
 }

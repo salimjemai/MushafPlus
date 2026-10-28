@@ -425,7 +425,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get credits =>
-      'Texte arabe : édition Tanzil Uthmani. Traductions et translittération : Al Quran Cloud. Mot à mot et tafsir : Quran.com. Récitation : EveryAyah.com. Hadith : fawazahmed0/hadith-api. Polices : Amiri et Amiri Quran (licence SIL). Modèle vocal : dérivé de tarteel-ai/whisper-base-ar-quran (Apache-2.0, affiné à partir d’OpenAI Whisper), exécuté sur l’appareil avec transformers.js et ONNX Runtime (Apache-2.0). Récitations des hadiths : Hadith.to.';
+      'Texte arabe : édition Tanzil Uthmani. Traductions et translittération : Al Quran Cloud. Mot à mot et tafsir : Quran.com. Récitation : EveryAyah.com. Hadith : fawazahmed0/hadith-api. Polices : Amiri et Amiri Quran (licence SIL). Modèle vocal : dérivé de tarteel-ai/whisper-base-ar-quran (Apache-2.0, affiné à partir d’OpenAI Whisper), exécuté sur l’appareil avec transformers.js et ONNX Runtime (Apache-2.0).';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -1220,7 +1220,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get adhanCredits =>
-      'Enregistrements issus des collections « adhans » et « azan-alafasy » de l\'Internet Archive.';
+      'Enregistrements issus de Wikimedia Commons sous CC0 et CC BY-SA 4.0, convertis en MP3 ; touchez la ligne de crédit pour ouvrir le fichier d’origine et sa licence.';
 
   @override
   String downloaded(String name) {
@@ -2205,4 +2205,23 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get playRecitation => 'Écouter la récitation';
+
+  @override
+  String get addressLookupCredit =>
+      'Recherche d’adresses : © contributeurs OpenStreetMap (ODbL), géocodage Open-Meteo (CC BY 4.0), Zippopotam.';
+
+  @override
+  String get dataSourcesLicences => 'Sources de données et licences';
+
+  @override
+  String get dataSourcesLicencesHint =>
+      'D’où viennent les textes, l’audio et les cartes, et leurs conditions';
+
+  @override
+  String get openSourceLicences => 'Licences open source';
+
+  @override
+  String recordingCredit(String author, String license) {
+    return 'Enregistrement : $author · $license · Wikimedia Commons';
+  }
 }

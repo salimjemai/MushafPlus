@@ -429,6 +429,8 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
                   ),
                 const SizedBox(height: 24),
                 FilledButton.icon(onPressed: _busy ? null : _save, icon: const Icon(Icons.check), label: Text(l.saveMasjid)),
+                const SizedBox(height: 14),
+                Text(l.addressLookupCredit, style: TextStyle(fontSize: 11.5, color: scheme.outline, height: 1.4)),
                 const SizedBox(height: 24),
               ],
             ),

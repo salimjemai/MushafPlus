@@ -422,7 +422,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get credits =>
-      'Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran\'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır. Hadis okuyuşları: Hadith.to.';
+      'Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran\'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır.';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -1214,7 +1214,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get adhanCredits =>
-      'Kayıtlar Internet Archive \"adhans\" ve \"azan-alafasy\" koleksiyonlarından.';
+      'Kayıtlar Wikimedia Commons’tan, CC0 ve CC BY-SA 4.0 lisanslı, MP3’e dönüştürülmüş; özgün dosyayı ve lisansını açmak için künye satırına dokunun.';
 
   @override
   String downloaded(String name) {
@@ -2194,4 +2194,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get playRecitation => 'Okuyuşu çal';
+
+  @override
+  String get addressLookupCredit =>
+      'Adres arama: © OpenStreetMap katkıcıları (ODbL), Open-Meteo coğrafi kodlama (CC BY 4.0), Zippopotam.';
+
+  @override
+  String get dataSourcesLicences => 'Veri kaynakları ve lisanslar';
+
+  @override
+  String get dataSourcesLicencesHint =>
+      'Metinler, sesler ve haritalar nereden geliyor, koşulları neler';
+
+  @override
+  String get openSourceLicences => 'Açık kaynak lisansları';
+
+  @override
+  String recordingCredit(String author, String license) {
+    return 'Kayıt: $author · $license · Wikimedia Commons';
+  }
 }

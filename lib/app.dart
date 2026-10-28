@@ -22,6 +22,7 @@ import 'features/mushaf/mushaf_book_screen.dart';
 import 'features/prayer/personal_location_screen.dart';
 import 'features/prayer/publish_screen.dart';
 import 'features/prayer/reminders_screen.dart';
+import 'features/settings/licenses_screen.dart';
 import 'features/settings/profile_screen.dart';
 import 'features/reader/tajweed_guide.dart';
 import 'features/prayer/widget_screen.dart';
@@ -129,6 +130,7 @@ final _routes = <RouteBase>[
               builder: (c, s) => OfflinePacksScreen(autoStart: s.uri.queryParameters['all'] == '1'),
             ),
             GoRoute(path: 'support', builder: (c, s) => const SupportScreen()),
+            GoRoute(path: 'licenses', builder: (c, s) => const LicensesScreen()),
           ],
         ),
       ],

@@ -122,7 +122,7 @@
   "downloadedDataCleared": "İndirilen veriler temizlendi",
   "about": "Hakkında",
   "versionBuiltWith": "Sürüm 1.0.0 · Flutter ile yapıldı",
-  "credits": "Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır. Hadis okuyuşları: Hadith.to.",
+  "credits": "Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır.",
   "selectedOfMax": "{max} içinden {selected} seçili",
   "searchLanguageOrTranslator": "Dil veya mütercim ara",
   "nTranslations": "{count, plural, =1{1 meal} other{{count} meal}}",
@@ -343,7 +343,7 @@
   "qiblaHelp": "Telefonu düz tutun, mıknatıs ve metalden uzak durun. Kadrandaki Kâbe işareti kıbleyi, üstteki ok baktığınız yönü gösterir.",
   "adhan": "Ezan",
   "adhanIntro": "Farklı müezzinlerden ezan dinleyin, kaydı indirin ve namaz vakitleriniz için varsayılan ezanı seçin.",
-  "adhanCredits": "Kayıtlar Internet Archive \"adhans\" ve \"azan-alafasy\" koleksiyonlarından.",
+  "adhanCredits": "Kayıtlar Wikimedia Commons’tan, CC0 ve CC BY-SA 4.0 lisanslı, MP3’e dönüştürülmüş; özgün dosyayı ve lisansını açmak için künye satırına dokunun.",
   "downloaded": "{name} indirildi",
   "downloadFailed": "İndirme başarısız: {error}",
   "downloadSurahAudio": "Sure sesini çevrimdışı için indir",
@@ -627,5 +627,10 @@
   "markNone": "hareke yok",
   "markNoShadda": "şedde yok",
   "voiceModelHelp": "Mushaf+ ses modeli harekeleri de denetler: hareke hatası kehribar renginde görünür. Ayrıntılar için bir kelimeye dokunun.",
-  "playRecitation": "Okuyuşu çal"
+  "playRecitation": "Okuyuşu çal",
+  "addressLookupCredit": "Adres arama: © OpenStreetMap katkıcıları (ODbL), Open-Meteo coğrafi kodlama (CC BY 4.0), Zippopotam.",
+  "dataSourcesLicences": "Veri kaynakları ve lisanslar",
+  "dataSourcesLicencesHint": "Metinler, sesler ve haritalar nereden geliyor, koşulları neler",
+  "openSourceLicences": "Açık kaynak lisansları",
+  "recordingCredit": "Kayıt: {author} · {license} · Wikimedia Commons"
 }

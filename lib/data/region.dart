@@ -15,7 +15,7 @@ class Region {
   /// Country code from a keyless IP lookup, falling back to the device
   /// locale's region. Null when nothing can be determined.
   static Future<String?> detect() async {
-    for (final probe in [_geojs, _ipwho]) {
+    for (final probe in [_geojs]) {
       try {
         final code = await probe().timeout(const Duration(seconds: 6));
         if (code != null && countries.containsKey(code)) return code;
@@ -37,14 +37,6 @@ class Region {
     if (res.statusCode != 200) return null;
     final m = jsonDecode(res.body) as Map<String, dynamic>;
     return (m['country'] as String?)?.toUpperCase();
-  }
-
-  static Future<String?> _ipwho() async {
-    final res = await http.get(Uri.parse('https://ipwho.is/?fields=country_code,success'));
-    if (res.statusCode != 200) return null;
-    final m = jsonDecode(res.body) as Map<String, dynamic>;
-    if (m['success'] == false) return null;
-    return (m['country_code'] as String?)?.toUpperCase();
   }
 
   /// Regional indicator flag for a country code (🇹🇳 for TN).
