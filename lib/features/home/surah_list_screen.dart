@@ -134,6 +134,8 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                       _TodayCard(),
                       SizedBox(height: 12),
                       _VerseOfTheDayCard(),
+                      SizedBox(height: 12),
+                      _SupportCard(),
                       SizedBox(height: 4),
                     ],
                     const SizedBox(height: 4),
@@ -248,6 +250,8 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                         _TodayCard(),
                         SizedBox(height: 12),
                         _VerseOfTheDayCard(),
+                        SizedBox(height: 12),
+                        _SupportCard(),
                       ],
                     ),
                   ),
@@ -703,6 +707,32 @@ class _SurahSidebarState extends ConsumerState<SurahSidebar> {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// "Support Mushaf+" shortcut (store tip jar or donation links).
+class _SupportCard extends StatelessWidget {
+  const _SupportCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: ListTile(
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(color: scheme.primary.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
+          child: Icon(Icons.favorite, color: scheme.primary),
+        ),
+        title: Text(l.supportTitle, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15.5)),
+        subtitle: Text(l.supportSubtitle, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+        trailing: Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
+        onTap: () => context.push('/settings/support'),
+      ),
     );
   }
 }

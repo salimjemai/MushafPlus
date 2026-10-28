@@ -2027,4 +2027,42 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get useLocationShort => 'استخدم موقعي';
+
+  @override
+  String get supportTitle => 'ادعم Mushaf+';
+
+  @override
+  String get supportSubtitle =>
+      'مساهمة تطوعية تُبقي التطبيق مجانيًا ومفتوحًا وبلا إعلانات.';
+
+  @override
+  String get supportIntro =>
+      'Mushaf+ مجاني وبلا إعلانات وسيبقى كذلك. إن كان ينفعك فإن مساهمة تطوعية تغطي الخوادم واستضافة الصوت ورسوم المتاجر وتتيح لنا مواصلة التطوير.';
+
+  @override
+  String get tipJarIntro =>
+      'اختر مبلغًا. لا يفتح شيئًا: كل ما في Mushaf+ يبقى مجانيًا للجميع.';
+
+  @override
+  String get tipThanks => 'جزاكم الله خيرًا. شكرًا لدعمكم Mushaf+!';
+
+  @override
+  String get tipUnavailable => 'الدعم غير متاح الآن. يُرجى المحاولة لاحقًا.';
+
+  @override
+  String get donateIntro => 'اختر طريقة المساهمة.';
+
+  @override
+  String get donateComingSoon =>
+      'يجري إعداد خيارات التبرع. شكرًا لصبركم ولاستخدامكم Mushaf+.';
+
+  @override
+  String get bankTransfer => 'تحويل بنكي';
+
+  @override
+  String get copied => 'تم النسخ';
+
+  @override
+  String get supportFootnote =>
+      'المساهمات هدايا تطوعية للمطوّر وليست مشتريات، ولا تُخصم من الضرائب.';
 }

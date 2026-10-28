@@ -1374,5 +1374,16 @@
   },
   "tasbih": "Tasbih",
   "tapToCount": "Tap to count, hold to reset",
-  "useLocationShort": "Use my location"
+  "useLocationShort": "Use my location",
+  "supportTitle": "Support Mushaf+",
+  "supportSubtitle": "A voluntary contribution keeps the app free, open and ad-free.",
+  "supportIntro": "Mushaf+ is free, has no ads and never will. If it helps you, a voluntary contribution covers the servers, audio hosting and store fees and lets us keep building.",
+  "tipJarIntro": "Choose a tip. It unlocks nothing: everything in Mushaf+ stays free for everyone.",
+  "tipThanks": "JazakAllahu khairan. Thank you for supporting Mushaf+!",
+  "tipUnavailable": "Tips are not available right now. Please try again later.",
+  "donateIntro": "Choose how you would like to contribute.",
+  "donateComingSoon": "Donation options are being set up. Thank you for your patience, and for using Mushaf+.",
+  "bankTransfer": "Bank transfer",
+  "copied": "Copied",
+  "supportFootnote": "Contributions are voluntary gifts to the developer, not purchases, and are not tax-deductible."
 }

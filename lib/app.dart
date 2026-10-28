@@ -31,6 +31,7 @@ import 'features/recite/recite_screen.dart';
 import 'features/search/search_screen.dart';
 import 'features/settings/offline_packs_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'features/support/support_screen.dart';
 import 'features/settings/translation_picker_screen.dart';
 import 'features/watch/watch_app.dart';
 import 'state/providers.dart';
@@ -127,6 +128,7 @@ final _routes = <RouteBase>[
               path: 'offline',
               builder: (c, s) => OfflinePacksScreen(autoStart: s.uri.queryParameters['all'] == '1'),
             ),
+            GoRoute(path: 'support', builder: (c, s) => const SupportScreen()),
           ],
         ),
       ],

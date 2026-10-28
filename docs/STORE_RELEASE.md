@@ -42,6 +42,16 @@ What is already in the repository, and what only the account owner can do.
 
 **Long:** Mushaf+ opens the Quran as a printed book you turn page by page, with every letter coloured by its tajweed rule and an explanation one tap away. Recite from memory and the app marks each word green or red. Read 100+ translations and word-by-word meanings, listen to twenty reciters at any speed, and keep notes, highlights and bookmarks. The nine hadith collections open like books and export to PDF. Masjids get precise prayer, iqama and Jumu'ah times, a Qibla compass, adhans, and widgets to embed on their website. Works offline for the Quran text, tajweed and anything you download. In English, Arabic, French, Urdu, Indonesian and Turkish.
 
+## Support Mushaf+ (tip jar and donations)
+
+Apple (guideline 3.1.1) and Google (Payments policy) require that a voluntary tip to the developer inside the app goes through their own in-app purchase, with no link or mention of other payment methods in the iOS/Android app. The website has no such rule. The code follows that split (`lib/data/donations.dart`, `lib/features/support/support_screen.dart`, Settings → Support Mushaf+ and the home card):
+
+- **iOS / Android:** three consumable products `mushafplus_tip_small`, `mushafplus_tip_medium`, `mushafplus_tip_large`. Create them with exactly these ids:
+  - App Store Connect → the app → In-App Purchases → "+" → Consumable; set a reference name, a price tier per product (e.g. 0.99 / 4.99 / 9.99), a localized display name ("Small tip", …) and a one-line description; add a review screenshot of the Support screen. In Xcode add the **In-App Purchase** capability to the Runner target and accept the Paid Apps agreement + banking/tax forms in App Store Connect, otherwise products never load.
+  - Play Console → Monetize → Products → In-app products → Create; same ids, prices, titles. Set up the merchant account (Payments profile) first. Test with license testers (Setup → License testing) on an internal-testing build.
+  - The screen shows "Tips are not available right now" until the store returns the products; nothing in the app is unlocked by a tip (keep it that way, it is what makes the tip a simple consumable).
+- **Web / desktop:** fill `donationLinks` (Stripe Payment Link, PayPal donate button, Ko-fi, …) and/or `bankDetails` in `lib/data/donations.dart`; empty entries are hidden and the page says donations are coming soon. These links never appear in the store builds.
+
 ## Before each release
 
 - `flutter analyze` and `flutter test` green; CI green.

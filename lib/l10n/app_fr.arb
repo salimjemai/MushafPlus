@@ -581,5 +581,16 @@
   "inDuration": "dans {duration}",
   "tasbih": "Tasbih",
   "tapToCount": "Touchez pour compter, maintenez pour remettre à zéro",
-  "useLocationShort": "Ma position"
+  "useLocationShort": "Ma position",
+  "supportTitle": "Soutenir Mushaf+",
+  "supportSubtitle": "Une contribution volontaire garde l’application gratuite, ouverte et sans publicité.",
+  "supportIntro": "Mushaf+ est gratuit, sans publicité, et le restera. S’il vous est utile, une contribution volontaire couvre les serveurs, l’hébergement audio et les frais des boutiques, et nous permet de continuer.",
+  "tipJarIntro": "Choisissez un pourboire. Il ne débloque rien : tout Mushaf+ reste gratuit pour tous.",
+  "tipThanks": "JazakAllahu khairan. Merci de soutenir Mushaf+ !",
+  "tipUnavailable": "Les pourboires ne sont pas disponibles pour le moment. Réessayez plus tard.",
+  "donateIntro": "Choisissez comment contribuer.",
+  "donateComingSoon": "Les options de don sont en préparation. Merci de votre patience et d’utiliser Mushaf+.",
+  "bankTransfer": "Virement bancaire",
+  "copied": "Copié",
+  "supportFootnote": "Les contributions sont des dons volontaires au développeur, pas des achats, et ne sont pas déductibles des impôts."
 }

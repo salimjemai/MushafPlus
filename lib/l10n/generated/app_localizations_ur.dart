@@ -2028,4 +2028,43 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get useLocationShort => 'میرا مقام';
+
+  @override
+  String get supportTitle => 'Mushaf+ کی مدد کریں';
+
+  @override
+  String get supportSubtitle =>
+      'رضاکارانہ تعاون ایپ کو مفت، کھلا اور اشتہارات سے پاک رکھتا ہے۔';
+
+  @override
+  String get supportIntro =>
+      'Mushaf+ مفت ہے، اس میں اشتہار نہیں اور کبھی نہیں ہوں گے۔ اگر یہ آپ کے کام آتی ہے تو رضاکارانہ تعاون سرورز، آڈیو ہوسٹنگ اور اسٹور فیس پوری کرتا ہے اور ہمیں آگے بڑھنے دیتا ہے۔';
+
+  @override
+  String get tipJarIntro =>
+      'کوئی رقم منتخب کریں۔ اس سے کچھ نہیں کھلتا: Mushaf+ میں سب کچھ سب کے لیے مفت رہتا ہے۔';
+
+  @override
+  String get tipThanks => 'جزاک اللہ خیراً۔ Mushaf+ کی مدد کا شکریہ!';
+
+  @override
+  String get tipUnavailable =>
+      'فی الحال تعاون دستیاب نہیں۔ براہ کرم بعد میں کوشش کریں۔';
+
+  @override
+  String get donateIntro => 'تعاون کا طریقہ منتخب کریں۔';
+
+  @override
+  String get donateComingSoon =>
+      'عطیے کے اختیارات تیار کیے جا رہے ہیں۔ آپ کے صبر اور Mushaf+ استعمال کرنے کا شکریہ۔';
+
+  @override
+  String get bankTransfer => 'بینک ٹرانسفر';
+
+  @override
+  String get copied => 'کاپی ہو گیا';
+
+  @override
+  String get supportFootnote =>
+      'تعاون ڈویلپر کے لیے رضاکارانہ تحفہ ہے، خریداری نہیں، اور ٹیکس میں قابلِ کٹوتی نہیں۔';
 }

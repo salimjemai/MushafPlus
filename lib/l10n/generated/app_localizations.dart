@@ -3597,6 +3597,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use my location'**
   String get useLocationShort;
+
+  /// No description provided for @supportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Mushaf+'**
+  String get supportTitle;
+
+  /// No description provided for @supportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A voluntary contribution keeps the app free, open and ad-free.'**
+  String get supportSubtitle;
+
+  /// No description provided for @supportIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Mushaf+ is free, has no ads and never will. If it helps you, a voluntary contribution covers the servers, audio hosting and store fees and lets us keep building.'**
+  String get supportIntro;
+
+  /// No description provided for @tipJarIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a tip. It unlocks nothing: everything in Mushaf+ stays free for everyone.'**
+  String get tipJarIntro;
+
+  /// No description provided for @tipThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'JazakAllahu khairan. Thank you for supporting Mushaf+!'**
+  String get tipThanks;
+
+  /// No description provided for @tipUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips are not available right now. Please try again later.'**
+  String get tipUnavailable;
+
+  /// No description provided for @donateIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how you would like to contribute.'**
+  String get donateIntro;
+
+  /// No description provided for @donateComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Donation options are being set up. Thank you for your patience, and for using Mushaf+.'**
+  String get donateComingSoon;
+
+  /// No description provided for @bankTransfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank transfer'**
+  String get bankTransfer;
+
+  /// No description provided for @copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get copied;
+
+  /// No description provided for @supportFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'Contributions are voluntary gifts to the developer, not purchases, and are not tax-deductible.'**
+  String get supportFootnote;
 }
 
 class _AppLocalizationsDelegate

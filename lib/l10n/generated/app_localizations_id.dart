@@ -2036,4 +2036,44 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get useLocationShort => 'Lokasi saya';
+
+  @override
+  String get supportTitle => 'Dukung Mushaf+';
+
+  @override
+  String get supportSubtitle =>
+      'Kontribusi sukarela menjaga aplikasi tetap gratis, terbuka dan bebas iklan.';
+
+  @override
+  String get supportIntro =>
+      'Mushaf+ gratis, tanpa iklan, dan akan selalu begitu. Jika bermanfaat bagi Anda, kontribusi sukarela menutup biaya server, hosting audio dan biaya toko aplikasi, serta memungkinkan kami terus membangun.';
+
+  @override
+  String get tipJarIntro =>
+      'Pilih tip. Tidak membuka apa pun: semua di Mushaf+ tetap gratis untuk semua orang.';
+
+  @override
+  String get tipThanks =>
+      'Jazakallahu khairan. Terima kasih telah mendukung Mushaf+!';
+
+  @override
+  String get tipUnavailable =>
+      'Tip belum tersedia saat ini. Silakan coba lagi nanti.';
+
+  @override
+  String get donateIntro => 'Pilih cara berkontribusi.';
+
+  @override
+  String get donateComingSoon =>
+      'Pilihan donasi sedang disiapkan. Terima kasih atas kesabaran Anda dan karena memakai Mushaf+.';
+
+  @override
+  String get bankTransfer => 'Transfer bank';
+
+  @override
+  String get copied => 'Disalin';
+
+  @override
+  String get supportFootnote =>
+      'Kontribusi adalah hadiah sukarela kepada pengembang, bukan pembelian, dan tidak dapat dikurangkan dari pajak.';
 }

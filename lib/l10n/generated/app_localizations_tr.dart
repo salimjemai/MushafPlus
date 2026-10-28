@@ -2036,4 +2036,44 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get useLocationShort => 'Konumum';
+
+  @override
+  String get supportTitle => 'Mushaf+’ı destekle';
+
+  @override
+  String get supportSubtitle =>
+      'Gönüllü bir katkı uygulamayı ücretsiz, açık ve reklamsız tutar.';
+
+  @override
+  String get supportIntro =>
+      'Mushaf+ ücretsizdir, reklam içermez ve hiç içermeyecek. Size faydalıysa gönüllü bir katkı sunucuları, ses barındırmayı ve mağaza ücretlerini karşılar ve geliştirmeye devam etmemizi sağlar.';
+
+  @override
+  String get tipJarIntro =>
+      'Bir bahşiş seçin. Hiçbir şeyin kilidini açmaz: Mushaf+’taki her şey herkes için ücretsiz kalır.';
+
+  @override
+  String get tipThanks =>
+      'Cezakallahu hayran. Mushaf+’ı desteklediğiniz için teşekkürler!';
+
+  @override
+  String get tipUnavailable =>
+      'Bahşişler şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.';
+
+  @override
+  String get donateIntro => 'Nasıl katkıda bulunmak istediğinizi seçin.';
+
+  @override
+  String get donateComingSoon =>
+      'Bağış seçenekleri hazırlanıyor. Sabrınız ve Mushaf+’ı kullandığınız için teşekkürler.';
+
+  @override
+  String get bankTransfer => 'Banka havalesi';
+
+  @override
+  String get copied => 'Kopyalandı';
+
+  @override
+  String get supportFootnote =>
+      'Katkılar geliştiriciye gönüllü hediyedir, satın alma değildir ve vergiden düşülemez.';
 }

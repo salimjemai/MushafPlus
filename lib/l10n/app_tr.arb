@@ -581,5 +581,16 @@
   "inDuration": "{duration} sonra",
   "tasbih": "Tesbih",
   "tapToCount": "Saymak için dokunun, sıfırlamak için basılı tutun",
-  "useLocationShort": "Konumum"
+  "useLocationShort": "Konumum",
+  "supportTitle": "Mushaf+’ı destekle",
+  "supportSubtitle": "Gönüllü bir katkı uygulamayı ücretsiz, açık ve reklamsız tutar.",
+  "supportIntro": "Mushaf+ ücretsizdir, reklam içermez ve hiç içermeyecek. Size faydalıysa gönüllü bir katkı sunucuları, ses barındırmayı ve mağaza ücretlerini karşılar ve geliştirmeye devam etmemizi sağlar.",
+  "tipJarIntro": "Bir bahşiş seçin. Hiçbir şeyin kilidini açmaz: Mushaf+’taki her şey herkes için ücretsiz kalır.",
+  "tipThanks": "Cezakallahu hayran. Mushaf+’ı desteklediğiniz için teşekkürler!",
+  "tipUnavailable": "Bahşişler şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+  "donateIntro": "Nasıl katkıda bulunmak istediğinizi seçin.",
+  "donateComingSoon": "Bağış seçenekleri hazırlanıyor. Sabrınız ve Mushaf+’ı kullandığınız için teşekkürler.",
+  "bankTransfer": "Banka havalesi",
+  "copied": "Kopyalandı",
+  "supportFootnote": "Katkılar geliştiriciye gönüllü hediyedir, satın alma değildir ve vergiden düşülemez."
 }

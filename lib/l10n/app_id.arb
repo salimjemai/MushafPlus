@@ -581,5 +581,16 @@
   "inDuration": "dalam {duration}",
   "tasbih": "Tasbih",
   "tapToCount": "Ketuk untuk menghitung, tahan untuk mengatur ulang",
-  "useLocationShort": "Lokasi saya"
+  "useLocationShort": "Lokasi saya",
+  "supportTitle": "Dukung Mushaf+",
+  "supportSubtitle": "Kontribusi sukarela menjaga aplikasi tetap gratis, terbuka dan bebas iklan.",
+  "supportIntro": "Mushaf+ gratis, tanpa iklan, dan akan selalu begitu. Jika bermanfaat bagi Anda, kontribusi sukarela menutup biaya server, hosting audio dan biaya toko aplikasi, serta memungkinkan kami terus membangun.",
+  "tipJarIntro": "Pilih tip. Tidak membuka apa pun: semua di Mushaf+ tetap gratis untuk semua orang.",
+  "tipThanks": "Jazakallahu khairan. Terima kasih telah mendukung Mushaf+!",
+  "tipUnavailable": "Tip belum tersedia saat ini. Silakan coba lagi nanti.",
+  "donateIntro": "Pilih cara berkontribusi.",
+  "donateComingSoon": "Pilihan donasi sedang disiapkan. Terima kasih atas kesabaran Anda dan karena memakai Mushaf+.",
+  "bankTransfer": "Transfer bank",
+  "copied": "Disalin",
+  "supportFootnote": "Kontribusi adalah hadiah sukarela kepada pengembang, bukan pembelian, dan tidak dapat dikurangkan dari pajak."
 }

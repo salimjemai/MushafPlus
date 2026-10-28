@@ -2037,4 +2037,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get useLocationShort => 'Use my location';
+
+  @override
+  String get supportTitle => 'Support Mushaf+';
+
+  @override
+  String get supportSubtitle =>
+      'A voluntary contribution keeps the app free, open and ad-free.';
+
+  @override
+  String get supportIntro =>
+      'Mushaf+ is free, has no ads and never will. If it helps you, a voluntary contribution covers the servers, audio hosting and store fees and lets us keep building.';
+
+  @override
+  String get tipJarIntro =>
+      'Choose a tip. It unlocks nothing: everything in Mushaf+ stays free for everyone.';
+
+  @override
+  String get tipThanks =>
+      'JazakAllahu khairan. Thank you for supporting Mushaf+!';
+
+  @override
+  String get tipUnavailable =>
+      'Tips are not available right now. Please try again later.';
+
+  @override
+  String get donateIntro => 'Choose how you would like to contribute.';
+
+  @override
+  String get donateComingSoon =>
+      'Donation options are being set up. Thank you for your patience, and for using Mushaf+.';
+
+  @override
+  String get bankTransfer => 'Bank transfer';
+
+  @override
+  String get copied => 'Copied';
+
+  @override
+  String get supportFootnote =>
+      'Contributions are voluntary gifts to the developer, not purchases, and are not tax-deductible.';
 }

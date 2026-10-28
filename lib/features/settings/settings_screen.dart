@@ -313,6 +313,18 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
               _Section(
+                title: l.supportTitle,
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.favorite, color: scheme.primary),
+                    title: Text(l.supportTitle),
+                    subtitle: Text(l.supportSubtitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push('/settings/support'),
+                  ),
+                ],
+              ),
+              _Section(
                 title: l.about,
                 children: [
                   ListTile(
