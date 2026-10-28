@@ -76,10 +76,31 @@ def shrink_embedding(src: str, dst: str, min_rows: int = 10000) -> None:
         graph.node.remove(node)
         for k, n in enumerate(new_nodes):
             graph.node.insert(idx + k, n)
-        if uses[base] == 1:
+        # The logits are x @ table.T: the exporter keeps that as a Transpose of
+        # the same fp32 table, which the MatMul quantiser cannot touch (it only
+        # quantises initializer weights). Fold the transpose into its own
+        # initializer so the int8 pass picks it up and the fp32 table goes.
+        folded = 0
+        for other in list(graph.node):
+            if other.op_type == "Transpose" and list(other.input) == [base]:
+                perm = next((list(a.ints) for a in other.attribute if a.name == "perm"), None)
+                if perm not in (None, [1, 0]):
+                    continue
+                t_name = f"{base}_T"
+                if t_name not in inits:
+                    graph.initializer.append(numpy_helper.from_array(np.ascontiguousarray(w.T), t_name))
+                    inits[t_name] = True
+                for consumer in graph.node:
+                    for k, name in enumerate(consumer.input):
+                        if name == other.output[0]:
+                            consumer.input[k] = t_name
+                graph.node.remove(other)
+                folded += 1
+        remaining = [n.name or n.op_type for n in graph.node if base in n.input]
+        if not remaining:
             graph.initializer.remove(table)
         done += 1
-        print(f"embedding {base}: {table.dims[0]} x {table.dims[1]} stored as per-row int8 (table still referenced elsewhere: {uses[base] > 1})")
+        print(f"embedding {base}: {table.dims[0]} x {table.dims[1]} stored as per-row int8; transposes folded: {folded}; fp32 table still used by: {remaining}")
     if done != 1:
         raise SystemExit(f"expected one token-embedding Gather, rewrote {done}")
     onnx.checker.check_model(model)
