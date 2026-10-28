@@ -70,11 +70,19 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
     return ua.contains('iPhone') || ua.contains('iPad') || ua.contains('iPod') || (ua.contains('Macintosh') && nav.maxTouchPoints > 1);
   }
 
-  /// WebGPU is used where the browser exposes it, except on iOS/iPadOS: the
-  /// onnxruntime WebGPU backend there has crashed the tab (Safari then shows
-  /// "a problem repeatedly occurred" and the page cannot open), so those
-  /// devices take the smaller wasm path.
-  static bool get _hasWebGpu => (web.window.navigator as JSObject).has('gpu') && !_isIOS;
+  /// Phones and tablets: Android (Chrome, Samsung Internet, Firefox) as well
+  /// as iOS/iPadOS.
+  static bool get _isMobile {
+    final ua = web.window.navigator.userAgent;
+    return _isIOS || ua.contains('Android') || ua.contains('Mobi');
+  }
+
+  /// WebGPU is used where the browser exposes it, except on phones and
+  /// tablets: the onnxruntime WebGPU backend has killed the tab there while
+  /// the model was being prepared (Android Chrome shows "Aw, Snap!", Safari
+  /// "a problem repeatedly occurred", and the page cannot open), so those
+  /// devices take the smaller wasm path and WebGPU is kept for desktops.
+  static bool get _hasWebGpu => (web.window.navigator as JSObject).has('gpu') && !_isMobile;
 
   static const _busyKey = 'mushaf.voiceModelBusy';
 

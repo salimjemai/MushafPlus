@@ -157,11 +157,11 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                     alignment: AlignmentDirectional.centerEnd,
                     child: SegmentedButton<_Tab>(
                       showSelectedIcon: false,
-                      style: const ButtonStyle(visualDensity: VisualDensity.compact),
+                      style: const ButtonStyle(visualDensity: VisualDensity.compact, padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 14))),
                       segments: [
-                        ButtonSegment(value: _Tab.surahs, label: Text(l.tabSurah)),
-                        ButtonSegment(value: _Tab.juz, label: Text(l.tabJuz)),
-                        ButtonSegment(value: _Tab.pages, label: Text(l.tabPage)),
+                        ButtonSegment(value: _Tab.surahs, label: Text(l.tabSurah, maxLines: 1, softWrap: false)),
+                        ButtonSegment(value: _Tab.juz, label: Text(l.tabJuz, maxLines: 1, softWrap: false)),
+                        ButtonSegment(value: _Tab.pages, label: Text(l.tabPage, maxLines: 1, softWrap: false)),
                       ],
                       selected: {_tab},
                       onSelectionChanged: (s) => setState(() => _tab = s.first),
