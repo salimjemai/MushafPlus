@@ -26,7 +26,7 @@ class DonationLink {
 ///   DonationLink('PayPal', 'https://www.paypal.com/donate/?hosted_button_id=XXXX'),
 ///   DonationLink('Ko-fi', 'https://ko-fi.com/XXXX'),
 const donationLinks = <DonationLink>[
-  DonationLink('PayPal', 'https://paypal.me/salimjemai'),
+  DonationLink('PayPal', 'https://paypal.me/jemaisalim'),
 ];
 
 /// Bank transfer details shown on the web donate page with a copy button
