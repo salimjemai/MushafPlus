@@ -55,6 +55,37 @@ jobs:
       - run: flutter build appbundle --release --flavor phone
       - run: flutter build apk --release --flavor wear
       - run: flutter build appbundle --release --flavor wear
+      - name: Native libraries per flavor (the watch build ships without the voice model engine)
+        run: |
+          phone_apk=build/app/outputs/flutter-apk/app-phone-release.apk
+          wear_apk=build/app/outputs/flutter-apk/app-wear-release.apk
+          phone_aab=build/app/outputs/bundle/phoneRelease/app-phone-release.aab
+          wear_aab=build/app/outputs/bundle/wearRelease/app-wear-release.aab
+          libs='lib(sherpa-onnx|onnxruntime)'
+          {
+            echo "## Android build sizes"
+            echo
+            echo "| File | Bytes |"
+            echo "|---|---|"
+            for f in "$phone_apk" "$wear_apk" "$phone_aab" "$wear_aab"; do
+              echo "| $(basename "$f") | $(stat -c %s "$f") |"
+            done
+            echo
+            echo "sherpa-onnx libraries in the phone APK (uncompressed bytes):"
+            echo
+            echo '```'
+            unzip -l "$phone_apk" | grep -E "$libs"
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          if ! unzip -l "$phone_apk" | grep -qE "$libs"; then
+            echo "::error::the phone APK has no sherpa-onnx libraries"; exit 1
+          fi
+          for f in "$wear_apk" "$wear_aab"; do
+            if unzip -l "$f" | grep -E "$libs"; then
+              echo "::error::$f still contains sherpa-onnx libraries"; exit 1
+            fi
+            echo "$(basename "$f"): no sherpa-onnx libraries" | tee -a "$GITHUB_STEP_SUMMARY"
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: mushaf-plus-android

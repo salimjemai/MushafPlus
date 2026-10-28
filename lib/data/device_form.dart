@@ -13,10 +13,14 @@ class DeviceForm {
 
   /// The display is a circle, so content must stay inside the inscribed square.
   final bool round;
+
+  /// The form [detectDeviceForm] found at startup; a phone until then.
+  static DeviceForm current = const DeviceForm();
 }
 
 /// Asks the platform once at startup.
 Future<DeviceForm> detectDeviceForm() async {
-  if (forcedWatchForm) return const DeviceForm(watch: true, round: true);
-  return impl.detect();
+  final form = forcedWatchForm ? const DeviceForm(watch: true, round: true) : await impl.detect();
+  DeviceForm.current = form;
+  return form;
 }
