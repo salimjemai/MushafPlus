@@ -3069,6 +3069,342 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Find a country…'**
   String get findCountry;
+
+  /// No description provided for @myPrayerTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'My prayer times'**
+  String get myPrayerTimes;
+
+  /// No description provided for @masjidsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Masjids'**
+  String get masjidsTab;
+
+  /// No description provided for @enterMyCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter my city'**
+  String get enterMyCity;
+
+  /// No description provided for @orEnterCity.
+  ///
+  /// In en, this message translates to:
+  /// **'or enter your city'**
+  String get orEnterCity;
+
+  /// No description provided for @editLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit location'**
+  String get editLocation;
+
+  /// No description provided for @personalIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times for where you are: allow your precise location, or type your city. The calculation method follows your country and can be changed.'**
+  String get personalIntro;
+
+  /// No description provided for @masjidAdminHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Masjid administrators: set up the masjid itself, with iqama and Jumu’ah times and website widgets, under the Masjids tab after creating a profile.'**
+  String get masjidAdminHint;
+
+  /// No description provided for @masjidAdminGate.
+  ///
+  /// In en, this message translates to:
+  /// **'Masjid profiles carry iqama times, Jumu’ah services and public widgets, so they are tied to a named administrator. Create your profile (name and email, kept on this device) to set one up.'**
+  String get masjidAdminGate;
+
+  /// No description provided for @createProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Create profile'**
+  String get createProfile;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @profileIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name and email identify you as the administrator of the masjids you set up. They stay on this device.'**
+  String get profileIntro;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address.'**
+  String get invalidEmail;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile saved'**
+  String get profileSaved;
+
+  /// No description provided for @masjidRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Role at the masjid (optional)'**
+  String get masjidRole;
+
+  /// No description provided for @masjidRoleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Imam, board member, volunteer…'**
+  String get masjidRoleHint;
+
+  /// No description provided for @removeProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove profile'**
+  String get removeProfile;
+
+  /// No description provided for @reminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get reminders;
+
+  /// No description provided for @remindersOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On · tap to adjust'**
+  String get remindersOn;
+
+  /// No description provided for @remindersOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off · prayer times, adhkar, daily ayah'**
+  String get remindersOff;
+
+  /// No description provided for @remindersSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times with adhan, morning and evening adhkar, daily ayah or dhikr'**
+  String get remindersSettingsSubtitle;
+
+  /// No description provided for @prayerReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer time reminders'**
+  String get prayerReminders;
+
+  /// No description provided for @prayerRemindersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Each prayer; opening the reminder plays {adhan}'**
+  String prayerRemindersSubtitle(String adhan);
+
+  /// No description provided for @remindBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind'**
+  String get remindBefore;
+
+  /// No description provided for @atPrayerTime.
+  ///
+  /// In en, this message translates to:
+  /// **'At prayer time'**
+  String get atPrayerTime;
+
+  /// No description provided for @minutesBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} min before'**
+  String minutesBefore(int n);
+
+  /// No description provided for @adhkarReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhkar reminders'**
+  String get adhkarReminders;
+
+  /// No description provided for @adhkarRemindersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning adhkar after Fajr, evening adhkar after Asr, sleep adhkar one hour after Isha'**
+  String get adhkarRemindersSubtitle;
+
+  /// No description provided for @dailyReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah or dhikr of the day'**
+  String get dailyReminder;
+
+  /// No description provided for @dailyReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A random ayah or dhikr once a day'**
+  String get dailyReminderSubtitle;
+
+  /// No description provided for @reminderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get reminderTime;
+
+  /// No description provided for @nextReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get nextReminders;
+
+  /// No description provided for @notificationsWebNote.
+  ///
+  /// In en, this message translates to:
+  /// **'In a browser, reminders appear only while Mushaf+ is open in a tab. Install the Android or iOS app for reminders that work with the app closed.'**
+  String get notificationsWebNote;
+
+  /// No description provided for @notificationsDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are blocked for Mushaf+ in the system settings.'**
+  String get notificationsDenied;
+
+  /// No description provided for @setLocationFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your prayer location first'**
+  String get setLocationFirst;
+
+  /// No description provided for @adhanOnNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer reminders use the system sound; opening one plays your chosen adhan in full.'**
+  String get adhanOnNotification;
+
+  /// No description provided for @prayerInMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{prayer} in {n} minutes'**
+  String prayerInMinutes(String prayer, int n);
+
+  /// No description provided for @timeForPrayer.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for {prayer}'**
+  String timeForPrayer(String prayer);
+
+  /// No description provided for @timeAdhkarMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning adhkar'**
+  String get timeAdhkarMorning;
+
+  /// No description provided for @timeAdhkarEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening adhkar'**
+  String get timeAdhkarEvening;
+
+  /// No description provided for @timeAdhkarSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep adhkar'**
+  String get timeAdhkarSleep;
+
+  /// No description provided for @adhkarMorningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the day with the morning remembrances.'**
+  String get adhkarMorningBody;
+
+  /// No description provided for @adhkarEveningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The evening remembrances, before the night.'**
+  String get adhkarEveningBody;
+
+  /// No description provided for @adhkarSleepBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The remembrances before sleep.'**
+  String get adhkarSleepBody;
+
+  /// No description provided for @ayahOfTheDayNotif.
+  ///
+  /// In en, this message translates to:
+  /// **'Ayah of the day'**
+  String get ayahOfTheDayNotif;
+
+  /// No description provided for @dhikrOfTheDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhikr of the day'**
+  String get dhikrOfTheDay;
+
+  /// No description provided for @memorizeCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Memorize & recite'**
+  String get memorizeCard;
+
+  /// No description provided for @memorizeCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the words, reveal them one by one, then recite and let the app check you.'**
+  String get memorizeCardSubtitle;
+
+  /// No description provided for @town.
+  ///
+  /// In en, this message translates to:
+  /// **'Town / City'**
+  String get town;
+
+  /// No description provided for @suburb.
+  ///
+  /// In en, this message translates to:
+  /// **'Suburb'**
+  String get suburb;
+
+  /// No description provided for @province.
+  ///
+  /// In en, this message translates to:
+  /// **'Province'**
+  String get province;
+
+  /// No description provided for @zip.
+  ///
+  /// In en, this message translates to:
+  /// **'ZIP code'**
+  String get zip;
+
+  /// No description provided for @postcode.
+  ///
+  /// In en, this message translates to:
+  /// **'Postcode'**
+  String get postcode;
+
+  /// No description provided for @regionOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Region (optional)'**
+  String get regionOptional;
+
+  /// No description provided for @postalOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Postal code (optional)'**
+  String get postalOptional;
 }
 
 class _AppLocalizationsDelegate

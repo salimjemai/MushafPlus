@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:share_plus/share_plus.dart';
@@ -14,7 +13,9 @@ import '../../core/theme.dart';
 import '../../data/adhans.dart';
 import '../../data/masjid.dart';
 import '../../data/prayer_times.dart';
+import '../../data/reminders.dart';
 import '../../state/masjid_providers.dart';
+import 'locate.dart';
 import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
 
@@ -49,23 +50,36 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
     final masjid = ref.watch(selectedMasjidProvider);
     final scheme = Theme.of(context).colorScheme;
 
+    final settings = ref.watch(settingsProvider);
+    final personal = settings.prayerMode != 'masjid';
+    final myLoc = ref.watch(myLocationProvider);
+    final profile = ref.watch(profileProvider);
+    final place = personal ? myLoc : masjid;
+
     return Scaffold(
       appBar: AppBar(
-        title: masjid == null
-            ? Text(l.prayerTimes)
-            : masjids.length > 1
-                ? DropdownButton<String>(
-                    value: masjid.id,
-                    underline: const SizedBox.shrink(),
-                    style: Theme.of(context).appBarTheme.titleTextStyle,
-                    items: [for (final m in masjids) DropdownMenuItem(value: m.id, child: Text(m.name))],
-                    onChanged: (v) {
-                      if (v != null) ref.read(masjidsProvider.notifier).select(v);
-                    },
-                  )
-                : Text(masjid.name, overflow: TextOverflow.ellipsis),
+        title: personal
+            ? Text(l.myPrayerTimes)
+            : masjid == null
+                ? Text(l.masjidsTab)
+                : masjids.length > 1
+                    ? DropdownButton<String>(
+                        value: masjid.id,
+                        underline: const SizedBox.shrink(),
+                        style: Theme.of(context).appBarTheme.titleTextStyle,
+                        items: [for (final m in masjids) DropdownMenuItem(value: m.id, child: Text(m.name))],
+                        onChanged: (v) {
+                          if (v != null) ref.read(masjidsProvider.notifier).select(v);
+                        },
+                      )
+                    : Text(masjid.name, overflow: TextOverflow.ellipsis),
         actions: [
-          if (masjid != null) ...[
+          IconButton(
+            tooltip: l.reminders,
+            icon: Icon(remindersEnabled(settings) ? Icons.notifications_active_outlined : Icons.notifications_none),
+            onPressed: () => context.push('/prayer/reminders'),
+          ),
+          if (place != null) ...[
             IconButton(
               tooltip: l.monthlyTimetable,
               icon: const Icon(Icons.calendar_month_outlined),
@@ -74,8 +88,10 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
             IconButton(
               tooltip: l.shareToday,
               icon: const Icon(Icons.ios_share),
-              onPressed: () => Share.share(_todayText(masjid)),
+              onPressed: () => Share.share(_todayText(place)),
             ),
+          ],
+          if (!personal && masjid != null)
             PopupMenuButton<String>(
               onSelected: (v) {
                 switch (v) {
@@ -96,15 +112,127 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                 PopupMenuItem(value: 'delete', child: ListTile(leading: const Icon(Icons.delete_outline), title: Text(l.removeMasjid))),
               ],
             ),
-          ],
         ],
       ),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 760),
-          child: masjid == null ? _setup(scheme) : _today(masjid, scheme),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: SegmentedButton<bool>(
+                  showSelectedIcon: false,
+                  segments: [
+                    ButtonSegment(value: true, icon: const Icon(Icons.person_pin_circle_outlined, size: 18), label: Text(l.myPrayerTimes)),
+                    ButtonSegment(value: false, icon: const Icon(Icons.mosque_outlined, size: 18), label: Text(l.masjidsTab)),
+                  ],
+                  selected: {personal},
+                  onSelectionChanged: (v) => ref.read(settingsProvider.notifier).setPrayerMode(v.first ? 'personal' : 'masjid'),
+                ),
+              ),
+              Expanded(
+                child: personal
+                    ? (myLoc == null ? _personalSetup(scheme) : _today(myLoc, scheme, personal: true))
+                    : profile == null
+                        ? _adminGate(scheme)
+                        : (masjid == null ? _setup(scheme) : _today(masjid, scheme)),
+              ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  // ---- personal ---------------------------------------------------------
+
+  Widget _personalSetup(ColorScheme scheme) {
+    final l = context.l10n;
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        PatternPanel(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('مواقيت الصلاة', style: ArabicStyles.surahName(context, size: 30, color: AppColors.goldLight)),
+              const SizedBox(height: 6),
+              Text(l.myPrayerTimes, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 8),
+              Text(l.personalIntro, style: TextStyle(color: Colors.white.withValues(alpha: 0.85), height: 1.5)),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        FilledButton.icon(
+          onPressed: _locating ? null : _useMyLocation,
+          icon: _locating
+              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+              : const Icon(Icons.my_location),
+          label: Text(l.useMyLocation),
+        ),
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
+          onPressed: () => context.push('/prayer/me'),
+          icon: const Icon(Icons.edit_location_alt_outlined),
+          label: Text(l.enterMyCity),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => context.push('/prayer/qibla'),
+                icon: const Icon(Icons.explore_outlined),
+                label: Text(l.qibla),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => context.push('/prayer/adhan'),
+                icon: const Icon(Icons.campaign_outlined),
+                label: Text(l.adhan),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Text(l.masjidAdminHint, style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.5)),
+      ],
+    );
+  }
+
+  Widget _adminGate(ColorScheme scheme) {
+    final l = context.l10n;
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(children: [
+                  Icon(Icons.admin_panel_settings_outlined, color: scheme.primary, size: 28),
+                  const SizedBox(width: 10),
+                  Expanded(child: Text(l.masjidsTab, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
+                ]),
+                const SizedBox(height: 10),
+                Text(l.masjidAdminGate, style: const TextStyle(height: 1.45)),
+                const SizedBox(height: 14),
+                FilledButton.icon(
+                  onPressed: () => context.push('/settings/profile'),
+                  icon: const Icon(Icons.person_add_alt_1_outlined),
+                  label: Text(l.createProfile),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -157,14 +285,6 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 8),
-        OutlinedButton.icon(
-          onPressed: _locating ? null : _useMyLocation,
-          icon: _locating
-              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-              : const Icon(Icons.my_location),
-          label: Text(l.useMyLocation),
-        ),
         const SizedBox(height: 16),
         Text(
           l.methodsList,
@@ -177,31 +297,10 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   Future<void> _useMyLocation() async {
     setState(() => _locating = true);
     try {
-      var permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-        throw Exception('Location permission denied');
-      }
-      final pos = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
-      ).timeout(const Duration(seconds: 30));
-      final geo = ref.read(geocodingServiceProvider);
-      final place = await geo.reverse(pos.latitude, pos.longitude);
-      final tzId = await geo.timezoneFor(pos.latitude, pos.longitude);
-      final m = Masjid(
-        id: DateTime.now().millisecondsSinceEpoch.toRadixString(36),
-        name: place?.city != null ? 'My location · ${place!.city}' : 'My location',
-        street: '',
-        city: place?.city ?? '',
-        state: place?.state ?? '',
-        postalCode: place?.postcode ?? '',
-        countryCode: place?.countryCode ?? '',
-        latitude: pos.latitude,
-        longitude: pos.longitude,
-        timezone: tzId,
-      );
-      await ref.read(masjidsProvider.notifier).save(m);
-      ref.read(masjidsProvider.notifier).select(m.id);
+      final m = await locateDevice(ref);
+      await ref.read(myLocationProvider.notifier).save(m);
+      ref.read(settingsProvider.notifier).setPrayerMode('personal');
+      if (mounted) await rescheduleReminders(ref, context.l10n);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.couldNotGetLocation('$e'))));
@@ -213,7 +312,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
 
   // ---- today ------------------------------------------------------------
 
-  Widget _today(Masjid masjid, ColorScheme scheme) {
+  Widget _today(Masjid masjid, ColorScheme scheme, {bool personal = false}) {
     final l = context.l10n;
     final now = nowAt(masjid);
     final today = prayerTimesFor(masjid, DateTime(now.year, now.month, now.day));
@@ -343,6 +442,16 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         const SizedBox(height: 12),
         Card(
           child: ListTile(
+            leading: Icon(remindersEnabled(ref.watch(settingsProvider)) ? Icons.notifications_active_outlined : Icons.notifications_none, color: scheme.primary),
+            title: Text(l.reminders, style: const TextStyle(fontWeight: FontWeight.w700)),
+            subtitle: Text(remindersEnabled(ref.watch(settingsProvider)) ? l.remindersOn : l.remindersOff, maxLines: 1, overflow: TextOverflow.ellipsis),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/prayer/reminders'),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Card(
+          child: ListTile(
             leading: Icon(Icons.auto_awesome, color: scheme.primary),
             title: Text(l.hisnAlMuslim, style: const TextStyle(fontWeight: FontWeight.w700)),
             subtitle: Text(l.hisnAlMuslimSubtitle, maxLines: 1, overflow: TextOverflow.ellipsis),
@@ -350,7 +459,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
             onTap: () => context.push('/adhkar'),
           ),
         ),
-        if (masjid.jumuah.isNotEmpty || isFriday) ...[
+        if (!personal && (masjid.jumuah.isNotEmpty || isFriday)) ...[
           const SizedBox(height: 12),
           Card(
             child: Padding(
@@ -390,12 +499,14 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           ),
         ],
         const SizedBox(height: 12),
-        FilledButton.icon(
-          onPressed: () => context.push('/prayer/publish?id=${masjid.id}'),
-          icon: const Icon(Icons.web_outlined),
-          label: Text(l.websiteWidget),
-        ),
-        const SizedBox(height: 8),
+        if (!personal) ...[
+          FilledButton.icon(
+            onPressed: () => context.push('/prayer/publish?id=${masjid.id}'),
+            icon: const Icon(Icons.web_outlined),
+            label: Text(l.websiteWidget),
+          ),
+          const SizedBox(height: 8),
+        ],
         Row(
           children: [
             Expanded(
@@ -408,9 +519,9 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
             const SizedBox(width: 8),
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: () => context.push('/prayer/edit?id=${masjid.id}'),
+                onPressed: () => context.push(personal ? '/prayer/me' : '/prayer/edit?id=${masjid.id}'),
                 icon: const Icon(Icons.edit_outlined),
-                label: Text(l.editMasjid),
+                label: Text(personal ? l.editLocation : l.editMasjid),
               ),
             ),
           ],

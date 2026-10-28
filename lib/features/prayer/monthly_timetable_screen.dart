@@ -26,7 +26,7 @@ class _MonthlyTimetableScreenState extends ConsumerState<MonthlyTimetableScreen>
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    final masjid = ref.watch(selectedMasjidProvider);
+    final masjid = ref.watch(activePlaceProvider);
     final scheme = Theme.of(context).colorScheme;
     if (masjid == null) {
       return Scaffold(

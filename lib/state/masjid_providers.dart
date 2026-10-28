@@ -5,6 +5,7 @@ import '../data/geocoding_service.dart';
 import '../data/masjid.dart';
 import '../data/prayer_times.dart';
 import '../data/storage.dart';
+import 'providers.dart';
 
 final geocodingServiceProvider = Provider<GeocodingService>((ref) => GeocodingService());
 
@@ -54,6 +55,45 @@ final selectedMasjidIdProvider = Provider<String?>((ref) {
   final list = ref.watch(masjidsProvider);
   if (stored != null && list.any((m) => m.id == stored)) return stored;
   return list.firstOrNull?.id;
+});
+
+/// The user's own prayer location (device position or a typed city),
+/// separate from masjid profiles.
+class MyLocationNotifier extends Notifier<Masjid?> {
+  static const _key = 'myLocation';
+
+  @override
+  Masjid? build() {
+    final v = Storage.settings.get(_key);
+    if (v is Map) {
+      try {
+        return Masjid.fromMap(v);
+      } catch (_) {}
+    }
+    return null;
+  }
+
+  Future<void> save(Masjid m) async {
+    state = m;
+    await Storage.settings.put(_key, m.toMap());
+  }
+
+  Future<void> clear() async {
+    state = null;
+    await Storage.settings.delete(_key);
+  }
+}
+
+final myLocationProvider = NotifierProvider<MyLocationNotifier, Masjid?>(MyLocationNotifier.new);
+
+/// The place the Prayer tab, timetable, qibla and reminders use: the
+/// personal location in personal mode, else the selected masjid, with the
+/// other as a fallback.
+final activePlaceProvider = Provider<Masjid?>((ref) {
+  final mode = ref.watch(settingsProvider.select((s) => s.prayerMode));
+  final mine = ref.watch(myLocationProvider);
+  final masjid = ref.watch(selectedMasjidProvider);
+  return mode == 'personal' ? (mine ?? masjid) : (masjid ?? mine);
 });
 
 final selectedMasjidProvider = Provider<Masjid?>((ref) {

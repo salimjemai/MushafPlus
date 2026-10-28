@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../data/reminders.dart';
 
 import '../../core/l10n.dart';
 import '../../widgets/mini_player.dart';
 
 /// Adaptive navigation: bottom bar on phones, rail on tablets/desktop/web.
-class HomeShell extends StatelessWidget {
+class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key, required this.child});
 
   final Widget child;
 
   static const _paths = ['/', '/hadith', '/prayer', '/bookmarks', '/settings'];
 
+  @override
+  ConsumerState<HomeShell> createState() => _HomeShellState();
+}
+
+class _HomeShellState extends ConsumerState<HomeShell> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) bootstrapReminders(context, ref);
+    });
+  }
+
   int _indexFor(String location) {
-    for (var i = _paths.length - 1; i > 0; i--) {
-      if (location.startsWith(_paths[i])) return i;
+    for (var i = HomeShell._paths.length - 1; i > 0; i--) {
+      if (location.startsWith(HomeShell._paths[i])) return i;
     }
     return 0;
   }
@@ -43,7 +59,7 @@ class HomeShell extends StatelessWidget {
                   extended: constraints.maxWidth >= 1200,
                   selectedIndex: index,
                   groupAlignment: -0.9,
-                  onDestinationSelected: (i) => context.go(_paths[i]),
+                  onDestinationSelected: (i) => context.go(HomeShell._paths[i]),
                   leading: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),
                     child: _Logo(),
@@ -58,21 +74,21 @@ class HomeShell extends StatelessWidget {
                   ],
                 ),
                 const VerticalDivider(width: 1),
-                Expanded(child: child),
+                Expanded(child: widget.child),
               ],
             ),
             bottomNavigationBar: const MiniPlayer(),
           );
         }
         return Scaffold(
-          body: child,
+          body: widget.child,
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const MiniPlayer(),
               NavigationBar(
                 selectedIndex: index,
-                onDestinationSelected: (i) => context.go(_paths[i]),
+                onDestinationSelected: (i) => context.go(HomeShell._paths[i]),
                 destinations: [
                   for (final d in destinations)
                     NavigationDestination(

@@ -139,6 +139,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             onPressed: () => context.go('/mushaf?page=${surah.startPage}'),
           ),
           IconButton(
+            tooltip: l.memorizeThisSurah,
+            icon: const Icon(Icons.psychology_outlined),
+            onPressed: () => context.go('/memorize/${surah.number}'),
+          ),
+          IconButton(
             tooltip: l.translations,
             icon: const Icon(Icons.translate),
             onPressed: () => context.push('/settings/translations'),

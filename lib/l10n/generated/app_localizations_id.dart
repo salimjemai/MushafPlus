@@ -1729,4 +1729,190 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get findCountry => 'Cari negara…';
+
+  @override
+  String get myPrayerTimes => 'Jadwal saya';
+
+  @override
+  String get masjidsTab => 'Masjid';
+
+  @override
+  String get enterMyCity => 'Masukkan kota saya';
+
+  @override
+  String get orEnterCity => 'atau masukkan kota Anda';
+
+  @override
+  String get editLocation => 'Ubah lokasi';
+
+  @override
+  String get personalIntro =>
+      'Jadwal salat di tempat Anda: izinkan lokasi presisi atau ketik kota Anda. Metode perhitungan mengikuti negara Anda dan dapat diubah.';
+
+  @override
+  String get masjidAdminHint =>
+      'Pengurus masjid: atur masjid itu sendiri, dengan iqamah, Jumat dan widget situs, di tab Masjid setelah membuat profil.';
+
+  @override
+  String get masjidAdminGate =>
+      'Profil masjid memuat iqamah, layanan Jumat dan widget publik, jadi terikat pada pengurus bernama. Buat profil Anda (nama dan email, tersimpan di perangkat ini) untuk mengaturnya.';
+
+  @override
+  String get createProfile => 'Buat profil';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get profileIntro =>
+      'Nama dan email Anda menandai Anda sebagai pengurus masjid yang Anda atur. Keduanya tetap di perangkat ini.';
+
+  @override
+  String get name => 'Nama';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get invalidEmail => 'Masukkan alamat email yang valid.';
+
+  @override
+  String get profileSaved => 'Profil disimpan';
+
+  @override
+  String get masjidRole => 'Peran di masjid (opsional)';
+
+  @override
+  String get masjidRoleHint => 'Imam, pengurus, relawan…';
+
+  @override
+  String get removeProfile => 'Hapus profil';
+
+  @override
+  String get reminders => 'Pengingat';
+
+  @override
+  String get remindersOn => 'Aktif · ketuk untuk mengatur';
+
+  @override
+  String get remindersOff => 'Nonaktif · salat, dzikir, ayat harian';
+
+  @override
+  String get remindersSettingsSubtitle =>
+      'Salat dengan azan, dzikir pagi dan petang, ayat atau dzikir harian';
+
+  @override
+  String get prayerReminders => 'Pengingat waktu salat';
+
+  @override
+  String prayerRemindersSubtitle(String adhan) {
+    return 'Setiap salat; membuka pengingat memutar $adhan';
+  }
+
+  @override
+  String get remindBefore => 'Ingatkan';
+
+  @override
+  String get atPrayerTime => 'Saat waktu salat';
+
+  @override
+  String minutesBefore(int n) {
+    return '$n mnt sebelumnya';
+  }
+
+  @override
+  String get adhkarReminders => 'Pengingat dzikir';
+
+  @override
+  String get adhkarRemindersSubtitle =>
+      'Dzikir pagi setelah Subuh, petang setelah Asar, dzikir tidur satu jam setelah Isya';
+
+  @override
+  String get dailyReminder => 'Ayat atau dzikir hari ini';
+
+  @override
+  String get dailyReminderSubtitle => 'Ayat atau dzikir acak sekali sehari';
+
+  @override
+  String get reminderTime => 'Waktu';
+
+  @override
+  String get nextReminders => 'Mendatang';
+
+  @override
+  String get notificationsWebNote =>
+      'Di peramban, pengingat hanya muncul saat Mushaf+ terbuka di tab. Pasang aplikasi Android atau iOS untuk pengingat saat aplikasi tertutup.';
+
+  @override
+  String get notificationsDenied =>
+      'Notifikasi untuk Mushaf+ diblokir di pengaturan sistem.';
+
+  @override
+  String get setLocationFirst => 'Atur lokasi salat Anda dulu';
+
+  @override
+  String get adhanOnNotification =>
+      'Pengingat salat memakai suara sistem; membukanya memutar azan pilihan Anda secara penuh.';
+
+  @override
+  String prayerInMinutes(String prayer, int n) {
+    return '$prayer dalam $n menit';
+  }
+
+  @override
+  String timeForPrayer(String prayer) {
+    return 'Waktu $prayer';
+  }
+
+  @override
+  String get timeAdhkarMorning => 'Dzikir pagi';
+
+  @override
+  String get timeAdhkarEvening => 'Dzikir petang';
+
+  @override
+  String get timeAdhkarSleep => 'Dzikir tidur';
+
+  @override
+  String get adhkarMorningBody => 'Awali hari dengan dzikir pagi.';
+
+  @override
+  String get adhkarEveningBody => 'Dzikir petang, sebelum malam.';
+
+  @override
+  String get adhkarSleepBody => 'Dzikir sebelum tidur.';
+
+  @override
+  String get ayahOfTheDayNotif => 'Ayat hari ini';
+
+  @override
+  String get dhikrOfTheDay => 'Dzikir hari ini';
+
+  @override
+  String get memorizeCard => 'Hafal & setor';
+
+  @override
+  String get memorizeCardSubtitle =>
+      'Sembunyikan kata, tampilkan satu per satu, lalu baca dan biarkan aplikasi memeriksa.';
+
+  @override
+  String get town => 'Kota';
+
+  @override
+  String get suburb => 'Kelurahan';
+
+  @override
+  String get province => 'Provinsi';
+
+  @override
+  String get zip => 'Kode ZIP';
+
+  @override
+  String get postcode => 'Kode pos';
+
+  @override
+  String get regionOptional => 'Wilayah (opsional)';
+
+  @override
+  String get postalOptional => 'Kode pos (opsional)';
 }

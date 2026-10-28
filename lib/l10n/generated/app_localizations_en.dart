@@ -1729,4 +1729,191 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get findCountry => 'Find a country…';
+
+  @override
+  String get myPrayerTimes => 'My prayer times';
+
+  @override
+  String get masjidsTab => 'Masjids';
+
+  @override
+  String get enterMyCity => 'Enter my city';
+
+  @override
+  String get orEnterCity => 'or enter your city';
+
+  @override
+  String get editLocation => 'Edit location';
+
+  @override
+  String get personalIntro =>
+      'Prayer times for where you are: allow your precise location, or type your city. The calculation method follows your country and can be changed.';
+
+  @override
+  String get masjidAdminHint =>
+      'Masjid administrators: set up the masjid itself, with iqama and Jumu’ah times and website widgets, under the Masjids tab after creating a profile.';
+
+  @override
+  String get masjidAdminGate =>
+      'Masjid profiles carry iqama times, Jumu’ah services and public widgets, so they are tied to a named administrator. Create your profile (name and email, kept on this device) to set one up.';
+
+  @override
+  String get createProfile => 'Create profile';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get profileIntro =>
+      'Your name and email identify you as the administrator of the masjids you set up. They stay on this device.';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get invalidEmail => 'Enter a valid email address.';
+
+  @override
+  String get profileSaved => 'Profile saved';
+
+  @override
+  String get masjidRole => 'Role at the masjid (optional)';
+
+  @override
+  String get masjidRoleHint => 'Imam, board member, volunteer…';
+
+  @override
+  String get removeProfile => 'Remove profile';
+
+  @override
+  String get reminders => 'Reminders';
+
+  @override
+  String get remindersOn => 'On · tap to adjust';
+
+  @override
+  String get remindersOff => 'Off · prayer times, adhkar, daily ayah';
+
+  @override
+  String get remindersSettingsSubtitle =>
+      'Prayer times with adhan, morning and evening adhkar, daily ayah or dhikr';
+
+  @override
+  String get prayerReminders => 'Prayer time reminders';
+
+  @override
+  String prayerRemindersSubtitle(String adhan) {
+    return 'Each prayer; opening the reminder plays $adhan';
+  }
+
+  @override
+  String get remindBefore => 'Remind';
+
+  @override
+  String get atPrayerTime => 'At prayer time';
+
+  @override
+  String minutesBefore(int n) {
+    return '$n min before';
+  }
+
+  @override
+  String get adhkarReminders => 'Adhkar reminders';
+
+  @override
+  String get adhkarRemindersSubtitle =>
+      'Morning adhkar after Fajr, evening adhkar after Asr, sleep adhkar one hour after Isha';
+
+  @override
+  String get dailyReminder => 'Ayah or dhikr of the day';
+
+  @override
+  String get dailyReminderSubtitle => 'A random ayah or dhikr once a day';
+
+  @override
+  String get reminderTime => 'Time';
+
+  @override
+  String get nextReminders => 'Upcoming';
+
+  @override
+  String get notificationsWebNote =>
+      'In a browser, reminders appear only while Mushaf+ is open in a tab. Install the Android or iOS app for reminders that work with the app closed.';
+
+  @override
+  String get notificationsDenied =>
+      'Notifications are blocked for Mushaf+ in the system settings.';
+
+  @override
+  String get setLocationFirst => 'Set your prayer location first';
+
+  @override
+  String get adhanOnNotification =>
+      'Prayer reminders use the system sound; opening one plays your chosen adhan in full.';
+
+  @override
+  String prayerInMinutes(String prayer, int n) {
+    return '$prayer in $n minutes';
+  }
+
+  @override
+  String timeForPrayer(String prayer) {
+    return 'Time for $prayer';
+  }
+
+  @override
+  String get timeAdhkarMorning => 'Morning adhkar';
+
+  @override
+  String get timeAdhkarEvening => 'Evening adhkar';
+
+  @override
+  String get timeAdhkarSleep => 'Sleep adhkar';
+
+  @override
+  String get adhkarMorningBody =>
+      'Start the day with the morning remembrances.';
+
+  @override
+  String get adhkarEveningBody => 'The evening remembrances, before the night.';
+
+  @override
+  String get adhkarSleepBody => 'The remembrances before sleep.';
+
+  @override
+  String get ayahOfTheDayNotif => 'Ayah of the day';
+
+  @override
+  String get dhikrOfTheDay => 'Dhikr of the day';
+
+  @override
+  String get memorizeCard => 'Memorize & recite';
+
+  @override
+  String get memorizeCardSubtitle =>
+      'Hide the words, reveal them one by one, then recite and let the app check you.';
+
+  @override
+  String get town => 'Town / City';
+
+  @override
+  String get suburb => 'Suburb';
+
+  @override
+  String get province => 'Province';
+
+  @override
+  String get zip => 'ZIP code';
+
+  @override
+  String get postcode => 'Postcode';
+
+  @override
+  String get regionOptional => 'Region (optional)';
+
+  @override
+  String get postalOptional => 'Postal code (optional)';
 }

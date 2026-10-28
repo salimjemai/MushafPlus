@@ -127,6 +127,8 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                     const _ContinueReadingCard(),
                     const SizedBox(height: 12),
                     if (!wide) ...const [
+                      _MemorizeCard(),
+                      SizedBox(height: 12),
                       _AdhkarCard(),
                       SizedBox(height: 12),
                       _TodayCard(),
@@ -239,6 +241,8 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
                       key: const ValueKey('home-side'),
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 16, 24),
                       children: const [
+                        _MemorizeCard(),
+                        SizedBox(height: 12),
                         _AdhkarCard(),
                         SizedBox(height: 12),
                         _TodayCard(),
@@ -772,6 +776,73 @@ class _AdhkarCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Memorisation and recitation checking, one tap from the home screen.
+class _MemorizeCard extends ConsumerWidget {
+  const _MemorizeCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
+    final repo = ref.quran;
+    final last = ref.watch(lastReadProvider);
+    final ayah = repo.ayah(last?.ayahNumber ?? 1);
+    final surah = repo.surah(ayah.surah);
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(color: scheme.secondary.withValues(alpha: 0.14), borderRadius: BorderRadius.circular(12)),
+                  child: Icon(Icons.psychology_outlined, color: scheme.secondary),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(l.memorizeCard, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15.5)),
+                      Text(l.memorizeCardSubtitle, maxLines: 2, overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton.tonalIcon(
+                    onPressed: () => context.push('/memorize/${surah.number}?from=${ayah.numberInSurah}'),
+                    icon: const Icon(Icons.psychology_outlined, size: 18),
+                    label: Text('${l.memorize} · ${surah.englishName}', overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () => context.push('/recite/${surah.number}?from=${ayah.numberInSurah}&auto=1'),
+                    icon: const Icon(Icons.mic_none, size: 18),
+                    label: Text(l.reciteAndCheck, overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

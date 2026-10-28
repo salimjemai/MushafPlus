@@ -19,7 +19,10 @@ import 'features/prayer/prayer_screen.dart';
 import 'features/prayer/qibla_screen.dart';
 import 'features/adhkar/adhkar_screens.dart';
 import 'features/mushaf/mushaf_book_screen.dart';
+import 'features/prayer/personal_location_screen.dart';
 import 'features/prayer/publish_screen.dart';
+import 'features/prayer/reminders_screen.dart';
+import 'features/settings/profile_screen.dart';
 import 'features/reader/tajweed_guide.dart';
 import 'features/prayer/widget_screen.dart';
 import 'data/masjid_share.dart';
@@ -38,6 +41,10 @@ import 'widgets/surah_number_badge.dart';
 String initialRouteAtStartup = '/';
 
 GoRouter? _routerInstance;
+
+/// The app's router, for navigation from outside the widget tree
+/// (notification taps).
+GoRouter get appRouter => _router;
 GoRouter get _router => _routerInstance ??= GoRouter(
       initialLocation: initialRouteAtStartup.startsWith('/') ? initialRouteAtStartup : '/',
       routes: _routes,
@@ -93,6 +100,8 @@ final _routes = <RouteBase>[
               builder: (c, s) => MasjidEditScreen(masjidId: s.uri.queryParameters['id']),
             ),
             GoRoute(path: 'month', builder: (c, s) => const MonthlyTimetableScreen()),
+            GoRoute(path: 'me', builder: (c, s) => const PersonalLocationScreen()),
+            GoRoute(path: 'reminders', builder: (c, s) => const RemindersScreen()),
             GoRoute(path: 'qibla', builder: (c, s) => const QiblaScreen()),
             GoRoute(path: 'publish', builder: (c, s) => PublishScreen(masjidId: s.uri.queryParameters['id'])),
             GoRoute(
@@ -108,6 +117,7 @@ final _routes = <RouteBase>[
           path: '/settings',
           builder: (c, s) => const SettingsScreen(),
           routes: [
+            GoRoute(path: 'profile', builder: (c, s) => const ProfileScreen()),
             GoRoute(
               path: 'translations',
               builder: (c, s) => const TranslationPickerScreen(),

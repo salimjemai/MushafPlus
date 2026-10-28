@@ -1727,4 +1727,191 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get findCountry => 'Ülke ara…';
+
+  @override
+  String get myPrayerTimes => 'Vakitlerim';
+
+  @override
+  String get masjidsTab => 'Camiler';
+
+  @override
+  String get enterMyCity => 'Şehrimi gir';
+
+  @override
+  String get orEnterCity => 'veya şehrinizi girin';
+
+  @override
+  String get editLocation => 'Konumu düzenle';
+
+  @override
+  String get personalIntro =>
+      'Bulunduğunuz yerin namaz vakitleri: hassas konuma izin verin veya şehrinizi yazın. Hesap yöntemi ülkenize göre seçilir ve değiştirilebilir.';
+
+  @override
+  String get masjidAdminHint =>
+      'Cami yöneticileri: profil oluşturduktan sonra Camiler sekmesinde caminin kendisini, ikamet, Cuma ve web widget’larıyla kurun.';
+
+  @override
+  String get masjidAdminGate =>
+      'Cami profilleri ikamet vakitleri, Cuma hizmetleri ve herkese açık widget’lar taşır; bu yüzden adı bilinen bir yöneticiye bağlıdır. Kurmak için profilinizi oluşturun (ad ve e-posta, bu cihazda kalır).';
+
+  @override
+  String get createProfile => 'Profil oluştur';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get profileIntro =>
+      'Adınız ve e-postanız sizi kurduğunuz camilerin yöneticisi olarak tanımlar. Bu cihazda kalırlar.';
+
+  @override
+  String get name => 'Ad';
+
+  @override
+  String get email => 'E-posta';
+
+  @override
+  String get invalidEmail => 'Geçerli bir e-posta adresi girin.';
+
+  @override
+  String get profileSaved => 'Profil kaydedildi';
+
+  @override
+  String get masjidRole => 'Camideki görev (isteğe bağlı)';
+
+  @override
+  String get masjidRoleHint => 'İmam, yönetim üyesi, gönüllü…';
+
+  @override
+  String get removeProfile => 'Profili kaldır';
+
+  @override
+  String get reminders => 'Hatırlatıcılar';
+
+  @override
+  String get remindersOn => 'Açık · ayarlamak için dokunun';
+
+  @override
+  String get remindersOff => 'Kapalı · namaz, zikir, günün ayeti';
+
+  @override
+  String get remindersSettingsSubtitle =>
+      'Ezanlı namaz, sabah ve akşam zikirleri, günün ayeti veya zikri';
+
+  @override
+  String get prayerReminders => 'Namaz vakti hatırlatıcıları';
+
+  @override
+  String prayerRemindersSubtitle(String adhan) {
+    return 'Her namaz; hatırlatıcıyı açmak $adhan çalar';
+  }
+
+  @override
+  String get remindBefore => 'Hatırlat';
+
+  @override
+  String get atPrayerTime => 'Namaz vaktinde';
+
+  @override
+  String minutesBefore(int n) {
+    return '$n dk önce';
+  }
+
+  @override
+  String get adhkarReminders => 'Zikir hatırlatıcıları';
+
+  @override
+  String get adhkarRemindersSubtitle =>
+      'Sabah zikirleri sabah namazından sonra, akşam zikirleri ikindiden sonra, uyku zikirleri yatsıdan bir saat sonra';
+
+  @override
+  String get dailyReminder => 'Günün ayeti veya zikri';
+
+  @override
+  String get dailyReminderSubtitle =>
+      'Günde bir kez rastgele bir ayet veya zikir';
+
+  @override
+  String get reminderTime => 'Saat';
+
+  @override
+  String get nextReminders => 'Yaklaşan';
+
+  @override
+  String get notificationsWebNote =>
+      'Tarayıcıda hatırlatıcılar yalnızca Mushaf+ bir sekmede açıkken görünür. Uygulama kapalıyken de hatırlatma için Android veya iOS uygulamasını yükleyin.';
+
+  @override
+  String get notificationsDenied =>
+      'Sistem ayarlarında Mushaf+ bildirimleri engellenmiş.';
+
+  @override
+  String get setLocationFirst => 'Önce namaz konumunuzu ayarlayın';
+
+  @override
+  String get adhanOnNotification =>
+      'Namaz hatırlatıcıları sistem sesini kullanır; birini açmak seçtiğiniz ezanı tam olarak çalar.';
+
+  @override
+  String prayerInMinutes(String prayer, int n) {
+    return '$prayer $n dakika sonra';
+  }
+
+  @override
+  String timeForPrayer(String prayer) {
+    return '$prayer vakti';
+  }
+
+  @override
+  String get timeAdhkarMorning => 'Sabah zikirleri';
+
+  @override
+  String get timeAdhkarEvening => 'Akşam zikirleri';
+
+  @override
+  String get timeAdhkarSleep => 'Uyku zikirleri';
+
+  @override
+  String get adhkarMorningBody => 'Güne sabah zikirleriyle başlayın.';
+
+  @override
+  String get adhkarEveningBody => 'Geceden önce akşam zikirleri.';
+
+  @override
+  String get adhkarSleepBody => 'Uyumadan önceki zikirler.';
+
+  @override
+  String get ayahOfTheDayNotif => 'Günün ayeti';
+
+  @override
+  String get dhikrOfTheDay => 'Günün zikri';
+
+  @override
+  String get memorizeCard => 'Ezberle ve oku';
+
+  @override
+  String get memorizeCardSubtitle =>
+      'Kelimeleri gizleyin, tek tek açın, sonra okuyun ve uygulama sizi denetlesin.';
+
+  @override
+  String get town => 'İlçe / Şehir';
+
+  @override
+  String get suburb => 'Semt';
+
+  @override
+  String get province => 'İl';
+
+  @override
+  String get zip => 'ZIP kodu';
+
+  @override
+  String get postcode => 'Posta kodu';
+
+  @override
+  String get regionOptional => 'Bölge (isteğe bağlı)';
+
+  @override
+  String get postalOptional => 'Posta kodu (isteğe bağlı)';
 }

@@ -1720,4 +1720,190 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get findCountry => 'ابحث عن دولة…';
+
+  @override
+  String get myPrayerTimes => 'مواقيتي';
+
+  @override
+  String get masjidsTab => 'المساجد';
+
+  @override
+  String get enterMyCity => 'أدخل مدينتي';
+
+  @override
+  String get orEnterCity => 'أو أدخل مدينتك';
+
+  @override
+  String get editLocation => 'تعديل الموقع';
+
+  @override
+  String get personalIntro =>
+      'مواقيت الصلاة لمكانك: اسمح بالموقع الدقيق أو اكتب مدينتك. تتبع طريقة الحساب دولتك ويمكن تغييرها.';
+
+  @override
+  String get masjidAdminHint =>
+      'لمسؤولي المساجد: أنشئ ملف المسجد نفسه، بأوقات الإقامة والجمعة وودجت الموقع، من تبويب المساجد بعد إنشاء ملفك الشخصي.';
+
+  @override
+  String get masjidAdminGate =>
+      'ملفات المساجد تحمل أوقات الإقامة والجمعة وودجت عامة، لذلك ترتبط بمسؤول معروف. أنشئ ملفك الشخصي (الاسم والبريد، يبقيان على هذا الجهاز) لإعداد مسجد.';
+
+  @override
+  String get createProfile => 'إنشاء ملف شخصي';
+
+  @override
+  String get profile => 'الملف الشخصي';
+
+  @override
+  String get profileIntro =>
+      'اسمك وبريدك يعرّفانك كمسؤول عن المساجد التي تنشئها. يبقيان على هذا الجهاز.';
+
+  @override
+  String get name => 'الاسم';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get invalidEmail => 'أدخل بريدًا إلكترونيًا صحيحًا.';
+
+  @override
+  String get profileSaved => 'تم حفظ الملف';
+
+  @override
+  String get masjidRole => 'الدور في المسجد (اختياري)';
+
+  @override
+  String get masjidRoleHint => 'إمام، عضو مجلس، متطوع…';
+
+  @override
+  String get removeProfile => 'حذف الملف';
+
+  @override
+  String get reminders => 'التنبيهات';
+
+  @override
+  String get remindersOn => 'مفعّلة · انقر للتعديل';
+
+  @override
+  String get remindersOff => 'متوقفة · الصلاة والأذكار وآية اليوم';
+
+  @override
+  String get remindersSettingsSubtitle =>
+      'الصلاة مع الأذان، أذكار الصباح والمساء، آية أو ذكر اليوم';
+
+  @override
+  String get prayerReminders => 'تنبيهات الصلاة';
+
+  @override
+  String prayerRemindersSubtitle(String adhan) {
+    return 'لكل صلاة؛ فتح التنبيه يشغّل $adhan';
+  }
+
+  @override
+  String get remindBefore => 'التنبيه';
+
+  @override
+  String get atPrayerTime => 'عند وقت الصلاة';
+
+  @override
+  String minutesBefore(int n) {
+    return 'قبل $n دقيقة';
+  }
+
+  @override
+  String get adhkarReminders => 'تنبيهات الأذكار';
+
+  @override
+  String get adhkarRemindersSubtitle =>
+      'أذكار الصباح بعد الفجر، والمساء بعد العصر، وأذكار النوم بعد العشاء بساعة';
+
+  @override
+  String get dailyReminder => 'آية أو ذكر اليوم';
+
+  @override
+  String get dailyReminderSubtitle => 'آية أو ذكر عشوائي مرة كل يوم';
+
+  @override
+  String get reminderTime => 'الوقت';
+
+  @override
+  String get nextReminders => 'القادمة';
+
+  @override
+  String get notificationsWebNote =>
+      'في المتصفح تظهر التنبيهات فقط ما دام Mushaf+ مفتوحًا في تبويب. ثبّت تطبيق أندرويد أو iOS لتنبيهات تعمل والتطبيق مغلق.';
+
+  @override
+  String get notificationsDenied =>
+      'الإشعارات محظورة لـ Mushaf+ في إعدادات النظام.';
+
+  @override
+  String get setLocationFirst => 'حدّد موقع صلاتك أولًا';
+
+  @override
+  String get adhanOnNotification =>
+      'تستخدم تنبيهات الصلاة صوت النظام؛ وفتح التنبيه يشغّل الأذان الذي اخترته كاملًا.';
+
+  @override
+  String prayerInMinutes(String prayer, int n) {
+    return '$prayer بعد $n دقيقة';
+  }
+
+  @override
+  String timeForPrayer(String prayer) {
+    return 'حان وقت $prayer';
+  }
+
+  @override
+  String get timeAdhkarMorning => 'أذكار الصباح';
+
+  @override
+  String get timeAdhkarEvening => 'أذكار المساء';
+
+  @override
+  String get timeAdhkarSleep => 'أذكار النوم';
+
+  @override
+  String get adhkarMorningBody => 'ابدأ يومك بأذكار الصباح.';
+
+  @override
+  String get adhkarEveningBody => 'أذكار المساء قبل الليل.';
+
+  @override
+  String get adhkarSleepBody => 'الأذكار قبل النوم.';
+
+  @override
+  String get ayahOfTheDayNotif => 'آية اليوم';
+
+  @override
+  String get dhikrOfTheDay => 'ذكر اليوم';
+
+  @override
+  String get memorizeCard => 'الحفظ والتسميع';
+
+  @override
+  String get memorizeCardSubtitle =>
+      'أخفِ الكلمات واكشفها واحدة واحدة، ثم سمّع ودع التطبيق يصحح لك.';
+
+  @override
+  String get town => 'البلدة / المدينة';
+
+  @override
+  String get suburb => 'الحي';
+
+  @override
+  String get province => 'المقاطعة';
+
+  @override
+  String get zip => 'الرمز البريدي';
+
+  @override
+  String get postcode => 'الرمز البريدي';
+
+  @override
+  String get regionOptional => 'المنطقة (اختياري)';
+
+  @override
+  String get postalOptional => 'الرمز البريدي (اختياري)';
 }

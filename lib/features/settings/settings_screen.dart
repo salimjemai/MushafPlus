@@ -144,6 +144,28 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
               _Section(
+                title: l.profile,
+                children: [
+                  Consumer(builder: (context, ref, _) {
+                    final p = ref.watch(profileProvider);
+                    return ListTile(
+                      leading: const Icon(Icons.person_outline),
+                      title: Text(p == null ? l.createProfile : p.name),
+                      subtitle: Text(p == null ? l.profileIntro : p.email, maxLines: 2, overflow: TextOverflow.ellipsis),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context.push('/settings/profile'),
+                    );
+                  }),
+                  ListTile(
+                    leading: const Icon(Icons.notifications_none),
+                    title: Text(l.reminders),
+                    subtitle: Text(l.remindersSettingsSubtitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push('/prayer/reminders'),
+                  ),
+                ],
+              ),
+              _Section(
                 title: l.region,
                 children: [
                   ListTile(

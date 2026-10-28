@@ -1721,4 +1721,190 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get findCountry => 'ملک تلاش کریں…';
+
+  @override
+  String get myPrayerTimes => 'میرے اوقات';
+
+  @override
+  String get masjidsTab => 'مساجد';
+
+  @override
+  String get enterMyCity => 'اپنا شہر درج کریں';
+
+  @override
+  String get orEnterCity => 'یا اپنا شہر درج کریں';
+
+  @override
+  String get editLocation => 'مقام میں ترمیم';
+
+  @override
+  String get personalIntro =>
+      'آپ جہاں ہیں وہاں کے نماز کے اوقات: درست مقام کی اجازت دیں یا اپنا شہر لکھیں۔ حساب کا طریقہ آپ کے ملک کے مطابق ہوتا ہے اور بدلا جا سکتا ہے۔';
+
+  @override
+  String get masjidAdminHint =>
+      'مسجد کے منتظمین: پروفائل بنانے کے بعد مساجد ٹیب میں مسجد خود ترتیب دیں، اقامت، جمعہ اور ویب سائٹ ویجٹ کے ساتھ۔';
+
+  @override
+  String get masjidAdminGate =>
+      'مسجد پروفائلز میں اقامت، جمعہ اور عوامی ویجٹ ہوتے ہیں، اس لیے وہ ایک نامزد منتظم سے جڑے ہوتے ہیں۔ مسجد ترتیب دینے کے لیے اپنا پروفائل بنائیں (نام اور ای میل، اسی آلے پر رہتے ہیں)۔';
+
+  @override
+  String get createProfile => 'پروفائل بنائیں';
+
+  @override
+  String get profile => 'پروفائل';
+
+  @override
+  String get profileIntro =>
+      'آپ کا نام اور ای میل آپ کو ان مساجد کے منتظم کے طور پر شناخت کرتے ہیں جو آپ ترتیب دیتے ہیں۔ یہ اسی آلے پر رہتے ہیں۔';
+
+  @override
+  String get name => 'نام';
+
+  @override
+  String get email => 'ای میل';
+
+  @override
+  String get invalidEmail => 'درست ای میل درج کریں۔';
+
+  @override
+  String get profileSaved => 'پروفائل محفوظ';
+
+  @override
+  String get masjidRole => 'مسجد میں کردار (اختیاری)';
+
+  @override
+  String get masjidRoleHint => 'امام، بورڈ ممبر، رضاکار…';
+
+  @override
+  String get removeProfile => 'پروفائل ہٹائیں';
+
+  @override
+  String get reminders => 'یاد دہانیاں';
+
+  @override
+  String get remindersOn => 'فعال · ترمیم کے لیے ٹیپ کریں';
+
+  @override
+  String get remindersOff => 'بند · نماز، اذکار، آیتِ یوم';
+
+  @override
+  String get remindersSettingsSubtitle =>
+      'اذان کے ساتھ نماز، صبح و شام کے اذکار، روزانہ آیت یا ذکر';
+
+  @override
+  String get prayerReminders => 'نماز کی یاد دہانیاں';
+
+  @override
+  String prayerRemindersSubtitle(String adhan) {
+    return 'ہر نماز؛ یاد دہانی کھولنے پر $adhan چلتی ہے';
+  }
+
+  @override
+  String get remindBefore => 'یاد دہانی';
+
+  @override
+  String get atPrayerTime => 'نماز کے وقت';
+
+  @override
+  String minutesBefore(int n) {
+    return '$n منٹ پہلے';
+  }
+
+  @override
+  String get adhkarReminders => 'اذکار کی یاد دہانیاں';
+
+  @override
+  String get adhkarRemindersSubtitle =>
+      'فجر کے بعد صبح کے، عصر کے بعد شام کے، اور عشاء کے ایک گھنٹے بعد سونے کے اذکار';
+
+  @override
+  String get dailyReminder => 'آیت یا ذکرِ یوم';
+
+  @override
+  String get dailyReminderSubtitle => 'روزانہ ایک بار بے ترتیب آیت یا ذکر';
+
+  @override
+  String get reminderTime => 'وقت';
+
+  @override
+  String get nextReminders => 'آئندہ';
+
+  @override
+  String get notificationsWebNote =>
+      'براؤزر میں یاد دہانیاں صرف اس وقت دکھتی ہیں جب Mushaf+ کسی ٹیب میں کھلا ہو۔ بند ایپ میں بھی یاد دہانیوں کے لیے اینڈرائیڈ یا iOS ایپ انسٹال کریں۔';
+
+  @override
+  String get notificationsDenied =>
+      'سسٹم کی ترتیبات میں Mushaf+ کے لیے اطلاعات بند ہیں۔';
+
+  @override
+  String get setLocationFirst => 'پہلے اپنا نماز کا مقام مقرر کریں';
+
+  @override
+  String get adhanOnNotification =>
+      'نماز کی یاد دہانیاں سسٹم کی آواز استعمال کرتی ہیں؛ کھولنے پر آپ کی منتخب اذان مکمل چلتی ہے۔';
+
+  @override
+  String prayerInMinutes(String prayer, int n) {
+    return '$prayer $n منٹ میں';
+  }
+
+  @override
+  String timeForPrayer(String prayer) {
+    return '$prayer کا وقت';
+  }
+
+  @override
+  String get timeAdhkarMorning => 'صبح کے اذکار';
+
+  @override
+  String get timeAdhkarEvening => 'شام کے اذکار';
+
+  @override
+  String get timeAdhkarSleep => 'سونے کے اذکار';
+
+  @override
+  String get adhkarMorningBody => 'دن کا آغاز صبح کے اذکار سے کریں۔';
+
+  @override
+  String get adhkarEveningBody => 'رات سے پہلے شام کے اذکار۔';
+
+  @override
+  String get adhkarSleepBody => 'سونے سے پہلے کے اذکار۔';
+
+  @override
+  String get ayahOfTheDayNotif => 'آیتِ یوم';
+
+  @override
+  String get dhikrOfTheDay => 'ذکرِ یوم';
+
+  @override
+  String get memorizeCard => 'حفظ اور تسمیع';
+
+  @override
+  String get memorizeCardSubtitle =>
+      'الفاظ چھپائیں، ایک ایک کر کے ظاہر کریں، پھر پڑھیں اور ایپ کو جانچنے دیں۔';
+
+  @override
+  String get town => 'قصبہ / شہر';
+
+  @override
+  String get suburb => 'محلہ';
+
+  @override
+  String get province => 'صوبہ';
+
+  @override
+  String get zip => 'زپ کوڈ';
+
+  @override
+  String get postcode => 'پوسٹ کوڈ';
+
+  @override
+  String get regionOptional => 'علاقہ (اختیاری)';
+
+  @override
+  String get postalOptional => 'پوسٹل کوڈ (اختیاری)';
 }

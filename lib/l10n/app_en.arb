@@ -1186,5 +1186,92 @@
         "type": "String"
       }
     }
+  },
+  "myPrayerTimes": "My prayer times",
+  "masjidsTab": "Masjids",
+  "enterMyCity": "Enter my city",
+  "orEnterCity": "or enter your city",
+  "editLocation": "Edit location",
+  "personalIntro": "Prayer times for where you are: allow your precise location, or type your city. The calculation method follows your country and can be changed.",
+  "masjidAdminHint": "Masjid administrators: set up the masjid itself, with iqama and Jumu’ah times and website widgets, under the Masjids tab after creating a profile.",
+  "masjidAdminGate": "Masjid profiles carry iqama times, Jumu’ah services and public widgets, so they are tied to a named administrator. Create your profile (name and email, kept on this device) to set one up.",
+  "createProfile": "Create profile",
+  "profile": "Profile",
+  "profileIntro": "Your name and email identify you as the administrator of the masjids you set up. They stay on this device.",
+  "name": "Name",
+  "email": "Email",
+  "invalidEmail": "Enter a valid email address.",
+  "profileSaved": "Profile saved",
+  "masjidRole": "Role at the masjid (optional)",
+  "masjidRoleHint": "Imam, board member, volunteer…",
+  "removeProfile": "Remove profile",
+  "reminders": "Reminders",
+  "remindersOn": "On · tap to adjust",
+  "remindersOff": "Off · prayer times, adhkar, daily ayah",
+  "remindersSettingsSubtitle": "Prayer times with adhan, morning and evening adhkar, daily ayah or dhikr",
+  "prayerReminders": "Prayer time reminders",
+  "prayerRemindersSubtitle": "Each prayer; opening the reminder plays {adhan}",
+  "remindBefore": "Remind",
+  "atPrayerTime": "At prayer time",
+  "minutesBefore": "{n} min before",
+  "adhkarReminders": "Adhkar reminders",
+  "adhkarRemindersSubtitle": "Morning adhkar after Fajr, evening adhkar after Asr, sleep adhkar one hour after Isha",
+  "dailyReminder": "Ayah or dhikr of the day",
+  "dailyReminderSubtitle": "A random ayah or dhikr once a day",
+  "reminderTime": "Time",
+  "nextReminders": "Upcoming",
+  "notificationsWebNote": "In a browser, reminders appear only while Mushaf+ is open in a tab. Install the Android or iOS app for reminders that work with the app closed.",
+  "notificationsDenied": "Notifications are blocked for Mushaf+ in the system settings.",
+  "setLocationFirst": "Set your prayer location first",
+  "adhanOnNotification": "Prayer reminders use the system sound; opening one plays your chosen adhan in full.",
+  "prayerInMinutes": "{prayer} in {n} minutes",
+  "timeForPrayer": "Time for {prayer}",
+  "timeAdhkarMorning": "Morning adhkar",
+  "timeAdhkarEvening": "Evening adhkar",
+  "timeAdhkarSleep": "Sleep adhkar",
+  "adhkarMorningBody": "Start the day with the morning remembrances.",
+  "adhkarEveningBody": "The evening remembrances, before the night.",
+  "adhkarSleepBody": "The remembrances before sleep.",
+  "ayahOfTheDayNotif": "Ayah of the day",
+  "dhikrOfTheDay": "Dhikr of the day",
+  "memorizeCard": "Memorize & recite",
+  "memorizeCardSubtitle": "Hide the words, reveal them one by one, then recite and let the app check you.",
+  "town": "Town / City",
+  "suburb": "Suburb",
+  "province": "Province",
+  "zip": "ZIP code",
+  "postcode": "Postcode",
+  "regionOptional": "Region (optional)",
+  "postalOptional": "Postal code (optional)",
+  "@prayerRemindersSubtitle": {
+    "placeholders": {
+      "adhan": {
+        "type": "String"
+      }
+    }
+  },
+  "@minutesBefore": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@prayerInMinutes": {
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timeForPrayer": {
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      }
+    }
   }
 }

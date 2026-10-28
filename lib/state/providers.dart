@@ -87,6 +87,12 @@ class AppSettings {
     this.arabicScale = 1.0,
     this.translationScale = 1.0,
     this.showTransliteration = true,
+    this.prayerMode = 'personal',
+    this.remindPrayers = false,
+    this.prayerReminderMinutes = 0,
+    this.remindAdhkar = false,
+    this.dailyReminder = false,
+    this.dailyReminderHour = 9,
     this.region,
     this.tajweed = true,
     this.wordByWord = false,
@@ -107,6 +113,14 @@ class AppSettings {
   final double arabicScale;
   final double translationScale;
   final bool showTransliteration;
+
+  /// 'personal' (my location) or 'masjid' (a masjid profile) on the Prayer tab.
+  final String prayerMode;
+  final bool remindPrayers;
+  final int prayerReminderMinutes;
+  final bool remindAdhkar;
+  final bool dailyReminder;
+  final int dailyReminderHour;
 
   /// Country the app is used in (ISO code); null until detected or chosen.
   final String? region;
@@ -137,6 +151,12 @@ class AppSettings {
     double? arabicScale,
     double? translationScale,
     bool? showTransliteration,
+    String? prayerMode,
+    bool? remindPrayers,
+    int? prayerReminderMinutes,
+    bool? remindAdhkar,
+    bool? dailyReminder,
+    int? dailyReminderHour,
     String? region,
     bool clearRegion = false,
     bool? tajweed,
@@ -159,6 +179,12 @@ class AppSettings {
       arabicScale: arabicScale ?? this.arabicScale,
       translationScale: translationScale ?? this.translationScale,
       showTransliteration: showTransliteration ?? this.showTransliteration,
+      prayerMode: prayerMode ?? this.prayerMode,
+      remindPrayers: remindPrayers ?? this.remindPrayers,
+      prayerReminderMinutes: prayerReminderMinutes ?? this.prayerReminderMinutes,
+      remindAdhkar: remindAdhkar ?? this.remindAdhkar,
+      dailyReminder: dailyReminder ?? this.dailyReminder,
+      dailyReminderHour: dailyReminderHour ?? this.dailyReminderHour,
       region: clearRegion ? null : (region ?? this.region),
       tajweed: tajweed ?? this.tajweed,
       wordByWord: wordByWord ?? this.wordByWord,
@@ -181,6 +207,12 @@ class AppSettings {
         'arabicScale': arabicScale,
         'translationScale': translationScale,
         'showTransliteration': showTransliteration,
+        'prayerMode': prayerMode,
+        'remindPrayers': remindPrayers,
+        'prayerReminderMinutes': prayerReminderMinutes,
+        'remindAdhkar': remindAdhkar,
+        'dailyReminder': dailyReminder,
+        'dailyReminderHour': dailyReminderHour,
         if (region != null) 'region': region,
         'tajweed': tajweed,
         'wordByWord': wordByWord,
@@ -204,6 +236,12 @@ class AppSettings {
       arabicScale: (m['arabicScale'] as num?)?.toDouble() ?? d.arabicScale,
       translationScale: (m['translationScale'] as num?)?.toDouble() ?? d.translationScale,
       showTransliteration: (m['showTransliteration'] as bool?) ?? d.showTransliteration,
+      prayerMode: (m['prayerMode'] as String?) ?? d.prayerMode,
+      remindPrayers: (m['remindPrayers'] as bool?) ?? d.remindPrayers,
+      prayerReminderMinutes: (m['prayerReminderMinutes'] as int?) ?? d.prayerReminderMinutes,
+      remindAdhkar: (m['remindAdhkar'] as bool?) ?? d.remindAdhkar,
+      dailyReminder: (m['dailyReminder'] as bool?) ?? d.dailyReminder,
+      dailyReminderHour: (m['dailyReminderHour'] as int?) ?? d.dailyReminderHour,
       region: m['region'] as String?,
       tajweed: (m['tajweed'] as bool?) ?? d.tajweed,
       wordByWord: (m['wordByWord'] as bool?) ?? d.wordByWord,
@@ -241,6 +279,12 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setArabicScale(double v) => _update(state.copyWith(arabicScale: v));
   void setTranslationScale(double v) => _update(state.copyWith(translationScale: v));
   void setShowTransliteration(bool v) => _update(state.copyWith(showTransliteration: v));
+  void setPrayerMode(String v) => _update(state.copyWith(prayerMode: v));
+  void setRemindPrayers(bool v) => _update(state.copyWith(remindPrayers: v));
+  void setPrayerReminderMinutes(int v) => _update(state.copyWith(prayerReminderMinutes: v));
+  void setRemindAdhkar(bool v) => _update(state.copyWith(remindAdhkar: v));
+  void setDailyReminder(bool v) => _update(state.copyWith(dailyReminder: v));
+  void setDailyReminderHour(int v) => _update(state.copyWith(dailyReminderHour: v.clamp(0, 23)));
   void setRegion(String? code) => _update(code == null ? state.copyWith(clearRegion: true) : state.copyWith(region: code.toUpperCase()));
   void setTajweed(bool v) => _update(state.copyWith(tajweed: v));
   void setWordByWord(bool v) => _update(state.copyWith(wordByWord: v));
@@ -430,3 +474,36 @@ final verseOfTheDayProvider = Provider<int>((ref) {
   final r = (seed * 1103515245 + 12345) & 0x7fffffff;
   return (r % QuranRepository.totalAyahs) + 1;
 });
+
+/// The person using the app; required to administer masjid profiles.
+class Profile {
+  const Profile({required this.name, required this.email, this.role = ''});
+  final String name;
+  final String email;
+  final String role;
+}
+
+class ProfileNotifier extends Notifier<Profile?> {
+  static const _key = 'profile';
+
+  @override
+  Profile? build() {
+    final v = Storage.settings.get(_key);
+    if (v is Map && v['email'] is String && (v['email'] as String).isNotEmpty) {
+      return Profile(name: (v['name'] as String?) ?? '', email: v['email'] as String, role: (v['role'] as String?) ?? '');
+    }
+    return null;
+  }
+
+  void save(Profile p) {
+    state = p;
+    Storage.settings.put(_key, {'name': p.name, 'email': p.email, 'role': p.role});
+  }
+
+  void clear() {
+    state = null;
+    Storage.settings.delete(_key);
+  }
+}
+
+final profileProvider = NotifierProvider<ProfileNotifier, Profile?>(ProfileNotifier.new);

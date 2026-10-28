@@ -35,7 +35,7 @@ class _QiblaScreenState extends ConsumerState<QiblaScreen> {
   @override
   void initState() {
     super.initState();
-    final m = ref.read(selectedMasjidProvider);
+    final m = ref.read(activePlaceProvider);
     if (m != null) {
       _lat = m.latitude;
       _lng = m.longitude;
