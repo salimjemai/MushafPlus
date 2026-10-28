@@ -11,3 +11,5 @@ Future<String?> cachedAyahPath(String reciterId, int surah, int ayah) async => n
 Future<String> cacheAyah(String reciterId, int surah, int ayah, String url) => throw UnsupportedError('no cache');
 Future<int> cachedCount(String reciterId, int surah) async => 0;
 Future<int> clearAudioCache() async => 0;
+Future<String?> cachedFile(String folder, String name) async => null;
+Future<String> cacheFile(String folder, String name, String url) => throw UnsupportedError('no cache');

@@ -1906,4 +1906,108 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get postalOptional => 'الرمز البريدي (اختياري)';
+
+  @override
+  String get bundledAlways =>
+      'نص القرآن وألوان التجويد والنطق اللاتيني وثلاث ترجمات إنجليزية وفهرس الحديث وحصن المسلم مدمجة في التطبيق وتعمل دائمًا دون اتصال.';
+
+  @override
+  String get downloadTextPacks => 'تنزيل كل حزم النصوص';
+
+  @override
+  String get textPacks => 'النصوص';
+
+  @override
+  String get audioPacks => 'الصوت';
+
+  @override
+  String tafsirPack(String name) {
+    return 'التفسير · $name';
+  }
+
+  @override
+  String hadithPack(String lang) {
+    return 'كتب الحديث ($lang)';
+  }
+
+  @override
+  String chaptersSaved(int done, int total) {
+    return 'حُفظ $done / $total بابًا';
+  }
+
+  @override
+  String get adhanPack => 'تسجيلات الأذان';
+
+  @override
+  String get adhkarAudioPack => 'صوت حصن المسلم';
+
+  @override
+  String reciterPack(String name) {
+    return 'التلاوة الكاملة · $name';
+  }
+
+  @override
+  String filesSaved(int done, int total) {
+    return 'حُفظ $done / $total ملفًا';
+  }
+
+  @override
+  String approxSize(String size) {
+    return 'نحو $size';
+  }
+
+  @override
+  String get offlinePromptTitle => 'استخدام Mushaf+ دون اتصال؟';
+
+  @override
+  String get offlinePromptBody =>
+      'نزّل الترجمات ومعاني الكلمات والتفسير وكتب الحديث الآن (نحو 60 م.ب) ليعمل كل شيء دون اتصال. يمكن إضافة حزم الصوت لاحقًا من الإعدادات ← الحزم دون اتصال.';
+
+  @override
+  String get downloadNow => 'نزّل الآن';
+
+  @override
+  String get later => 'لاحقًا';
+
+  @override
+  String get offlineAutoTitle => 'يعمل Mushaf+ دون اتصال بالكامل';
+
+  @override
+  String get offlineAutoBody =>
+      'سينزّل التطبيق الآن كل ما يحتاجه ليعمل دون اتصال: الترجمات ومعاني الكلمات والتفسير وكتب الحديث وتسجيلات الأذان وصوت حصن المسلم (نحو 200 م.ب). يتم ذلك في الخلفية ويمكنك متابعة القراءة. يُنصح باستخدام الواي فاي.';
+
+  @override
+  String includeFullRecitation(String name) {
+    return 'التلاوة الكاملة بصوت $name';
+  }
+
+  @override
+  String get includeFullRecitationHint =>
+      'نحو 700 م.ب. يمكن إضافتها لاحقًا من الإعدادات ← الحزم دون اتصال.';
+
+  @override
+  String get continueLabel => 'متابعة';
+
+  @override
+  String offlineSyncing(int percent) {
+    return 'جارٍ التنزيل للاستخدام دون اتصال · $percent٪';
+  }
+
+  @override
+  String get offlineAutoIntro =>
+      'ينزّل Mushaf+ كل ما يحتاجه في الخلفية ليعمل دون اتصال. تعرض كل حزمة أدناه ما تم حفظه؛ اضغط عليها لجلب ما ينقص.';
+
+  @override
+  String get resumeOfflineDownload => 'تنزيل كل ما ينقص';
+
+  @override
+  String get wifiOnly => 'الصوت عبر الواي فاي فقط';
+
+  @override
+  String get wifiOnlyHint =>
+      'على بيانات الجوال تُنزَّل حزم النصوص الصغيرة فقط تلقائيًا.';
+
+  @override
+  String get waitingForWifi =>
+      'حُفظت حزم النصوص. ستُنزَّل حزم الصوت عند الاتصال بالواي فاي (أو اضغط الزر أعلاه للتنزيل الآن).';
 }

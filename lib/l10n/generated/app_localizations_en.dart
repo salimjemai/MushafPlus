@@ -1916,4 +1916,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postalOptional => 'Postal code (optional)';
+
+  @override
+  String get bundledAlways =>
+      'The Quran text, tajweed colours, transliteration, three English translations, the hadith index and Hisn al-Muslim are built in and always work offline.';
+
+  @override
+  String get downloadTextPacks => 'Download all text packs';
+
+  @override
+  String get textPacks => 'Text';
+
+  @override
+  String get audioPacks => 'Audio';
+
+  @override
+  String tafsirPack(String name) {
+    return 'Tafsir · $name';
+  }
+
+  @override
+  String hadithPack(String lang) {
+    return 'Hadith books ($lang)';
+  }
+
+  @override
+  String chaptersSaved(int done, int total) {
+    return '$done / $total chapters saved';
+  }
+
+  @override
+  String get adhanPack => 'Adhan recordings';
+
+  @override
+  String get adhkarAudioPack => 'Hisn al-Muslim audio';
+
+  @override
+  String reciterPack(String name) {
+    return 'Full recitation · $name';
+  }
+
+  @override
+  String filesSaved(int done, int total) {
+    return '$done / $total files saved';
+  }
+
+  @override
+  String approxSize(String size) {
+    return 'about $size';
+  }
+
+  @override
+  String get offlinePromptTitle => 'Use Mushaf+ offline?';
+
+  @override
+  String get offlinePromptBody =>
+      'Download translations, word meanings, tafsir and the hadith books now (about 60 MB) so everything works without a connection. Audio packs can be added later under Settings → Offline packs.';
+
+  @override
+  String get downloadNow => 'Download now';
+
+  @override
+  String get later => 'Later';
+
+  @override
+  String get offlineAutoTitle => 'Mushaf+ works fully offline';
+
+  @override
+  String get offlineAutoBody =>
+      'The app will now download everything it needs so it works with no connection: translations, word meanings, tafsir, the hadith books, the adhan recordings and the Hisn al-Muslim audio (about 200 MB). It runs in the background; you can keep reading. Wi-Fi is recommended.';
+
+  @override
+  String includeFullRecitation(String name) {
+    return 'Full recitation by $name';
+  }
+
+  @override
+  String get includeFullRecitationHint =>
+      'About 700 MB. You can also add it later under Settings → Offline packs.';
+
+  @override
+  String get continueLabel => 'Continue';
+
+  @override
+  String offlineSyncing(int percent) {
+    return 'Downloading for offline use · $percent%';
+  }
+
+  @override
+  String get offlineAutoIntro =>
+      'Mushaf+ downloads everything it needs in the background so it works with no connection. Each pack below shows what is stored; tap one to fetch what is missing.';
+
+  @override
+  String get resumeOfflineDownload => 'Download everything missing';
+
+  @override
+  String get wifiOnly => 'Audio on Wi-Fi only';
+
+  @override
+  String get wifiOnlyHint =>
+      'On cellular data only the small text packs download by themselves.';
+
+  @override
+  String get waitingForWifi =>
+      'Text packs are saved. Audio packs will download when you are on Wi-Fi (or tap the button above to download now).';
 }

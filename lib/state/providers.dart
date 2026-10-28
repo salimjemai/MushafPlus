@@ -87,6 +87,9 @@ class AppSettings {
     this.arabicScale = 1.0,
     this.translationScale = 1.0,
     this.showTransliteration = true,
+    this.offlinePromptShown = false,
+    this.offlineReciter = true,
+    this.offlineWifiOnly = true,
     this.prayerMode = 'personal',
     this.remindPrayers = false,
     this.prayerReminderMinutes = 0,
@@ -113,6 +116,15 @@ class AppSettings {
   final double arabicScale;
   final double translationScale;
   final bool showTransliteration;
+
+  /// The first-start "download everything for offline" prompt was answered.
+  final bool offlinePromptShown;
+
+  /// Also keep the whole recitation of the chosen reciter offline.
+  final bool offlineReciter;
+
+  /// Audio packs download only on Wi-Fi / ethernet unless started by hand.
+  final bool offlineWifiOnly;
 
   /// 'personal' (my location) or 'masjid' (a masjid profile) on the Prayer tab.
   final String prayerMode;
@@ -151,6 +163,9 @@ class AppSettings {
     double? arabicScale,
     double? translationScale,
     bool? showTransliteration,
+    bool? offlinePromptShown,
+    bool? offlineReciter,
+    bool? offlineWifiOnly,
     String? prayerMode,
     bool? remindPrayers,
     int? prayerReminderMinutes,
@@ -179,6 +194,9 @@ class AppSettings {
       arabicScale: arabicScale ?? this.arabicScale,
       translationScale: translationScale ?? this.translationScale,
       showTransliteration: showTransliteration ?? this.showTransliteration,
+      offlinePromptShown: offlinePromptShown ?? this.offlinePromptShown,
+      offlineReciter: offlineReciter ?? this.offlineReciter,
+      offlineWifiOnly: offlineWifiOnly ?? this.offlineWifiOnly,
       prayerMode: prayerMode ?? this.prayerMode,
       remindPrayers: remindPrayers ?? this.remindPrayers,
       prayerReminderMinutes: prayerReminderMinutes ?? this.prayerReminderMinutes,
@@ -207,6 +225,9 @@ class AppSettings {
         'arabicScale': arabicScale,
         'translationScale': translationScale,
         'showTransliteration': showTransliteration,
+        'offlinePromptShown': offlinePromptShown,
+        'offlineReciter': offlineReciter,
+        'offlineWifiOnly': offlineWifiOnly,
         'prayerMode': prayerMode,
         'remindPrayers': remindPrayers,
         'prayerReminderMinutes': prayerReminderMinutes,
@@ -236,6 +257,9 @@ class AppSettings {
       arabicScale: (m['arabicScale'] as num?)?.toDouble() ?? d.arabicScale,
       translationScale: (m['translationScale'] as num?)?.toDouble() ?? d.translationScale,
       showTransliteration: (m['showTransliteration'] as bool?) ?? d.showTransliteration,
+      offlinePromptShown: (m['offlinePromptShown'] as bool?) ?? d.offlinePromptShown,
+      offlineReciter: (m['offlineReciter'] as bool?) ?? d.offlineReciter,
+      offlineWifiOnly: (m['offlineWifiOnly'] as bool?) ?? d.offlineWifiOnly,
       prayerMode: (m['prayerMode'] as String?) ?? d.prayerMode,
       remindPrayers: (m['remindPrayers'] as bool?) ?? d.remindPrayers,
       prayerReminderMinutes: (m['prayerReminderMinutes'] as int?) ?? d.prayerReminderMinutes,
@@ -279,6 +303,9 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setArabicScale(double v) => _update(state.copyWith(arabicScale: v));
   void setTranslationScale(double v) => _update(state.copyWith(translationScale: v));
   void setShowTransliteration(bool v) => _update(state.copyWith(showTransliteration: v));
+  void setOfflinePromptShown(bool v) => _update(state.copyWith(offlinePromptShown: v));
+  void setOfflineReciter(bool v) => _update(state.copyWith(offlineReciter: v));
+  void setOfflineWifiOnly(bool v) => _update(state.copyWith(offlineWifiOnly: v));
   void setPrayerMode(String v) => _update(state.copyWith(prayerMode: v));
   void setRemindPrayers(bool v) => _update(state.copyWith(remindPrayers: v));
   void setPrayerReminderMinutes(int v) => _update(state.copyWith(prayerReminderMinutes: v));

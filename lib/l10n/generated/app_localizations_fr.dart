@@ -1924,4 +1924,108 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get postalOptional => 'Code postal (facultatif)';
+
+  @override
+  String get bundledAlways =>
+      'Le texte du Coran, les couleurs du tajwid, la translittération, trois traductions anglaises, l’index des hadiths et Hisn al-Muslim sont intégrés et fonctionnent toujours hors ligne.';
+
+  @override
+  String get downloadTextPacks => 'Télécharger tous les packs texte';
+
+  @override
+  String get textPacks => 'Texte';
+
+  @override
+  String get audioPacks => 'Audio';
+
+  @override
+  String tafsirPack(String name) {
+    return 'Tafsir · $name';
+  }
+
+  @override
+  String hadithPack(String lang) {
+    return 'Livres de hadiths ($lang)';
+  }
+
+  @override
+  String chaptersSaved(int done, int total) {
+    return '$done / $total chapitres enregistrés';
+  }
+
+  @override
+  String get adhanPack => 'Enregistrements d’adhan';
+
+  @override
+  String get adhkarAudioPack => 'Audio de Hisn al-Muslim';
+
+  @override
+  String reciterPack(String name) {
+    return 'Récitation complète · $name';
+  }
+
+  @override
+  String filesSaved(int done, int total) {
+    return '$done / $total fichiers enregistrés';
+  }
+
+  @override
+  String approxSize(String size) {
+    return 'environ $size';
+  }
+
+  @override
+  String get offlinePromptTitle => 'Utiliser Mushaf+ hors ligne ?';
+
+  @override
+  String get offlinePromptBody =>
+      'Téléchargez maintenant les traductions, le mot à mot, le tafsir et les livres de hadiths (environ 60 Mo) pour que tout fonctionne sans connexion. Les packs audio peuvent être ajoutés plus tard dans Réglages → Packs hors ligne.';
+
+  @override
+  String get downloadNow => 'Télécharger';
+
+  @override
+  String get later => 'Plus tard';
+
+  @override
+  String get offlineAutoTitle => 'Mushaf+ fonctionne entièrement hors ligne';
+
+  @override
+  String get offlineAutoBody =>
+      'L’application va maintenant télécharger tout ce dont elle a besoin pour fonctionner sans connexion : traductions, mot à mot, tafsir, livres de hadiths, enregistrements d’adhan et audio de Hisn al-Muslim (environ 200 Mo). Cela se fait en arrière-plan ; vous pouvez continuer à lire. Le Wi-Fi est recommandé.';
+
+  @override
+  String includeFullRecitation(String name) {
+    return 'Récitation complète par $name';
+  }
+
+  @override
+  String get includeFullRecitationHint =>
+      'Environ 700 Mo. Vous pourrez aussi l’ajouter plus tard dans Réglages → Packs hors ligne.';
+
+  @override
+  String get continueLabel => 'Continuer';
+
+  @override
+  String offlineSyncing(int percent) {
+    return 'Téléchargement hors ligne · $percent %';
+  }
+
+  @override
+  String get offlineAutoIntro =>
+      'Mushaf+ télécharge en arrière-plan tout ce dont il a besoin pour fonctionner sans connexion. Chaque pack ci-dessous indique ce qui est enregistré ; touchez-en un pour récupérer ce qui manque.';
+
+  @override
+  String get resumeOfflineDownload => 'Télécharger tout ce qui manque';
+
+  @override
+  String get wifiOnly => 'Audio en Wi-Fi uniquement';
+
+  @override
+  String get wifiOnlyHint =>
+      'En données mobiles, seuls les petits packs texte se téléchargent seuls.';
+
+  @override
+  String get waitingForWifi =>
+      'Packs texte enregistrés. Les packs audio se téléchargeront en Wi-Fi (ou touchez le bouton ci-dessus pour les télécharger maintenant).';
 }

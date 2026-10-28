@@ -1914,4 +1914,108 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get postalOptional => 'Posta kodu (isteğe bağlı)';
+
+  @override
+  String get bundledAlways =>
+      'Kur’an metni, tecvid renkleri, çeviri yazı, üç İngilizce meal, hadis dizini ve Hısnu’l-Müslim uygulamaya gömülüdür ve her zaman çevrimdışı çalışır.';
+
+  @override
+  String get downloadTextPacks => 'Tüm metin paketlerini indir';
+
+  @override
+  String get textPacks => 'Metin';
+
+  @override
+  String get audioPacks => 'Ses';
+
+  @override
+  String tafsirPack(String name) {
+    return 'Tefsir · $name';
+  }
+
+  @override
+  String hadithPack(String lang) {
+    return 'Hadis kitapları ($lang)';
+  }
+
+  @override
+  String chaptersSaved(int done, int total) {
+    return '$done / $total bölüm kaydedildi';
+  }
+
+  @override
+  String get adhanPack => 'Ezan kayıtları';
+
+  @override
+  String get adhkarAudioPack => 'Hısnu’l-Müslim sesleri';
+
+  @override
+  String reciterPack(String name) {
+    return 'Tam okuyuş · $name';
+  }
+
+  @override
+  String filesSaved(int done, int total) {
+    return '$done / $total dosya kaydedildi';
+  }
+
+  @override
+  String approxSize(String size) {
+    return 'yaklaşık $size';
+  }
+
+  @override
+  String get offlinePromptTitle => 'Mushaf+ çevrimdışı kullanılsın mı?';
+
+  @override
+  String get offlinePromptBody =>
+      'Mealleri, kelime anlamlarını, tefsiri ve hadis kitaplarını şimdi indirin (yaklaşık 60 MB); böylece her şey bağlantısız çalışır. Ses paketleri daha sonra Ayarlar → Çevrimdışı paketler’den eklenebilir.';
+
+  @override
+  String get downloadNow => 'Şimdi indir';
+
+  @override
+  String get later => 'Sonra';
+
+  @override
+  String get offlineAutoTitle => 'Mushaf+ tamamen çevrimdışı çalışır';
+
+  @override
+  String get offlineAutoBody =>
+      'Uygulama şimdi bağlantısız çalışmak için gereken her şeyi indirecek: mealler, kelime anlamları, tefsir, hadis kitapları, ezan kayıtları ve Hısnu’l-Müslim sesleri (yaklaşık 200 MB). Arka planda sürer; okumaya devam edebilirsiniz. Wi-Fi önerilir.';
+
+  @override
+  String includeFullRecitation(String name) {
+    return '$name tam okuyuşu';
+  }
+
+  @override
+  String get includeFullRecitationHint =>
+      'Yaklaşık 700 MB. Daha sonra Ayarlar → Çevrimdışı paketler’den de eklenebilir.';
+
+  @override
+  String get continueLabel => 'Devam';
+
+  @override
+  String offlineSyncing(int percent) {
+    return 'Çevrimdışı kullanım için indiriliyor · %$percent';
+  }
+
+  @override
+  String get offlineAutoIntro =>
+      'Mushaf+ bağlantısız çalışmak için gereken her şeyi arka planda indirir. Aşağıdaki her paket nelerin kayıtlı olduğunu gösterir; eksikleri almak için dokunun.';
+
+  @override
+  String get resumeOfflineDownload => 'Eksik olan her şeyi indir';
+
+  @override
+  String get wifiOnly => 'Ses yalnızca Wi-Fi ile';
+
+  @override
+  String get wifiOnlyHint =>
+      'Hücresel veride yalnızca küçük metin paketleri kendiliğinden iner.';
+
+  @override
+  String get waitingForWifi =>
+      'Metin paketleri kaydedildi. Ses paketleri Wi-Fi’ye bağlanınca inecek (ya da şimdi indirmek için yukarıdaki düğmeye dokunun).';
 }

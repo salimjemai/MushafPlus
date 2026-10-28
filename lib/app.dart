@@ -124,7 +124,7 @@ final _routes = <RouteBase>[
             ),
             GoRoute(
               path: 'offline',
-              builder: (c, s) => const OfflinePacksScreen(),
+              builder: (c, s) => OfflinePacksScreen(autoStart: s.uri.queryParameters['all'] == '1'),
             ),
           ],
         ),

@@ -87,7 +87,9 @@ class _AdhanScreenState extends ConsumerState<AdhanScreen> {
       _duration = Duration.zero;
     });
     try {
-      await _player.play(a.url);
+      var source = a.url;
+      if (Downloads.supportsCache) source = await Downloads.cachedFile('adhans', a.fileName) ?? a.url;
+      await _player.play(source);
     } catch (e) {
       setState(() {
         _error = '$e';

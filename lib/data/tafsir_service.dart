@@ -68,6 +68,66 @@ class TafsirService {
   }
 }
 
+extension TafsirBulk on TafsirService {
+  /// Every ayah of a surah in one request, cached per ayah like [forAyah].
+  Future<void> forChapter(int tafsirId, int surah) async {
+    var page = 1;
+    while (true) {
+      final uri = Uri.https('api.quran.com', '/api/v4/tafsirs/$tafsirId/by_chapter/$surah', {'per_page': '300', 'page': '$page'});
+      final res = await _client.get(uri).timeout(const Duration(seconds: 60));
+      if (res.statusCode != 200) throw TafsirException('Server returned ${res.statusCode}');
+      final body = jsonDecode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
+      await _store(tafsirId, (body['tafsirs'] as List?) ?? const []);
+      final next = (body['pagination'] as Map?)?['next_page'];
+      if (next is! int || next <= page) break;
+      page = next;
+    }
+  }
+
+  /// Records come in verse order. A tafsir entry often covers a group of
+  /// ayahs: the first ayah carries the text and the following ones come back
+  /// with an empty body, so those inherit the last text seen (which is what
+  /// the by_ayah endpoint returns for them).
+  Future<void> _store(int tafsirId, List list) async {
+    String? last;
+    final leading = <String>[];
+    for (final e in list) {
+      final m = e as Map<String, dynamic>;
+      final key = m['verse_key'] as String?;
+      if (key == null) continue;
+      final own = htmlToPlainText((m['text'] as String?) ?? '');
+      if (own.trim().isNotEmpty) last = own;
+      if (last != null) {
+        await _cache.put('tafsir:$tafsirId:$key', last);
+      } else {
+        leading.add(key);
+      }
+    }
+    // A group can start in the previous surah (e.g. 104-105 in Ibn Kathir):
+    // those leading ayahs are fetched one by one.
+    for (final key in leading) {
+      try {
+        await forAyah(tafsirId, key);
+      } catch (_) {}
+    }
+  }
+
+  bool isAyahCached(int tafsirId, String verseKey) {
+    final v = _cache.get('tafsir:$tafsirId:$verseKey');
+    return v is String && v.isNotEmpty;
+  }
+
+  /// True when every ayah of the surah is cached (some ayahs legitimately
+  /// have no entry in a tafsir, so 90% counts as complete).
+  bool isChapterCached(int tafsirId, int surah, int ayahCount) {
+    var n = 0;
+    for (var a = 1; a <= ayahCount; a++) {
+      if (isAyahCached(tafsirId, '$surah:$a')) n++;
+    }
+    return n >= (ayahCount * 0.9).ceil();
+  }
+}
+
 class TafsirException implements Exception {
   TafsirException(this.message);
   final String message;

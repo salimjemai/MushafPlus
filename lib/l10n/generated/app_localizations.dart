@@ -3405,6 +3405,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Postal code (optional)'**
   String get postalOptional;
+
+  /// No description provided for @bundledAlways.
+  ///
+  /// In en, this message translates to:
+  /// **'The Quran text, tajweed colours, transliteration, three English translations, the hadith index and Hisn al-Muslim are built in and always work offline.'**
+  String get bundledAlways;
+
+  /// No description provided for @downloadTextPacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Download all text packs'**
+  String get downloadTextPacks;
+
+  /// No description provided for @textPacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get textPacks;
+
+  /// No description provided for @audioPacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get audioPacks;
+
+  /// No description provided for @tafsirPack.
+  ///
+  /// In en, this message translates to:
+  /// **'Tafsir · {name}'**
+  String tafsirPack(String name);
+
+  /// No description provided for @hadithPack.
+  ///
+  /// In en, this message translates to:
+  /// **'Hadith books ({lang})'**
+  String hadithPack(String lang);
+
+  /// No description provided for @chaptersSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} / {total} chapters saved'**
+  String chaptersSaved(int done, int total);
+
+  /// No description provided for @adhanPack.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan recordings'**
+  String get adhanPack;
+
+  /// No description provided for @adhkarAudioPack.
+  ///
+  /// In en, this message translates to:
+  /// **'Hisn al-Muslim audio'**
+  String get adhkarAudioPack;
+
+  /// No description provided for @reciterPack.
+  ///
+  /// In en, this message translates to:
+  /// **'Full recitation · {name}'**
+  String reciterPack(String name);
+
+  /// No description provided for @filesSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} / {total} files saved'**
+  String filesSaved(int done, int total);
+
+  /// No description provided for @approxSize.
+  ///
+  /// In en, this message translates to:
+  /// **'about {size}'**
+  String approxSize(String size);
+
+  /// No description provided for @offlinePromptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Mushaf+ offline?'**
+  String get offlinePromptTitle;
+
+  /// No description provided for @offlinePromptBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Download translations, word meanings, tafsir and the hadith books now (about 60 MB) so everything works without a connection. Audio packs can be added later under Settings → Offline packs.'**
+  String get offlinePromptBody;
+
+  /// No description provided for @downloadNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Download now'**
+  String get downloadNow;
+
+  /// No description provided for @later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
+
+  /// No description provided for @offlineAutoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mushaf+ works fully offline'**
+  String get offlineAutoTitle;
+
+  /// No description provided for @offlineAutoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app will now download everything it needs so it works with no connection: translations, word meanings, tafsir, the hadith books, the adhan recordings and the Hisn al-Muslim audio (about 200 MB). It runs in the background; you can keep reading. Wi-Fi is recommended.'**
+  String get offlineAutoBody;
+
+  /// No description provided for @includeFullRecitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Full recitation by {name}'**
+  String includeFullRecitation(String name);
+
+  /// No description provided for @includeFullRecitationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'About 700 MB. You can also add it later under Settings → Offline packs.'**
+  String get includeFullRecitationHint;
+
+  /// No description provided for @continueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueLabel;
+
+  /// No description provided for @offlineSyncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading for offline use · {percent}%'**
+  String offlineSyncing(int percent);
+
+  /// No description provided for @offlineAutoIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Mushaf+ downloads everything it needs in the background so it works with no connection. Each pack below shows what is stored; tap one to fetch what is missing.'**
+  String get offlineAutoIntro;
+
+  /// No description provided for @resumeOfflineDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download everything missing'**
+  String get resumeOfflineDownload;
+
+  /// No description provided for @wifiOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio on Wi-Fi only'**
+  String get wifiOnly;
+
+  /// No description provided for @wifiOnlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'On cellular data only the small text packs download by themselves.'**
+  String get wifiOnlyHint;
+
+  /// No description provided for @waitingForWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Text packs are saved. Audio packs will download when you are on Wi-Fi (or tap the button above to download now).'**
+  String get waitingForWifi;
 }
 
 class _AppLocalizationsDelegate

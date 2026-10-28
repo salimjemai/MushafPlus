@@ -86,6 +86,27 @@ Future<int> cachedCount(String reciterId, int surah) async {
   return dir.listSync().whereType<File>().where((f) => f.uri.pathSegments.last.startsWith(prefix)).length;
 }
 
+Future<File> _file(String folder, String name) async {
+  final root = await _root();
+  final dir = Directory('${root.path}${Platform.pathSeparator}audio${Platform.pathSeparator}${_safe(folder)}');
+  if (!dir.existsSync()) dir.createSync(recursive: true);
+  return File('${dir.path}${Platform.pathSeparator}${_safe(name)}');
+}
+
+Future<String?> cachedFile(String folder, String name) async {
+  final f = await _file(folder, name);
+  return f.existsSync() && f.lengthSync() > 1000 ? f.path : null;
+}
+
+Future<String> cacheFile(String folder, String name, String url) async {
+  final f = await _file(folder, name);
+  if (f.existsSync() && f.lengthSync() > 1000) return f.path;
+  final res = await http.get(Uri.parse(url));
+  if (res.statusCode != 200) throw Exception('Download failed (${res.statusCode})');
+  await f.writeAsBytes(res.bodyBytes, flush: true);
+  return f.path;
+}
+
 Future<int> clearAudioCache() async {
   final root = await _root();
   final dir = Directory('${root.path}${Platform.pathSeparator}audio');

@@ -1907,4 +1907,108 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get postalOptional => 'پوسٹل کوڈ (اختیاری)';
+
+  @override
+  String get bundledAlways =>
+      'قرآن کا متن، تجوید کے رنگ، رومن تلفظ، تین انگریزی تراجم، حدیث کی فہرست اور حصن المسلم ایپ میں شامل ہیں اور ہمیشہ آف لائن کام کرتے ہیں۔';
+
+  @override
+  String get downloadTextPacks => 'تمام متنی پیک ڈاؤن لوڈ کریں';
+
+  @override
+  String get textPacks => 'متن';
+
+  @override
+  String get audioPacks => 'آڈیو';
+
+  @override
+  String tafsirPack(String name) {
+    return 'تفسیر · $name';
+  }
+
+  @override
+  String hadithPack(String lang) {
+    return 'حدیث کی کتابیں ($lang)';
+  }
+
+  @override
+  String chaptersSaved(int done, int total) {
+    return '$done / $total ابواب محفوظ';
+  }
+
+  @override
+  String get adhanPack => 'اذان کی ریکارڈنگز';
+
+  @override
+  String get adhkarAudioPack => 'حصن المسلم آڈیو';
+
+  @override
+  String reciterPack(String name) {
+    return 'مکمل تلاوت · $name';
+  }
+
+  @override
+  String filesSaved(int done, int total) {
+    return '$done / $total فائلیں محفوظ';
+  }
+
+  @override
+  String approxSize(String size) {
+    return 'تقریباً $size';
+  }
+
+  @override
+  String get offlinePromptTitle => 'Mushaf+ آف لائن استعمال کریں؟';
+
+  @override
+  String get offlinePromptBody =>
+      'تراجم، الفاظ کے معانی، تفسیر اور حدیث کی کتابیں ابھی ڈاؤن لوڈ کریں (تقریباً 60 MB) تاکہ سب کچھ بغیر کنکشن کے چلے۔ آڈیو پیک بعد میں ترتیبات ← آف لائن پیک سے شامل کیے جا سکتے ہیں۔';
+
+  @override
+  String get downloadNow => 'ابھی ڈاؤن لوڈ کریں';
+
+  @override
+  String get later => 'بعد میں';
+
+  @override
+  String get offlineAutoTitle => 'Mushaf+ مکمل طور پر آف لائن چلتا ہے';
+
+  @override
+  String get offlineAutoBody =>
+      'ایپ اب وہ سب کچھ ڈاؤن لوڈ کرے گی جو بغیر کنکشن کے چلنے کے لیے درکار ہے: تراجم، الفاظ کے معانی، تفسیر، حدیث کی کتابیں، اذان کی ریکارڈنگز اور حصن المسلم آڈیو (تقریباً 200 MB)۔ یہ پس منظر میں ہوتا ہے؛ آپ پڑھنا جاری رکھ سکتے ہیں۔ وائی فائی تجویز کیا جاتا ہے۔';
+
+  @override
+  String includeFullRecitation(String name) {
+    return '$name کی مکمل تلاوت';
+  }
+
+  @override
+  String get includeFullRecitationHint =>
+      'تقریباً 700 MB۔ بعد میں ترتیبات ← آف لائن پیک سے بھی شامل کی جا سکتی ہے۔';
+
+  @override
+  String get continueLabel => 'جاری رکھیں';
+
+  @override
+  String offlineSyncing(int percent) {
+    return 'آف لائن استعمال کے لیے ڈاؤن لوڈ · $percent%';
+  }
+
+  @override
+  String get offlineAutoIntro =>
+      'Mushaf+ پس منظر میں وہ سب کچھ ڈاؤن لوڈ کرتا ہے جو بغیر کنکشن کے چلنے کے لیے درکار ہے۔ نیچے ہر پیک دکھاتا ہے کہ کیا محفوظ ہے؛ جو کمی ہے اسے لانے کے لیے ٹیپ کریں۔';
+
+  @override
+  String get resumeOfflineDownload => 'جو کچھ باقی ہے ڈاؤن لوڈ کریں';
+
+  @override
+  String get wifiOnly => 'آڈیو صرف وائی فائی پر';
+
+  @override
+  String get wifiOnlyHint =>
+      'موبائل ڈیٹا پر صرف چھوٹے متنی پیک خود بخود ڈاؤن لوڈ ہوتے ہیں۔';
+
+  @override
+  String get waitingForWifi =>
+      'متنی پیک محفوظ ہو گئے۔ آڈیو پیک وائی فائی پر ڈاؤن لوڈ ہوں گے (یا ابھی ڈاؤن لوڈ کرنے کے لیے اوپر والا بٹن دبائیں)۔';
 }

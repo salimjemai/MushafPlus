@@ -1915,4 +1915,108 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get postalOptional => 'Kode pos (opsional)';
+
+  @override
+  String get bundledAlways =>
+      'Teks Al-Qur’an, warna tajwid, transliterasi, tiga terjemahan Inggris, indeks hadis dan Hisnul Muslim sudah tertanam dan selalu bekerja luring.';
+
+  @override
+  String get downloadTextPacks => 'Unduh semua paket teks';
+
+  @override
+  String get textPacks => 'Teks';
+
+  @override
+  String get audioPacks => 'Audio';
+
+  @override
+  String tafsirPack(String name) {
+    return 'Tafsir · $name';
+  }
+
+  @override
+  String hadithPack(String lang) {
+    return 'Kitab hadis ($lang)';
+  }
+
+  @override
+  String chaptersSaved(int done, int total) {
+    return '$done / $total bab tersimpan';
+  }
+
+  @override
+  String get adhanPack => 'Rekaman azan';
+
+  @override
+  String get adhkarAudioPack => 'Audio Hisnul Muslim';
+
+  @override
+  String reciterPack(String name) {
+    return 'Tilawah lengkap · $name';
+  }
+
+  @override
+  String filesSaved(int done, int total) {
+    return '$done / $total berkas tersimpan';
+  }
+
+  @override
+  String approxSize(String size) {
+    return 'sekitar $size';
+  }
+
+  @override
+  String get offlinePromptTitle => 'Pakai Mushaf+ secara luring?';
+
+  @override
+  String get offlinePromptBody =>
+      'Unduh terjemahan, arti kata, tafsir dan kitab hadis sekarang (sekitar 60 MB) agar semuanya bekerja tanpa koneksi. Paket audio bisa ditambahkan nanti di Pengaturan → Paket luring.';
+
+  @override
+  String get downloadNow => 'Unduh sekarang';
+
+  @override
+  String get later => 'Nanti';
+
+  @override
+  String get offlineAutoTitle => 'Mushaf+ bekerja sepenuhnya luring';
+
+  @override
+  String get offlineAutoBody =>
+      'Aplikasi kini akan mengunduh semua yang dibutuhkan agar bekerja tanpa koneksi: terjemahan, arti kata, tafsir, kitab hadis, rekaman azan dan audio Hisnul Muslim (sekitar 200 MB). Berjalan di latar belakang; Anda bisa terus membaca. Wi-Fi disarankan.';
+
+  @override
+  String includeFullRecitation(String name) {
+    return 'Tilawah lengkap oleh $name';
+  }
+
+  @override
+  String get includeFullRecitationHint =>
+      'Sekitar 700 MB. Bisa juga ditambahkan nanti di Pengaturan → Paket luring.';
+
+  @override
+  String get continueLabel => 'Lanjutkan';
+
+  @override
+  String offlineSyncing(int percent) {
+    return 'Mengunduh untuk luring · $percent%';
+  }
+
+  @override
+  String get offlineAutoIntro =>
+      'Mushaf+ mengunduh semua yang dibutuhkan di latar belakang agar bekerja tanpa koneksi. Setiap paket di bawah menunjukkan apa yang tersimpan; ketuk untuk mengambil yang kurang.';
+
+  @override
+  String get resumeOfflineDownload => 'Unduh semua yang kurang';
+
+  @override
+  String get wifiOnly => 'Audio hanya lewat Wi-Fi';
+
+  @override
+  String get wifiOnlyHint =>
+      'Dengan data seluler hanya paket teks kecil yang terunduh sendiri.';
+
+  @override
+  String get waitingForWifi =>
+      'Paket teks tersimpan. Paket audio akan terunduh saat Anda memakai Wi-Fi (atau ketuk tombol di atas untuk mengunduh sekarang).';
 }

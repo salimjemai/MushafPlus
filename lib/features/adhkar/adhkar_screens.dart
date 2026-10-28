@@ -141,7 +141,7 @@ class _AdhkarChapterScreenState extends ConsumerState<AdhkarChapterScreen> {
     super.dispose();
   }
 
-  void _play(String url) {
+  Future<void> _play(String url) async {
     if (url.isEmpty) return;
     if (_playingUrl == url) {
       _player?.stop();
@@ -152,7 +152,11 @@ class _AdhkarChapterScreenState extends ConsumerState<AdhkarChapterScreen> {
       ..completed.listen((_) {
         if (mounted) setState(() => _playingUrl = null);
       });
-    _player!.play(url);
+    var source = url;
+    // Native: play the offline copy when it exists. Web: play at once (the
+    // call must stay inside the tap for Safari).
+    if (Downloads.supportsCache) source = await Downloads.cachedFile('adhkar', Uri.parse(url).pathSegments.last) ?? url;
+    _player!.play(source);
     setState(() => _playingUrl = url);
   }
 

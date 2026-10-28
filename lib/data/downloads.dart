@@ -35,6 +35,12 @@ abstract class Downloads {
   /// Number of cached ayah files for a reciter and surah.
   static Future<int> cachedCount(String reciterId, int surah) => impl.cachedCount(reciterId, surah);
 
+  /// Local path of a cached file in [folder] (adhans, adhkar…), or null.
+  static Future<String?> cachedFile(String folder, String name) => impl.cachedFile(folder, name);
+
+  /// Downloads [url] into [folder]/[name] unless already there; returns the path.
+  static Future<String> cacheFile(String folder, String name, String url) => impl.cacheFile(folder, name, url);
+
   /// Removes the whole audio cache; returns bytes freed.
   static Future<int> clearAudioCache() => impl.clearAudioCache();
 }

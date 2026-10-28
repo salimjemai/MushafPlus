@@ -1273,5 +1273,94 @@
         "type": "String"
       }
     }
+  },
+  "bundledAlways": "The Quran text, tajweed colours, transliteration, three English translations, the hadith index and Hisn al-Muslim are built in and always work offline.",
+  "downloadTextPacks": "Download all text packs",
+  "textPacks": "Text",
+  "audioPacks": "Audio",
+  "tafsirPack": "Tafsir · {name}",
+  "hadithPack": "Hadith books ({lang})",
+  "chaptersSaved": "{done} / {total} chapters saved",
+  "adhanPack": "Adhan recordings",
+  "adhkarAudioPack": "Hisn al-Muslim audio",
+  "reciterPack": "Full recitation · {name}",
+  "filesSaved": "{done} / {total} files saved",
+  "approxSize": "about {size}",
+  "offlinePromptTitle": "Use Mushaf+ offline?",
+  "offlinePromptBody": "Download translations, word meanings, tafsir and the hadith books now (about 60 MB) so everything works without a connection. Audio packs can be added later under Settings → Offline packs.",
+  "downloadNow": "Download now",
+  "later": "Later",
+  "@tafsirPack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@hadithPack": {
+    "placeholders": {
+      "lang": {
+        "type": "String"
+      }
+    }
+  },
+  "@chaptersSaved": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@reciterPack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@filesSaved": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@approxSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineAutoTitle": "Mushaf+ works fully offline",
+  "offlineAutoBody": "The app will now download everything it needs so it works with no connection: translations, word meanings, tafsir, the hadith books, the adhan recordings and the Hisn al-Muslim audio (about 200 MB). It runs in the background; you can keep reading. Wi-Fi is recommended.",
+  "includeFullRecitation": "Full recitation by {name}",
+  "includeFullRecitationHint": "About 700 MB. You can also add it later under Settings → Offline packs.",
+  "continueLabel": "Continue",
+  "offlineSyncing": "Downloading for offline use · {percent}%",
+  "offlineAutoIntro": "Mushaf+ downloads everything it needs in the background so it works with no connection. Each pack below shows what is stored; tap one to fetch what is missing.",
+  "resumeOfflineDownload": "Download everything missing",
+  "wifiOnly": "Audio on Wi-Fi only",
+  "wifiOnlyHint": "On cellular data only the small text packs download by themselves.",
+  "waitingForWifi": "Text packs are saved. Audio packs will download when you are on Wi-Fi (or tap the button above to download now).",
+  "@includeFullRecitation": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@offlineSyncing": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
   }
 }

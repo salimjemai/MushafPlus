@@ -2,99 +2,86 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/arabic_utils.dart';
 import '../../core/l10n.dart';
+import '../../data/adhans.dart';
+import '../../data/adhkar.dart';
+import '../../data/downloads.dart';
+import '../../data/hadith_service.dart';
+import '../../data/offline_sync.dart';
+import '../../data/reciters.dart';
+import '../../data/tafsir_service.dart';
 import '../../data/translation_service.dart';
+import '../../core/arabic_utils.dart';
 import '../../state/providers.dart';
 
-/// Pre-downloads translations, word-by-word data and tafsir for the whole
-/// Quran so everything works with no connection.
+/// Shows what is stored for offline use and lets the user (re)run any pack.
+/// The downloads themselves run in [OfflineSync], so they continue when this
+/// screen is closed.
 class OfflinePacksScreen extends ConsumerStatefulWidget {
-  const OfflinePacksScreen({super.key});
+  const OfflinePacksScreen({super.key, this.autoStart = false});
+
+  /// Start the text packs at once.
+  final bool autoStart;
 
   @override
   ConsumerState<OfflinePacksScreen> createState() => _OfflinePacksScreenState();
 }
 
 class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
-  bool _running = false;
-  bool _cancel = false;
-  String _status = '';
-  double _progress = 0;
-  int _failed = 0;
+  int _adhanCached = 0;
+  int _adhkarCached = 0;
+  int _reciterCached = 0;
+  int _seenRuns = -1;
 
-  Future<void> _download({required bool translations, required bool words}) async {
-    final repo = ref.quran;
-    final settings = ref.read(settingsProvider);
-    final tr = ref.read(translationServiceProvider);
-    final wbw = ref.read(wordByWordServiceProvider);
+  @override
+  void initState() {
+    super.initState();
+    _refreshCounts();
+    if (widget.autoStart) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final sync = ref.read(offlineSyncProvider.notifier);
+        sync.run(await sync.textTasks());
+      });
+    }
+  }
 
-    final tasks = <Future<void> Function()>[];
-    final labels = <String>[];
-    if (translations) {
-      for (final ed in settings.translations.where((e) => !tr.isBundled(e))) {
-        for (final s in repo.surahs) {
-          if (tr.isCached(ed, s.number)) continue;
-          labels.add('${repo.edition(ed)?.englishName ?? ed} · ${s.englishName}');
-          tasks.add(() => tr.forSurah(ed, s.number, startAyah: s.startAyah, count: s.numberOfAyahs));
+  Future<void> _refreshCounts() async {
+    if (!Downloads.supportsCache) return;
+    final reciter = reciterById(ref.read(settingsProvider).reciter);
+    var reciterCount = 0;
+    for (final s in ref.quran.surahs) {
+      reciterCount += await Downloads.cachedCount(reciter.id, s.number);
+    }
+    var adhanCount = 0;
+    for (final a in adhans) {
+      if (await Downloads.cachedFile('adhans', a.fileName) != null) adhanCount++;
+    }
+    var adhkarCount = 0;
+    final book = ref.read(adhkarProvider).asData?.value;
+    if (book != null) {
+      for (final c in book.chapters) {
+        for (final i in c.items) {
+          if (i.audio.isNotEmpty && await Downloads.cachedFile('adhkar', Uri.parse(i.audio).pathSegments.last) != null) adhkarCount++;
         }
       }
     }
-    if (words) {
-      for (final s in repo.surahs) {
-        if (wbw.isCached(s.number, settings.wordLanguage)) continue;
-        labels.add('Word by word (${wordByWordLanguages[settings.wordLanguage] ?? settings.wordLanguage}) · ${s.englishName}');
-        tasks.add(() => wbw.forSurah(s.number, settings.wordLanguage));
-      }
+    if (mounted) {
+      setState(() {
+        _reciterCached = reciterCount;
+        _adhanCached = adhanCount;
+        _adhkarCached = adhkarCount;
+      });
     }
+  }
 
-    if (tasks.isEmpty) {
-      setState(() => _status = context.l10n.everythingOffline);
-      return;
-    }
-
-    setState(() {
-      _running = true;
-      _cancel = false;
-      _failed = 0;
-      _progress = 0;
-      _status = context.l10n.starting;
-    });
-
-    // Run a few downloads concurrently to keep it quick without hammering the APIs.
-    const concurrency = 3;
-    var next = 0;
-    var done = 0;
-    Future<void> worker() async {
-      while (!_cancel && next < tasks.length) {
-        final i = next++;
-        try {
-          await tasks[i]();
-        } catch (_) {
-          _failed++;
-        }
-        done++;
-        if (mounted) {
-          setState(() {
-            _progress = done / tasks.length;
-            _status = '${labels[i]}  ($done/${tasks.length})';
-          });
-        }
-      }
-    }
-
-    await Future.wait([for (var i = 0; i < concurrency; i++) worker()]);
-    if (!mounted) return;
-    setState(() {
-      _running = false;
-      _status = _cancel
-          ? context.l10n.downloadCancelled(done, tasks.length)
-          : _failed == 0
-              ? context.l10n.downloadDone(tasks.length)
-              : context.l10n.downloadDoneWithFailures(_failed);
-    });
-    ref.invalidate(surahTranslationProvider);
-    ref.invalidate(surahWordsProvider);
+  String _statusText(OfflineSyncState s) {
+    final l = context.l10n;
+    if (s.running) return '${s.label}  (${s.done}/${s.total})';
+    if (s.skippedForCellular) return l.waitingForWifi;
+    if (s.total == 0) return l.everythingOffline;
+    if (s.cancelled) return l.downloadCancelled(s.done, s.total);
+    if (s.failed == 0) return l.downloadDone(s.total);
+    return l.downloadDoneWithFailures(s.failed);
   }
 
   @override
@@ -102,12 +89,24 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
     final l = context.l10n;
     final repo = ref.quran;
     final settings = ref.watch(settingsProvider);
+    final sync = ref.watch(offlineSyncProvider);
+    final syncer = ref.read(offlineSyncProvider.notifier);
+    if (sync.finishedRuns != _seenRuns) {
+      _seenRuns = sync.finishedRuns;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _refreshCounts());
+    }
     final tr = ref.read(translationServiceProvider);
     final wbw = ref.read(wordByWordServiceProvider);
+    final tafsir = ref.read(tafsirServiceProvider);
+    final hadith = ref.read(hadithServiceProvider);
+    final books = ref.watch(hadithBooksProvider).asData?.value ?? const <HadithBook>[];
+    final adhkar = ref.watch(adhkarProvider).asData?.value;
     final scheme = Theme.of(context).colorScheme;
+    final reciter = reciterById(settings.reciter);
+    final running = sync.running;
 
     final remoteTranslations = settings.translations.where((e) => !tr.isBundled(e)).toList();
-    int cachedTr = 0;
+    var cachedTr = 0;
     for (final ed in remoteTranslations) {
       for (final s in repo.surahs) {
         if (tr.isCached(ed, s.number)) cachedTr++;
@@ -115,6 +114,19 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
     }
     final totalTr = remoteTranslations.length * 114;
     final cachedWbw = repo.surahs.where((s) => wbw.isCached(s.number, settings.wordLanguage)).length;
+    final source = tafsirById(settings.tafsirId);
+    final cachedTafsir = repo.surahs.where((s) => tafsir.isChapterCached(source.id, s.number, s.numberOfAyahs)).length;
+    var hadithTotal = 0;
+    var hadithCached = 0;
+    for (final b in books) {
+      for (final s in b.sections) {
+        hadithTotal++;
+        if (hadith.isCached(b.id, s.number, settings.hadithLanguage)) hadithCached++;
+      }
+    }
+    final adhkarTotal = adhkar?.chapters.fold<int>(0, (n, c) => n + c.items.where((i) => i.audio.isNotEmpty).length) ?? 0;
+    final native = Downloads.supportsCache;
+    final showStatus = running || sync.finishedRuns > 0 || sync.skippedForCellular;
 
     return Scaffold(
       appBar: AppBar(
@@ -130,21 +142,70 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Text(
-                l.offlineIntro,
-                style: TextStyle(color: scheme.onSurfaceVariant, height: 1.5),
-              ),
+              Text(native ? l.offlineAutoIntro : l.offlineIntro, style: TextStyle(color: scheme.onSurfaceVariant, height: 1.5)),
+              const SizedBox(height: 6),
+              Text(l.bundledAlways, style: TextStyle(fontSize: 12.5, color: scheme.outline, height: 1.4)),
               const SizedBox(height: 16),
+              if (showStatus) ...[
+                Card(
+                  color: scheme.primaryContainer.withValues(alpha: 0.35),
+                  child: Padding(
+                    padding: const EdgeInsets.all(14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (running) ...[LinearProgressIndicator(value: sync.progress), const SizedBox(height: 8)],
+                        Text(_statusText(sync), style: const TextStyle(fontSize: 13)),
+                        if (running) ...[
+                          const SizedBox(height: 8),
+                          Align(alignment: AlignmentDirectional.centerEnd, child: OutlinedButton(onPressed: syncer.cancel, child: Text(l.pause))),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+              ],
+              if (native)
+                FilledButton.icon(
+                  onPressed: running ? null : () => syncer.startAll(includeReciter: settings.offlineReciter, manual: true),
+                  icon: const Icon(Icons.download),
+                  label: Text(l.resumeOfflineDownload),
+                )
+              else
+                FilledButton.icon(
+                  onPressed: running ? null : () async => syncer.run(await syncer.textTasks()),
+                  icon: const Icon(Icons.download),
+                  label: Text(l.downloadTextPacks),
+                ),
+              if (native) ...[
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l.wifiOnly),
+                  subtitle: Text(l.wifiOnlyHint),
+                  value: settings.offlineWifiOnly,
+                  onChanged: (v) => ref.read(settingsProvider.notifier).setOfflineWifiOnly(v),
+                ),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l.includeFullRecitation(reciter.name)),
+                  subtitle: Text(l.includeFullRecitationHint),
+                  value: settings.offlineReciter,
+                  onChanged: (v) => ref.read(settingsProvider.notifier).setOfflineReciter(v),
+                ),
+              ],
+              const SizedBox(height: 16),
+              Text(l.textPacks.toUpperCase(), style: TextStyle(fontSize: 11, letterSpacing: 1.1, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
+              const SizedBox(height: 8),
               _PackCard(
                 icon: Icons.translate,
                 title: l.selectedTranslations,
                 subtitle: remoteTranslations.isEmpty
                     ? l.allSelectedBundled
-                    : '${remoteTranslations.map((e) => repo.edition(e)?.englishName ?? e).join(', ')}\n'
-                        '${l.surahDownloadsSaved(cachedTr, totalTr)}',
+                    : '${remoteTranslations.map((e) => repo.edition(e)?.englishName ?? e).join(', ')}\n${l.surahDownloadsSaved(cachedTr, totalTr)}',
                 progress: totalTr == 0 ? 1 : cachedTr / totalTr,
-                enabled: !_running && remoteTranslations.isNotEmpty && cachedTr < totalTr,
-                onDownload: () => _download(translations: true, words: false),
+                enabled: !running && remoteTranslations.isNotEmpty && cachedTr < totalTr,
+                onDownload: () => syncer.run(syncer.translationTasks()),
               ),
               const SizedBox(height: 12),
               _PackCard(
@@ -152,55 +213,65 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
                 title: l.wordByWordPack(wordByWordLanguages[settings.wordLanguage] ?? settings.wordLanguage),
                 subtitle: l.surahsSavedSize(cachedWbw),
                 progress: cachedWbw / 114,
-                enabled: !_running && cachedWbw < 114,
-                onDownload: () => _download(translations: false, words: true),
+                enabled: !running && cachedWbw < 114,
+                onDownload: () => syncer.run(syncer.wordTasks()),
               ),
               const SizedBox(height: 12),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(Icons.auto_stories_outlined, color: scheme.primary),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          l.tafsirSavedAutomatically,
-                          style: TextStyle(color: scheme.onSurfaceVariant),
-                        ),
-                      ),
-                    ],
-                  ),
+              _PackCard(
+                icon: Icons.auto_stories_outlined,
+                title: l.tafsirPack(source.name),
+                subtitle: l.surahsSavedSize(cachedTafsir),
+                progress: cachedTafsir / 114,
+                enabled: !running && cachedTafsir < 114,
+                onDownload: () => syncer.run(syncer.tafsirTasks()),
+              ),
+              const SizedBox(height: 12),
+              _PackCard(
+                icon: Icons.format_quote_outlined,
+                title: l.hadithPack(hadithLanguages[settings.hadithLanguage] ?? settings.hadithLanguage),
+                subtitle: l.chaptersSaved(hadithCached, hadithTotal),
+                progress: hadithTotal == 0 ? 0 : hadithCached / hadithTotal,
+                enabled: !running && hadithCached < hadithTotal,
+                onDownload: () async => syncer.run(await syncer.hadithTasks()),
+              ),
+              const SizedBox(height: 20),
+              Text(l.audioPacks.toUpperCase(), style: TextStyle(fontSize: 11, letterSpacing: 1.1, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
+              const SizedBox(height: 4),
+              if (!native)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(l.offlineAudioNativeOnly, style: TextStyle(fontSize: 12.5, color: scheme.error)),
                 ),
+              const SizedBox(height: 4),
+              _PackCard(
+                icon: Icons.campaign_outlined,
+                title: l.adhanPack,
+                subtitle: '${l.filesSaved(_adhanCached, adhans.length)} · ${l.approxSize('70 MB')}',
+                progress: adhans.isEmpty ? 0 : _adhanCached / adhans.length,
+                enabled: native && !running && _adhanCached < adhans.length,
+                onDownload: () => syncer.run(syncer.adhanTasks()),
               ),
-              const SizedBox(height: 20),
-              if (_running || _status.isNotEmpty) ...[
-                if (_running) ...[
-                  LinearProgressIndicator(value: _progress),
-                  const SizedBox(height: 8),
-                ],
-                Text(_status, style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant)),
-                if (_running) ...[
-                  const SizedBox(height: 8),
-                  OutlinedButton(
-                    onPressed: () => setState(() => _cancel = true),
-                    child: Text(l.cancel),
-                  ),
-                ],
-              ],
-              const SizedBox(height: 20),
-              FilledButton.icon(
-                onPressed: _running
-                    ? null
-                    : () => _download(translations: true, words: true),
-                icon: const Icon(Icons.download),
-                label: Text(l.downloadEverything),
+              const SizedBox(height: 12),
+              _PackCard(
+                icon: Icons.auto_awesome,
+                title: l.adhkarAudioPack,
+                subtitle: '${l.filesSaved(_adhkarCached, adhkarTotal)} · ${l.approxSize('60 MB')}',
+                progress: adhkarTotal == 0 ? 0 : _adhkarCached / adhkarTotal,
+                enabled: native && !running && adhkarTotal > 0 && _adhkarCached < adhkarTotal,
+                onDownload: () async => syncer.run(await syncer.adhkarAudioTasks()),
               ),
-              const SizedBox(height: 8),
-              Text(
-                l.bundledEditions(TranslationService.bundledEditions.map((e) => repo.edition(e)?.englishName ?? e).join(', ')),
-                style: TextStyle(fontSize: 12, color: scheme.outline),
+              const SizedBox(height: 12),
+              _PackCard(
+                icon: Icons.record_voice_over_outlined,
+                title: l.reciterPack(reciter.name),
+                subtitle: '${l.filesSaved(_reciterCached, 6236)} · ${l.approxSize('700 MB')}',
+                progress: _reciterCached / 6236,
+                enabled: native && !running && _reciterCached < 6236,
+                onDownload: () => syncer.run(syncer.reciterTasks()),
               ),
+              const SizedBox(height: 12),
+              Text(l.bundledEditions(TranslationService.bundledEditions.map((e) => repo.edition(e)?.englishName ?? e).join(', ')),
+                  style: TextStyle(fontSize: 12, color: scheme.outline)),
             ],
           ),
         ),
@@ -232,27 +303,38 @@ class _PackCard extends StatelessWidget {
     final complete = progress >= 1;
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 14, 12, 12),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [
                 Icon(icon, color: scheme.primary),
                 const SizedBox(width: 12),
-                Expanded(child: Text(title, style: const TextStyle(fontWeight: FontWeight.w700))),
-                if (complete)
-                  Icon(Icons.offline_pin, color: scheme.primary)
-                else
-                  FilledButton.tonal(onPressed: enabled ? onDownload : null, child: Text(context.l10n.download)),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
+                      const SizedBox(height: 2),
+                      Text(subtitle, style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.35)),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                complete
+                    ? Icon(Icons.check_circle, color: scheme.primary)
+                    : IconButton.filledTonal(
+                        tooltip: context.l10n.download,
+                        onPressed: enabled ? onDownload : null,
+                        icon: const Icon(Icons.download_outlined),
+                      ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text(subtitle, style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant, height: 1.4)),
             const SizedBox(height: 10),
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(value: progress, minHeight: 6),
+              child: LinearProgressIndicator(value: progress.clamp(0, 1), minHeight: 6),
             ),
           ],
         ),
