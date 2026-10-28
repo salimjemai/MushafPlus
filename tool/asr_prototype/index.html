@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quran ASR prototype</title>
+<style>
+  :root { --fg: #1c1c1c; --bg: #fafaf7; --muted: #666; --ok: #2e7d32; --vowel: #e65100; --letter: #c62828; --card: #fff; --line: #ddd; }
+  body { font: 14px/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); margin: 0; padding: 16px; }
+  h1 { font-size: 18px; margin: 0 0 8px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 10px 0; }
+  label { display: inline-block; margin-right: 12px; }
+  select, input[type=text] { font: inherit; }
+  button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid #999; background: #fff; cursor: pointer; }
+  button.primary { background: #1565c0; color: #fff; border-color: #1565c0; }
+  button:disabled { opacity: .5; cursor: default; }
+  progress { width: 100%; height: 10px; }
+  .ar { font-family: "Amiri", "Scheherazade New", "KFGQPC Uthmanic Script HAFS", "Noto Naskh Arabic", serif; font-size: 22px; direction: rtl; unicode-bidi: isolate; }
+  .muted { color: var(--muted); }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+  .w { display: inline-block; margin: 0 2px; padding: 0 3px; border-radius: 4px; }
+  .w.ok { color: var(--ok); } .w.vowel { background: #ffe0b2; color: var(--vowel); } .w.letter { background: #ffcdd2; color: var(--letter); }
+  .w.unvocalised { color: #555; text-decoration: underline dotted; } .w.missed { color: #999; text-decoration: line-through; }
+  .tp { color: var(--ok); font-weight: 600; } .fn { color: var(--letter); font-weight: 600; } .fp { color: var(--vowel); font-weight: 600; }
+  pre { white-space: pre-wrap; font-size: 12px; background: #f3f3f3; padding: 8px; border-radius: 6px; max-height: 240px; overflow: auto; }
+  #log { font-family: ui-monospace, monospace; font-size: 12px; color: #444; }
+</style>
+</head>
+<body>
+<h1>Quran ASR prototype: vocalised transcription in the browser</h1>
+<p class="muted">Loads a Quran-tuned Whisper ONNX model with transformers.js (pinned 4.3.1), transcribes microphone or file audio, and grades harakat against the Uthmani text of Al-Fatiha. Nothing leaves the browser except the model download from huggingface.co.</p>
+
+<div class="card">
+  <label>Model
+    <select id="model">
+      <option value="eventhorizon0/tarteel-ai-onnx-whisper-base-ar-quran">tarteel whisper-base-ar-quran (ONNX, eventhorizon0)</option>
+      <option value="YunusZJ/whisper-base-ar-quran-ONNX">tarteel whisper-base-ar-quran (ONNX, YunusZJ)</option>
+      <option value="onnx-community/whisper-base">openai whisper-base (general Arabic, baseline)</option>
+      <option value="Aymencca/whisper-turbo-coran-onnx">whisper-large-v3-turbo Quran (Aymencca, WebGPU only, ~1.6 GB)</option>
+      <option value="custom">custom…</option>
+    </select>
+  </label>
+  <input type="text" id="customModel" placeholder="user/repo" style="display:none;width:280px">
+  <label>Device <select id="device"><option value="wasm">wasm</option><option value="webgpu">webgpu</option></select></label>
+  <label>Encoder <select id="encDtype"><option>q8</option><option>fp16</option><option>q4</option><option>fp32</option></select></label>
+  <label>Decoder <select id="decDtype"><option>q4</option><option>fp16</option><option>q8</option><option>fp32</option></select></label>
+  <button id="load" class="primary">Load model</button>
+  <span id="loadStatus" class="muted"></span>
+  <progress id="loadBar" value="0" max="1" style="display:none"></progress>
+  <div id="fileSizes" class="muted"></div>
+</div>
+
+<div class="card">
+  <label>Expected ayah
+    <select id="ayah"><option value="0">auto (from file name)</option></select>
+  </label>
+  <button id="rec" disabled>● Record</button>
+  <span id="recStatus" class="muted"></span>
+  &nbsp;|&nbsp;
+  <label>Files <input type="file" id="files" accept="audio/*" multiple disabled></label>
+  <button id="run" disabled>Run files</button>
+  <button id="runServer" disabled title="Fetches testdata/audio/*.mp3 produced by testdata/gen_tts.mjs and fetch_everyayah.mjs">Run server test clips</button>
+  <button id="exportBtn" disabled>Copy results JSON</button>
+  <span id="runStatus" class="muted"></span>
+</div>
+
+<div class="card" id="summary" style="display:none"></div>
+
+<div class="card">
+  <table id="results"><thead><tr>
+    <th>file</th><th>ayah</th><th>audio s</th><th>infer ms</th><th>RTF</th><th>transcript</th><th>graded against Uthmani</th><th>flags</th><th>verdict</th>
+  </tr></thead><tbody></tbody></table>
+</div>
+
+<div class="card"><div id="log"></div></div>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>

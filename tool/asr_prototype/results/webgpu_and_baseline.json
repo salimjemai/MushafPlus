@@ -1,0 +1,38 @@
+{
+ "date": "2026-10-28",
+ "machine": "Windows 11, 6 hardware threads, integrated GPU via WebGPU, Claude desktop built-in browser (Chrome 152)",
+ "runs": [
+  {
+   "run": "tarteel whisper-base-ar-quran on webgpu, encoder fp16 + decoder q4",
+   "model": "eventhorizon0/tarteel-ai-onnx-whisper-base-ar-quran",
+   "downloadBytes": {"encoder_model_fp16.onnx": 41300000, "decoder_model_merged_q4.onnx": 123444346, "total": 168400000},
+   "loadMsCold": 6300,
+   "note": "first clip includes WebGPU shader compilation; transcripts identical to the wasm run",
+   "results": [
+    {"file": "alafasy_001001.mp3", "seconds": 6.03, "ms": 4151, "rtf": 0.69, "transcript": "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ", "statuses": ["ok", "ok", "ok", "ok"]},
+    {"file": "alafasy_001002.mp3", "seconds": 5.53, "ms": 1769, "rtf": 0.32, "transcript": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", "statuses": ["ok", "ok", "ok", "ok"]},
+    {"file": "alafasy_001003.mp3", "seconds": 4.57, "ms": 1213, "rtf": 0.27, "transcript": "الرَّحْمَنِ الرَّحِيمِ", "statuses": ["ok", "ok"]},
+    {"file": "alafasy_001004.mp3", "seconds": 4.6, "ms": 1127, "rtf": 0.24, "transcript": "مَالِكِ يَوْمِ الدِّينِ", "statuses": ["ok", "ok", "ok"]},
+    {"file": "alafasy_001005.mp3", "seconds": 6.65, "ms": 2027, "rtf": 0.3, "transcript": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "statuses": ["ok", "ok", "ok", "ok"]},
+    {"file": "alafasy_001006.mp3", "seconds": 5.54, "ms": 1562, "rtf": 0.28, "transcript": "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", "statuses": ["ok", "ok", "ok"]},
+    {"file": "alafasy_001007.mp3", "seconds": 13.19, "ms": 3759, "rtf": 0.29, "transcript": "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ", "statuses": ["ok", "ok", "ok", "ok", "ok", "ok", "ok", "ok", "ok"]}
+   ]
+  },
+  {
+   "run": "baseline: general openai whisper-base on webgpu, encoder fp16 + decoder q4",
+   "model": "onnx-community/whisper-base",
+   "downloadBytes": {"total": 167700000},
+   "loadMsCold": 18600,
+   "note": "no harakat at all, and many consonant errors on recitation (it was not trained on Quran)",
+   "results": [
+    {"file": "alafasy_001001.mp3", "ms": 2286, "rtf": 0.38, "transcript": "بسم الله الرحمن الرحيم", "statuses": ["unvocalised", "unvocalised", "unvocalised", "unvocalised"]},
+    {"file": "alafasy_001002.mp3", "ms": 850, "rtf": 0.15, "transcript": "الحمد لله رب العالمين", "statuses": ["unvocalised", "unvocalised", "unvocalised", "unvocalised"]},
+    {"file": "alafasy_001003.mp3", "ms": 727, "rtf": 0.16, "transcript": "الرحمن الرحيم", "statuses": ["unvocalised", "unvocalised"]},
+    {"file": "alafasy_001004.mp3", "ms": 730, "rtf": 0.16, "transcript": "مالك يا مدين", "statuses": ["unvocalised", "missed", "letter"]},
+    {"file": "alafasy_001005.mp3", "ms": 787, "rtf": 0.12, "transcript": "إيا كان عمل وإيا كان استعين", "statuses": ["letter", "missed", "letter", "letter"]},
+    {"file": "alafasy_001006.mp3", "ms": 764, "rtf": 0.14, "transcript": "إهدنا الصراق المستقيم", "statuses": ["unvocalised", "letter", "unvocalised"]},
+    {"file": "alafasy_001007.mp3", "ms": 1206, "rtf": 0.09, "transcript": "صراط الذين أنت عليهم غير المرضو بعليهم ولبالين", "statuses": ["unvocalised", "unvocalised", "letter", "unvocalised", "unvocalised", "letter", "letter", "missed", "letter"]}
+   ]
+  }
+ ]
+}
