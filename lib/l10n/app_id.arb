@@ -485,5 +485,13 @@
   "readAloud": "Bacakan",
   "stopReading": "Hentikan",
   "ttsUnavailable": "Tidak ada suara untuk bahasa ini di perangkat. Hadis dibacakan dengan suara text-to-speech perangkat.",
-  "homeSearchHint": "Cari di Al-Qur’an — surah, ayat, kata, atau frasa. Arab dengan atau tanpa harakat, transliterasi (insan, bismillah), arti bahasa Inggris, atau nama/nomor surah…"
+  "homeSearchHint": "Cari di Al-Qur’an — surah, ayat, kata, atau frasa. Arab dengan atau tanpa harakat, transliterasi (insan, bismillah), arti bahasa Inggris, atau nama/nomor surah…",
+  "countryLabel": "Negara",
+  "region": "Wilayah",
+  "changeRegion": "ketuk untuk mengubah",
+  "detectRegion": "Deteksi",
+  "regionHelp": "Mengisi negara untuk masjid dan memilih perhitungan salat yang lazim di negara itu.",
+  "regionSetTo": "Wilayah diatur ke {name}. Ketuk bendera untuk mengubah.",
+  "regionNotDetected": "Negara tidak terdeteksi. Pilih dari daftar.",
+  "findCountry": "Cari negara…"
 }

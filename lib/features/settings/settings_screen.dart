@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/arabic_utils.dart';
+import '../../data/countries.dart';
+import '../../data/region.dart';
+import '../../widgets/region_chip.dart';
 import '../../data/masjid_share.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
@@ -137,6 +140,18 @@ class SettingsScreen extends ConsumerWidget {
                       l.recitationHelp,
                       style: TextStyle(fontSize: 12.5, color: scheme.onSurfaceVariant, height: 1.4),
                     ),
+                  ),
+                ],
+              ),
+              _Section(
+                title: l.region,
+                children: [
+                  ListTile(
+                    leading: Text(Region.flag(s.region), style: const TextStyle(fontSize: 26)),
+                    title: Text(s.region == null ? l.region : countryNameFor(s.region)),
+                    subtitle: Text(l.regionHelp),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => showRegionSheet(context),
                   ),
                 ],
               ),

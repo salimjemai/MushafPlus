@@ -87,6 +87,7 @@ class AppSettings {
     this.arabicScale = 1.0,
     this.translationScale = 1.0,
     this.showTransliteration = true,
+    this.region,
     this.tajweed = true,
     this.wordByWord = false,
     this.wordLanguage = 'en',
@@ -106,6 +107,9 @@ class AppSettings {
   final double arabicScale;
   final double translationScale;
   final bool showTransliteration;
+
+  /// Country the app is used in (ISO code); null until detected or chosen.
+  final String? region;
 
   /// Colour letters by tajweed rule in the Mushaf and reader.
   final bool tajweed;
@@ -133,6 +137,8 @@ class AppSettings {
     double? arabicScale,
     double? translationScale,
     bool? showTransliteration,
+    String? region,
+    bool clearRegion = false,
     bool? tajweed,
     bool? wordByWord,
     String? wordLanguage,
@@ -153,6 +159,7 @@ class AppSettings {
       arabicScale: arabicScale ?? this.arabicScale,
       translationScale: translationScale ?? this.translationScale,
       showTransliteration: showTransliteration ?? this.showTransliteration,
+      region: clearRegion ? null : (region ?? this.region),
       tajweed: tajweed ?? this.tajweed,
       wordByWord: wordByWord ?? this.wordByWord,
       wordLanguage: wordLanguage ?? this.wordLanguage,
@@ -174,6 +181,7 @@ class AppSettings {
         'arabicScale': arabicScale,
         'translationScale': translationScale,
         'showTransliteration': showTransliteration,
+        if (region != null) 'region': region,
         'tajweed': tajweed,
         'wordByWord': wordByWord,
         'wordLanguage': wordLanguage,
@@ -196,6 +204,7 @@ class AppSettings {
       arabicScale: (m['arabicScale'] as num?)?.toDouble() ?? d.arabicScale,
       translationScale: (m['translationScale'] as num?)?.toDouble() ?? d.translationScale,
       showTransliteration: (m['showTransliteration'] as bool?) ?? d.showTransliteration,
+      region: m['region'] as String?,
       tajweed: (m['tajweed'] as bool?) ?? d.tajweed,
       wordByWord: (m['wordByWord'] as bool?) ?? d.wordByWord,
       wordLanguage: (m['wordLanguage'] as String?) ?? d.wordLanguage,
@@ -232,6 +241,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
   void setArabicScale(double v) => _update(state.copyWith(arabicScale: v));
   void setTranslationScale(double v) => _update(state.copyWith(translationScale: v));
   void setShowTransliteration(bool v) => _update(state.copyWith(showTransliteration: v));
+  void setRegion(String? code) => _update(code == null ? state.copyWith(clearRegion: true) : state.copyWith(region: code.toUpperCase()));
   void setTajweed(bool v) => _update(state.copyWith(tajweed: v));
   void setWordByWord(bool v) => _update(state.copyWith(wordByWord: v));
   void setWordLanguage(String v) => _update(state.copyWith(wordLanguage: v));

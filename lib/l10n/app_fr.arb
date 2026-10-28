@@ -485,5 +485,13 @@
   "readAloud": "Lire à voix haute",
   "stopReading": "Arrêter la lecture",
   "ttsUnavailable": "Aucune voix pour cette langue n’est installée sur cet appareil. Les hadiths sont lus par la synthèse vocale de l’appareil.",
-  "homeSearchHint": "Rechercher dans le Coran — une sourate, un verset, un mot ou une expression. Arabe avec ou sans voyelles, translittération (insan, bismillah), sens en anglais, nom ou numéro de sourate…"
+  "homeSearchHint": "Rechercher dans le Coran — une sourate, un verset, un mot ou une expression. Arabe avec ou sans voyelles, translittération (insan, bismillah), sens en anglais, nom ou numéro de sourate…",
+  "countryLabel": "Pays",
+  "region": "Région",
+  "changeRegion": "toucher pour changer",
+  "detectRegion": "Détecter",
+  "regionHelp": "Préremplit le pays des mosquées et choisit le calcul des prières habituel dans ce pays.",
+  "regionSetTo": "Région réglée sur {name}. Touchez le drapeau pour la changer.",
+  "regionNotDetected": "Pays non détecté. Choisissez-le dans la liste.",
+  "findCountry": "Chercher un pays…"
 }

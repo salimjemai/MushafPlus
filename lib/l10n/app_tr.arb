@@ -485,5 +485,13 @@
   "readAloud": "Sesli oku",
   "stopReading": "Okumayı durdur",
   "ttsUnavailable": "Bu cihazda bu dil için ses yüklü değil. Hadisler cihazın metin okuma sesleriyle okunur.",
-  "homeSearchHint": "Kur’an’da ara — sure, ayet, kelime veya ifade. Harekeli ya da harekesiz Arapça, çeviri yazı (insan, bismillah), İngilizce anlam veya sure adı/numarası…"
+  "homeSearchHint": "Kur’an’da ara — sure, ayet, kelime veya ifade. Harekeli ya da harekesiz Arapça, çeviri yazı (insan, bismillah), İngilizce anlam veya sure adı/numarası…",
+  "countryLabel": "Ülke",
+  "region": "Bölge",
+  "changeRegion": "değiştirmek için dokunun",
+  "detectRegion": "Algıla",
+  "regionHelp": "Camiler için ülkeyi önceden doldurur ve o ülkede yaygın namaz hesaplamasını seçer.",
+  "regionSetTo": "Bölge {name} olarak ayarlandı. Değiştirmek için bayrağa dokunun.",
+  "regionNotDetected": "Ülkeniz algılanamadı. Listeden seçin.",
+  "findCountry": "Ülke ara…"
 }

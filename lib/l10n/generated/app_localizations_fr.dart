@@ -1708,4 +1708,32 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get homeSearchHint =>
       'Rechercher dans le Coran — une sourate, un verset, un mot ou une expression. Arabe avec ou sans voyelles, translittération (insan, bismillah), sens en anglais, nom ou numéro de sourate…';
+
+  @override
+  String get countryLabel => 'Pays';
+
+  @override
+  String get region => 'Région';
+
+  @override
+  String get changeRegion => 'toucher pour changer';
+
+  @override
+  String get detectRegion => 'Détecter';
+
+  @override
+  String get regionHelp =>
+      'Préremplit le pays des mosquées et choisit le calcul des prières habituel dans ce pays.';
+
+  @override
+  String regionSetTo(String name) {
+    return 'Région réglée sur $name. Touchez le drapeau pour la changer.';
+  }
+
+  @override
+  String get regionNotDetected =>
+      'Pays non détecté. Choisissez-le dans la liste.';
+
+  @override
+  String get findCountry => 'Chercher un pays…';
 }

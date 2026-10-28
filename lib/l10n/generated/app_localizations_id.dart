@@ -1702,4 +1702,31 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get homeSearchHint =>
       'Cari di Al-Qur’an — surah, ayat, kata, atau frasa. Arab dengan atau tanpa harakat, transliterasi (insan, bismillah), arti bahasa Inggris, atau nama/nomor surah…';
+
+  @override
+  String get countryLabel => 'Negara';
+
+  @override
+  String get region => 'Wilayah';
+
+  @override
+  String get changeRegion => 'ketuk untuk mengubah';
+
+  @override
+  String get detectRegion => 'Deteksi';
+
+  @override
+  String get regionHelp =>
+      'Mengisi negara untuk masjid dan memilih perhitungan salat yang lazim di negara itu.';
+
+  @override
+  String regionSetTo(String name) {
+    return 'Wilayah diatur ke $name. Ketuk bendera untuk mengubah.';
+  }
+
+  @override
+  String get regionNotDetected => 'Negara tidak terdeteksi. Pilih dari daftar.';
+
+  @override
+  String get findCountry => 'Cari negara…';
 }

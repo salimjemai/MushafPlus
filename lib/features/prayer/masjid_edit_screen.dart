@@ -4,10 +4,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n.dart';
+import '../../data/countries.dart';
+import '../../data/region.dart';
 import '../../data/geocoding_service.dart';
 import '../../data/masjid.dart';
 import '../../data/prayer_times.dart';
 import '../../state/masjid_providers.dart';
+import '../../state/providers.dart';
 import 'prayer_screen.dart';
 
 /// Create or edit a masjid: address → precise coordinates + time zone,
@@ -27,7 +30,8 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
   late final TextEditingController _city;
   late final TextEditingController _state;
   late final TextEditingController _postal;
-  late final TextEditingController _country;
+  late final TextEditingController _country; // ISO code
+  late final TextEditingController _countryName; // what the user sees
   late final TextEditingController _lat;
   late final TextEditingController _lng;
   late final TextEditingController _tz;
@@ -58,11 +62,14 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
     _state = TextEditingController(text: m?.state ?? '');
     _postal = TextEditingController(text: m?.postalCode ?? '');
     _country = TextEditingController(text: m?.countryCode ?? '');
+    final region = ref.read(settingsProvider).region;
+    _countryName = TextEditingController(text: countryNameFor(m?.countryCode ?? region));
+    if (m == null && region != null) _country.text = region;
     _lat = TextEditingController(text: m == null ? '' : m.latitude.toStringAsFixed(6));
     _lng = TextEditingController(text: m == null ? '' : m.longitude.toStringAsFixed(6));
     _tz = TextEditingController(text: m?.timezone ?? '');
-    _methodId = m?.methodId ?? 'isna';
-    _asrHanafi = m?.asrHanafi ?? false;
+    _methodId = m?.methodId ?? Region.methodFor(region);
+    _asrHanafi = m?.asrHanafi ?? Region.hanafiFor(region);
     _dhuhrOffset = m?.dhuhrOffsetMinutes ?? 0;
     _maghribOffset = m?.maghribOffsetMinutes ?? 0;
     _adjustments = {...?m?.adjustments};
@@ -74,10 +81,20 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
 
   @override
   void dispose() {
-    for (final c in [_name, _street, _city, _state, _postal, _country, _lat, _lng, _tz]) {
+    for (final c in [_name, _street, _city, _state, _postal, _country, _countryName, _lat, _lng, _tz]) {
       c.dispose();
     }
     super.dispose();
+  }
+
+  final _countryFocus = FocusNode();
+
+  /// ISO code when the typed country is recognised, else the text itself
+  /// (Nominatim accepts country names too).
+  String _resolvedCountry() {
+    final typed = _countryName.text.trim();
+    if (typed.isEmpty) return _country.text.trim();
+    return countryCodeFor(typed) ?? typed;
   }
 
   // ---- geocoding -----------------------------------------------------------
@@ -103,7 +120,8 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
         city: _city.text,
         state: _state.text,
         postalCode: _postal.text,
-        country: _country.text,
+        country: _resolvedCountry(),
+        language: Localizations.localeOf(context).languageCode,
       );
       final results = found.results;
       if (results.isEmpty) {
@@ -134,7 +152,12 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
       if (_city.text.trim().isEmpty && r.city != null) _city.text = r.city!;
       if (_state.text.trim().isEmpty && r.state != null) _state.text = r.state!;
       if (_postal.text.trim().isEmpty && r.postcode != null) _postal.text = r.postcode!;
-      if (_country.text.trim().isEmpty && r.countryCode != null) _country.text = r.countryCode!;
+      if (r.countryCode != null) {
+        _country.text = r.countryCode!;
+        if (_countryName.text.trim().isEmpty || countryCodeFor(_countryName.text) != r.countryCode) {
+          _countryName.text = countryNameFor(r.countryCode);
+        }
+      }
     });
     try {
       final tzId = await ref.read(geocodingServiceProvider).timezoneFor(r.latitude, r.longitude);
@@ -197,7 +220,7 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
       city: _city.text.trim(),
       state: _state.text.trim(),
       postalCode: _postal.text.trim(),
-      countryCode: _country.text.trim().toUpperCase(),
+      countryCode: (countryCodeFor(_countryName.text) ?? _country.text.trim()).toUpperCase(),
       latitude: lat,
       longitude: lng,
       timezone: _tz.text.trim(),
@@ -264,12 +287,43 @@ class _MasjidEditScreenState extends ConsumerState<MasjidEditScreen> {
                     Expanded(child: TextFormField(controller: _postal, decoration: InputDecoration(labelText: l.postalCode))),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: TextFormField(
-                        controller: _country,
-                        decoration: InputDecoration(labelText: l.countryCode),
-                        textCapitalization: TextCapitalization.characters,
-                        maxLength: 2,
-                        buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
+                      child: RawAutocomplete<String>(
+                        textEditingController: _countryName,
+                        focusNode: _countryFocus,
+                        optionsBuilder: (v) => countrySuggestions(v.text),
+                        onSelected: (name) {
+                          _countryName.text = name;
+                          _country.text = countryCodeFor(name) ?? '';
+                        },
+                        fieldViewBuilder: (context, controller, focus, onSubmit) => TextFormField(
+                          controller: controller,
+                          focusNode: focus,
+                          decoration: InputDecoration(labelText: l.countryLabel, hintText: 'Tunisia, TN, تونس…'),
+                          onFieldSubmitted: (_) => onSubmit(),
+                        ),
+                        optionsViewBuilder: (context, onSelected, options) => Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: Material(
+                            elevation: 4,
+                            borderRadius: BorderRadius.circular(12),
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxHeight: 240, maxWidth: 320),
+                              child: ListView(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                children: [
+                                  for (final o in options)
+                                    ListTile(
+                                      dense: true,
+                                      title: Text(o),
+                                      trailing: Text(countryCodeFor(o) ?? '', style: const TextStyle(fontSize: 11)),
+                                      onTap: () => onSelected(o),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],

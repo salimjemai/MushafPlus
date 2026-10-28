@@ -1693,4 +1693,31 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get homeSearchHint =>
       'ابحث في القرآن — سورة أو آية أو كلمة أو عبارة. بالعربية مع التشكيل أو بدونه، أو بالحروف اللاتينية (insan, bismillah)، أو بالمعنى الإنجليزي، أو باسم السورة أو رقمها…';
+
+  @override
+  String get countryLabel => 'الدولة';
+
+  @override
+  String get region => 'المنطقة';
+
+  @override
+  String get changeRegion => 'انقر للتغيير';
+
+  @override
+  String get detectRegion => 'اكتشاف';
+
+  @override
+  String get regionHelp =>
+      'تملأ الدولة مسبقًا للمساجد وتختار طريقة حساب الصلاة المعتادة في تلك الدولة.';
+
+  @override
+  String regionSetTo(String name) {
+    return 'تم ضبط المنطقة على $name. انقر العلم للتغيير.';
+  }
+
+  @override
+  String get regionNotDetected => 'تعذّر اكتشاف دولتك. اخترها من القائمة.';
+
+  @override
+  String get findCountry => 'ابحث عن دولة…';
 }

@@ -1700,4 +1700,31 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get homeSearchHint =>
       'Kur’an’da ara — sure, ayet, kelime veya ifade. Harekeli ya da harekesiz Arapça, çeviri yazı (insan, bismillah), İngilizce anlam veya sure adı/numarası…';
+
+  @override
+  String get countryLabel => 'Ülke';
+
+  @override
+  String get region => 'Bölge';
+
+  @override
+  String get changeRegion => 'değiştirmek için dokunun';
+
+  @override
+  String get detectRegion => 'Algıla';
+
+  @override
+  String get regionHelp =>
+      'Camiler için ülkeyi önceden doldurur ve o ülkede yaygın namaz hesaplamasını seçer.';
+
+  @override
+  String regionSetTo(String name) {
+    return 'Bölge $name olarak ayarlandı. Değiştirmek için bayrağa dokunun.';
+  }
+
+  @override
+  String get regionNotDetected => 'Ülkeniz algılanamadı. Listeden seçin.';
+
+  @override
+  String get findCountry => 'Ülke ara…';
 }

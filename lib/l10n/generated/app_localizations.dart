@@ -3021,6 +3021,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search the Quran — a surah, an ayah, a word or a phrase. Arabic with or without harakat, transliteration (insan, bismillah), English meaning, or a surah name or number…'**
   String get homeSearchHint;
+
+  /// No description provided for @countryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get countryLabel;
+
+  /// No description provided for @region.
+  ///
+  /// In en, this message translates to:
+  /// **'Region'**
+  String get region;
+
+  /// No description provided for @changeRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'tap to change'**
+  String get changeRegion;
+
+  /// No description provided for @detectRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'Detect'**
+  String get detectRegion;
+
+  /// No description provided for @regionHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-fills the country for masjids and picks the usual prayer calculation for that country.'**
+  String get regionHelp;
+
+  /// No description provided for @regionSetTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Region set to {name}. Tap the flag to change it.'**
+  String regionSetTo(String name);
+
+  /// No description provided for @regionNotDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not detect your country. Choose it from the list.'**
+  String get regionNotDetected;
+
+  /// No description provided for @findCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a country…'**
+  String get findCountry;
 }
 
 class _AppLocalizationsDelegate

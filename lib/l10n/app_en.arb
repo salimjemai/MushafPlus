@@ -1171,5 +1171,20 @@
   "readAloud": "Read aloud",
   "stopReading": "Stop reading",
   "ttsUnavailable": "No voice for this language is installed on this device. Hadith are read with the device’s text-to-speech voices.",
-  "homeSearchHint": "Search the Quran — a surah, an ayah, a word or a phrase. Arabic with or without harakat, transliteration (insan, bismillah), English meaning, or a surah name or number…"
+  "homeSearchHint": "Search the Quran — a surah, an ayah, a word or a phrase. Arabic with or without harakat, transliteration (insan, bismillah), English meaning, or a surah name or number…",
+  "countryLabel": "Country",
+  "region": "Region",
+  "changeRegion": "tap to change",
+  "detectRegion": "Detect",
+  "regionHelp": "Pre-fills the country for masjids and picks the usual prayer calculation for that country.",
+  "regionSetTo": "Region set to {name}. Tap the flag to change it.",
+  "regionNotDetected": "Could not detect your country. Choose it from the list.",
+  "findCountry": "Find a country…",
+  "@regionSetTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

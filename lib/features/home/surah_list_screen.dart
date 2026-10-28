@@ -8,7 +8,10 @@ import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/quran_repository.dart';
 import '../../data/translation_service.dart';
+import '../../data/countries.dart';
+import '../../data/region.dart';
 import '../../state/providers.dart';
+import '../../widgets/region_chip.dart';
 import '../search/search_screen.dart';
 import '../../state/reading_stats.dart';
 import '../../widgets/surah_number_badge.dart';
@@ -35,6 +38,24 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
     ref.read(translationServiceProvider).bundledCorpus(TranslationService.defaultEdition).then((c) {
       if (mounted) setState(() => _corpus = c);
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _detectRegionOnce());
+  }
+
+  /// First start: find the country from the network location (else the
+  /// device locale) and say so; if nothing can be found, ask.
+  Future<void> _detectRegionOnce() async {
+    if (ref.read(settingsProvider).region != null) return;
+    final code = await Region.detect();
+    if (!mounted) return;
+    if (code != null) {
+      ref.read(settingsProvider.notifier).setRegion(code);
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(
+        content: Text(context.l10n.regionSetTo('${Region.flag(code)} ${countryNameFor(code)}')),
+        duration: const Duration(seconds: 5),
+      ));
+    } else {
+      showRegionSheet(context);
+    }
   }
 
   /// Ayahs matching the query (Arabic, transliteration, then the bundled
@@ -81,6 +102,7 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
             ),
           ],
         ),
+        actions: const [RegionChip(), SizedBox(width: 6)],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {

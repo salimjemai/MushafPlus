@@ -37,12 +37,13 @@ class GeocodingService {
       : const {'User-Agent': 'MushafPlus/1.0 (https://github.com/salimjemai/MushafPlus)'};
 
   /// Full-text address search. Returns up to five candidates, best first.
-  Future<List<GeoResult>> searchAddress(String query, {String? countryCode}) async {
+  Future<List<GeoResult>> searchAddress(String query, {String? countryCode, String language = 'en'}) async {
     final uri = Uri.https('nominatim.openstreetmap.org', '/search', {
       'q': query,
       'format': 'jsonv2',
       'limit': '5',
       'addressdetails': '1',
+      'accept-language': language,
       if (countryCode != null && countryCode.isNotEmpty) 'countrycodes': countryCode.toLowerCase(),
     });
     final res = await _client.get(uri, headers: _headers).timeout(const Duration(seconds: 25));
@@ -58,9 +59,11 @@ class GeocodingService {
     String? postalCode,
     String? country,
     String? countryCode,
+    String language = 'en',
   }) async {
     String? v(String? s) => (s == null || s.trim().isEmpty) ? null : s.trim();
     final uri = Uri.https('nominatim.openstreetmap.org', '/search', {
+      'accept-language': language,
       if (v(street) != null) 'street': v(street)!,
       if (v(city) != null) 'city': v(city)!,
       if (v(state) != null) 'state': v(state)!,
@@ -101,6 +104,7 @@ class GeocodingService {
     required String state,
     required String postalCode,
     required String country,
+    String language = 'en',
   }) async {
     final cc = country.trim().length == 2 ? country.trim().toUpperCase() : null;
     final countryName = cc == null ? country.trim() : null;
@@ -108,10 +112,10 @@ class GeocodingService {
 
     final attempts = <Future<List<GeoResult>> Function()>[
       if (street.trim().isNotEmpty || city.trim().isNotEmpty)
-        () => searchStructured(street: street, city: city, state: state, postalCode: postalCode, country: countryName, countryCode: cc),
-      () => searchAddress([street, city, state, postalCode, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc),
+        () => searchStructured(street: street, city: city, state: state, postalCode: postalCode, country: countryName, countryCode: cc, language: language),
+      () => searchAddress([street, city, state, postalCode, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc, language: language),
       if (street.trim().isNotEmpty && city.trim().isNotEmpty)
-        () => searchAddress([street, city, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc),
+        () => searchAddress([street, city, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc, language: language),
     ];
     for (var i = 0; i < attempts.length; i++) {
       if (i > 0) await politeDelay();
@@ -127,7 +131,7 @@ class GeocodingService {
     if (postalCode.trim().isNotEmpty) {
       await politeDelay();
       try {
-        final r = await searchStructured(postalCode: postalCode, country: countryName, countryCode: cc);
+        final r = await searchStructured(postalCode: postalCode, country: countryName, countryCode: cc, language: language);
         if (r.isNotEmpty) return (results: r, approximate: true);
       } on GeocodingException {
         // ignore
@@ -141,10 +145,15 @@ class GeocodingService {
     }
     if (city.trim().isNotEmpty) {
       await politeDelay();
-      final r = await searchStructured(city: city, state: state, country: countryName, countryCode: cc);
+      List<GeoResult> r = const [];
+      try {
+        r = await searchStructured(city: city, state: state, country: countryName, countryCode: cc, language: language);
+      } on GeocodingException {
+        // fall through to free text
+      }
       if (r.isNotEmpty) return (results: r, approximate: true);
       await politeDelay();
-      final f = await searchAddress([city, state, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc);
+      final f = await searchAddress([city, state, country].where((s) => s.trim().isNotEmpty).join(', '), countryCode: cc, language: language);
       if (f.isNotEmpty) return (results: f, approximate: true);
     }
     return (results: const <GeoResult>[], approximate: false);

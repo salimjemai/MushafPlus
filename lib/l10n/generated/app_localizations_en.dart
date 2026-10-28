@@ -1701,4 +1701,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeSearchHint =>
       'Search the Quran — a surah, an ayah, a word or a phrase. Arabic with or without harakat, transliteration (insan, bismillah), English meaning, or a surah name or number…';
+
+  @override
+  String get countryLabel => 'Country';
+
+  @override
+  String get region => 'Region';
+
+  @override
+  String get changeRegion => 'tap to change';
+
+  @override
+  String get detectRegion => 'Detect';
+
+  @override
+  String get regionHelp =>
+      'Pre-fills the country for masjids and picks the usual prayer calculation for that country.';
+
+  @override
+  String regionSetTo(String name) {
+    return 'Region set to $name. Tap the flag to change it.';
+  }
+
+  @override
+  String get regionNotDetected =>
+      'Could not detect your country. Choose it from the list.';
+
+  @override
+  String get findCountry => 'Find a country…';
 }
