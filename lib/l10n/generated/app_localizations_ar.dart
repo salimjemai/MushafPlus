@@ -420,7 +420,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get credits =>
-      'النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0).';
+      'النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0). تلاوات الحديث: Hadith.to.';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2180,4 +2180,7 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get voiceModelHelp =>
       'يتحقق نموذج مصحف+ الصوتي من الحركات أيضًا: تظهر زلة الحركة باللون الكهرماني. انقر أي كلمة للتفاصيل.';
+
+  @override
+  String get playRecitation => 'تشغيل التلاوة';
 }

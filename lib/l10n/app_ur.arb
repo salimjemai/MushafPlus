@@ -122,7 +122,7 @@
   "downloadedDataCleared": "ڈاؤن لوڈ شدہ ڈیٹا صاف ہو گیا",
   "about": "تعارف",
   "versionBuiltWith": "ورژن 1.0.0 · Flutter سے بنایا گیا",
-  "credits": "عربی متن: تنزیل عثمانی۔ تراجم اور تلفظ: Al Quran Cloud۔ لفظ بہ لفظ اور تفسیر: Quran.com۔ تلاوت: EveryAyah.com۔ حدیث: fawazahmed0/hadith-api۔ فونٹس: امیری اور امیری قرآن (SIL لائسنس)۔ صوتی ماڈل: tarteel-ai/whisper-base-ar-quran سے ماخوذ (Apache-2.0، OpenAI Whisper پر مبنی)، آلے پر transformers.js اور ONNX Runtime (Apache-2.0) کے ذریعے چلتا ہے۔",
+  "credits": "عربی متن: تنزیل عثمانی۔ تراجم اور تلفظ: Al Quran Cloud۔ لفظ بہ لفظ اور تفسیر: Quran.com۔ تلاوت: EveryAyah.com۔ حدیث: fawazahmed0/hadith-api۔ فونٹس: امیری اور امیری قرآن (SIL لائسنس)۔ صوتی ماڈل: tarteel-ai/whisper-base-ar-quran سے ماخوذ (Apache-2.0، OpenAI Whisper پر مبنی)، آلے پر transformers.js اور ONNX Runtime (Apache-2.0) کے ذریعے چلتا ہے۔ حدیث کی تلاوتیں: Hadith.to۔",
   "selectedOfMax": "{max} میں سے {selected} منتخب",
   "searchLanguageOrTranslator": "زبان یا مترجم تلاش کریں",
   "nTranslations": "{count, plural, =1{1 ترجمہ} other{{count} تراجم}}",
@@ -626,5 +626,6 @@
   "markKasratan": "دو زیر",
   "markNone": "بغیر حرکت",
   "markNoShadda": "بغیر تشدید",
-  "voiceModelHelp": "مصحف+ صوتی ماڈل حرکات بھی جانچتا ہے: حرکت کی لغزش عنبری رنگ میں دکھتی ہے۔ تفصیل کے لیے کسی لفظ پر ٹیپ کریں۔"
+  "voiceModelHelp": "مصحف+ صوتی ماڈل حرکات بھی جانچتا ہے: حرکت کی لغزش عنبری رنگ میں دکھتی ہے۔ تفصیل کے لیے کسی لفظ پر ٹیپ کریں۔",
+  "playRecitation": "تلاوت چلائیں"
 }

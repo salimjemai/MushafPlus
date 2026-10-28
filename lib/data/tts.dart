@@ -2,8 +2,10 @@ import 'package:flutter/foundation.dart';
 
 import 'tts_stub.dart' if (dart.library.js_interop) 'tts_web.dart' if (dart.library.io) 'tts_io.dart' as impl;
 
-/// Reads hadith text aloud with the device's text-to-speech voices (there is
-/// no recorded hadith audio anywhere public).
+/// Reads hadith text aloud with the device's text-to-speech voices. Recorded
+/// recitations (Hadith.to) are preferred where they exist; see
+/// hadith_audio.dart, which falls back to this for translations and for the
+/// collections without recordings.
 ///
 /// On the web the browser's speech API is driven directly and every
 /// utterance is queued synchronously inside the user's tap, which Safari on

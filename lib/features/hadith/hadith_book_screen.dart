@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/hadith_service.dart';
+import '../../data/hadith_audio.dart';
 import '../../data/tts.dart';
 import '../../state/providers.dart';
 import '../../widgets/book_spread.dart';
@@ -244,13 +245,13 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
             ),
             actions: [
               ValueListenableBuilder<String?>(
-                valueListenable: Tts.speaking,
+                valueListenable: HadithReader.playing,
                 builder: (context, id, _) {
                   final on = id != null && id.startsWith('page-');
                   return IconButton(
                     tooltip: on ? l.stopReading : l.readAloud,
                     icon: Icon(on ? Icons.stop_circle_outlined : Icons.volume_up_outlined, color: on ? scheme.primary : null),
-                    onPressed: () => on ? Tts.stop() : _readPageAloud(lang),
+                    onPressed: () => on ? HadithReader.instance.stop() : _readPageAloud(lang),
                   );
                 },
               ),
@@ -479,16 +480,22 @@ class _HadithBookReaderScreenState extends ConsumerState<HadithBookReaderScreen>
     }
   }
 
-  /// Speaks every hadith on the current page: Arabic, then the translation.
+  /// Reads every hadith on the current page: the recording (or the Arabic
+  /// with the device voice), then the translation. A block that continues a
+  /// hadith from the previous page only gets its translation part.
   Future<void> _readPageAloud(String lang) async {
     final pages = _pages;
     if (pages == null || _page < 1 || _page > pages.length) return;
-    final parts = <(String, String)>[];
+    final items = <HadithReadItem>[];
     for (final b in pages[_page - 1]) {
-      if (b.arabic.isNotEmpty) parts.add((b.arabic, 'ar-SA'));
-      if (b.text.isNotEmpty && lang != 'ara') parts.add((b.text, Tts.voiceFor(lang)));
+      final tts = <(String, String)>[if (b.text.isNotEmpty && lang != 'ara') (b.text, Tts.voiceFor(lang))];
+      if (b.continued) {
+        if (tts.isNotEmpty) items.add(HadithReadItem(book: 'none', number: b.hadith.number, ttsParts: tts));
+      } else {
+        items.add(HadithReadItem(book: widget.bookId, number: b.hadith.number, arabic: b.arabic, ttsParts: tts));
+      }
     }
-    final ok = await Tts.speak('page-$_page', parts);
+    final ok = await HadithReader.instance.read('page-$_page', items);
     if (!ok && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.ttsUnavailable)));
     }

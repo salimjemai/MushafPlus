@@ -425,7 +425,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get credits =>
-      'Texte arabe : édition Tanzil Uthmani. Traductions et translittération : Al Quran Cloud. Mot à mot et tafsir : Quran.com. Récitation : EveryAyah.com. Hadith : fawazahmed0/hadith-api. Polices : Amiri et Amiri Quran (licence SIL). Modèle vocal : dérivé de tarteel-ai/whisper-base-ar-quran (Apache-2.0, affiné à partir d’OpenAI Whisper), exécuté sur l’appareil avec transformers.js et ONNX Runtime (Apache-2.0).';
+      'Texte arabe : édition Tanzil Uthmani. Traductions et translittération : Al Quran Cloud. Mot à mot et tafsir : Quran.com. Récitation : EveryAyah.com. Hadith : fawazahmed0/hadith-api. Polices : Amiri et Amiri Quran (licence SIL). Modèle vocal : dérivé de tarteel-ai/whisper-base-ar-quran (Apache-2.0, affiné à partir d’OpenAI Whisper), exécuté sur l’appareil avec transformers.js et ONNX Runtime (Apache-2.0). Récitations des hadiths : Hadith.to.';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2202,4 +2202,7 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get voiceModelHelp =>
       'Le modèle vocal Mushaf+ vérifie aussi les voyelles (harakat) : une erreur de voyelle apparaît en ambre. Touchez un mot pour les détails.';
+
+  @override
+  String get playRecitation => 'Écouter la récitation';
 }

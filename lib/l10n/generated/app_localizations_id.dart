@@ -423,7 +423,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get credits =>
-      'Teks Arab: edisi Tanzil Utsmani. Terjemahan dan transliterasi: Al Quran Cloud. Kata per kata dan tafsir: Quran.com. Tilawah: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Font: Amiri & Amiri Quran (Lisensi SIL). Model suara: diturunkan dari tarteel-ai/whisper-base-ar-quran (Apache-2.0, penyetelan dari OpenAI Whisper), dijalankan di perangkat dengan transformers.js dan ONNX Runtime (Apache-2.0).';
+      'Teks Arab: edisi Tanzil Utsmani. Terjemahan dan transliterasi: Al Quran Cloud. Kata per kata dan tafsir: Quran.com. Tilawah: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Font: Amiri & Amiri Quran (Lisensi SIL). Model suara: diturunkan dari tarteel-ai/whisper-base-ar-quran (Apache-2.0, penyetelan dari OpenAI Whisper), dijalankan di perangkat dengan transformers.js dan ONNX Runtime (Apache-2.0). Bacaan hadis: Hadith.to.';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2191,4 +2191,7 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get voiceModelHelp =>
       'Model suara Mushaf+ juga memeriksa harakat: kesalahan harakat ditampilkan berwarna kuning tua. Ketuk kata mana pun untuk rincian.';
+
+  @override
+  String get playRecitation => 'Putar bacaan';
 }

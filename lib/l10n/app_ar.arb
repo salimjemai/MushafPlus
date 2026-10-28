@@ -122,7 +122,7 @@
   "downloadedDataCleared": "تم مسح البيانات المنزّلة",
   "about": "حول",
   "versionBuiltWith": "الإصدار 1.0.0 · مبني بـ Flutter",
-  "credits": "النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0).",
+  "credits": "النص العربي: مصحف تنزيل برسم عثماني. الترجمات والنطق: Al Quran Cloud. كلمة بكلمة والتفسير: Quran.com. التلاوة: EveryAyah.com. الحديث: fawazahmed0/hadith-api. الخطوط: أميري وأميري قرآن (رخصة SIL). النموذج الصوتي: مشتق من tarteel-ai/whisper-base-ar-quran (رخصة Apache-2.0، مضبوط من OpenAI Whisper)، ويعمل على الجهاز عبر transformers.js وONNX Runtime (Apache-2.0). تلاوات الحديث: Hadith.to.",
   "selectedOfMax": "{selected} من {max} محددة",
   "searchLanguageOrTranslator": "ابحث عن لغة أو مترجم",
   "nTranslations": "{count, plural, =1{ترجمة واحدة} other{{count} ترجمات}}",
@@ -626,5 +626,6 @@
   "markKasratan": "كسرتان",
   "markNone": "بلا حركة",
   "markNoShadda": "بلا شدة",
-  "voiceModelHelp": "يتحقق نموذج مصحف+ الصوتي من الحركات أيضًا: تظهر زلة الحركة باللون الكهرماني. انقر أي كلمة للتفاصيل."
+  "voiceModelHelp": "يتحقق نموذج مصحف+ الصوتي من الحركات أيضًا: تظهر زلة الحركة باللون الكهرماني. انقر أي كلمة للتفاصيل.",
+  "playRecitation": "تشغيل التلاوة"
 }

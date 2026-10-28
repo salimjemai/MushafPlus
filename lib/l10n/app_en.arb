@@ -277,7 +277,7 @@
   "downloadedDataCleared": "Downloaded data cleared",
   "about": "About",
   "versionBuiltWith": "Version 1.0.0 · Built with Flutter",
-  "credits": "Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0).",
+  "credits": "Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0). Hadith recitations: Hadith.to.",
   "selectedOfMax": "{selected} of {max} selected",
   "@selectedOfMax": {
     "placeholders": {
@@ -1462,5 +1462,6 @@
   "markKasratan": "kasratan",
   "markNone": "no mark",
   "markNoShadda": "no shadda",
-  "voiceModelHelp": "The Mushaf+ voice model also checks vowel marks (harakat): a vowel slip shows in amber. Tap any word for details."
+  "voiceModelHelp": "The Mushaf+ voice model also checks vowel marks (harakat): a vowel slip shows in amber. Tap any word for details.",
+  "playRecitation": "Play recitation"
 }

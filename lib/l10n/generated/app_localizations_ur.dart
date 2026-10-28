@@ -419,7 +419,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get credits =>
-      'عربی متن: تنزیل عثمانی۔ تراجم اور تلفظ: Al Quran Cloud۔ لفظ بہ لفظ اور تفسیر: Quran.com۔ تلاوت: EveryAyah.com۔ حدیث: fawazahmed0/hadith-api۔ فونٹس: امیری اور امیری قرآن (SIL لائسنس)۔ صوتی ماڈل: tarteel-ai/whisper-base-ar-quran سے ماخوذ (Apache-2.0، OpenAI Whisper پر مبنی)، آلے پر transformers.js اور ONNX Runtime (Apache-2.0) کے ذریعے چلتا ہے۔';
+      'عربی متن: تنزیل عثمانی۔ تراجم اور تلفظ: Al Quran Cloud۔ لفظ بہ لفظ اور تفسیر: Quran.com۔ تلاوت: EveryAyah.com۔ حدیث: fawazahmed0/hadith-api۔ فونٹس: امیری اور امیری قرآن (SIL لائسنس)۔ صوتی ماڈل: tarteel-ai/whisper-base-ar-quran سے ماخوذ (Apache-2.0، OpenAI Whisper پر مبنی)، آلے پر transformers.js اور ONNX Runtime (Apache-2.0) کے ذریعے چلتا ہے۔ حدیث کی تلاوتیں: Hadith.to۔';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2182,4 +2182,7 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get voiceModelHelp =>
       'مصحف+ صوتی ماڈل حرکات بھی جانچتا ہے: حرکت کی لغزش عنبری رنگ میں دکھتی ہے۔ تفصیل کے لیے کسی لفظ پر ٹیپ کریں۔';
+
+  @override
+  String get playRecitation => 'تلاوت چلائیں';
 }

@@ -10,6 +10,7 @@ import 'hadith_export.dart';
 import '../../core/l10n.dart';
 import '../../core/theme.dart';
 import '../../data/hadith_service.dart';
+import '../../data/hadith_audio.dart';
 import '../../data/tts.dart';
 import '../../state/providers.dart';
 import '../../widgets/surah_number_badge.dart';
@@ -501,7 +502,7 @@ class _HadithSectionScreenState extends ConsumerState<HadithSectionScreen> {
                         final h = shown[i];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: _HadithCard(hadith: h, rtl: rtl, scale: settings.translationScale, bookName: book?.name ?? widget.bookId),
+                          child: _HadithCard(hadith: h, rtl: rtl, scale: settings.translationScale, bookName: book?.name ?? widget.bookId, bookId: widget.bookId),
                         );
                       },
                     ),
@@ -517,11 +518,12 @@ class _HadithSectionScreenState extends ConsumerState<HadithSectionScreen> {
 }
 
 class _HadithCard extends StatelessWidget {
-  const _HadithCard({required this.hadith, required this.rtl, required this.scale, required this.bookName});
+  const _HadithCard({required this.hadith, required this.rtl, required this.scale, required this.bookName, required this.bookId});
   final Hadith hadith;
   final bool rtl;
   final double scale;
   final String bookName;
+  final String bookId;
 
   String get _shareText =>
       '${hadith.arabic}\n\n${hadith.text}\n\n— $bookName, Hadith ${hadith.number}'
@@ -562,23 +564,29 @@ class _HadithCard extends StatelessWidget {
                   ),
                 ),
                 ValueListenableBuilder<String?>(
-                  valueListenable: Tts.speaking,
+                  valueListenable: HadithReader.playing,
                   builder: (context, id, _) {
-                    final me = 'h-$bookName-${hadith.number}';
+                    final me = 'h-$bookId-${hadith.number}';
                     final on = id == me;
+                    final recorded = hadithAudioUrl(bookId, hadith.number) != null;
                     return IconButton(
-                      tooltip: on ? context.l10n.stopReading : context.l10n.readAloud,
+                      tooltip: on ? context.l10n.stopReading : (recorded ? context.l10n.playRecitation : context.l10n.readAloud),
                       visualDensity: VisualDensity.compact,
-                      icon: Icon(on ? Icons.stop_circle_outlined : Icons.volume_up_outlined, size: 18, color: on ? scheme.primary : null),
+                      icon: Icon(on ? Icons.stop_circle_outlined : (recorded ? Icons.play_circle_outline : Icons.volume_up_outlined),
+                          size: 18, color: on ? scheme.primary : null),
                       onPressed: () async {
                         if (on) {
-                          await Tts.stop();
+                          await HadithReader.instance.stop();
                           return;
                         }
                         final lang = ProviderScope.containerOf(context).read(settingsProvider).hadithLanguage;
-                        final ok = await Tts.speak(me, [
-                          (hadith.arabic, 'ar-SA'),
-                          if (lang != 'ara') (hadith.text, Tts.voiceFor(lang)),
+                        final ok = await HadithReader.instance.read(me, [
+                          HadithReadItem(
+                            book: bookId,
+                            number: hadith.number,
+                            arabic: hadith.arabic,
+                            ttsParts: [if (lang != 'ara' && hadith.text.isNotEmpty) (hadith.text, Tts.voiceFor(lang))],
+                          ),
                         ]);
                         if (!ok && context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.ttsUnavailable)));

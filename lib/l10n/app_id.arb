@@ -122,7 +122,7 @@
   "downloadedDataCleared": "Data unduhan dihapus",
   "about": "Tentang",
   "versionBuiltWith": "Versi 1.0.0 · Dibuat dengan Flutter",
-  "credits": "Teks Arab: edisi Tanzil Utsmani. Terjemahan dan transliterasi: Al Quran Cloud. Kata per kata dan tafsir: Quran.com. Tilawah: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Font: Amiri & Amiri Quran (Lisensi SIL). Model suara: diturunkan dari tarteel-ai/whisper-base-ar-quran (Apache-2.0, penyetelan dari OpenAI Whisper), dijalankan di perangkat dengan transformers.js dan ONNX Runtime (Apache-2.0).",
+  "credits": "Teks Arab: edisi Tanzil Utsmani. Terjemahan dan transliterasi: Al Quran Cloud. Kata per kata dan tafsir: Quran.com. Tilawah: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Font: Amiri & Amiri Quran (Lisensi SIL). Model suara: diturunkan dari tarteel-ai/whisper-base-ar-quran (Apache-2.0, penyetelan dari OpenAI Whisper), dijalankan di perangkat dengan transformers.js dan ONNX Runtime (Apache-2.0). Bacaan hadis: Hadith.to.",
   "selectedOfMax": "{selected} dari {max} dipilih",
   "searchLanguageOrTranslator": "Cari bahasa atau penerjemah",
   "nTranslations": "{count, plural, =1{1 terjemahan} other{{count} terjemahan}}",
@@ -626,5 +626,6 @@
   "markKasratan": "kasratain",
   "markNone": "tanpa harakat",
   "markNoShadda": "tanpa syaddah",
-  "voiceModelHelp": "Model suara Mushaf+ juga memeriksa harakat: kesalahan harakat ditampilkan berwarna kuning tua. Ketuk kata mana pun untuk rincian."
+  "voiceModelHelp": "Model suara Mushaf+ juga memeriksa harakat: kesalahan harakat ditampilkan berwarna kuning tua. Ketuk kata mana pun untuk rincian.",
+  "playRecitation": "Putar bacaan"
 }

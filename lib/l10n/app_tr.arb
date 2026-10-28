@@ -122,7 +122,7 @@
   "downloadedDataCleared": "İndirilen veriler temizlendi",
   "about": "Hakkında",
   "versionBuiltWith": "Sürüm 1.0.0 · Flutter ile yapıldı",
-  "credits": "Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır.",
+  "credits": "Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır. Hadis okuyuşları: Hadith.to.",
   "selectedOfMax": "{max} içinden {selected} seçili",
   "searchLanguageOrTranslator": "Dil veya mütercim ara",
   "nTranslations": "{count, plural, =1{1 meal} other{{count} meal}}",
@@ -626,5 +626,6 @@
   "markKasratan": "kesretan",
   "markNone": "hareke yok",
   "markNoShadda": "şedde yok",
-  "voiceModelHelp": "Mushaf+ ses modeli harekeleri de denetler: hareke hatası kehribar renginde görünür. Ayrıntılar için bir kelimeye dokunun."
+  "voiceModelHelp": "Mushaf+ ses modeli harekeleri de denetler: hareke hatası kehribar renginde görünür. Ayrıntılar için bir kelimeye dokunun.",
+  "playRecitation": "Okuyuşu çal"
 }

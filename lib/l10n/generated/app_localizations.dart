@@ -841,7 +841,7 @@ abstract class AppLocalizations {
   /// No description provided for @credits.
   ///
   /// In en, this message translates to:
-  /// **'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0).'**
+  /// **'Arabic text: Tanzil Uthmani edition. Translations and transliteration: Al Quran Cloud. Word-by-word and tafsir: Quran.com. Recitation: EveryAyah.com. Hadith: fawazahmed0/hadith-api. Fonts: Amiri & Amiri Quran (SIL Open Font License). Voice model: derived from tarteel-ai/whisper-base-ar-quran (Apache-2.0, fine-tuned from OpenAI Whisper), run on-device with transformers.js and ONNX Runtime (Apache-2.0). Hadith recitations: Hadith.to.'**
   String get credits;
 
   /// No description provided for @selectedOfMax.
@@ -3867,6 +3867,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The Mushaf+ voice model also checks vowel marks (harakat): a vowel slip shows in amber. Tap any word for details.'**
   String get voiceModelHelp;
+
+  /// No description provided for @playRecitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Play recitation'**
+  String get playRecitation;
 }
 
 class _AppLocalizationsDelegate

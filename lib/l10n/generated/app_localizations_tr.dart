@@ -422,7 +422,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get credits =>
-      'Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran\'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır.';
+      'Arapça metin: Tanzil Osmanî baskısı. Mealler ve okunuş: Al Quran Cloud. Kelime kelime ve tefsir: Quran.com. Tilavet: EveryAyah.com. Hadis: fawazahmed0/hadith-api. Yazı tipleri: Amiri ve Amiri Quran (SIL lisansı). Ses modeli: tarteel-ai/whisper-base-ar-quran\'dan türetilmiştir (Apache-2.0, OpenAI Whisper üzerinden ince ayarlı); cihazda transformers.js ve ONNX Runtime (Apache-2.0) ile çalışır. Hadis okuyuşları: Hadith.to.';
 
   @override
   String selectedOfMax(int selected, int max) {
@@ -2191,4 +2191,7 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get voiceModelHelp =>
       'Mushaf+ ses modeli harekeleri de denetler: hareke hatası kehribar renginde görünür. Ayrıntılar için bir kelimeye dokunun.';
+
+  @override
+  String get playRecitation => 'Okuyuşu çal';
 }
