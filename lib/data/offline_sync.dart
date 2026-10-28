@@ -5,7 +5,9 @@ import 'adhans.dart';
 import 'adhkar.dart';
 import 'downloads.dart';
 import 'reciters.dart';
+import 'speech_engine.dart';
 import 'tafsir_service.dart';
+import 'voice_model.dart';
 import '../state/providers.dart';
 
 /// One download unit with a human label.
@@ -131,6 +133,28 @@ class OfflineSync extends Notifier<OfflineSyncState> {
     ];
   }
 
+  /// The on-device voice model of the recitation checker (Android, iOS):
+  /// a few files, about 85 MB, fetched only once the user has chosen that
+  /// engine (or from the packs screen). Kept apart from the audio cache.
+  Future<List<OfflineTask>> voiceModelTasks() async {
+    if (!voiceModelAvailable || !Downloads.supportsCache) return const [];
+    const pack = voiceModelPack;
+    return [
+      for (final f in pack.files)
+        if (await Downloads.cachedModelPath(pack.folder, f.name) == null)
+          ('Voice model · ${f.name}', () => Downloads.cacheModel(pack.folder, f.name, pack.urlFor(f))),
+    ];
+  }
+
+  /// Whether at least one voice model file is on the device (the user agreed
+  /// to the download once).
+  Future<bool> voiceModelStarted() async {
+    for (final f in voiceModelPack.files) {
+      if (await Downloads.cachedModelPath(voiceModelPack.folder, f.name) != null) return true;
+    }
+    return false;
+  }
+
   /// Text packs only (web and native).
   Future<List<OfflineTask>> textTasks() async => [...translationTasks(), ...wordTasks(), ...tafsirTasks(), ...await hadithTasks()];
 
@@ -154,6 +178,10 @@ class OfflineSync extends Notifier<OfflineSyncState> {
     if (Downloads.supportsCache && audioAllowed) {
       tasks.addAll(adhanTasks());
       tasks.addAll(await adhkarAudioTasks());
+      // The voice model only finishes here: it starts from the recite screen,
+      // after the user has agreed to its size, and the sync completes what an
+      // interrupted download left missing.
+      if (ref.read(settingsProvider).useVoiceModel && await voiceModelStarted()) tasks.addAll(await voiceModelTasks());
       if (includeReciter) {
         // Only the files still missing.
         final repo = ref.read(repositoryProvider).requireValue;

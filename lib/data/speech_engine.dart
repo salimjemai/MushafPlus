@@ -81,8 +81,14 @@ abstract class DownloadableSpeechEngine implements SpeechEngine {
 }
 
 /// Creates the engine for this platform. [voiceModel] asks for the on-device
-/// Mushaf+ voice model where it exists (web); other platforms ignore it.
+/// Mushaf+ voice model where it exists (web, Android, iOS); other platforms
+/// ignore it.
 SpeechEngine createSpeechEngine({bool voiceModel = false}) => impl.createSpeechEngine(voiceModel: voiceModel);
+
+/// Whether the on-device Mushaf+ voice model can run here: in a browser with
+/// module workers and WebAssembly, or in the Android and iOS apps (through
+/// sherpa-onnx). Where it is false the recognition engine setting is hidden.
+bool get voiceModelAvailable => impl.voiceModelAvailable;
 
 /// True (once) when the last page load died while the on-device voice model
 /// was loading or listening; the caller should fall back to the browser

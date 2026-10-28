@@ -118,3 +118,61 @@ Future<int> clearAudioCache() async {
   dir.deleteSync(recursive: true);
   return bytes;
 }
+
+// ---- model store -----------------------------------------------------------
+
+/// Test hooks: a fixed store folder (no path_provider) and a fake HTTP client.
+@visibleForTesting
+Directory? modelStoreOverride;
+@visibleForTesting
+http.Client Function()? httpClientFactory;
+
+Future<Directory> _modelDir(String folder) async {
+  final root = modelStoreOverride ?? await _root();
+  final dir = Directory('${root.path}${Platform.pathSeparator}models${Platform.pathSeparator}${_safe(folder)}');
+  if (!dir.existsSync()) dir.createSync(recursive: true);
+  return dir;
+}
+
+Future<File> _modelFile(String folder, String name) async => File('${(await _modelDir(folder)).path}${Platform.pathSeparator}${_safe(name)}');
+
+Future<String?> cachedModelPath(String folder, String name) async {
+  final f = await _modelFile(folder, name);
+  return f.existsSync() && f.lengthSync() > 0 ? f.path : null;
+}
+
+Future<String> cacheModel(String folder, String name, String url, {void Function(int received, int total)? onProgress}) async {
+  final f = await _modelFile(folder, name);
+  if (f.existsSync() && f.lengthSync() > 0) {
+    onProgress?.call(f.lengthSync(), f.lengthSync());
+    return f.path;
+  }
+  final part = File('${f.path}.part');
+  final client = httpClientFactory?.call() ?? http.Client();
+  try {
+    final res = await client.send(http.Request('GET', Uri.parse(url)));
+    if (res.statusCode != 200) throw Exception('Download failed (${res.statusCode})');
+    final total = res.contentLength ?? 0;
+    var received = 0;
+    final sink = part.openWrite();
+    try {
+      await for (final chunk in res.stream) {
+        sink.add(chunk);
+        received += chunk.length;
+        onProgress?.call(received, total);
+      }
+      await sink.flush();
+    } finally {
+      await sink.close();
+    }
+    if (total > 0 && received != total) throw Exception('Download incomplete ($received of $total bytes)');
+    if (received == 0) throw Exception('Download empty');
+    await part.rename(f.path);
+    return f.path;
+  } catch (_) {
+    if (part.existsSync()) part.deleteSync();
+    rethrow;
+  } finally {
+    client.close();
+  }
+}

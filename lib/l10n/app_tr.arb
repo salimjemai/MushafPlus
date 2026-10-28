@@ -633,5 +633,12 @@
   "dataSourcesLicencesHint": "Metinler, sesler ve haritalar kimden geliyor",
   "openSourceLicences": "Açık kaynak lisansları",
   "recordingCredit": "Kayıt: {author} · {license}",
-  "voiceModelCrashed": "Mushaf+ ses modeli bu cihazda geçen sefer bellek yetersizliğinden kapandı; şimdilik tarayıcı tanıyıcısı kullanılıyor. Ses modelini Ayarlar → Oku ve denetle’den yeniden deneyebilirsiniz."
+  "voiceModelCrashed": "Mushaf+ ses modeli bu cihazda geçen sefer bellek yetersizliğinden kapandı; şimdilik tarayıcı tanıyıcısı kullanılıyor. Ses modelini Ayarlar → Oku ve denetle’den yeniden deneyebilirsiniz.",
+  "engineDevice": "Telefonun tanıyıcısı",
+  "engineVoiceModelDescApp": "Tek seferlik {size} MB indirme, hareke hatalarını işaretler",
+  "engineVoiceModelHelpApp": "Mushaf+ ses modeli yaklaşık {size} MB'ı bir kez indirir, sonra bu cihazda çalışır: okuduklarınız cihazınızdan çıkmaz. Harflerin yanı sıra harekeleri de denetler ve her duraktan kısa bir süre sonra yanıt verir.",
+  "voiceModelDownloadBodyApp": "Yaklaşık {size} MB, bir kez indirilir ve uygulamada saklanır. Tanıma sonra bu cihazda çalışır; okuduklarınız cihazınızdan çıkmaz.",
+  "voiceModelSlowDevice": "Bu cihaz ses modeli için yavaş: sonuçlar birkaç saniye gecikebilir.",
+  "usingDeviceEngine": "Şimdilik telefonun tanıyıcısı kullanılıyor.",
+  "voiceModelPack": "Mushaf+ ses modeli"
 }

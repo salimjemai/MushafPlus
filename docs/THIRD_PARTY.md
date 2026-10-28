@@ -23,8 +23,11 @@ licences) and in `web/privacy.html`. This file records the audit of
 | timeapi.io | Time zone for coordinates | Free | OK |
 | GeoJS | Country guess from IP (flag, defaults) | Free; abuse may be throttled | OK |
 | ~~ipwho.is~~ | former country-guess fallback | Non-commercial use only | REMOVED 2026-10-28 to avoid ambiguity |
-| tarteel-ai/whisper-base-ar-quran | On-device recitation model (optional 150 MB download) | Apache-2.0 | OK — credited |
+| tarteel-ai/whisper-base-ar-quran (and whisper-tiny-ar-quran) | On-device recitation model, downloaded on consent only: 150 MB on the web (ONNX mirror), about 85 MB int8 in the Android/iOS apps. The app files are converted by `.github/workflows/voice-model.yml` (`tool/voice_model/`) and published as GitHub Release assets (tag `voice-model-v1`) with LICENSE and NOTICE; nothing is committed or bundled | Apache-2.0 (fine-tuned from OpenAI Whisper, MIT) | OK — credited; NOTICE names Tarteel AI, OpenAI, sherpa-onnx and ONNX Runtime |
 | transformers.js, ONNX Runtime | Run the model in the browser | Apache-2.0 / MIT (licence file vendored in `web/asr/`) | OK |
+| sherpa-onnx (k2-fsa / Xiaomi), `sherpa_onnx` pub package | Run the model in the Android and iOS apps (ONNX Runtime inside, MIT) | Apache-2.0 | OK — credited |
+| `record` pub package (llfbandit) | Microphone capture for the voice model in the apps | BSD-3-Clause | OK — credited |
+| everyayah.com Alafasy 001001.mp3 | Only inside the export workflow, to check the converted model transcribes a real recitation; never redistributed | see EveryAyah row | OK |
 | Amiri, Amiri Quran | Arabic fonts (bundled) | SIL OFL 1.1 (`assets/fonts/OFL-Amiri.txt`) | OK |
 | DigitalKhatt Madina font (Amine Anane, Tarteel Inc.) | Madani Mushaf script for the Mushaf pages (bundled, `assets/fonts/DigitalKhatt-Madina.otf`) | SIL OFL 1.1 (`assets/fonts/OFL-DigitalKhatt.txt`, source https://github.com/DigitalKhatt/madinafont) | OK — credited under Mushaf script |
 | ~~KFGQPC Uthmanic Script HAFS, QCF page fonts~~ | the King Fahd Complex's own Mushaf fonts | Licence file: "This Font is the property of King Fahd Glorious Quran Printing Complex … may not be reproduced, modified without the express written approval" | NOT USED 2026-10-28 — bundling is reproduction; usable only with the Complex's written approval |

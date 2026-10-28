@@ -3909,6 +3909,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The Mushaf+ voice model ran out of memory on this device last time, so the browser recogniser is being used instead. You can try the voice model again from Settings → Recite & check.'**
   String get voiceModelCrashed;
+
+  /// No description provided for @engineDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone\'s recogniser'**
+  String get engineDevice;
+
+  /// No description provided for @engineVoiceModelDescApp.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB one-time download, marks vowel mistakes'**
+  String engineVoiceModelDescApp(int size);
+
+  /// No description provided for @engineVoiceModelHelpApp.
+  ///
+  /// In en, this message translates to:
+  /// **'The Mushaf+ voice model downloads about {size} MB once, then runs on this device: nothing you recite leaves it. It checks vowel marks (harakat) as well as letters, and answers a moment after each pause.'**
+  String engineVoiceModelHelpApp(int size);
+
+  /// No description provided for @voiceModelDownloadBodyApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About {size} MB, downloaded once and kept in the app. Recognition then runs on this device and nothing you recite leaves it.'**
+  String voiceModelDownloadBodyApp(int size);
+
+  /// No description provided for @voiceModelSlowDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'This device is slow for the voice model: results may lag by several seconds.'**
+  String get voiceModelSlowDevice;
+
+  /// No description provided for @usingDeviceEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Using the phone\'s recogniser for now.'**
+  String get usingDeviceEngine;
+
+  /// No description provided for @voiceModelPack.
+  ///
+  /// In en, this message translates to:
+  /// **'Mushaf+ voice model'**
+  String get voiceModelPack;
 }
 
 class _AppLocalizationsDelegate

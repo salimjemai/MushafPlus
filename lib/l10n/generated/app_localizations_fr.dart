@@ -2228,4 +2228,33 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get voiceModelCrashed =>
       'La dernière fois, le modèle vocal Mushaf+ a manqué de mémoire sur cet appareil ; la reconnaissance du navigateur est utilisée à la place. Vous pouvez réessayer le modèle vocal dans Réglages → Réciter et vérifier.';
+
+  @override
+  String get engineDevice => 'Reconnaissance du téléphone';
+
+  @override
+  String engineVoiceModelDescApp(int size) {
+    return 'Téléchargement unique de $size Mo, signale les erreurs de voyelles';
+  }
+
+  @override
+  String engineVoiceModelHelpApp(int size) {
+    return 'Le modèle vocal Mushaf+ télécharge environ $size Mo une seule fois, puis fonctionne sur cet appareil : rien de ce que vous récitez ne le quitte. Il vérifie les voyelles (harakat) en plus des lettres et répond un instant après chaque pause.';
+  }
+
+  @override
+  String voiceModelDownloadBodyApp(int size) {
+    return 'Environ $size Mo, téléchargés une seule fois et conservés dans l’application. La reconnaissance se fait ensuite sur cet appareil ; rien de ce que vous récitez ne le quitte.';
+  }
+
+  @override
+  String get voiceModelSlowDevice =>
+      'Cet appareil est lent pour le modèle vocal : les résultats peuvent prendre plusieurs secondes.';
+
+  @override
+  String get usingDeviceEngine =>
+      'La reconnaissance du téléphone est utilisée pour le moment.';
+
+  @override
+  String get voiceModelPack => 'Modèle vocal Mushaf+';
 }

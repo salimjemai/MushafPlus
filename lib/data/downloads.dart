@@ -43,4 +43,16 @@ abstract class Downloads {
 
   /// Removes the whole audio cache; returns bytes freed.
   static Future<int> clearAudioCache() => impl.clearAudioCache();
+
+  /// Local path of a stored model file ([folder]/[name] under the model
+  /// store, kept apart from the audio cache so clearing one leaves the
+  /// other), or null when it is not there in full.
+  static Future<String?> cachedModelPath(String folder, String name) => impl.cachedModelPath(folder, name);
+
+  /// Downloads [url] into the model store as [folder]/[name] unless already
+  /// there, streaming to a temporary file so an interrupted download never
+  /// leaves a truncated model behind. [onProgress] gets bytes received and
+  /// the total (0 while unknown). Returns the local path.
+  static Future<String> cacheModel(String folder, String name, String url, {void Function(int received, int total)? onProgress}) =>
+      impl.cacheModel(folder, name, url, onProgress: onProgress);
 }

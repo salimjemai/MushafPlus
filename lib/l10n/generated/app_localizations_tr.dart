@@ -2217,4 +2217,32 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get voiceModelCrashed =>
       'Mushaf+ ses modeli bu cihazda geçen sefer bellek yetersizliğinden kapandı; şimdilik tarayıcı tanıyıcısı kullanılıyor. Ses modelini Ayarlar → Oku ve denetle’den yeniden deneyebilirsiniz.';
+
+  @override
+  String get engineDevice => 'Telefonun tanıyıcısı';
+
+  @override
+  String engineVoiceModelDescApp(int size) {
+    return 'Tek seferlik $size MB indirme, hareke hatalarını işaretler';
+  }
+
+  @override
+  String engineVoiceModelHelpApp(int size) {
+    return 'Mushaf+ ses modeli yaklaşık $size MB\'ı bir kez indirir, sonra bu cihazda çalışır: okuduklarınız cihazınızdan çıkmaz. Harflerin yanı sıra harekeleri de denetler ve her duraktan kısa bir süre sonra yanıt verir.';
+  }
+
+  @override
+  String voiceModelDownloadBodyApp(int size) {
+    return 'Yaklaşık $size MB, bir kez indirilir ve uygulamada saklanır. Tanıma sonra bu cihazda çalışır; okuduklarınız cihazınızdan çıkmaz.';
+  }
+
+  @override
+  String get voiceModelSlowDevice =>
+      'Bu cihaz ses modeli için yavaş: sonuçlar birkaç saniye gecikebilir.';
+
+  @override
+  String get usingDeviceEngine => 'Şimdilik telefonun tanıyıcısı kullanılıyor.';
+
+  @override
+  String get voiceModelPack => 'Mushaf+ ses modeli';
 }

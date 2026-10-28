@@ -9,8 +9,10 @@ import '../../data/downloads.dart';
 import '../../data/hadith_service.dart';
 import '../../data/offline_sync.dart';
 import '../../data/reciters.dart';
+import '../../data/speech_engine.dart';
 import '../../data/tafsir_service.dart';
 import '../../data/translation_service.dart';
+import '../../data/voice_model.dart';
 import '../../core/arabic_utils.dart';
 import '../../state/providers.dart';
 
@@ -31,6 +33,7 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
   int _adhanCached = 0;
   int _adhkarCached = 0;
   int _reciterCached = 0;
+  int _voiceCached = 0;
   int _seenRuns = -1;
 
   @override
@@ -65,9 +68,14 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
         }
       }
     }
+    var voiceCount = 0;
+    for (final f in voiceModelPack.files) {
+      if (await Downloads.cachedModelPath(voiceModelPack.folder, f.name) != null) voiceCount++;
+    }
     if (mounted) {
       setState(() {
         _reciterCached = reciterCount;
+        _voiceCached = voiceCount;
         _adhanCached = adhanCount;
         _adhkarCached = adhkarCount;
       });
@@ -269,6 +277,17 @@ class _OfflinePacksScreenState extends ConsumerState<OfflinePacksScreen> {
                 enabled: native && !running && _reciterCached < 6236,
                 onDownload: () => syncer.run(syncer.reciterTasks()),
               ),
+              if (voiceModelAvailable) ...[
+                const SizedBox(height: 12),
+                _PackCard(
+                  icon: Icons.graphic_eq,
+                  title: l.voiceModelPack,
+                  subtitle: '${l.filesSaved(_voiceCached, voiceModelPack.files.length)} · ${l.approxSize('${(voiceModelPack.totalBytes / 1e6).round()} MB')}',
+                  progress: _voiceCached / voiceModelPack.files.length,
+                  enabled: native && !running && _voiceCached < voiceModelPack.files.length,
+                  onDownload: () async => syncer.run(await syncer.voiceModelTasks()),
+                ),
+              ],
               const SizedBox(height: 12),
               Text(l.bundledEditions(TranslationService.bundledEditions.map((e) => repo.edition(e)?.englishName ?? e).join(', ')),
                   style: TextStyle(fontSize: 12, color: scheme.outline)),
