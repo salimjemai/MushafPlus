@@ -629,8 +629,8 @@
   "voiceModelHelp": "Model suara Mushaf+ juga memeriksa harakat: kesalahan harakat ditampilkan berwarna kuning tua. Ketuk kata mana pun untuk rincian.",
   "playRecitation": "Putar bacaan",
   "addressLookupCredit": "Pencarian alamat: © kontributor OpenStreetMap (ODbL), geocoding Open-Meteo (CC BY 4.0), Zippopotam.",
-  "dataSourcesLicences": "Sumber data & lisensi",
-  "dataSourcesLicencesHint": "Asal teks, audio dan peta, serta ketentuannya",
+  "dataSourcesLicences": "Kredit",
+  "dataSourcesLicencesHint": "Dari mana teks, audio dan peta berasal",
   "openSourceLicences": "Lisensi sumber terbuka",
   "recordingCredit": "Rekaman: {author} · {license} · Wikimedia Commons"
 }

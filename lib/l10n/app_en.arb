@@ -1465,8 +1465,8 @@
   "voiceModelHelp": "The Mushaf+ voice model also checks vowel marks (harakat): a vowel slip shows in amber. Tap any word for details.",
   "playRecitation": "Play recitation",
   "addressLookupCredit": "Address lookup: © OpenStreetMap contributors (ODbL), Open-Meteo geocoding (CC BY 4.0), Zippopotam.",
-  "dataSourcesLicences": "Data sources & licences",
-  "dataSourcesLicencesHint": "Where the texts, audio and maps come from, and their terms",
+  "dataSourcesLicences": "Credits",
+  "dataSourcesLicencesHint": "Who the texts, audio and maps come from",
   "openSourceLicences": "Open-source licences",
   "recordingCredit": "Recording: {author} · {license} · Wikimedia Commons",
   "@recordingCredit": {

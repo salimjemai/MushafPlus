@@ -2200,11 +2200,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Adres arama: © OpenStreetMap katkıcıları (ODbL), Open-Meteo coğrafi kodlama (CC BY 4.0), Zippopotam.';
 
   @override
-  String get dataSourcesLicences => 'Veri kaynakları ve lisanslar';
+  String get dataSourcesLicences => 'Künye';
 
   @override
   String get dataSourcesLicencesHint =>
-      'Metinler, sesler ve haritalar nereden geliyor, koşulları neler';
+      'Metinler, sesler ve haritalar kimden geliyor';
 
   @override
   String get openSourceLicences => 'Açık kaynak lisansları';

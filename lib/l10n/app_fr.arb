@@ -629,8 +629,8 @@
   "voiceModelHelp": "Le modèle vocal Mushaf+ vérifie aussi les voyelles (harakat) : une erreur de voyelle apparaît en ambre. Touchez un mot pour les détails.",
   "playRecitation": "Écouter la récitation",
   "addressLookupCredit": "Recherche d’adresses : © contributeurs OpenStreetMap (ODbL), géocodage Open-Meteo (CC BY 4.0), Zippopotam.",
-  "dataSourcesLicences": "Sources de données et licences",
-  "dataSourcesLicencesHint": "D’où viennent les textes, l’audio et les cartes, et leurs conditions",
+  "dataSourcesLicences": "Crédits",
+  "dataSourcesLicencesHint": "D’où viennent les textes, l’audio et les cartes",
   "openSourceLicences": "Licences open source",
   "recordingCredit": "Enregistrement : {author} · {license} · Wikimedia Commons"
 }

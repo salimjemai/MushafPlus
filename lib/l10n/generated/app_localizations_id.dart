@@ -2200,11 +2200,11 @@ class AppLocalizationsId extends AppLocalizations {
       'Pencarian alamat: © kontributor OpenStreetMap (ODbL), geocoding Open-Meteo (CC BY 4.0), Zippopotam.';
 
   @override
-  String get dataSourcesLicences => 'Sumber data & lisensi';
+  String get dataSourcesLicences => 'Kredit';
 
   @override
   String get dataSourcesLicencesHint =>
-      'Asal teks, audio dan peta, serta ketentuannya';
+      'Dari mana teks, audio dan peta berasal';
 
   @override
   String get openSourceLicences => 'Lisensi sumber terbuka';

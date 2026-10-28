@@ -2211,11 +2211,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Recherche d’adresses : © contributeurs OpenStreetMap (ODbL), géocodage Open-Meteo (CC BY 4.0), Zippopotam.';
 
   @override
-  String get dataSourcesLicences => 'Sources de données et licences';
+  String get dataSourcesLicences => 'Crédits';
 
   @override
   String get dataSourcesLicencesHint =>
-      'D’où viennent les textes, l’audio et les cartes, et leurs conditions';
+      'D’où viennent les textes, l’audio et les cartes';
 
   @override
   String get openSourceLicences => 'Licences open source';

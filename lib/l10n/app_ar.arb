@@ -629,8 +629,8 @@
   "voiceModelHelp": "يتحقق نموذج مصحف+ الصوتي من الحركات أيضًا: تظهر زلة الحركة باللون الكهرماني. انقر أي كلمة للتفاصيل.",
   "playRecitation": "تشغيل التلاوة",
   "addressLookupCredit": "البحث عن العناوين: © مساهمو OpenStreetMap ‏(ODbL)، ترميز Open-Meteo الجغرافي (CC BY 4.0)، Zippopotam.",
-  "dataSourcesLicences": "مصادر البيانات والتراخيص",
-  "dataSourcesLicencesHint": "من أين تأتي النصوص والصوت والخرائط، وشروطها",
+  "dataSourcesLicences": "شكر وتقدير",
+  "dataSourcesLicencesHint": "من أين تأتي النصوص والصوت والخرائط",
   "openSourceLicences": "تراخيص المصادر المفتوحة",
   "recordingCredit": "التسجيل: {author} · {license} · ويكيميديا كومنز"
 }

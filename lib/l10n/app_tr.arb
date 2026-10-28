@@ -629,8 +629,8 @@
   "voiceModelHelp": "Mushaf+ ses modeli harekeleri de denetler: hareke hatası kehribar renginde görünür. Ayrıntılar için bir kelimeye dokunun.",
   "playRecitation": "Okuyuşu çal",
   "addressLookupCredit": "Adres arama: © OpenStreetMap katkıcıları (ODbL), Open-Meteo coğrafi kodlama (CC BY 4.0), Zippopotam.",
-  "dataSourcesLicences": "Veri kaynakları ve lisanslar",
-  "dataSourcesLicencesHint": "Metinler, sesler ve haritalar nereden geliyor, koşulları neler",
+  "dataSourcesLicences": "Künye",
+  "dataSourcesLicencesHint": "Metinler, sesler ve haritalar kimden geliyor",
   "openSourceLicences": "Açık kaynak lisansları",
   "recordingCredit": "Kayıt: {author} · {license} · Wikimedia Commons"
 }

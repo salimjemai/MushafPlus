@@ -2189,11 +2189,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'البحث عن العناوين: © مساهمو OpenStreetMap ‏(ODbL)، ترميز Open-Meteo الجغرافي (CC BY 4.0)، Zippopotam.';
 
   @override
-  String get dataSourcesLicences => 'مصادر البيانات والتراخيص';
+  String get dataSourcesLicences => 'شكر وتقدير';
 
   @override
-  String get dataSourcesLicencesHint =>
-      'من أين تأتي النصوص والصوت والخرائط، وشروطها';
+  String get dataSourcesLicencesHint => 'من أين تأتي النصوص والصوت والخرائط';
 
   @override
   String get openSourceLicences => 'تراخيص المصادر المفتوحة';

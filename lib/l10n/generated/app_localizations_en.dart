@@ -2201,11 +2201,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Address lookup: © OpenStreetMap contributors (ODbL), Open-Meteo geocoding (CC BY 4.0), Zippopotam.';
 
   @override
-  String get dataSourcesLicences => 'Data sources & licences';
+  String get dataSourcesLicences => 'Credits';
 
   @override
   String get dataSourcesLicencesHint =>
-      'Where the texts, audio and maps come from, and their terms';
+      'Who the texts, audio and maps come from';
 
   @override
   String get openSourceLicences => 'Open-source licences';

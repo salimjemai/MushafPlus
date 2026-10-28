@@ -2191,11 +2191,10 @@ class AppLocalizationsUr extends AppLocalizations {
       'پتہ تلاش: © OpenStreetMap معاونین (ODbL)، Open-Meteo جیوکوڈنگ (CC BY 4.0)، Zippopotam۔';
 
   @override
-  String get dataSourcesLicences => 'ڈیٹا کے ذرائع اور لائسنس';
+  String get dataSourcesLicences => 'کریڈٹس';
 
   @override
-  String get dataSourcesLicencesHint =>
-      'متن، آڈیو اور نقشے کہاں سے آتے ہیں اور ان کی شرائط';
+  String get dataSourcesLicencesHint => 'متن، آڈیو اور نقشے کس سے آئے ہیں';
 
   @override
   String get openSourceLicences => 'اوپن سورس لائسنس';

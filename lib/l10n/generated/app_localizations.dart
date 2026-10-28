@@ -3883,13 +3883,13 @@ abstract class AppLocalizations {
   /// No description provided for @dataSourcesLicences.
   ///
   /// In en, this message translates to:
-  /// **'Data sources & licences'**
+  /// **'Credits'**
   String get dataSourcesLicences;
 
   /// No description provided for @dataSourcesLicencesHint.
   ///
   /// In en, this message translates to:
-  /// **'Where the texts, audio and maps come from, and their terms'**
+  /// **'Who the texts, audio and maps come from'**
   String get dataSourcesLicencesHint;
 
   /// No description provided for @openSourceLicences.

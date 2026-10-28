@@ -629,8 +629,8 @@
   "voiceModelHelp": "مصحف+ صوتی ماڈل حرکات بھی جانچتا ہے: حرکت کی لغزش عنبری رنگ میں دکھتی ہے۔ تفصیل کے لیے کسی لفظ پر ٹیپ کریں۔",
   "playRecitation": "تلاوت چلائیں",
   "addressLookupCredit": "پتہ تلاش: © OpenStreetMap معاونین (ODbL)، Open-Meteo جیوکوڈنگ (CC BY 4.0)، Zippopotam۔",
-  "dataSourcesLicences": "ڈیٹا کے ذرائع اور لائسنس",
-  "dataSourcesLicencesHint": "متن، آڈیو اور نقشے کہاں سے آتے ہیں اور ان کی شرائط",
+  "dataSourcesLicences": "کریڈٹس",
+  "dataSourcesLicencesHint": "متن، آڈیو اور نقشے کس سے آئے ہیں",
   "openSourceLicences": "اوپن سورس لائسنس",
   "recordingCredit": "ریکارڈنگ: {author} · {license} · وکیمیڈیا کامنز"
 }
