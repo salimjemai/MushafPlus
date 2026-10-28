@@ -81,6 +81,19 @@ def shrink_embedding(src: str, dst: str, min_rows: int = 10000) -> None:
         # quantises initializer weights). Fold the transpose into its own
         # initializer so the int8 pass picks it up and the fp32 table goes.
         folded = 0
+        # torch.onnx inserts Identity nodes in front of shared initializers;
+        # route their consumers to the table itself so the transpose is found.
+        changed = True
+        while changed:
+            changed = False
+            for ident in list(graph.node):
+                if ident.op_type == "Identity" and list(ident.input) == [base]:
+                    for consumer in graph.node:
+                        for k, name in enumerate(consumer.input):
+                            if name == ident.output[0]:
+                                consumer.input[k] = base
+                    graph.node.remove(ident)
+                    changed = True
         for other in list(graph.node):
             if other.op_type == "Transpose" and list(other.input) == [base]:
                 perm = next((list(a.ints) for a in other.attribute if a.name == "perm"), None)
