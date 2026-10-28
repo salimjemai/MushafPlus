@@ -102,7 +102,15 @@ class _SurahListScreenState extends ConsumerState<SurahListScreen> {
             ),
           ],
         ),
-        actions: const [RegionChip(), SizedBox(width: 6)],
+        actions: [
+          IconButton(
+            tooltip: l.supportTitle,
+            icon: Icon(Icons.favorite, color: Theme.of(context).colorScheme.primary),
+            onPressed: () => context.push('/settings/support'),
+          ),
+          const RegionChip(),
+          const SizedBox(width: 6),
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {

@@ -130,10 +130,16 @@ class SettingsScreen extends ConsumerWidget {
               _Section(
                 title: l.recitation,
                 children: [
+                  // The reciter names are long: give the dropdown the full
+                  // width under the label instead of squeezing the label
+                  // next to it (Arabic labels wrapped letter by letter).
                   ListTile(
                     leading: const Icon(Icons.record_voice_over_outlined),
                     title: Text(l.reciter),
-                    trailing: const ReciterDropdown(),
+                    subtitle: const Padding(
+                      padding: EdgeInsets.only(top: 4),
+                      child: ReciterDropdown(isExpanded: true),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
