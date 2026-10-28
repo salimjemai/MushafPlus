@@ -26,4 +26,4 @@ createServer(async (req, res) => {
   } catch (e) {
     res.writeHead(404); res.end('Not found');
   }
-}).listen(port, '127.0.0.1', () => console.log(`Quran+ web preview at http://localhost:${port}`));
+}).listen(port, '127.0.0.1', () => console.log(`Serving ${root} at http://localhost:${port}`));

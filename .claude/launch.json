@@ -19,6 +19,12 @@
         "build/web_watch"
       ],
       "port": 8766
+    },
+    {
+      "name": "asr-prototype",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tool/serve.mjs", "8090", "tool/asr_prototype"],
+      "port": 8090
     }
   ]
 }
