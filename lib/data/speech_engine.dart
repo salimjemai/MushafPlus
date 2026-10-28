@@ -67,6 +67,10 @@ abstract class DownloadableSpeechEngine implements SpeechEngine {
   /// Whether inference is hardware accelerated (otherwise results lag).
   bool get accelerated;
 
+  /// One short technical line for the screen: backend, threads and the time
+  /// of the last recognition pass, e.g. "wasm ×3 · 2.4 s". Empty until loaded.
+  String get diagnostics;
+
   /// Downloads (if needed) and loads the model, reporting progress.
   Future<void> prepare({void Function(ModelLoadProgress p)? onProgress});
 

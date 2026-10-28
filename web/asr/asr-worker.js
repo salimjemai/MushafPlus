@@ -35,7 +35,8 @@ function fileUrl(model, file) {
   return env.remoteHost + env.remotePathTemplate.replace('{model}', model).replace('{revision}', 'main') + file;
 }
 
-const dtypeSuffix = (d) => (d && d !== 'fp32' ? `_${d}` : '');
+// File suffix transformers.js uses for a dtype (q8 is stored as "_quantized").
+const dtypeSuffix = (d) => (!d || d === 'fp32' ? '' : d === 'q8' ? '_quantized' : `_${d}`);
 
 function modelFiles(model, dtype) {
   return [
@@ -71,8 +72,9 @@ async function load(msg) {
     for (const f of Object.values(files)) { loaded += f.loaded || 0; total += f.total || 0; }
     post({ type: 'progress', stage, loaded, total, file: file ?? '' });
   };
+  let threads = 0;
   if (msg.device === 'wasm') {
-    const threads = self.crossOriginIsolated ? Math.min(4, Math.ceil((navigator.hardwareConcurrency || 1) / 2)) : 1;
+    threads = self.crossOriginIsolated ? Math.min(4, Math.ceil((navigator.hardwareConcurrency || 1) / 2)) : 1;
     env.backends.onnx.wasm.numThreads = threads;
     console.log(`[asr] wasm threads: ${threads} (crossOriginIsolated=${self.crossOriginIsolated}, cores=${navigator.hardwareConcurrency})`);
   }
@@ -100,10 +102,14 @@ async function load(msg) {
   report('init');
   // Warm up: the first call compiles shaders (WebGPU) or initialises the wasm
   // threads, which would otherwise delay the first real result by seconds.
+  // The warm-up takes about as long as a real pass (Whisper always encodes a
+  // 30 s window), so its time tells the app how slow this device is.
+  const w0 = performance.now();
   try { await transcribe(new Float32Array(16000)); } catch { /* reported on the real call */ }
+  const warmMs = performance.now() - w0;
   let bytes = 0;
   for (const f of Object.values(files)) bytes += f.total || 0;
-  return { ms: performance.now() - t0, bytes };
+  return { ms: performance.now() - t0, bytes, threads, warmMs };
 }
 
 async function transcribe(audio) {
@@ -131,7 +137,7 @@ self.onmessage = async (e) => {
       post({ type: 'probe', cached: await probe(msg) });
     } else if (msg.type === 'load') {
       const r = await load(msg);
-      post({ type: 'loaded', ms: r.ms, bytes: r.bytes });
+      post({ type: 'loaded', ms: r.ms, bytes: r.bytes, threads: r.threads, warmMs: r.warmMs });
     } else if (msg.type === 'transcribe') {
       const t0 = performance.now();
       const text = await transcribe(msg.audio);

@@ -615,6 +615,13 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, color: scheme.outline, height: 1.4),
                   ),
+                if (_engine is DownloadableSpeechEngine && (_engine as DownloadableSpeechEngine).diagnostics.isNotEmpty)
+                  Text(
+                    '${l.recognitionEngine}: ${(_engine as DownloadableSpeechEngine).diagnostics}',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(fontSize: 11, color: scheme.outline, height: 1.4),
+                  ),
               ],
               const SizedBox(height: 8),
             ],

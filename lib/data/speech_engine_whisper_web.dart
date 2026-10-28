@@ -53,6 +53,9 @@ const _minSpeechSeconds = 0.3; // shorter bursts are noise
 class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
   web.Worker? _worker;
   bool _loaded = false;
+  int _threads = 0; // wasm threads in use (0 on WebGPU)
+  int _warmMs = 0; // duration of the warm-up pass at load
+  int _lastMs = 0; // duration of the last recognition pass
   Future<void>? _loading;
   int _nextId = 1;
   final _pending = <int, Completer<String>>{};
@@ -112,6 +115,22 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
 
   @override
   bool get accelerated => _hasWebGpu;
+
+  /// A pass that takes longer than this on silence will not keep up with
+  /// live partial transcriptions: only pauses are transcribed then.
+  static const _slowPassMs = 1500;
+
+  /// True once the warm-up showed this device cannot afford live partials.
+  bool get slow => _loaded && _warmMs > _slowPassMs;
+
+  @override
+  String get diagnostics {
+    if (!_loaded) return '';
+    final backend = _hasWebGpu ? 'WebGPU' : (_threads > 0 ? 'wasm ×$_threads' : 'wasm');
+    final ms = _lastMs > 0 ? _lastMs : _warmMs;
+    final secs = (ms / 1000).toStringAsFixed(1);
+    return '$backend · $secs s';
+  }
 
   String get _device => _hasWebGpu ? 'webgpu' : 'wasm';
 
@@ -180,6 +199,8 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
         _onProgress?.call(ModelLoadProgress(stage: _str(m, 'stage'), loaded: _int(m, 'loaded'), total: _int(m, 'total')));
       case 'loaded':
         _loaded = true;
+        _threads = _int(m, 'threads');
+        _warmMs = _int(m, 'warmMs');
         _onProgress?.call(ModelLoadProgress(stage: 'ready', loaded: _int(m, 'bytes'), total: _int(m, 'bytes')));
         _load?.complete();
         _load = null;
@@ -187,6 +208,7 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
         _probe?.complete(_bool(m, 'cached'));
         _probe = null;
       case 'result':
+        _lastMs = _int(m, 'ms');
         _pending.remove(_int(m, 'id'))?.complete(_str(m, 'text'));
       case 'error':
         final message = _str(m, 'message');
@@ -351,7 +373,7 @@ class _Session {
   /// Seconds between partial transcriptions: [_partialEverySeconds], or more
   /// on slow backends so that a single-threaded wasm phone is not kept busy
   /// re-transcribing back to back.
-  double _partialGap = _partialEverySeconds;
+  late double _partialGap = engine.slow ? double.infinity : _partialEverySeconds;
 
   Future<void> open() async {
     final constraints = web.MediaStreamConstraints(
@@ -579,7 +601,8 @@ class _Session {
       final clock = Stopwatch()..start();
       engine._transcribe(req.$2).then((text) {
         _busy = false;
-        _partialGap = math.max(_partialEverySeconds, clock.elapsedMilliseconds / 1000 * 1.5);
+        final secs = clock.elapsedMilliseconds / 1000;
+        _partialGap = secs * 1000 > WhisperWebSpeechEngine._slowPassMs ? double.infinity : math.max(_partialEverySeconds, secs * 1.5);
         if (_closed) return;
         if (req.$1 == _segmentId) {
           _partial = text;
