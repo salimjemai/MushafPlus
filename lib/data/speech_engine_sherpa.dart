@@ -182,7 +182,26 @@ class SherpaSpeechEngine implements DownloadableSpeechEngine {
     }
   }
 
-  Future<String> _transcribe(Float32List audio) async {
+  /// Scales a segment so its peak sits near full scale: the model was
+  /// trained on normalised audio, and phone capture is often 20 to 30 dB
+  /// below that even with automatic gain on.
+  static Float32List _normalised(Float32List audio) {
+    var peak = 0.0;
+    for (final v in audio) {
+      final x = v.abs();
+      if (x > peak) peak = x;
+    }
+    if (peak < 1e-4 || peak > 0.6) return audio;
+    final gain = 0.9 / peak;
+    final out = Float32List(audio.length);
+    for (var i = 0; i < audio.length; i++) {
+      out[i] = audio[i] * gain;
+    }
+    return out;
+  }
+
+  Future<String> _transcribe(Float32List raw) async {
+    final audio = _normalised(raw);
     final worker = _worker;
     if (worker == null) throw StateError('voice model not loaded');
     final clock = Stopwatch()..start();

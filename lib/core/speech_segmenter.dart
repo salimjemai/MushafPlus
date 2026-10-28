@@ -28,8 +28,8 @@ class SpeechSegmenter {
     this.silenceSeconds = 0.6,
     this.maxSegmentSeconds = 12.0,
     this.splitSearchSeconds = 4.0,
-    this.preRollSeconds = 0.4,
-    this.minSpeechSeconds = 0.3,
+    this.preRollSeconds = 0.7,
+    this.minSpeechSeconds = 0.5,
     this.partialGap = 3.0,
   });
 
@@ -71,11 +71,15 @@ class SpeechSegmenter {
       sum += v * v;
     }
     final rms = math.sqrt(sum / math.max(1, samples.length));
-    level = (20 * _log10(rms + 1e-6) + 50).clamp(-2, 10).toDouble();
+    // A soft voice on a phone (RMS 0.002) shows about two thirds.
+    level = (20 * _log10(rms + 1e-6) + 62).clamp(-2, 10).toDouble();
 
     // Adaptive noise floor: snaps down to quiet chunks, creeps up slowly.
-    _noise = rms < _noise ? rms : math.min(_noise * 1.01 + 1e-5, 0.02);
-    final voiced = rms > math.max(0.004, _noise * 3);
+    // Phone microphones with noise suppression deliver quiet speech (an RMS
+    // of 0.002 is a soft voice at arm's length), so the floor is low and the
+    // margin over the background small.
+    _noise = rms < _noise ? rms : math.min(_noise * 1.01 + 5e-6, 0.008);
+    final voiced = rms > math.max(0.0012, _noise * 2.2);
 
     _total += samples.length;
     _chunks.add(samples);
@@ -127,7 +131,12 @@ class SpeechSegmenter {
   void _finishSegment(List<SegmentEvent> out) {
     // Voiced span only: the pre-roll before it is silence.
     final speech = _lastVoice - _firstVoice;
-    if (speech >= minSpeechSeconds * sampleRate) {
+    // The segment must rise clearly above the background somewhere: chunks
+    // just over the start threshold are breath and room noise, which the
+    // model turns into invented words.
+    final peak = _chunkRms.fold(0.0, math.max);
+    final clear = peak >= math.max(0.002, _noise * 3);
+    if (clear && speech >= minSpeechSeconds * sampleRate) {
       // Trim the trailing silence to a short tail.
       final tail = (0.25 * sampleRate).round();
       var end = _chunks.length;

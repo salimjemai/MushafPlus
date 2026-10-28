@@ -37,7 +37,7 @@ const _splitSearchSeconds = 4.0; // where to look for the quietest point when a 
 const _partialEverySeconds = 3.0; // refresh the partial transcript while the reciter keeps going
 const _silenceSeconds = 0.6; // pause that ends a segment
 const _preRollSeconds = 0.7; // audio kept before the first chunk judged voiced (soft first syllables)
-const _minSpeechSeconds = 0.3; // shorter bursts are noise
+const _minSpeechSeconds = 0.5; // shorter bursts are noise (and Whisper invents words for them)
 
 /// [SpeechEngine] backed by the Mushaf+ voice model running in a module Web
 /// Worker (`web/asr/asr-worker.js`): on-device recognition that returns fully
@@ -527,7 +527,12 @@ class _Session {
   /// The pause ended the segment: transcribe it as final text.
   void _finishSegment() {
     final speech = _segLen - (_total - _lastVoice);
-    if (speech >= _minSpeechSeconds * _sampleRate) {
+    // A segment must rise clearly above the background somewhere: chunks just
+    // over the start threshold are breath and room noise, and Whisper turns
+    // those into words (typically pious phrases) that then derail the match.
+    final peak = _chunkRms.fold(0.0, math.max);
+    final clear = peak >= math.max(0.002, _noise * 3);
+    if (clear && speech >= _minSpeechSeconds * _sampleRate) {
       // Trim the trailing silence to a short tail.
       final tail = (0.25 * _sampleRate).round();
       var end = _chunks.length;

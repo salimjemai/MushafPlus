@@ -555,12 +555,29 @@ class RecitationMatcher {
       }
     }
 
-    // Trailing missed words right before the cursor are more likely "not yet
-    // said" than skipped: treat a run of missed words at the end as pending.
-    var next = bestI;
-    while (next > 0 && statuses[next - 1] == WordStatus.missed) {
-      statuses[next - 1] = WordStatus.pending;
-      next--;
+    // The cursor only moves past words the reciter demonstrably reached: it
+    // sits after the last word heard correctly (letters right, vowels right
+    // or slipped), plus at most one wrong word said right there. Anything
+    // the alignment placed further on without such an anchor is unproven:
+    // a half-similar word the recogniser produced from noise or a quiet
+    // start ("والمومنين" for a soft بسم الله الرحمن) used to mark the words
+    // before it as missed and drag the cursor ahead, so that the real
+    // recitation that followed was compared with the wrong place. Those
+    // words go back to pending and what was heard counts as an extra.
+    var lastGood = -1;
+    for (var k = bestI - 1; k >= 0; k--) {
+      if (statuses[k] == WordStatus.matched || statuses[k] == WordStatus.vowel) {
+        lastGood = k;
+        break;
+      }
+    }
+    var next = lastGood + 1;
+    if (next < bestI && statuses[next] == WordStatus.wrong) next++;
+    for (var k = next; k < bestI; k++) {
+      if (statuses[k] == WordStatus.wrong && heardFor[k] != null) extras.add(heardFor[k]!);
+      statuses[k] = WordStatus.pending;
+      heardFor[k] = null;
+      vowelFor[k] = const [];
     }
 
     return MatchResult(

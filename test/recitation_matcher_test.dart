@@ -50,6 +50,35 @@ void main() {
     expect(r.words.take(4).every((w) => w.status == WordStatus.matched), isTrue);
   });
 
+  test('a stray word the recogniser invented does not move the cursor', () {
+    // Whisper heard "والمومنين" in a quiet start; it is half-similar to
+    // الرحمن, but nothing before it was heard, so nothing is missed or wrong.
+    final m = RecitationMatcher(RecitationMatcher.wordsOf(fatiha));
+    final r = m.match('والمومنين');
+    expect(r.nextIndex, 0);
+    expect(r.words.every((w) => w.status == WordStatus.pending), isTrue,
+        reason: r.words.map((w) => '${w.normalized}:${w.status.name}').join(' '));
+    expect(r.extras, contains('والمومنين'));
+  });
+
+  test('words skipped to reach a half-similar word stay pending', () {
+    final m = RecitationMatcher(RecitationMatcher.wordsOf(fatiha));
+    final r = m.match('بسم والمومنين');
+    expect(r.words[0].status, WordStatus.matched);
+    expect(r.nextIndex, 1);
+    expect(r.words[1].status, WordStatus.pending);
+    expect(r.words[2].status, WordStatus.pending);
+    expect(r.extras, contains('والمومنين'));
+  });
+
+  test('a wrong word said right after a correct one is still flagged', () {
+    final m = RecitationMatcher(RecitationMatcher.wordsOf(fatiha));
+    final r = m.match('بسم الله الرحيل');
+    expect(r.words[1].status, WordStatus.matched);
+    expect(r.words[2].status, WordStatus.wrong);
+    expect(r.nextIndex, 3);
+  });
+
   test('strict mode rejects a one-letter slip that lenient mode accepts', () {
     final words = RecitationMatcher.wordsOf(fatiha);
     // "العالمين" recited as "العالمون"
