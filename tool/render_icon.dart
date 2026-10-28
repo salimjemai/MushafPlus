@@ -3,7 +3,14 @@
 //
 //   flutter test tool/render_icon.dart
 //   dart run flutter_launcher_icons
+//   cp assets/icon/maskable_192.png web/icons/Icon-maskable-192.png
+//   cp assets/icon/maskable_512.png web/icons/Icon-maskable-512.png
+//   cp assets/icon/favicon_64.png web/favicon.png
 //   dart run flutter_native_splash:create
+//
+// (flutter_launcher_icons derives the web maskable icons and favicon from the
+// full cover, which would clip the frame under a circular mask and turn to mush
+// at 16 px, so the three copies above replace them with purpose-made renders.)
 //
 // The icon is a mushaf cover: deep emerald tooled leather, a gold double frame
 // with corner pieces, and a central gold mandorla (almond medallion) with four
@@ -12,6 +19,7 @@
 //   icon.png            1024²  full cover (iOS, web, macOS, Windows)
 //   icon_background.png 1024²  leather only (Android adaptive background)
 //   icon_foreground.png 1024²  medallion only, sized for the adaptive safe zone
+//   icon_monochrome.png 1024²  white silhouette for Android 13 themed icons
 //   maskable_192.png / maskable_512.png  leather + medallion for PWA maskable
 //   favicon_64.png      simplified rounded tile for the browser tab
 //   splash.png          1152²  medallion on transparent for the splash screens
@@ -31,7 +39,7 @@ Future<void> _loadFonts() async {
   await amiri.load();
 }
 
-enum _Variant { cover, background, foreground, maskable, favicon, splash }
+enum _Variant { cover, background, foreground, monochrome, maskable, favicon, splash }
 
 class _IconPainter extends CustomPainter {
   const _IconPainter(this.variant);
@@ -54,6 +62,8 @@ class _IconPainter extends CustomPainter {
         _leather(canvas, s, u, radius: 0);
       case _Variant.foreground:
         _medallion(canvas, c, u * 0.78);
+      case _Variant.monochrome:
+        _monochrome(canvas, c, u * 0.78);
       case _Variant.maskable:
         _leather(canvas, s, u, radius: 0);
         _medallion(canvas, c, u * 0.86);
@@ -301,6 +311,45 @@ class _IconPainter extends CustomPainter {
     tp.paint(canvas, c - Offset(tp.width / 2, tp.height / 2 - 2 * u));
   }
 
+  /// Android 13 themed icon: a single-colour silhouette (the launcher tints
+  /// it), so the ivory field becomes transparent and the ق stays solid.
+  void _monochrome(Canvas canvas, Offset c, double u) {
+    const h = 300.0, w = 215.0;
+    final white = Paint()..color = Colors.white;
+    final ring = Path.combine(
+      PathOperation.difference,
+      _mandorla(c, h * u, w * u),
+      _mandorla(c, (h - 42) * u, (w - 38) * u),
+    );
+    canvas.drawPath(ring, white);
+    final stems = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 7 * u;
+    canvas.drawLine(Offset(c.dx, c.dy - h * u), Offset(c.dx, c.dy - (h + 30) * u), stems);
+    canvas.drawLine(Offset(c.dx, c.dy + h * u), Offset(c.dx, c.dy + (h + 30) * u), stems);
+    canvas.drawLine(Offset(c.dx - w * u, c.dy), Offset(c.dx - (w + 20) * u, c.dy), stems);
+    canvas.drawLine(Offset(c.dx + w * u, c.dy), Offset(c.dx + (w + 20) * u, c.dy), stems);
+    canvas.drawPath(_lozenge(Offset(c.dx, c.dy - (h + 56) * u), 20 * u, 36 * u), white);
+    canvas.drawPath(_lozenge(Offset(c.dx, c.dy + (h + 56) * u), 20 * u, 36 * u), white);
+    canvas.drawPath(_lozenge(Offset(c.dx - (w + 46) * u, c.dy), 34 * u, 18 * u), white);
+    canvas.drawPath(_lozenge(Offset(c.dx + (w + 46) * u, c.dy), 34 * u, 18 * u), white);
+    final tp = TextPainter(
+      text: TextSpan(
+        text: 'ق',
+        style: TextStyle(
+          fontFamily: 'Amiri',
+          fontWeight: FontWeight.w700,
+          fontSize: 360 * u,
+          color: Colors.white,
+          height: 1,
+        ),
+      ),
+      textDirection: TextDirection.rtl,
+    )..layout();
+    tp.paint(canvas, c - Offset(tp.width / 2, tp.height / 2 - 2 * u));
+  }
+
   @override
   bool shouldRepaint(covariant _IconPainter old) => old.variant != variant;
 }
@@ -342,6 +391,7 @@ void main() {
     await _render(tester, _Variant.cover, 1024, 'assets/icon/icon.png');
     await _render(tester, _Variant.background, 1024, 'assets/icon/icon_background.png');
     await _render(tester, _Variant.foreground, 1024, 'assets/icon/icon_foreground.png');
+    await _render(tester, _Variant.monochrome, 1024, 'assets/icon/icon_monochrome.png');
     await _render(tester, _Variant.maskable, 512, 'assets/icon/maskable_512.png');
     await _render(tester, _Variant.maskable, 192, 'assets/icon/maskable_192.png');
     await _render(tester, _Variant.favicon, 64, 'assets/icon/favicon_64.png');
