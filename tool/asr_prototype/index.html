@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quran ASR prototype</title>
+<title>Mushaf+ voice model prototype</title>
 <style>
   :root { --fg: #1c1c1c; --bg: #fafaf7; --muted: #666; --ok: #2e7d32; --vowel: #e65100; --letter: #c62828; --card: #fff; --line: #ddd; }
   body { font: 14px/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); margin: 0; padding: 16px; }
@@ -28,16 +28,16 @@
 </style>
 </head>
 <body>
-<h1>Quran ASR prototype: vocalised transcription in the browser</h1>
-<p class="muted">Loads a Quran-tuned Whisper ONNX model with transformers.js (pinned 4.3.1), transcribes microphone or file audio, and grades harakat against the Uthmani text of Al-Fatiha. Nothing leaves the browser except the model download from huggingface.co.</p>
+<h1>Mushaf+ voice model prototype: vocalised recitation recognition in the browser</h1>
+<p class="muted">Loads the Quran recognition model (an Apache-2.0 ONNX model, see REPORT.md for credits) with transformers.js (pinned 4.3.1), transcribes microphone or file audio, and grades harakat against the Uthmani text of Al-Fatiha. Nothing leaves the browser except the one-time model download.</p>
 
 <div class="card">
   <label>Model
     <select id="model">
-      <option value="eventhorizon0/tarteel-ai-onnx-whisper-base-ar-quran">tarteel whisper-base-ar-quran (ONNX, eventhorizon0)</option>
-      <option value="YunusZJ/whisper-base-ar-quran-ONNX">tarteel whisper-base-ar-quran (ONNX, YunusZJ)</option>
-      <option value="onnx-community/whisper-base">openai whisper-base (general Arabic, baseline)</option>
-      <option value="Aymencca/whisper-turbo-coran-onnx">whisper-large-v3-turbo Quran (Aymencca, WebGPU only, ~1.6 GB)</option>
+      <option value="eventhorizon0/tarteel-ai-onnx-whisper-base-ar-quran">Mushaf+ Quran model, base (default)</option>
+      <option value="YunusZJ/whisper-base-ar-quran-ONNX">Mushaf+ Quran model, base (alternative export)</option>
+      <option value="onnx-community/whisper-base">General Arabic model (baseline, no harakat)</option>
+      <option value="Aymencca/whisper-turbo-coran-onnx">Large Quran model (WebGPU only, ~1.6 GB)</option>
       <option value="custom">custom…</option>
     </select>
   </label>

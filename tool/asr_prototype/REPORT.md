@@ -4,7 +4,7 @@ Date: 2026-10-28. Everything here ran in the browser on one Windows 11 laptop (6
 
 ## Short answer
 
-Yes, for the model that matters. Tarteel's `whisper-base-ar-quran` emits **fully vocalised** Arabic (every fatha, damma, kasra, sukun and shadda), transcribed all seven ayat of Al-Fatiha recited by Mishary Alafasy **letter- and vowel-perfect** against the app's Uthmani text, and runs at **0.25 to 0.3 x real time on WebGPU** in Chrome after a one-time 150 to 170 MB download. The general Whisper base model, by contrast, outputs no harakat at all and garbles half of the words of the same recitation.
+Yes, for the model that matters. Tarteel's `whisper-base-ar-quran` emits **fully vocalised** Arabic (every fatha, damma, kasra, sukun and shadda), transcribed all seven ayat of Al-Fatiha from a professional studio recitation **letter- and vowel-perfect** against the app's Uthmani text, and runs at **0.25 to 0.3 x real time on WebGPU** in Chrome after a one-time 150 to 170 MB download. The general Whisper base model, by contrast, outputs no harakat at all and garbles half of the words of the same recitation.
 
 On synthetic clips with one deliberate vowel mistake, the harakat-aware comparison flagged the mutated word in **13 of 18** clips, with two misses caused by the model "snapping" to the memorised correct text and three by the TTS voice being transcribed as different letters. Correct synthetic clips were clean only 5 of 14 times, but every false alarm came from TTS pronunciation artefacts that a real reciter does not produce (see the caveat below). So: promising enough to design the integration, not yet proven on learners' voices. The missing step is a small corpus of real learner recordings with known mistakes.
 
@@ -44,24 +44,24 @@ Run it with the `asr-prototype` entry in `.claude/launch.json` (`node tool/serve
 
 Real human recordings with deliberate mistakes were not available in this session (no microphone on the agent side), so two sources were used:
 
-- **Real recitation**: Mishary Alafasy, Al-Fatiha 1:1 to 1:7 from everyayah.com (studio, tajweed, 4.6 to 13.2 s per ayah).
-- **Synthetic**: Microsoft Edge neural TTS (ar-SA Hamed, ar-EG Salma) reading each ayah fully vocalised, once correct and once with a single haraka changed (الحمدَ, ربُّ, مالكُ, يومَ, نعبدَ, إياكِ, الصراطُ, أنعمتُ, غيرَ). TTS is not recitation: it reads MSA prose rhythm, drops some shadda, and the Egyptian voice mangles ص and ض. It is useful for "does the model copy what it hears or what it knows", not as a measure of the false-alarm rate on learners.
+- **Real recitation**: a professional studio recitation of Al-Fatiha 1:1 to 1:7 from everyayah.com (tajweed, 4.6 to 13.2 s per ayah). Local test material only, never shipped.
+- **Synthetic**: two Microsoft Edge neural Arabic voices (voice_a: ar-SA male, voice_b: ar-EG female) reading each ayah fully vocalised, once correct and once with a single haraka changed (الحمدَ, ربُّ, مالكُ, يومَ, نعبدَ, إياكِ, الصراطُ, أنعمتُ, غيرَ). TTS is not recitation: it reads MSA prose rhythm, drops some shadda, and the Egyptian voice mangles ص and ض. It is useful for "does the model copy what it hears or what it knows", not as a measure of the false-alarm rate on learners.
 
 ## 4. Results
 
-### Accuracy (Tarteel whisper-base-ar-quran, wasm q8+q4 and WebGPU fp16+q4 gave identical text)
+### Accuracy (Quran base model, wasm q8+q4 and WebGPU fp16+q4 gave identical text)
 
 | Set | Clips | Vocalised output | Word-exact vs Uthmani | Vowel mistake flagged on the right word | Clean on correct clips |
 |---|---|---|---|---|---|
-| Alafasy (real) | 7 | 7/7 | 7/7 ayat, 29/29 words | n/a | 7/7 |
-| Hamed TTS | 16 (7 correct, 9 mistakes) | 16/16 | | 7/9 | 4/7 |
-| Salma TTS | 16 (7 correct, 9 mistakes) | 16/16 | | 6/9 | 1/7 |
+| Studio recitation (real) | 7 | 7/7 | 7/7 ayat, 29/29 words | n/a | 7/7 |
+| voice_a TTS (ar-SA male) | 16 (7 correct, 9 mistakes) | 16/16 | | 7/9 | 4/7 |
+| voice_b TTS (ar-EG female) | 16 (7 correct, 9 mistakes) | 16/16 | | 6/9 | 1/7 |
 
 What the synthetic failures were:
 
 - **Snapping to the memorised text** (2 misses, both voices): غَيْرَ was transcribed as the correct غَيْرِ. The model is a language model over the Quran as much as an acoustic model, so an error in a weakly stressed final vowel mid-ayah can be "autocorrected". This is the fundamental limit of a seq2seq model trained only on correct recitation (Quran-Lab's card says the same about its phoneme model).
-- **Letter garbage instead of a vowel verdict** (3 misses): إِيَّاكِ with a feminine kasra pushed the decoder off the rails (إِيَّكِنْ عَبُدُ ...); the Salma voice's الصِّرَاطُ came out as السِّرَاطُ. The comparison correctly reports these as letter errors, which the app already handles, so the user still sees the word marked red; it just cannot say "vowel".
-- **False alarms on correct TTS** (9): Hamed's ٱلصِّرَٰطَ was heard as الصَّرَاطَ (ص kasra → fatha) in both ayah 6 clips; أَنْعَمْتَ lost its hamza and was heard as نَعَمْتَ in every ayah-7 clip; Salma's shadda is weak so إِيَّاكَ came back as إِيَكَ, and لِلَّهِ as لِلَّهُ. None of these occurred on the real recitation.
+- **Letter garbage instead of a vowel verdict** (3 misses): إِيَّاكِ with a feminine kasra pushed the decoder off the rails (إِيَّكِنْ عَبُدُ ...); voice_b's الصِّرَاطُ came out as السِّرَاطُ. The comparison correctly reports these as letter errors, which the app already handles, so the user still sees the word marked red; it just cannot say "vowel".
+- **False alarms on correct TTS** (9): voice_a's ٱلصِّرَٰطَ was heard as الصَّرَاطَ (ص kasra → fatha) in both ayah 6 clips; أَنْعَمْتَ lost its hamza and was heard as نَعَمْتَ in every ayah-7 clip; voice_b's shadda is weak so إِيَّاكَ came back as إِيَكَ, and لِلَّهِ as لِلَّهُ. None of these occurred on the real recitation.
 - Every detected mistake was reported with the right letter and marks, e.g. `د: expected damma, heard fatha` for الحمدَ, `ت: expected fatha, heard damma` for أنعمتُ (the meaning-changing one).
 
 ### Baseline: general `onnx-community/whisper-base` on the same real recitation
@@ -99,7 +99,7 @@ All 16 synthetic texts, compared as text, flag exactly the mutated word and noth
 ### Web `SpeechEngine` backed by the Quran model
 
 - New `lib/data/speech_engine_whisper_web.dart` implementing `SpeechEngine`, selected by a user setting ("Recognition engine: Browser (fast, letters only) / Quran model (download, vowels)"), falling back to `_WebSpeechEngine` when WebGPU and WASM SIMD are both unavailable or the download is declined.
-- Transport: the same module worker as the prototype, shipped in `web/asr/` (worker + pinned transformers.js, 0.6 MB) and driven through `dart:js_interop`: `postMessage({type:'load'})`, `{type:'transcribe', audio}`. Audio capture with an `AudioWorklet` at 16 kHz into a ring buffer; every 3 s (or on 0.6 s of silence) send the last 8 s window; emit `onText(finalText, partialText)` where the overlapping prefix that matched the previous window becomes final. `shortSessions` = false, `description` = "Quran Whisper (WebGPU|wasm, q4)".
+- Transport: the same module worker as the prototype, shipped in `web/asr/` (worker + pinned transformers.js, 0.6 MB) and driven through `dart:js_interop`: `postMessage({type:'load'})`, `{type:'transcribe', audio}`. Audio capture with an `AudioWorklet` at 16 kHz into a ring buffer; every 3 s (or on 0.6 s of silence) send the last 8 s window; emit `onText(finalText, partialText)` where the overlapping prefix that matched the previous window becomes final. `shortSessions` = false, `description` = "Mushaf+ voice model (WebGPU|wasm, q4)".
 - Model files: fetched from huggingface.co (CORS works; cached by the browser's Cache API across visits; `env.useBrowserCache`), with a first-use dialog "Download the Quran recognition model (150 MB, once)?" and a progress bar from `progress_callback`. Option to mirror the two ONNX files under the GitHub Pages site later (keeps us independent of Hugging Face and lets us ship the re-quantised 77 MB build).
 - Device choice: `navigator.gpu` present → WebGPU with `{encoder_model:'fp16', decoder_model_merged:'q4'}` (168 MB); else wasm with `{encoder_model:'q8', decoder_model_merged:'q4'}` (146 MB) and a notice that results will lag 5 to 10 s. Safari/iOS web: WebGPU shipped in Safari 26 but ONNX Runtime support there is immature; treat as wasm.
 - Estimated sizes: app bundle +0.7 MB (worker, transformers.js); model 146 to 168 MB cached per device (77 MB after a clean int8 export); peak memory ~600 MB on wasm, ~450 MB on WebGPU.
@@ -127,3 +127,15 @@ All 16 synthetic texts, compared as text, flag exactly the mutated word and noth
 2. **Snapping.** Measure how often the model autocorrects a wrong vowel on real voices. If it is common, options are beam search with the candidate word forced (compare log-probs of expected vs heard variant), or moving to a phoneme/CTC model for grading while keeping Whisper for alignment.
 3. **Clean export.** Re-export `tarteel-ai/whisper-base-ar-quran` (and `-tiny`) with optimum and dynamic int8 quantisation so the decoder is ~54 MB rather than 123 MB, and host it on the Pages site.
 4. **Licence note.** Tarteel's weights are Apache-2.0; everyayah audio is free for non-commercial use. No change to the app's licence posture.
+
+## 8. Licensing and naming
+
+The goal is to ship this as a Mushaf+ feature without borrowing anyone else's name and without any licence that restricts the app.
+
+- **Model weights.** `tarteel-ai/whisper-base-ar-quran` and `-tiny` are Apache-2.0: commercial use, modification and redistribution are allowed. The only obligations are to keep the licence text and a short attribution (a NOTICE entry such as "speech model derived from tarteel-ai/whisper-base-ar-quran, Apache-2.0, fine-tuned from OpenAI Whisper") in the app's open-source credits screen. Renaming the files does not remove that obligation, and the credit does not have to appear in the UI copy.
+- **Our name for it.** In the product the feature is the **"Mushaf+ voice model"** (settings, download dialog, diagnostics); internally the export is `mushaf_quran_base` (and `mushaf_quran_tiny`), hosted on our Pages site, not loaded from Hugging Face at run time. No "Whisper", "Tarteel" or "OpenAI" in user-facing strings. This prototype's UI already uses those names; the Hugging Face ids remain only in the loader and in this report.
+- **Models to avoid.** `Muno459/fastconformer-quran` (NPL-1.1) and `Quran-Lab/zipformer_p-arabic-v3` (NPL-1.2) are no-profit licences that forbid paid tiers and ads and require a specific disclaimer; they are gated and not redistributable. They stay out of the app.
+- **Training data.** `tarteel-ai/everyayah` is gated on Hugging Face; we do not redistribute it. If we fine-tune our own model later, we need recordings we own or that are clearly licensed (our own learner corpus, or recitations whose owners agreed).
+- **Test audio.** The studio recitation from everyayah.com and the TTS clips are local test material under `testdata/audio/` (git-ignored) and are never shipped. The committed scripts only download or synthesise them. File names use neutral prefixes (`recitation_`, `voice_a_`, `voice_b_`).
+- **Libraries.** transformers.js and ONNX Runtime Web are Apache-2.0; the pinned CDN copy should become a vendored file under `web/asr/` with its licence header kept.
+- **Text.** The Uthmani text is the app's existing Tanzil-derived asset; the harakat comparison code is ours.

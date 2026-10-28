@@ -33,7 +33,7 @@ export const TEST_SET = {
   bad_7b: { ayah: 7, spoken: 'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرَ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ', mutated: 4, note: 'غيرَ: fatha for kasra' },
 };
 
-/** Guesses the ayah and test id from a file name like hamed_bad_2a.mp3 or alafasy_001004.mp3. */
+/** Guesses the ayah and test id from a file name like voice_a_bad_2a.mp3 or recitation_001004.mp3. */
 export function describeFile(name) {
   const base = name.replace(/\.[a-z0-9]+$/i, '');
   const t = base.match(/(ok_\d|bad_\d[a-z])$/);

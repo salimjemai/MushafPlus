@@ -156,8 +156,8 @@ $('run').onclick = async () => {
 // run needs no file picker. Missing files are skipped.
 $('runServer').onclick = async () => {
   const names = [
-    ...['hamed', 'salma'].flatMap((v) => Object.keys(TEST_SET).map((id) => `${v}_${id}.mp3`)),
-    ...[1, 2, 3, 4, 5, 6, 7].map((a) => `alafasy_00100${a}.mp3`),
+    ...['voice_a', 'voice_b'].flatMap((v) => Object.keys(TEST_SET).map((id) => `${v}_${id}.mp3`)),
+    ...[1, 2, 3, 4, 5, 6, 7].map((a) => `recitation_00100${a}.mp3`),
   ];
   const only = new URLSearchParams(location.search).get('only');
   $('runServer').disabled = true;

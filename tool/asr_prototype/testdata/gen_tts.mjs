@@ -7,12 +7,12 @@ import fs from 'node:fs';
 import { TEST_SET } from '../fatiha.js';
 
 const out = process.argv[2] ?? '.';
-const voices = ['ar-SA-HamedNeural', 'ar-EG-SalmaNeural'];
-for (const v of voices) {
+const voices = { voice_a: 'ar-SA-HamedNeural', voice_b: 'ar-EG-SalmaNeural' };
+for (const [prefix, v] of Object.entries(voices)) {
   const tts = new MsEdgeTTS();
   await tts.setMetadata(v, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
   for (const [id, t] of Object.entries(TEST_SET)) {
-    const file = `${out}/${v.split('-')[2].replace('Neural', '').toLowerCase()}_${id}.mp3`;
+    const file = `${out}/${prefix}_${id}.mp3`;
     const { audioStream } = tts.toStream(t.spoken, { rate: '-30%' });
     const chunks = [];
     for await (const c of audioStream) chunks.push(c);
