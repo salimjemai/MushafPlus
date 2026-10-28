@@ -1,0 +1,1511 @@
+{
+  "@@locale": "es",
+  "appTitle": "Mushaf+",
+  "navRead": "Leer",
+  "navHadith": "Hadiz",
+  "navPrayer": "Oración",
+  "navSaved": "Guardados",
+  "navSettings": "Ajustes",
+  "search": "Buscar",
+  "searchTheQuran": "Buscar en el Corán",
+  "cancel": "Cancelar",
+  "open": "Abrir",
+  "apply": "Aplicar",
+  "save": "Guardar",
+  "retry": "Reintentar",
+  "copy": "Copiar",
+  "share": "Compartir",
+  "clear": "Borrar",
+  "remove": "Quitar",
+  "download": "Descargar",
+  "more": "Más",
+  "back": "Atrás",
+  "loading": "Cargando…",
+  "couldNotLoadQuran": "No se pudieron cargar los datos del Corán.",
+  "continueReading": "CONTINUAR LEYENDO",
+  "startReading": "EMPEZAR A LEER",
+  "ayahOfJuzPage": "Aleya {ayah} de {total} · Yuz {juz} · Página {page}",
+  "@ayahOfJuzPage": {
+    "placeholders": {
+      "ayah": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "juz": {
+        "type": "int"
+      },
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "verseOfTheDay": "ALEYA DEL DÍA",
+  "today": "Hoy",
+  "dailyGoalTapToStartPlan": "Meta diaria {goal} aleyas · toca para iniciar un plan de khatm",
+  "@dailyGoalTapToStartPlan": {
+    "placeholders": {
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "khatmOnTrack": "Plan de khatm: al día · día {day}/{days}",
+  "@khatmOnTrack": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "khatmBehind": "Plan de khatm: {behind} aleyas de retraso · día {day}/{days}",
+  "@khatmBehind": {
+    "placeholders": {
+      "behind": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "findSurahHint": "Busca una sura por nombre, significado o número",
+  "tabSurah": "Sura",
+  "tabJuz": "Yuz",
+  "tabPage": "Página",
+  "noSurahMatches": "Ninguna sura coincide con tu búsqueda.",
+  "surahSubtitle": "{meaning} · {count} aleyas · {type}",
+  "@surahSubtitle": {
+    "placeholders": {
+      "meaning": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      },
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "meccan": "Mecana",
+  "medinan": "Medinense",
+  "juzN": "Yuz {n}",
+  "@juzN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "juzStartsAt": "Empieza en {surah}, aleya {ayah} · {count} aleyas",
+  "@juzStartsAt": {
+    "placeholders": {
+      "surah": {
+        "type": "String"
+      },
+      "ayah": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "jumpToSurah": "Ir a la sura",
+  "pageN": "Página {n}",
+  "@pageN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "backToSurahs": "Volver a las suras",
+  "openMushafHere": "Abrir el Mushaf en esta sura",
+  "translations": "Traducciones",
+  "readingSettings": "Ajustes de lectura",
+  "playSurah": "Reproducir sura",
+  "pauseRecitation": "Pausar recitación",
+  "memorizeThisSurah": "Memorizar esta sura",
+  "openInMushaf": "Abrir en el Mushaf",
+  "juzPage": "Yuz {juz} · Página {page}",
+  "@juzPage": {
+    "placeholders": {
+      "juz": {
+        "type": "int"
+      },
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "wordByWord": "Palabra por palabra",
+  "tafsir": "Tafsir",
+  "bookmark": "Marcador",
+  "removeBookmark": "Quitar marcador",
+  "bookmarkThisAyah": "Marcar esta aleya",
+  "play": "Reproducir",
+  "pause": "Pausa",
+  "playFromThisAyah": "Reproducir desde esta aleya",
+  "sajdahAyah": "Aleya de sayda (postración)",
+  "couldNotLoad": "No se pudo cargar {name}",
+  "@couldNotLoad": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "wordByWordOffline": "Palabra por palabra no disponible sin conexión ({error})",
+  "@wordByWordOffline": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "ayahN": "Aleya {n}",
+  "@ayahN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "wordByWordSubtitle": "Transliteración y significado de cada palabra",
+  "tafsirSubtitle": "Comentario de Ibn Kazir y otros",
+  "playRecitationFromHere": "Reproducir la recitación desde aquí",
+  "memorizeFromHere": "Memorizar desde aquí",
+  "memorizeSubtitle": "Oculta las palabras, revélalas una a una, repite la recitación en bucle",
+  "ayahCopied": "Aleya copiada",
+  "wordN": "Palabra {n}",
+  "@wordN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "wordByWordNeedsInternet": "Los datos palabra por palabra necesitan conexión a internet la primera vez.",
+  "tafsirNeedsInternet": "El tafsir necesita conexión a internet la primera vez.",
+  "viaQuranCom": "vía Quran.com",
+  "reciter": "Recitador",
+  "arabicSize": "Tamaño del árabe",
+  "translationSize": "Tamaño de la traducción",
+  "amiriQuran": "Amiri Quran",
+  "amiriNaskh": "Amiri Naskh",
+  "showTransliteration": "Mostrar transliteración",
+  "showTransliterationSubtitle": "Pronunciación en alfabeto latino bajo cada aleya",
+  "wordByWordMode": "Modo palabra por palabra",
+  "wordByWordModeSubtitle": "Cada palabra con su transliteración y significado",
+  "wordMeaningsLanguage": "Idioma de los significados de las palabras",
+  "tapAyahHint": "Toca cualquier aleya para ver traducción, transliteración, tafsir y palabra por palabra.",
+  "previousAyah": "Aleya anterior",
+  "nextAyah": "Aleya siguiente",
+  "stop": "Detener",
+  "loop": "bucle",
+  "searchHint": "Árabe, transliteración o inglés…",
+  "searchWholeQuran": "Buscar en todo el Corán",
+  "searchHelp": "Escribe en árabe (con o sin harakat), una frase transliterada o una palabra en inglés. Los resultados abren la aleya en el lector.",
+  "noAyahMatches": "Ninguna aleya coincide con \"{query}\"",
+  "@noAyahMatches": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "resultsCount": "{count} resultados",
+  "@resultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "savedAyahs": "Aleyas guardadas",
+  "noBookmarksYet": "Aún no hay marcadores",
+  "noBookmarksHelp": "Toca el icono de marcador en cualquier aleya mientras lees para guardarla aquí.",
+  "settings": "Ajustes",
+  "appearance": "Apariencia",
+  "theme": "Tema",
+  "arabicFont": "Fuente árabe",
+  "language": "Idioma de la app",
+  "systemDefault": "Predeterminado del sistema",
+  "recitation": "Recitación",
+  "recitationHelp": "El audio se transmite aleya por aleya desde everyayah.com. Toca reproducir en cualquier aleya, o \"Reproducir sura\" en la cabecera de la sura.",
+  "reading": "Lectura",
+  "wordByWordSettingSubtitle": "Muestra cada palabra con su transliteración y significado (se descarga una vez por sura)",
+  "defaultView": "Vista predeterminada",
+  "viewTranslation": "Traducción",
+  "viewMushafBook": "Mushaf",
+  "languages": "Idiomas",
+  "arabicOnlyTapToAdd": "Solo árabe — toca para añadir traducciones",
+  "translationsAvailable": "Hay {count} traducciones en {languages} idiomas disponibles. Cada una se descarga la primera vez que abres una sura y se conserva sin conexión.",
+  "@translationsAvailable": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "languages": {
+        "type": "int"
+      }
+    }
+  },
+  "storage": "Almacenamiento",
+  "offlinePacks": "Paquetes sin conexión",
+  "offlinePacksSubtitle": "Descarga traducciones y palabra por palabra de todo el Corán",
+  "clearDownloadedData": "Borrar datos descargados",
+  "cachedDownloads": "{count} descargas de suras en caché",
+  "@cachedDownloads": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clearDownloadedDataQuestion": "¿Borrar los datos descargados?",
+  "clearDownloadedDataBody": "Las traducciones y los datos palabra por palabra se volverán a descargar cuando hagan falta. Los marcadores y los ajustes se conservan.",
+  "downloadedDataCleared": "Datos descargados borrados",
+  "about": "Acerca de",
+  "versionBuiltWith": "Versión 1.0.0 · Hecho con Flutter",
+  "credits": "Texto árabe: edición Tanzil Uthmani. Traducciones y transliteración: Al Quran Cloud. Palabra por palabra y tafsir: Quran.com. Recitación: EveryAyah.com. Hadiz: fawazahmed0/hadith-api. Fuentes: Amiri y Amiri Quran (SIL Open Font License). Modelo de voz: derivado de tarteel-ai/whisper-base-ar-quran (Apache-2.0, ajustado a partir de OpenAI Whisper), ejecutado en el dispositivo con transformers.js y ONNX Runtime (Apache-2.0).",
+  "selectedOfMax": "{selected} de {max} seleccionadas",
+  "@selectedOfMax": {
+    "placeholders": {
+      "selected": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "searchLanguageOrTranslator": "Busca un idioma o traductor",
+  "nTranslations": "{count, plural, =1{1 traducción} other{{count} traducciones}}",
+  "@nTranslations": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nSelected": "{count} seleccionadas",
+  "@nSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rightToLeftScript": "Escritura de derecha a izquierda",
+  "translationLimit": "Puedes mostrar hasta {max} traducciones a la vez. Quita una primero.",
+  "@translationLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "offlineIntro": "El texto árabe, la transliteración inglesa y tres traducciones al inglés están siempre sin conexión. Descarga el resto una vez y lee donde quieras.",
+  "selectedTranslations": "Traducciones seleccionadas",
+  "allSelectedBundled": "Todas las traducciones seleccionadas vienen incluidas en la app.",
+  "surahDownloadsSaved": "{done} de {total} descargas de suras guardadas",
+  "@surahDownloadsSaved": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "wordByWordPack": "Palabra por palabra ({language})",
+  "@wordByWordPack": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "surahsSavedSize": "{done} de 114 suras guardadas · unos 8 MB",
+  "@surahsSavedSize": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "tafsirSavedAutomatically": "El tafsir se guarda automáticamente para cada aleya que abres.",
+  "downloadEverything": "Descargar todo lo seleccionado",
+  "bundledEditions": "Ediciones incluidas: {names}.",
+  "@bundledEditions": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "everythingOffline": "Todo lo seleccionado ya está disponible sin conexión.",
+  "downloadDone": "Listo. {count} descargas guardadas para uso sin conexión.",
+  "@downloadDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadDoneWithFailures": "Terminado con {failed} descargas fallidas (comprueba tu conexión y vuelve a intentarlo).",
+  "@downloadDoneWithFailures": {
+    "placeholders": {
+      "failed": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadCancelled": "Cancelado tras {done} de {total}.",
+  "@downloadCancelled": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "starting": "Iniciando…",
+  "memorize": "Memorizar",
+  "memorizeHeader": "{surah} · Aleyas {from}–{to} · {done}/{total} memorizadas",
+  "@memorizeHeader": {
+    "placeholders": {
+      "surah": {
+        "type": "String"
+      },
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "changeRange": "Cambiar rango",
+  "wordsRevealed": "{revealed} / {total} palabras",
+  "@wordsRevealed": {
+    "placeholders": {
+      "revealed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "nextWord": "Siguiente palabra",
+  "revealAll": "Mostrar todo",
+  "hideAll": "Ocultar todo",
+  "transliteration": "Transliteración",
+  "translation": "Traducción",
+  "memorized": "Memorizada",
+  "markAsMemorized": "Marcar como memorizada",
+  "listenAndRepeat": "Escuchar y repetir",
+  "repeatEachAyah": "Repetir cada aleya",
+  "loopTheRange": "Repetir el rango en bucle",
+  "playRange": "Reproducir {from}–{to}",
+  "@playRange": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "thisAyah": "Esta aleya",
+  "ayahRange": "Rango de aleyas",
+  "fromToOf": "De {from} a {to} de {total}",
+  "@fromToOf": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "readingPlan": "Plan de lectura",
+  "goalReached": "¡Meta alcanzada, mashaAllah!",
+  "moreAyahsToGoal": "{count} aleyas más para alcanzar tu meta",
+  "@moreAyahsToGoal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dayStreak": "Racha de {days} días",
+  "@dayStreak": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyGoal": "Meta diaria",
+  "ayahsPerDay": "{count} aleyas al día",
+  "@ayahsPerDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "khatmIn30Days": "208 (khatm en 30 días)",
+  "last7Days": "Últimos 7 días",
+  "ayahsRead": "Aleyas leídas",
+  "activeDays": "Días activos",
+  "quranRead": "Corán leído",
+  "khatmPlan": "Plan de khatm",
+  "khatmPlanHelp": "Termina todo el Corán según un calendario. Te diremos la aleya a la que llegar cada día.",
+  "nDays": "{n} días",
+  "@nDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "startFromFatiha": "Empezar desde Al-Fátiha",
+  "fromTheBeginning": "Desde el principio",
+  "fromWhereYouAre": "Desde donde estás ahora",
+  "aboutAyahsADay": "Unas {count} aleyas al día",
+  "@aboutAyahsADay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "startPlan": "Iniciar plan",
+  "endPlan": "Terminar plan",
+  "planStatusLine": "Día {day} de {days} · termina el {date} · {perDay} aleyas/día",
+  "@planStatusLine": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      },
+      "perDay": {
+        "type": "int"
+      }
+    }
+  },
+  "onTrack": "Vas al día.",
+  "onTrackAhead": "Vas al día, {count} aleyas por delante.",
+  "@onTrackAhead": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catchUp": "Lee {count} aleyas más hoy para ponerte al día.",
+  "@catchUp": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todaysTarget": "Meta de hoy: {surah} {key}",
+  "@todaysTarget": {
+    "placeholders": {
+      "surah": {
+        "type": "String"
+      },
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "continueReadingButton": "Continuar leyendo",
+  "hadith": "Hadiz",
+  "hadithIntro": "Las seis colecciones canónicas, el Muwatta de Málik y tres colecciones de cuarenta hadices, con árabe y traducción. Cada capítulo se descarga una vez y queda sin conexión.",
+  "hadithsChapters": "{hadiths} hadices · {chapters} capítulos",
+  "@hadithsChapters": {
+    "placeholders": {
+      "hadiths": {
+        "type": "int"
+      },
+      "chapters": {
+        "type": "int"
+      }
+    }
+  },
+  "couldNotLoadHadithBooks": "No se pudieron cargar los libros de hadices: {error}",
+  "@couldNotLoadHadithBooks": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "findAChapter": "Buscar un capítulo",
+  "hadithsRange": "Hadices {first}–{last}",
+  "@hadithsRange": {
+    "placeholders": {
+      "first": {
+        "type": "int"
+      },
+      "last": {
+        "type": "int"
+      }
+    }
+  },
+  "chapterN": "Capítulo {n}",
+  "@chapterN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "chapterNeedsInternet": "Este capítulo necesita conexión a internet la primera vez.",
+  "searchHadithsInChapter": "Buscar entre los {count} hadices de este capítulo",
+  "@searchHadithsInChapter": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "previousChapter": "Capítulo anterior",
+  "nextChapter": "Capítulo siguiente",
+  "hadithCopied": "Hadiz copiado",
+  "prayerTimes": "Horarios de oración",
+  "prayerTimesForMasjid": "Horarios de oración de tu mezquita",
+  "prayerIntro": "Introduce la dirección completa o el código postal de la mezquita. Se geocodifica a coordenadas precisas y su zona horaria, y luego se generan los horarios diarios de oración, iqama y yumu'ah con el método de cálculo que elijas.",
+  "setUpMasjid": "Configurar una mezquita a partir de su dirección",
+  "useMyLocation": "Usar mi ubicación actual",
+  "methodsList": "Métodos de cálculo: ISNA, Liga Musulmana Mundial, Egipcio, Karachi, Umm al-Qura, Golfo, Kuwait, Catar, Singapur, Diyanet, UOIF, Rusia, Teherán y Yafari. Asr: shafi'í/malikí/hanbalí o hanafí.",
+  "couldNotGetLocation": "No se pudo obtener tu ubicación: {error}",
+  "@couldNotGetLocation": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "monthlyTimetable": "Horario mensual",
+  "shareToday": "Compartir hoy",
+  "editMasjid": "Editar mezquita",
+  "addAnotherMasjid": "Añadir otra mezquita",
+  "removeMasjid": "Quitar mezquita",
+  "removeMasjidQuestion": "¿Quitar {name}?",
+  "@removeMasjidQuestion": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeMasjidBody": "Se eliminarán su dirección, los ajustes de cálculo y los horarios de iqama y yumu'ah.",
+  "nextPrayerIn": "{prayer} a las {time} · en {duration}",
+  "@nextPrayerIn": {
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "fajrTomorrow": "Fajr (mañana)",
+  "jumuah": "Yumu'ah",
+  "noJumuahSet": "No hay oraciones de yumu'ah configuradas. Edita la mezquita para añadirlas.",
+  "khutbahAt": "Jutba {time}",
+  "@khutbahAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "iqamaAt": "Iqama {time}",
+  "@iqamaAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "timesFootnote": "Los horarios se calculan astronómicamente para {lat}, {lng} en la zona {tz}, redondeados al minuto. La fecha hégira es calculada y puede diferir en un día del avistamiento local de la luna.",
+  "@timesFootnote": {
+    "placeholders": {
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      },
+      "tz": {
+        "type": "String"
+      }
+    }
+  },
+  "qiblaDegrees": "Qibla {degrees}°",
+  "@qiblaDegrees": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "asrShafii": "Asr shafi'í",
+  "asrHanafi": "Asr hanafí",
+  "fajr": "Fajr",
+  "sunrise": "Salida del sol",
+  "dhuhr": "Dhuhr",
+  "asr": "Asr",
+  "maghrib": "Maghrib",
+  "isha": "Isha",
+  "addMasjid": "Añadir mezquita",
+  "masjid": "Mezquita",
+  "masjidName": "Nombre de la mezquita",
+  "enterAName": "Introduce un nombre",
+  "address": "Dirección",
+  "streetAddress": "Calle y número",
+  "city": "Ciudad",
+  "stateProvince": "Estado / Provincia",
+  "postalCode": "Código postal",
+  "countryCode": "Código de país (US, GB, ES…)",
+  "findLocation": "Buscar ubicación",
+  "deviceGps": "GPS del dispositivo",
+  "coordinatesAndTimeZone": "Coordenadas y zona horaria",
+  "setAutomatically": "Se establecen automáticamente a partir de la dirección",
+  "latitude": "Latitud",
+  "longitude": "Longitud",
+  "ianaTimeZone": "Zona horaria IANA (p. ej. Europe/Madrid)",
+  "calculation": "Cálculo",
+  "calculationMethod": "Método de cálculo",
+  "asrShafiiFull": "Asr: shafi'í / malikí / hanbalí",
+  "asrHanafiFull": "Asr: hanafí",
+  "dhuhrAfterZawal": "Dhuhr: minutos después del zawal",
+  "maghribAfterSunset": "Maghrib: minutos después de la puesta del sol",
+  "fineTune": "Ajuste fino de cada oración (minutos)",
+  "hijriAdjustment": "Ajuste de la fecha hégira (días)",
+  "iqama": "Iqama",
+  "jumuahServices": "Oraciones de yumu'ah",
+  "addJumuahTime": "Añadir horario de yumu'ah",
+  "addAnotherService": "Añadir otra oración",
+  "saveMasjid": "Guardar mezquita",
+  "none": "Ninguno",
+  "fixed": "Fijo",
+  "plusMinutes": "+ min",
+  "khutbahPicker": "Jutba…",
+  "jumuahLabelHint": "Etiqueta (idioma, sala, jatib)",
+  "enterZipOrCity": "Introduce al menos un código postal o una ciudad.",
+  "lookingUpAddress": "Buscando la dirección…",
+  "noMatchTryCountry": "Sin resultados. Prueba a añadir la ciudad y un código de país de 2 letras (p. ej. US, GB, ES).",
+  "chooseLocation": "Elige la ubicación correcta:",
+  "lookupFailed": "Falló la búsqueda: {error}",
+  "@lookupFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "resolvingTimeZone": "Resolviendo la zona horaria…",
+  "located": "Ubicado: {name}",
+  "@located": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "timeZoneLookupFailed": "Coordenadas establecidas, pero falló la búsqueda de la zona horaria ({error}). Introduce una zona IANA como America/Mexico_City.",
+  "@timeZoneLookupFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "gettingPosition": "Obteniendo tu posición…",
+  "couldNotUseDevice": "No se pudo usar la ubicación del dispositivo: {error}",
+  "@couldNotUseDevice": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "findLocationFirst": "Toca primero \"Buscar ubicación\" para establecer las coordenadas y la zona horaria.",
+  "setUpMasjidFirst": "Configura primero una mezquita.",
+  "hideIqama": "Ocultar iqama",
+  "showIqama": "Mostrar iqama",
+  "copyAsCsv": "Copiar como CSV",
+  "csvCopied": "CSV copiado — pégalo en Excel o Sheets",
+  "shareAsText": "Compartir como texto",
+  "thisMonth": "Este mes",
+  "date": "Fecha",
+  "mushafLayout": "Disposición",
+  "layoutAutomatic": "Automática",
+  "layoutScroll": "Una página, desplazamiento vertical",
+  "layoutFlip": "Una página, pasar hoja",
+  "layoutBook": "Dos páginas, pasar hoja",
+  "playThisPage": "Reproducir esta página",
+  "goToPage": "Ir a la página",
+  "goTo": "Ir",
+  "pageRange": "Página (1–604)",
+  "previousPage": "Página anterior",
+  "nextPage": "Página siguiente",
+  "pageJuz": "Página {page} · Yuz {juz}",
+  "@pageJuz": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "juz": {
+        "type": "int"
+      }
+    }
+  },
+  "library": "Biblioteca",
+  "openBook": "Abrir libro",
+  "tableOfContents": "Índice",
+  "chapterPage": "Capítulo {chapter} · Página {page} / {total}",
+  "@chapterPage": {
+    "placeholders": {
+      "chapter": {
+        "type": "int"
+      },
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "listView": "Vista de lista",
+  "downloadPdf": "Descargar PDF",
+  "downloadChapterPdf": "Descargar este capítulo en PDF",
+  "downloadBookPdf": "Descargar todo el libro en PDF",
+  "preparingPdf": "Obteniendo capítulos… {done} / {total}",
+  "@preparingPdf": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "renderingPdf": "Generando el PDF…",
+  "pdfFailed": "No se pudo crear el PDF: {error}",
+  "@pdfFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "hadithsCount": "{count} hadices",
+  "@hadithsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "byAuthor": "de {author}",
+  "@byAuthor": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "reciteAndCheck": "Recitar y comprobar",
+  "reciteFromHere": "Recitar desde aquí",
+  "reciteSubtitle": "Recita de memoria; la app escucha y marca cada palabra",
+  "ayahRangeLabel": "Aleyas {from}–{to}",
+  "@ayahRangeLabel": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "accuracy": "precisión",
+  "matchedWords": "correctas",
+  "wrongWords": "incorrectas",
+  "missedWords": "omitidas",
+  "wordsReached": "{reached} de {total} palabras recitadas",
+  "@wordsReached": {
+    "placeholders": {
+      "reached": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "listening": "Escuchando…",
+  "waitingForSpeech": "Esperando la voz…",
+  "tapMicToStart": "Toca el micrófono y empieza a recitar",
+  "heard": "Oído",
+  "notInPassage": "Palabras que no están en el pasaje",
+  "hideText": "Ocultar el texto (memorización)",
+  "showText": "Mostrar el texto",
+  "hint": "Pista",
+  "reset": "Reiniciar",
+  "playThisAyah": "Reproducir esta aleya",
+  "speechUnavailable": "El reconocimiento de voz no está disponible. Permite el acceso al micrófono o usa Chrome en la web.",
+  "reciteHelp": "Recita con claridad y a un ritmo constante. El reconocimiento funciona mejor en un lugar silencioso; las palabras correctas se ponen en verde, las incorrectas en rojo (con un zumbido) y las omitidas en naranja. Sigue recitando tras un error y el corrector te seguirá.",
+  "qibla": "Qibla",
+  "qiblaBearing": "Rumbo de la Qibla desde el norte geográfico",
+  "qiblaNeedsLocation": "La Qibla se calcula a partir de tu ubicación. Usa el GPS de tu dispositivo o configura primero una mezquita.",
+  "distanceToMakkah": "{km} km hasta La Meca",
+  "@distanceToMakkah": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "headingDegrees": "Rumbo {degrees}°",
+  "@headingDegrees": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "facingQibla": "Estás mirando hacia la Qibla",
+  "compassWaiting": "Esperando la brújula… mueve el teléfono haciendo un ocho para calibrarla.",
+  "compassUnavailable": "Este dispositivo no tiene brújula: usa una brújula o un mapa y gira hacia el rumbo indicado arriba.",
+  "turnToQibla": "Gira a la {direction} {degrees}°",
+  "@turnToQibla": {
+    "placeholders": {
+      "direction": {
+        "type": "String"
+      },
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "left": "izquierda",
+  "right": "derecha",
+  "qiblaHelp": "Mantén el teléfono plano y lejos de imanes o metales. La marca de la Kaaba en el dial indica la Qibla; la flecha de arriba es hacia donde miras.",
+  "adhan": "Adhan",
+  "adhanIntro": "Escucha la llamada a la oración de distintos muecines, descarga cualquier grabación y elige la predeterminada para tus horarios de oración.",
+  "adhanCredits": "Grabaciones de Wikimedia Commons bajo CC0 y CC BY-SA 4.0, convertidas a MP3; toca una línea de crédito para abrir el archivo original y su licencia.",
+  "downloaded": "Descargado {name}",
+  "@downloaded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "Falló la descarga: {error}",
+  "@downloadFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadSurahAudio": "Descargar el audio de la sura para sin conexión",
+  "downloadAyahAudio": "Descargar el audio de esta aleya (MP3)",
+  "offlineAudioNativeOnly": "El audio sin conexión se conserva en las apps móviles y de escritorio; en la web, descarga aleyas sueltas.",
+  "surahAudioSaved": "{surah} guardada para escuchar sin conexión",
+  "@surahAudioSaved": {
+    "placeholders": {
+      "surah": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadForOffline": "Descargar para leer sin conexión",
+  "savedForOffline": "{name} guardado para leer sin conexión",
+  "@savedForOffline": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playAdhan": "Reproducir adhan",
+  "adhanForNext": "Adhan para {prayer}",
+  "@adhanForNext": {
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseAdhan": "Elegir adhan",
+  "pageAnimation": "Animación de página",
+  "animationCurl": "Curvar página",
+  "animationFlip": "Voltear tarjeta",
+  "animationSlide": "Deslizar",
+  "animationFade": "Fundido",
+  "highlight": "Resaltar",
+  "removeHighlight": "Quitar resaltado",
+  "note": "Nota",
+  "noteHint": "Escribe tu reflexión o recordatorio para esta aleya…",
+  "noteSaved": "Nota guardada",
+  "noteHelp": "Las notas se quedan en este dispositivo. Las aleyas resaltadas se colorean en las páginas del Mushaf.",
+  "continuous": "Continuar automáticamente",
+  "repeatEach": "Repetir",
+  "verseDetails": "Detalles de la aleya",
+  "zoomIn": "Acercar",
+  "zoomOut": "Alejar",
+  "fitPage": "Ajustar a la página",
+  "shareEmbed": "Compartir e insertar",
+  "websiteWidget": "Widget para web y pantalla de TV",
+  "widgetLinks": "Enlaces públicos",
+  "embedCode": "Código para insertar",
+  "openLink": "Abrir",
+  "linkCopied": "Enlace copiado",
+  "codeCopied": "Código para insertar copiado",
+  "combinedWidget": "Widget combinado (diario + viernes)",
+  "dailyWidget": "Widget de oraciones diarias",
+  "jumuahWidget": "Widget de la oración del viernes",
+  "compactWidget": "Widget compacto",
+  "tvDisplay": "Pantalla de TV",
+  "darkWidget": "Widget oscuro",
+  "embedHelp": "Pega el código en la web de tu mezquita o comparte un enlace. El propio enlace lleva la ubicación, el método y los ajustes de iqama y yumu'ah de esta mezquita, así que cópialo de nuevo después de cambiarlos. Añade ?theme=dark o &scale=120, &lang=ar a cualquier enlace.",
+  "preview": "Vista previa",
+  "adhanHeader": "Adhan",
+  "poweredBy": "Con tecnología de Mushaf+",
+  "invalidWidgetLink": "Este enlace de widget no es válido o está incompleto.",
+  "micDenied": "Se denegó el acceso al micrófono. Permítelo para este sitio en los ajustes del navegador o del sistema y vuelve a intentarlo.",
+  "noSpeechYet": "Aún no se ha oído nada. Recita con claridad, cerca del micrófono. Las palabras aparecen aquí a medida que se reconocen.",
+  "speechNotice": "Aviso sobre el reconocimiento",
+  "speechTip": "Las palabras correctas se ponen en verde, las incorrectas en rojo con un zumbido y una vibración; sigue recitando tras un error y el corrector te seguirá.",
+  "strictMode": "Estricto",
+  "lenientMode": "Flexible",
+  "strictHelp": "Modo estricto: una palabra cuenta solo cuando coinciden todas las letras. Los signos vocálicos (harakat) y el tajwid no se pueden comprobar: el reconocimiento de voz devuelve solo las letras.",
+  "tjHamzatWasl": "Hamzat al-wasl",
+  "tjSilent": "Letra muda",
+  "tjLaamShamsiyyah": "Lam solar",
+  "tjMaddNormal": "Madd natural",
+  "tjMaddPermissible": "Madd permitido",
+  "tjMaddNecessary": "Madd necesario",
+  "tjQalqalah": "Qalqalah",
+  "tjMaddObligatory": "Madd obligatorio",
+  "tjIkhfaShafawi": "Ikhfa labial",
+  "tjIkhfa": "Ikhfa",
+  "tjIdghamShafawi": "Idgham labial",
+  "tjIqlab": "Iqlab",
+  "tjIdghamGhunnah": "Idgham con ghunnah",
+  "tjIdghamNoGhunnah": "Idgham sin ghunnah",
+  "tjIdghamMutajanisayn": "Idgham de letras semejantes",
+  "tjIdghamMutaqaribayn": "Idgham de letras cercanas",
+  "tjGhunnah": "Ghunnah",
+  "tjdHamzatWasl": "Una hamza de unión al inicio de una palabra. Solo se pronuncia cuando empiezas por esa palabra; al enlazar desde la palabra anterior es muda, así que léela de corrido.",
+  "tjdSilent": "Una letra escrita en el mushaf pero que no se pronuncia, como el alif tras la waw del plural. Omítela al recitar.",
+  "tjdLaamShamsiyyah": "La lam del artículo definido ante una letra solar no se pronuncia: en su lugar se duplica la letra solar, como en ٱلشَّمْس → ash-shams.",
+  "tjdMaddNormal": "Un alargamiento natural: mantén la vocal larga dos tiempos, ni más ni menos.",
+  "tjdMaddPermissible": "Un alargamiento cuando una letra de madd se encuentra con una hamza en la palabra siguiente, o cuando una parada crea un sukun. Mantenlo dos, cuatro o seis tiempos, pero sé constante durante toda la recitación.",
+  "tjdMaddNecessary": "Un alargamiento exigido por un sukun original o una shadda tras la letra de madd, incluidas las letras iniciales de las suras. Mantenlo seis tiempos.",
+  "tjdQalqalah": "Un rebote con eco en las letras ق ط ب ج د cuando llevan sukun. Suelta la letra con un ligero rebote, más fuerte al detenerte en ella.",
+  "tjdMaddObligatory": "Una letra de madd seguida de una hamza en la misma palabra. Mantenla cuatro o cinco tiempos.",
+  "tjdIkhfaShafawi": "Una mim con sukun ante ب: cierra los labios ligeramente y oculta la mim con un sonido nasal de dos tiempos.",
+  "tjdIkhfa": "Una nun con sukun o tanwin ante una de las quince letras de ikhfa: oculta la nun con un sonido nasal de dos tiempos, con la lengua preparada para la letra siguiente.",
+  "tjdIdghamShafawi": "Una mim con sukun ante otra mim: fúndelas en una sola mim duplicada con un sonido nasal de dos tiempos.",
+  "tjdIqlab": "Una nun con sukun o tanwin ante ب se convierte en mim, oculta con un sonido nasal de dos tiempos y los labios ligeramente cerrados.",
+  "tjdIdghamGhunnah": "Una nun con sukun o tanwin ante ي ن م و al inicio de la palabra siguiente se funde en esa letra, con un sonido nasal de dos tiempos.",
+  "tjdIdghamNoGhunnah": "Una nun con sukun o tanwin ante ل o ر se funde por completo en esa letra, sin sonido nasal.",
+  "tjdIdghamMutajanisayn": "Dos letras del mismo punto de articulación, la primera con sukun, se funden en una sola letra duplicada, como en قَد تَّبَيَّنَ.",
+  "tjdIdghamMutaqaribayn": "Dos letras de puntos de articulación cercanos, la primera con sukun, se funden en la segunda, como en قُل رَّبِّ.",
+  "tjdGhunnah": "Una resonancia nasal mantenida dos tiempos en una mim o nun con shadda.",
+  "tjgMadd": "Prolongación (madd)",
+  "tjgNunTanwin": "Nun sakina y tanwin",
+  "tjgMeemSakinah": "Mim sakina",
+  "tjgGhunnah": "Ghunnah",
+  "tjgQalqalah": "Qalqalah",
+  "tjgLam": "Lam",
+  "tjgSilent": "Letras mudas",
+  "tjgIdghamAdjacent": "Fusión de letras adyacentes",
+  "tajweed": "Tajwid",
+  "tajweedColors": "Colores de tajwid",
+  "tajweedColorsSubtitle": "Colorea las letras del Mushaf y del lector según la regla de tajwid",
+  "tajweedGuide": "Guía de tajwid",
+  "tajweedLegend": "Leyenda de colores de tajwid",
+  "seeGuide": "Guía completa",
+  "tajweedIntro": "El tajwid es recitar cada letra desde su punto de articulación con sus cualidades propias: alargando donde hay madd, con sonido nasal donde hay ghunnah, ocultando, fundiendo y rebotando donde las reglas lo piden. El Mushaf colorea cada letra que lleva una regla; toca cualquier palabra para ver qué reglas se le aplican y cómo recitarla. Las reglas siguen la riwaya de Hafs 'an 'Asim.",
+  "rulesInThisWord": "Tajwid en esta palabra",
+  "noRulesInWord": "Ninguna regla de tajwid está marcada en esta palabra: recita sus letras con claridad desde sus puntos de articulación.",
+  "wordTab": "Palabra",
+  "wordOfN": "Palabra {n} de {total}",
+  "playWord": "Reproducir palabra",
+  "example": "Ejemplo",
+  "triggerLetters": "Letras",
+  "countsValue": "{n} tiempos",
+  "tuhfaRef": "Tuhfat al-Atfal, versos {lines}",
+  "jazariyyahRef": "al-Yazariyya, versos {lines}",
+  "tajweedSource": "Las reglas y los colores siguen la guía de tajwid de alquran.cloud (riwaya de Hafs, texto Tanzil Uthmani) y el esquema de colores KFGQPC usado por quran.com. Las referencias de versos remiten a Tuhfat al-Atfal y a al-Muqaddima al-Yazariyya.",
+  "@wordOfN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@countsValue": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@tuhfaRef": {
+    "placeholders": {
+      "lines": {
+        "type": "String"
+      }
+    }
+  },
+  "@jazariyyahRef": {
+    "placeholders": {
+      "lines": {
+        "type": "String"
+      }
+    }
+  },
+  "fullScreen": "Pantalla completa",
+  "exitFullScreen": "Salir de pantalla completa",
+  "playbackSpeed": "Velocidad",
+  "chooseReciter": "Elige un recitador",
+  "approximateLocation": "Solo se encontró la zona (código postal o ciudad), así que las coordenadas son su centro. Si conoces las coordenadas exactas, introdúcelas abajo.",
+  "privacyPolicy": "Política de privacidad",
+  "pdfReady": "PDF listo ({size})",
+  "openPdf": "Abrir",
+  "savePdf": "Guardar",
+  "offlineSavedBody": "El libro se guarda en este dispositivo en el idioma actual de los hadices y se abre sin internet desde la biblioteca. Vuelve a descargarlo tras cambiar de idioma.",
+  "adhkar": "Adhkar",
+  "hisnAlMuslim": "Hisn al-Muslim",
+  "hisnAlMuslimSubtitle": "La fortaleza del musulmán · súplicas del Corán y la Sunna",
+  "adhkarIntro": "Recuerdos y súplicas diarios de Hisn al-Muslim, de Sa‘id al-Qahtani, con contadores de repetición y audio.",
+  "repeatProgress": "{done} / {total}",
+  "playChapter": "Reproducir capítulo",
+  "resetCounters": "Reiniciar contadores",
+  "adhkarLanguageNote": "Las traducciones proceden de hisnmuslim.com y solo existen en inglés y árabe.",
+  "findAdhkar": "Buscar un capítulo…",
+  "morning": "Mañana",
+  "evening": "Tarde",
+  "sleep": "Dormir",
+  "afterPrayer": "Tras la oración",
+  "allDone": "Todo hecho",
+  "timesN": "×{n}",
+  "@pdfReady": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@repeatProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@timesN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "readAloud": "Leer en voz alta",
+  "stopReading": "Dejar de leer",
+  "ttsUnavailable": "No hay ninguna voz instalada para este idioma en este dispositivo. Los hadices se leen con las voces de texto a voz del dispositivo.",
+  "homeSearchHint": "Busca en el Corán — una sura, una aleya, una palabra o una frase. Árabe con o sin harakat, transliteración (insan, bismillah), significado en inglés, o el nombre o número de una sura…",
+  "countryLabel": "País",
+  "region": "Región",
+  "changeRegion": "toca para cambiar",
+  "detectRegion": "Detectar",
+  "regionHelp": "Rellena el país de las mezquitas y elige el cálculo de oración habitual en ese país.",
+  "regionSetTo": "Región establecida en {name}. Toca la bandera para cambiarla.",
+  "regionNotDetected": "No se pudo detectar tu país. Elígelo de la lista.",
+  "findCountry": "Buscar un país…",
+  "@regionSetTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "myPrayerTimes": "Mis horarios de oración",
+  "masjidsTab": "Mezquitas",
+  "enterMyCity": "Introducir mi ciudad",
+  "orEnterCity": "o introduce tu ciudad",
+  "editLocation": "Editar ubicación",
+  "personalIntro": "Horarios de oración para donde estás: permite tu ubicación precisa o escribe tu ciudad. El método de cálculo sigue tu país y se puede cambiar.",
+  "masjidAdminHint": "Si administras una mezquita: configúrala, con horarios de iqama y yumu'ah y widgets para la web, en la pestaña Mezquitas tras crear un perfil.",
+  "masjidAdminGate": "Los perfiles de mezquita incluyen horarios de iqama, oraciones de yumu'ah y widgets públicos, por lo que van ligados a un administrador con nombre. Crea tu perfil (nombre y correo, guardados en este dispositivo) para configurar una.",
+  "createProfile": "Crear perfil",
+  "profile": "Perfil",
+  "profileIntro": "Tu nombre y correo te identifican como administrador de las mezquitas que configures. Se quedan en este dispositivo.",
+  "name": "Nombre",
+  "email": "Correo electrónico",
+  "invalidEmail": "Introduce una dirección de correo válida.",
+  "profileSaved": "Perfil guardado",
+  "masjidRole": "Cargo en la mezquita (opcional)",
+  "masjidRoleHint": "Imam, miembro de la junta, voluntario…",
+  "removeProfile": "Eliminar perfil",
+  "reminders": "Recordatorios",
+  "remindersOn": "Activados · toca para ajustar",
+  "remindersOff": "Desactivados · horarios de oración, adhkar, aleya diaria",
+  "remindersSettingsSubtitle": "Horarios de oración con adhan, adhkar de la mañana y la tarde, aleya o dhikr del día",
+  "prayerReminders": "Recordatorios de oración",
+  "prayerRemindersSubtitle": "Cada oración; al abrir el recordatorio suena {adhan}",
+  "remindBefore": "Avisar",
+  "atPrayerTime": "A la hora de la oración",
+  "minutesBefore": "{n} min antes",
+  "adhkarReminders": "Recordatorios de adhkar",
+  "adhkarRemindersSubtitle": "Adhkar de la mañana tras Fajr, adhkar de la tarde tras Asr, adhkar de dormir una hora después de Isha",
+  "dailyReminder": "Aleya o dhikr del día",
+  "dailyReminderSubtitle": "Una aleya o dhikr al azar una vez al día",
+  "reminderTime": "Hora",
+  "nextReminders": "Próximos",
+  "notificationsWebNote": "En un navegador, los recordatorios solo aparecen mientras Mushaf+ está abierto en una pestaña. Instala la app de Android o iOS para recibir recordatorios con la app cerrada.",
+  "notificationsDenied": "Las notificaciones de Mushaf+ están bloqueadas en los ajustes del sistema.",
+  "setLocationFirst": "Establece primero tu ubicación de oración",
+  "adhanOnNotification": "Los recordatorios de oración usan el sonido del sistema; al abrir uno suena completo el adhan que elegiste.",
+  "prayerInMinutes": "{prayer} en {n} minutos",
+  "timeForPrayer": "Hora de {prayer}",
+  "timeAdhkarMorning": "Adhkar de la mañana",
+  "timeAdhkarEvening": "Adhkar de la tarde",
+  "timeAdhkarSleep": "Adhkar de dormir",
+  "adhkarMorningBody": "Empieza el día con los recuerdos de la mañana.",
+  "adhkarEveningBody": "Los recuerdos de la tarde, antes de la noche.",
+  "adhkarSleepBody": "Los recuerdos antes de dormir.",
+  "ayahOfTheDayNotif": "Aleya del día",
+  "dhikrOfTheDay": "Dhikr del día",
+  "memorizeCard": "Memorizar y recitar",
+  "memorizeCardSubtitle": "Oculta las palabras, revélalas una a una, luego recita y deja que la app te corrija.",
+  "town": "Localidad / Ciudad",
+  "suburb": "Barrio",
+  "province": "Provincia",
+  "zip": "Código ZIP",
+  "postcode": "Código postal",
+  "regionOptional": "Región (opcional)",
+  "postalOptional": "Código postal (opcional)",
+  "@prayerRemindersSubtitle": {
+    "placeholders": {
+      "adhan": {
+        "type": "String"
+      }
+    }
+  },
+  "@minutesBefore": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@prayerInMinutes": {
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@timeForPrayer": {
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      }
+    }
+  },
+  "bundledAlways": "El texto del Corán, los colores de tajwid, la transliteración, tres traducciones al inglés, el índice de hadices y Hisn al-Muslim vienen integrados y siempre funcionan sin conexión.",
+  "downloadTextPacks": "Descargar todos los paquetes de texto",
+  "textPacks": "Texto",
+  "audioPacks": "Audio",
+  "tafsirPack": "Tafsir · {name}",
+  "hadithPack": "Libros de hadices ({lang})",
+  "chaptersSaved": "{done} / {total} capítulos guardados",
+  "adhanPack": "Grabaciones de adhan",
+  "adhkarAudioPack": "Audio de Hisn al-Muslim",
+  "reciterPack": "Recitación completa · {name}",
+  "filesSaved": "{done} / {total} archivos guardados",
+  "approxSize": "unos {size}",
+  "offlinePromptTitle": "¿Usar Mushaf+ sin conexión?",
+  "offlinePromptBody": "Descarga ahora las traducciones, los significados de las palabras, el tafsir y los libros de hadices (unos 60 MB) para que todo funcione sin conexión. Los paquetes de audio se pueden añadir después en Ajustes → Paquetes sin conexión.",
+  "downloadNow": "Descargar ahora",
+  "later": "Más tarde",
+  "@tafsirPack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@hadithPack": {
+    "placeholders": {
+      "lang": {
+        "type": "String"
+      }
+    }
+  },
+  "@chaptersSaved": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@reciterPack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@filesSaved": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@approxSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineAutoTitle": "Mushaf+ funciona totalmente sin conexión",
+  "offlineAutoBody": "La app descargará ahora todo lo que necesita para funcionar sin conexión: traducciones, significados de las palabras, tafsir, los libros de hadices, las grabaciones de adhan y el audio de Hisn al-Muslim (unos 200 MB). Se hace en segundo plano; puedes seguir leyendo. Se recomienda Wi-Fi.",
+  "includeFullRecitation": "Recitación completa de {name}",
+  "includeFullRecitationHint": "Unos 700 MB. También puedes añadirla más tarde en Ajustes → Paquetes sin conexión.",
+  "continueLabel": "Continuar",
+  "offlineSyncing": "Descargando para uso sin conexión · {percent}%",
+  "offlineAutoIntro": "Mushaf+ descarga en segundo plano todo lo que necesita para funcionar sin conexión. Cada paquete muestra lo que está guardado; toca uno para obtener lo que falta.",
+  "resumeOfflineDownload": "Descargar todo lo que falta",
+  "wifiOnly": "Audio solo con Wi-Fi",
+  "wifiOnlyHint": "Con datos móviles solo se descargan por sí solos los paquetes de texto pequeños.",
+  "waitingForWifi": "Los paquetes de texto están guardados. Los paquetes de audio se descargarán cuando tengas Wi-Fi (o toca el botón de arriba para descargarlos ahora).",
+  "@includeFullRecitation": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@offlineSyncing": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "watchNoPlace": "Establece una ubicación de oración para ver los horarios.",
+  "inDuration": "en {duration}",
+  "@inDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "tasbih": "Tasbih",
+  "tapToCount": "Toca para contar, mantén pulsado para reiniciar",
+  "useLocationShort": "Usar mi ubicación",
+  "supportTitle": "Apoya Mushaf+",
+  "supportSubtitle": "Una contribución voluntaria mantiene la app gratuita, abierta y sin anuncios.",
+  "supportIntro": "Mushaf+ es gratuita, no tiene anuncios y nunca los tendrá. Si te resulta útil, una contribución voluntaria cubre los servidores, el alojamiento del audio y las tasas de las tiendas, y nos permite seguir mejorándola.",
+  "tipJarIntro": "Elige una propina. No desbloquea nada: todo en Mushaf+ sigue siendo gratuito para todos.",
+  "tipThanks": "JazakAllahu khairan. ¡Gracias por apoyar Mushaf+!",
+  "tipUnavailable": "Las propinas no están disponibles ahora mismo. Inténtalo de nuevo más tarde.",
+  "donateIntro": "Elige cómo te gustaría contribuir.",
+  "donateComingSoon": "Las opciones de donación se están preparando. Gracias por tu paciencia y por usar Mushaf+.",
+  "bankTransfer": "Transferencia bancaria",
+  "copied": "Copiado",
+  "supportFootnote": "Las contribuciones son regalos voluntarios al desarrollador, no compras, y no son deducibles de impuestos.",
+  "recognitionEngine": "Motor de reconocimiento",
+  "engineBrowser": "Navegador",
+  "engineBrowserDesc": "Rápido, solo letras",
+  "engineVoiceModel": "Modelo de voz de Mushaf+",
+  "engineVoiceModelDesc": "Descarga única de 150 MB, marca errores de vocales",
+  "engineVoiceModelHelp": "El modelo de voz de Mushaf+ descarga unos 150 MB una sola vez y luego se ejecuta en este dispositivo dentro del navegador. Comprueba los signos vocálicos (harakat) además de las letras. Necesita un Chrome, Edge o Safari reciente.",
+  "voiceModelDownloadTitle": "¿Descargar el modelo de voz de Mushaf+?",
+  "voiceModelDownloadBody": "Unos {size} MB, descargados una vez y guardados en este dispositivo. El reconocimiento se ejecuta luego en tu navegador y nada de lo que recitas sale de tu dispositivo.",
+  "@voiceModelDownloadBody": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceModelDownloading": "Descargando el modelo de voz… {done} de {total} MB",
+  "@voiceModelDownloading": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceModelPreparing": "Preparando el modelo de voz…",
+  "voiceModelFailed": "No se pudo cargar el modelo de voz.",
+  "voiceModelSlow": "Este navegador no tiene aceleración gráfica: los resultados pueden tardar varios segundos.",
+  "usingBrowserEngine": "Usando el motor del navegador por ahora.",
+  "vowelSlips": "errores de vocal",
+  "letterErrors": "errores de letra",
+  "reciteSummary": "{correct} correctas · {vowel} errores de vocal · {letter} errores de letra",
+  "@reciteSummary": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "vowel": {
+        "type": "int"
+      },
+      "letter": {
+        "type": "int"
+      }
+    }
+  },
+  "feedbackDisclaimer": "La corrección automática puede equivocarse; no sustituye a un maestro.",
+  "vowelSlipLine": "Se oyó {heard} en {letter}, se esperaba {expected}",
+  "@vowelSlipLine": {
+    "placeholders": {
+      "heard": {
+        "type": "String"
+      },
+      "letter": {
+        "type": "String"
+      },
+      "expected": {
+        "type": "String"
+      }
+    }
+  },
+  "wordCorrect": "Correcta",
+  "wordVowelSlip": "Error de vocal",
+  "wordWrong": "Palabra incorrecta",
+  "wordMissed": "Omitida",
+  "wordPending": "Aún no alcanzada",
+  "markFatha": "fatha",
+  "markDamma": "damma",
+  "markKasra": "kasra",
+  "markSukun": "sukun",
+  "markShadda": "shadda",
+  "markFathatan": "fathatan",
+  "markDammatan": "dammatan",
+  "markKasratan": "kasratan",
+  "markNone": "sin signo",
+  "markNoShadda": "sin shadda",
+  "voiceModelHelp": "El modelo de voz de Mushaf+ también comprueba los signos vocálicos (harakat): un error de vocal se muestra en ámbar. Toca cualquier palabra para ver los detalles.",
+  "playRecitation": "Reproducir recitación",
+  "addressLookupCredit": "Búsqueda de direcciones: © colaboradores de OpenStreetMap (ODbL), geocodificación de Open-Meteo (CC BY 4.0), Zippopotam.",
+  "dataSourcesLicences": "Créditos",
+  "dataSourcesLicencesHint": "De dónde proceden los textos, el audio y los mapas",
+  "openSourceLicences": "Licencias de código abierto",
+  "recordingCredit": "Grabación: {author} · {license}",
+  "@recordingCredit": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "license": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceModelCrashed": "El modelo de voz de Mushaf+ se quedó sin memoria en este dispositivo la última vez, así que se está usando el reconocedor del navegador. Puedes volver a probar el modelo de voz en Ajustes → Recitar y comprobar.",
+  "engineDevice": "Reconocedor del teléfono",
+  "engineVoiceModelDescApp": "Descarga única de {size} MB, marca errores de vocales",
+  "@engineVoiceModelDescApp": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "engineVoiceModelHelpApp": "El modelo de voz de Mushaf+ descarga unos {size} MB una sola vez y luego se ejecuta en este dispositivo: nada de lo que recitas sale de él. Comprueba los signos vocálicos (harakat) además de las letras, y responde un momento después de cada pausa.",
+  "@engineVoiceModelHelpApp": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceModelDownloadBodyApp": "Unos {size} MB, descargados una vez y guardados en la app. El reconocimiento se ejecuta luego en este dispositivo y nada de lo que recitas sale de él.",
+  "@voiceModelDownloadBodyApp": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceModelSlowDevice": "Este dispositivo es lento para el modelo de voz: los resultados pueden tardar varios segundos.",
+  "usingDeviceEngine": "Usando el reconocedor del teléfono por ahora.",
+  "voiceModelPack": "Modelo de voz de Mushaf+"
+}

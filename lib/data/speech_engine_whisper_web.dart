@@ -36,7 +36,7 @@ const _maxSegmentSeconds = 12.0; // longest audio sent in one call (Whisper take
 const _splitSearchSeconds = 4.0; // where to look for the quietest point when a segment must be cut
 const _partialEverySeconds = 3.0; // refresh the partial transcript while the reciter keeps going
 const _silenceSeconds = 0.6; // pause that ends a segment
-const _preRollSeconds = 0.4; // silence kept before the first voiced chunk
+const _preRollSeconds = 0.7; // audio kept before the first chunk judged voiced (soft first syllables)
 const _minSpeechSeconds = 0.3; // shorter bursts are noise
 
 /// [SpeechEngine] backed by the Mushaf+ voice model running in a module Web
@@ -261,7 +261,25 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
     });
   }
 
-  Future<String> _transcribe(Float32List audio) {
+  /// Scales a segment so its peak sits near full scale: Whisper was trained
+  /// on normalised audio, and phone capture is often 20 to 30 dB below that.
+  static Float32List _normalised(Float32List audio) {
+    var peak = 0.0;
+    for (final v in audio) {
+      final a = v.abs();
+      if (a > peak) peak = a;
+    }
+    if (peak < 1e-4 || peak > 0.6) return audio;
+    final gain = 0.9 / peak;
+    final out = Float32List(audio.length);
+    for (var i = 0; i < audio.length; i++) {
+      out[i] = audio[i] * gain;
+    }
+    return out;
+  }
+
+  Future<String> _transcribe(Float32List raw) {
+    final audio = _normalised(raw);
     final id = _nextId++;
     final c = Completer<String>();
     _pending[id] = c;
@@ -458,11 +476,17 @@ class _Session {
       sum += v * v;
     }
     final rms = math.sqrt(sum / math.max(1, samples.length));
-    onLevel?.call((20 * _log10(rms + 1e-6) + 50).clamp(-2, 10).toDouble());
+    // Level meter: a soft voice on a phone (RMS 0.002) should show about
+    // two thirds, so the reciter can see the microphone hears them.
+    onLevel?.call((20 * _log10(rms + 1e-6) + 62).clamp(-2, 10).toDouble());
 
     // Adaptive noise floor: snaps down to quiet chunks, creeps up slowly.
-    _noise = rms < _noise ? rms : math.min(_noise * 1.01 + 1e-5, 0.02);
-    final voiced = rms > math.max(0.004, _noise * 3);
+    // Phone microphones with noise suppression deliver quiet speech (an RMS
+    // of 0.002 is normal for a soft voice at arm's length), so the floor is
+    // low and the margin over the background small; the model gets the
+    // audio normalised anyway (see _normalised).
+    _noise = rms < _noise ? rms : math.min(_noise * 1.01 + 5e-6, 0.008);
+    final voiced = rms > math.max(0.0012, _noise * 2.2);
 
     _total += samples.length;
     _chunks.add(samples);

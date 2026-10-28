@@ -13,6 +13,7 @@ const appLanguages = <String, String>{
   'en': 'English',
   'ar': 'العربية',
   'fr': 'Français',
+  'es': 'Español',
   'ur': 'اردو',
   'id': 'Bahasa Indonesia',
   'tr': 'Türkçe',

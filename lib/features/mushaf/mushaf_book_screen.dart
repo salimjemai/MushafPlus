@@ -330,7 +330,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
             child: MushafPage(
                 page: i + 1,
                 onAyahTap: (a) => showVersePanel(context, a),
-                onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word)),
+                onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word),
+                onHeaderTap: (k) => _pickSheet(k, MushafLayout.scroll)),
           ),
         ),
       ),
@@ -361,7 +362,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
             child: _FitPage(
                 page: i + 1,
                 onAyahTap: (a) => showVersePanel(context, a),
-                onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word)),
+                onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word),
+                onHeaderTap: (k) => _pickSheet(k, MushafLayout.flip)),
           ),
         ),
       ),
@@ -377,7 +379,8 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
             key: ValueKey('book-$page'),
             page: page,
             onAyahTap: (a) => showVersePanel(context, a),
-                onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word),
+            onWordTap: (a, w) => showVersePanel(context, a, word: w, tab: VerseTab.word),
+            onHeaderTap: (k) => _pickSheet(k, MushafLayout.book),
             fitToPage: true,
           );
     return Container(
@@ -419,6 +422,21 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
         ),
       ),
     );
+  }
+
+  /// Tapping the surah name, the juz or the page number on a page opens the
+  /// chooser on that tab.
+  Future<void> _pickSheet(MushafPick kind, MushafLayout layout) async {
+    final page = await showModalBottomSheet<int>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) => SizedBox(
+        height: MediaQuery.sizeOf(context).height * 0.72,
+        child: _PickerSheet(initial: kind, current: _page, onPage: (p) => Navigator.pop(context, p)),
+      ),
+    );
+    if (page != null && mounted) _goTo(page, layout);
   }
 
   Future<void> _goToDialog(MushafLayout layout) async {
@@ -467,6 +485,126 @@ class _MushafBookScreenState extends ConsumerState<MushafBookScreen> {
     );
     controller.dispose();
     if (result != null) _goTo(result, layout);
+  }
+}
+
+/// A label in a page's running head that opens the chooser; the hit area is
+/// padded so a small label is easy to tap.
+class _HeadTap extends StatelessWidget {
+  const _HeadTap({required this.onTap, required this.child});
+  final VoidCallback? onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (onTap == null) return child;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Padding(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4), child: child),
+    );
+  }
+}
+
+/// Bottom sheet with three tabs (surahs, juz, pages) to jump to a page;
+/// opened on the tab matching what was tapped in the running head.
+class _PickerSheet extends ConsumerWidget {
+  const _PickerSheet({required this.initial, required this.current, required this.onPage});
+  final MushafPick initial;
+  final int current;
+  final ValueChanged<int> onPage;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final repo = ref.quran;
+    final scheme = Theme.of(context).colorScheme;
+    final currentSurah = repo.ayahsOfPage(current).first.surah;
+    final currentJuz = repo.ayahsOfPage(current).first.juz;
+    return DefaultTabController(
+      length: 3,
+      initialIndex: initial.index,
+      child: Column(
+        children: [
+          TabBar(tabs: [Tab(text: l.tabSurah), Tab(text: l.tabJuz), Tab(text: l.tabPage)]),
+          Expanded(
+            child: TabBarView(
+              children: [
+                ListView.builder(
+                  controller: ScrollController(initialScrollOffset: math.max(0, (currentSurah - 3) * 56.0)),
+                  itemCount: repo.surahs.length,
+                  itemBuilder: (context, i) {
+                    final s = repo.surahs[i];
+                    return ListTile(
+                      dense: true,
+                      selected: s.number == currentSurah,
+                      leading: SurahNumberBadge(number: s.number),
+                      title: Text(s.englishName),
+                      subtitle: Text('${l.pageN(s.startPage)} · ${s.numberOfAyahs}', style: const TextStyle(fontSize: 11.5)),
+                      trailing: Text(s.name, style: ArabicStyles.surahName(context, size: 18)),
+                      onTap: () => onPage(s.startPage),
+                    );
+                  },
+                ),
+                ListView.builder(
+                  controller: ScrollController(initialScrollOffset: math.max(0, (currentJuz - 3) * 56.0)),
+                  itemCount: repo.juzs.length,
+                  itemBuilder: (context, i) {
+                    final j = repo.juzs[i];
+                    final a = repo.ayah(j.startAyah);
+                    final s = repo.surah(a.surah);
+                    return ListTile(
+                      dense: true,
+                      selected: j.number == currentJuz,
+                      leading: CircleAvatar(radius: 16, child: Text('${j.number}', style: const TextStyle(fontSize: 13))),
+                      title: Text(l.juzN(j.number)),
+                      subtitle: Text('${s.englishName} ${a.numberInSurah} · ${l.pageN(a.page)}', style: const TextStyle(fontSize: 11.5)),
+                      trailing: Text(s.name, style: ArabicStyles.surahName(context, size: 16)),
+                      onTap: () => onPage(a.page),
+                    );
+                  },
+                ),
+                LayoutBuilder(
+                  builder: (context, c) {
+                    const columns = 6;
+                    const gap = 6.0;
+                    final cell = (c.maxWidth - 32 - gap * (columns - 1)) / columns;
+                    final rowHeight = cell / 1.5 + gap;
+                    final row = (current - 1) ~/ columns;
+                    return GridView.builder(
+                      controller: ScrollController(initialScrollOffset: math.max(0, (row - 2) * rowHeight)),
+                      padding: const EdgeInsets.all(16),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: columns, mainAxisSpacing: gap, crossAxisSpacing: gap, childAspectRatio: 1.5),
+                      itemCount: QuranRepository.totalPages,
+                      itemBuilder: (context, i) {
+                        final p = i + 1;
+                        final here = p == current;
+                        return Material(
+                          color: here ? scheme.primary : scheme.surfaceContainerHigh,
+                          borderRadius: BorderRadius.circular(8),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: () => onPage(p),
+                            child: Center(
+                              child: Text('$p',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: here ? FontWeight.w700 : FontWeight.w500,
+                                      color: here ? scheme.onPrimary : scheme.onSurface)),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -597,17 +735,18 @@ class _Flipping extends StatelessWidget {
 /// the frame allows; the text block is scaled to fill it, so every page shows
 /// in full with no inner scrolling.
 class _FitPage extends StatelessWidget {
-  const _FitPage({required this.page, required this.onAyahTap, this.onWordTap});
+  const _FitPage({required this.page, required this.onAyahTap, this.onWordTap, this.onHeaderTap});
   final int page;
   final ValueChanged<Ayah> onAyahTap;
   final void Function(Ayah, int)? onWordTap;
+  final ValueChanged<MushafPick>? onHeaderTap;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: AspectRatio(
         aspectRatio: MushafPage.pageAspect,
-        child: MushafPage(page: page, onAyahTap: onAyahTap, onWordTap: onWordTap, fitToPage: true),
+        child: MushafPage(page: page, onAyahTap: onAyahTap, onWordTap: onWordTap, onHeaderTap: onHeaderTap, fitToPage: true),
       ),
     );
   }
@@ -615,16 +754,23 @@ class _FitPage extends StatelessWidget {
 
 /// One printed Mushaf page: ornamental frame, running head (surah / juz),
 /// the ayahs of the page with surah banners, and the page number.
+/// What was tapped in a page's running head or foot.
+enum MushafPick { surah, juz, page }
+
 class MushafPage extends ConsumerWidget {
   const MushafPage(
       {super.key,
       required this.page,
       required this.onAyahTap,
       this.onWordTap,
+      this.onHeaderTap,
       this.fitToPage = false});
   final int page;
   final ValueChanged<Ayah> onAyahTap;
   final void Function(Ayah, int)? onWordTap;
+
+  /// Called when the surah name, the juz or the page number is tapped.
+  final ValueChanged<MushafPick>? onHeaderTap;
 
   /// When true the page has a bounded height and the text is scaled to fill it.
   final bool fitToPage;
@@ -724,11 +870,17 @@ class MushafPage extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(6, 0, 6, 3),
               child: Row(
                 children: [
-                  Text('الجزء ${toArabicDigits(ayahs.first.juz)}',
-                      style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 13, color: ink.withValues(alpha: 0.75))),
+                  _HeadTap(
+                    onTap: onHeaderTap == null ? null : () => onHeaderTap!(MushafPick.juz),
+                    child: Text('الجزء ${toArabicDigits(ayahs.first.juz)}',
+                        style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 13, color: ink.withValues(alpha: 0.75))),
+                  ),
                   const Spacer(),
-                  Text(headSurah.name,
-                      style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 14, color: ink.withValues(alpha: 0.85))),
+                  _HeadTap(
+                    onTap: onHeaderTap == null ? null : () => onHeaderTap!(MushafPick.surah),
+                    child: Text(headSurah.name,
+                        style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 14, color: ink.withValues(alpha: 0.85))),
+                  ),
                 ],
               ),
             ),
@@ -778,8 +930,11 @@ class MushafPage extends ConsumerWidget {
             ),
             const SizedBox(height: 3),
             Center(
-              child: Text(toArabicDigits(page),
-                  style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 15, color: ink.withValues(alpha: 0.8))),
+              child: _HeadTap(
+                onTap: onHeaderTap == null ? null : () => onHeaderTap!(MushafPick.page),
+                child: Text(toArabicDigits(page),
+                    style: TextStyle(fontFamily: ArabicStyles.nameFont, fontSize: 15, color: ink.withValues(alpha: 0.8))),
+              ),
             ),
           ],
         ),
