@@ -632,5 +632,6 @@
   "dataSourcesLicences": "شكر وتقدير",
   "dataSourcesLicencesHint": "من أين تأتي النصوص والصوت والخرائط",
   "openSourceLicences": "تراخيص المصادر المفتوحة",
-  "recordingCredit": "التسجيل: {author} · {license}"
+  "recordingCredit": "التسجيل: {author} · {license}",
+  "voiceModelCrashed": "نفدت ذاكرة هذا الجهاز أثناء تشغيل نموذج Mushaf+ الصوتي في المرة الماضية، لذا يُستخدم محرك المتصفح الآن. يمكنك تجربة النموذج الصوتي مجددًا من الإعدادات ← تسميع وتصحيح."
 }

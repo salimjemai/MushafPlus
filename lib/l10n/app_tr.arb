@@ -632,5 +632,6 @@
   "dataSourcesLicences": "Künye",
   "dataSourcesLicencesHint": "Metinler, sesler ve haritalar kimden geliyor",
   "openSourceLicences": "Açık kaynak lisansları",
-  "recordingCredit": "Kayıt: {author} · {license}"
+  "recordingCredit": "Kayıt: {author} · {license}",
+  "voiceModelCrashed": "Mushaf+ ses modeli bu cihazda geçen sefer bellek yetersizliğinden kapandı; şimdilik tarayıcı tanıyıcısı kullanılıyor. Ses modelini Ayarlar → Oku ve denetle’den yeniden deneyebilirsiniz."
 }

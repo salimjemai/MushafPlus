@@ -2224,4 +2224,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String recordingCredit(String author, String license) {
     return 'Enregistrement : $author · $license';
   }
+
+  @override
+  String get voiceModelCrashed =>
+      'La dernière fois, le modèle vocal Mushaf+ a manqué de mémoire sur cet appareil ; la reconnaissance du navigateur est utilisée à la place. Vous pouvez réessayer le modèle vocal dans Réglages → Réciter et vérifier.';
 }

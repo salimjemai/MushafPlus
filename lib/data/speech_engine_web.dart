@@ -9,6 +9,8 @@ import 'speech_engine_whisper_web.dart';
 SpeechEngine createSpeechEngine({bool voiceModel = false}) =>
     voiceModel && WhisperWebSpeechEngine.supported ? WhisperWebSpeechEngine() : _WebSpeechEngine();
 
+bool voiceModelCrashedLastTime() => WhisperWebSpeechEngine.consumeCrashFlag();
+
 /// Direct Web Speech API client.
 ///
 /// Chrome and Edge deliver interim and final results in one long continuous

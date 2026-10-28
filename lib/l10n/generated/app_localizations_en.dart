@@ -2214,4 +2214,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String recordingCredit(String author, String license) {
     return 'Recording: $author · $license';
   }
+
+  @override
+  String get voiceModelCrashed =>
+      'The Mushaf+ voice model ran out of memory on this device last time, so the browser recogniser is being used instead. You can try the voice model again from Settings → Recite & check.';
 }

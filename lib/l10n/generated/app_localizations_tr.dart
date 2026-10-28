@@ -2213,4 +2213,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String recordingCredit(String author, String license) {
     return 'Kayıt: $author · $license';
   }
+
+  @override
+  String get voiceModelCrashed =>
+      'Mushaf+ ses modeli bu cihazda geçen sefer bellek yetersizliğinden kapandı; şimdilik tarayıcı tanıyıcısı kullanılıyor. Ses modelini Ayarlar → Oku ve denetle’den yeniden deneyebilirsiniz.';
 }

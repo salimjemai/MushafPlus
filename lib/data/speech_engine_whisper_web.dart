@@ -63,7 +63,44 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
 
   _Session? _session;
 
-  static bool get _hasWebGpu => (web.window.navigator as JSObject).has('gpu');
+  /// iPhone and iPad (including iPadOS, which reports itself as a Mac).
+  static bool get _isIOS {
+    final ua = web.window.navigator.userAgent;
+    final nav = web.window.navigator;
+    return ua.contains('iPhone') || ua.contains('iPad') || ua.contains('iPod') || (ua.contains('Macintosh') && nav.maxTouchPoints > 1);
+  }
+
+  /// WebGPU is used where the browser exposes it, except on iOS/iPadOS: the
+  /// onnxruntime WebGPU backend there has crashed the tab (Safari then shows
+  /// "a problem repeatedly occurred" and the page cannot open), so those
+  /// devices take the smaller wasm path.
+  static bool get _hasWebGpu => (web.window.navigator as JSObject).has('gpu') && !_isIOS;
+
+  static const _busyKey = 'mushaf.voiceModelBusy';
+
+  /// True once per crash: the previous page load was lost while the model was
+  /// loading or listening (the browser killed the tab, usually for memory),
+  /// so the caller can fall back to the browser recogniser and say so.
+  static bool consumeCrashFlag() {
+    try {
+      final v = web.window.localStorage.getItem(_busyKey);
+      if (v == null) return false;
+      web.window.localStorage.removeItem(_busyKey);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static void _setBusy(bool busy) {
+    try {
+      if (busy) {
+        web.window.localStorage.setItem(_busyKey, '1');
+      } else {
+        web.window.localStorage.removeItem(_busyKey);
+      }
+    } catch (_) {}
+  }
 
   @override
   bool get accelerated => _hasWebGpu;
@@ -185,8 +222,10 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
     if (running != null) return running;
     final c = _load = Completer<void>();
     _loadError = null;
+    _setBusy(true);
     _ensureWorker().postMessage(_baseMessage('load'));
     return _loading = c.future.whenComplete(() {
+      _setBusy(false);
       _loading = null;
       _onProgress = null;
     });
@@ -227,10 +266,12 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
     }
     final session = _Session(engine: this, onText: onText, onEnd: onEnd, onError: onError, onLevel: onLevel);
     _session = session;
+    _setBusy(true);
     try {
       await session.open();
     } catch (e) {
       _session = null;
+      _setBusy(false);
       // A DOMException from getUserMedia prints as "NotAllowedError: …".
       final name = '$e';
       final code = name.startsWith('NotAllowedError') || name.startsWith('SecurityError')
@@ -247,6 +288,7 @@ class WhisperWebSpeechEngine implements DownloadableSpeechEngine {
     final s = _session;
     _session = null;
     if (s != null) await s.close();
+    _setBusy(false);
   }
 }
 

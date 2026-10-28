@@ -3903,6 +3903,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recording: {author} · {license}'**
   String recordingCredit(String author, String license);
+
+  /// No description provided for @voiceModelCrashed.
+  ///
+  /// In en, this message translates to:
+  /// **'The Mushaf+ voice model ran out of memory on this device last time, so the browser recogniser is being used instead. You can try the voice model again from Settings → Recite & check.'**
+  String get voiceModelCrashed;
 }
 
 class _AppLocalizationsDelegate

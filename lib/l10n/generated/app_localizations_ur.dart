@@ -2203,4 +2203,8 @@ class AppLocalizationsUr extends AppLocalizations {
   String recordingCredit(String author, String license) {
     return 'ریکارڈنگ: $author · $license';
   }
+
+  @override
+  String get voiceModelCrashed =>
+      'پچھلی بار اس آلے پر Mushaf+ وائس ماڈل کی میموری ختم ہو گئی تھی، اس لیے اب براؤزر کا انجن استعمال ہو رہا ہے۔ آپ ترتیبات ← تلاوت اور جانچ سے وائس ماڈل دوبارہ آزما سکتے ہیں۔';
 }

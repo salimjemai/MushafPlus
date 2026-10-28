@@ -2201,4 +2201,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String recordingCredit(String author, String license) {
     return 'التسجيل: $author · $license';
   }
+
+  @override
+  String get voiceModelCrashed =>
+      'نفدت ذاكرة هذا الجهاز أثناء تشغيل نموذج Mushaf+ الصوتي في المرة الماضية، لذا يُستخدم محرك المتصفح الآن. يمكنك تجربة النموذج الصوتي مجددًا من الإعدادات ← تسميع وتصحيح.';
 }

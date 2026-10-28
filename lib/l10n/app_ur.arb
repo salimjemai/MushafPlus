@@ -632,5 +632,6 @@
   "dataSourcesLicences": "کریڈٹس",
   "dataSourcesLicencesHint": "متن، آڈیو اور نقشے کس سے آئے ہیں",
   "openSourceLicences": "اوپن سورس لائسنس",
-  "recordingCredit": "ریکارڈنگ: {author} · {license}"
+  "recordingCredit": "ریکارڈنگ: {author} · {license}",
+  "voiceModelCrashed": "پچھلی بار اس آلے پر Mushaf+ وائس ماڈل کی میموری ختم ہو گئی تھی، اس لیے اب براؤزر کا انجن استعمال ہو رہا ہے۔ آپ ترتیبات ← تلاوت اور جانچ سے وائس ماڈل دوبارہ آزما سکتے ہیں۔"
 }

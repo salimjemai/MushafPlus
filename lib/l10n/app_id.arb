@@ -632,5 +632,6 @@
   "dataSourcesLicences": "Kredit",
   "dataSourcesLicencesHint": "Dari mana teks, audio dan peta berasal",
   "openSourceLicences": "Lisensi sumber terbuka",
-  "recordingCredit": "Rekaman: {author} · {license}"
+  "recordingCredit": "Rekaman: {author} · {license}",
+  "voiceModelCrashed": "Terakhir kali model suara Mushaf+ kehabisan memori di perangkat ini, jadi pengenal suara peramban yang dipakai. Anda bisa mencoba model suara lagi dari Pengaturan → Baca & periksa."
 }

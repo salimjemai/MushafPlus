@@ -67,6 +67,17 @@ class _ReciteScreenState extends ConsumerState<ReciteScreen> {
   @override
   void initState() {
     super.initState();
+    if (kIsWeb && voiceModelCrashedLastTime()) {
+      // The tab was killed last time while the voice model was loading or
+      // listening (iPhone Safari does this when memory runs out). Do not
+      // do it again on open: switch the setting back to the browser engine
+      // and explain; the user can opt in again from Settings.
+      ref.read(settingsProvider.notifier).setRecognitionEngine('browser');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.voiceModelCrashed), duration: const Duration(seconds: 10)));
+      });
+    }
     _voiceModel = ref.read(settingsProvider).useVoiceModel;
     _engine = createSpeechEngine(voiceModel: _voiceModel);
     final s = ref.read(repositoryProvider).requireValue.surah(widget.surah);

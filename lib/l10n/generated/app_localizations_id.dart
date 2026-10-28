@@ -2213,4 +2213,8 @@ class AppLocalizationsId extends AppLocalizations {
   String recordingCredit(String author, String license) {
     return 'Rekaman: $author · $license';
   }
+
+  @override
+  String get voiceModelCrashed =>
+      'Terakhir kali model suara Mushaf+ kehabisan memori di perangkat ini, jadi pengenal suara peramban yang dipakai. Anda bisa mencoba model suara lagi dari Pengaturan → Baca & periksa.';
 }
