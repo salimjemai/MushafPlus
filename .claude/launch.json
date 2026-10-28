@@ -4,8 +4,21 @@
     {
       "name": "quran-web",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["tool/serve.mjs", "8080"],
+      "runtimeArgs": [
+        "tool/serve.mjs",
+        "8080"
+      ],
       "port": 8080
+    },
+    {
+      "name": "watch-web",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "tool/serve.mjs",
+        "8766",
+        "build/web_watch"
+      ],
+      "port": 8766
     }
   ]
 }

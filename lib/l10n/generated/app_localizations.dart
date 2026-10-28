@@ -3567,6 +3567,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Text packs are saved. Audio packs will download when you are on Wi-Fi (or tap the button above to download now).'**
   String get waitingForWifi;
+
+  /// No description provided for @watchNoPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a prayer location to see prayer times.'**
+  String get watchNoPlace;
+
+  /// No description provided for @inDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'in {duration}'**
+  String inDuration(String duration);
+
+  /// No description provided for @tasbih.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasbih'**
+  String get tasbih;
+
+  /// No description provided for @tapToCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to count, hold to reset'**
+  String get tapToCount;
+
+  /// No description provided for @useLocationShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my location'**
+  String get useLocationShort;
 }
 
 class _AppLocalizationsDelegate

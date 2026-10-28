@@ -576,5 +576,10 @@
   "resumeOfflineDownload": "Eksik olan her şeyi indir",
   "wifiOnly": "Ses yalnızca Wi-Fi ile",
   "wifiOnlyHint": "Hücresel veride yalnızca küçük metin paketleri kendiliğinden iner.",
-  "waitingForWifi": "Metin paketleri kaydedildi. Ses paketleri Wi-Fi’ye bağlanınca inecek (ya da şimdi indirmek için yukarıdaki düğmeye dokunun)."
+  "waitingForWifi": "Metin paketleri kaydedildi. Ses paketleri Wi-Fi’ye bağlanınca inecek (ya da şimdi indirmek için yukarıdaki düğmeye dokunun).",
+  "watchNoPlace": "Namaz vakitlerini görmek için bir konum ayarlayın.",
+  "inDuration": "{duration} sonra",
+  "tasbih": "Tesbih",
+  "tapToCount": "Saymak için dokunun, sıfırlamak için basılı tutun",
+  "useLocationShort": "Konumum"
 }

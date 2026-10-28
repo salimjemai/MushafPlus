@@ -1,0 +1,22 @@
+<!-- Wear OS flavor overlay: merged on top of src/main/AndroidManifest.xml.
+     The watch build is uploaded to the Play Console's Wear OS form factor
+     track as a separate App Bundle with the same package name. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Marks the bundle as a Wear OS app (required="true" by default), so
+         Play never offers it to phones and tablets. -->
+    <uses-feature android:name="android.hardware.type.watch" />
+    <!-- Watches may lack a compass, GPS, Bluetooth or a touchscreen; the app
+         degrades gracefully, so none of these may block installation. -->
+    <uses-feature android:name="android.hardware.sensor.compass" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
+    <application>
+        <uses-library android:name="com.google.android.wearable" android:required="false" />
+        <!-- Works without the phone app: prayer times, Qibla and the Quran text
+             are all computed or bundled on the watch. -->
+        <meta-data android:name="com.google.android.wearable.standalone" android:value="true" />
+    </application>
+</manifest>

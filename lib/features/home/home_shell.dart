@@ -6,6 +6,8 @@ import '../../data/downloads.dart';
 import '../../data/offline_sync.dart';
 import '../../data/reciters.dart';
 import '../../data/reminders.dart';
+import '../../data/watch_sync.dart';
+import '../../state/masjid_providers.dart';
 import '../../state/providers.dart';
 
 import '../../core/l10n.dart';
@@ -23,15 +25,31 @@ class HomeShell extends ConsumerStatefulWidget {
   ConsumerState<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends ConsumerState<HomeShell> {
+class _HomeShellState extends ConsumerState<HomeShell> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // The Apple Watch app gets a fresh week of prayer times and verses
+    // whenever the place changes or the app comes back to the foreground.
+    ref.listenManual(activePlaceProvider, (_, __) => scheduleWatchSync(ref));
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
+      scheduleWatchSync(ref);
       await bootstrapReminders(context, ref);
       if (mounted) _startOfflineSync();
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) scheduleWatchSync(ref);
   }
 
   /// Installed apps download everything for offline use by themselves. The

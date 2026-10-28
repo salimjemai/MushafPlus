@@ -32,6 +32,7 @@ import 'features/search/search_screen.dart';
 import 'features/settings/offline_packs_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/settings/translation_picker_screen.dart';
+import 'features/watch/watch_app.dart';
 import 'state/providers.dart';
 import 'widgets/surah_number_badge.dart';
 
@@ -202,9 +203,10 @@ class MushafPlusApp extends ConsumerWidget {
     final repo = ref.watch(repositoryProvider);
 
     final locale = settings.locale == null ? null : Locale(settings.locale!);
+    final watch = ref.watch(deviceFormProvider).watch;
 
     return repo.when(
-      data: (_) => MaterialApp.router(
+      data: (_) => watch ? const WatchApp() : MaterialApp.router(
         onGenerateTitle: (context) => context.l10n.appTitle,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),

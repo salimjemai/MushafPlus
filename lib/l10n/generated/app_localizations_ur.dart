@@ -2011,4 +2011,21 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'متنی پیک محفوظ ہو گئے۔ آڈیو پیک وائی فائی پر ڈاؤن لوڈ ہوں گے (یا ابھی ڈاؤن لوڈ کرنے کے لیے اوپر والا بٹن دبائیں)۔';
+
+  @override
+  String get watchNoPlace => 'نماز کے اوقات دیکھنے کے لیے مقام مقرر کریں۔';
+
+  @override
+  String inDuration(String duration) {
+    return '$duration میں';
+  }
+
+  @override
+  String get tasbih => 'تسبیح';
+
+  @override
+  String get tapToCount => 'گننے کے لیے چھوئیں، صفر کرنے کے لیے دبائے رکھیں';
+
+  @override
+  String get useLocationShort => 'میرا مقام';
 }

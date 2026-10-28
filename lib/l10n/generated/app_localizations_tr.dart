@@ -2018,4 +2018,22 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'Metin paketleri kaydedildi. Ses paketleri Wi-Fi’ye bağlanınca inecek (ya da şimdi indirmek için yukarıdaki düğmeye dokunun).';
+
+  @override
+  String get watchNoPlace =>
+      'Namaz vakitlerini görmek için bir konum ayarlayın.';
+
+  @override
+  String inDuration(String duration) {
+    return '$duration sonra';
+  }
+
+  @override
+  String get tasbih => 'Tesbih';
+
+  @override
+  String get tapToCount => 'Saymak için dokunun, sıfırlamak için basılı tutun';
+
+  @override
+  String get useLocationShort => 'Konumum';
 }

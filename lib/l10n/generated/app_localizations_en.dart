@@ -2020,4 +2020,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'Text packs are saved. Audio packs will download when you are on Wi-Fi (or tap the button above to download now).';
+
+  @override
+  String get watchNoPlace => 'Set a prayer location to see prayer times.';
+
+  @override
+  String inDuration(String duration) {
+    return 'in $duration';
+  }
+
+  @override
+  String get tasbih => 'Tasbih';
+
+  @override
+  String get tapToCount => 'Tap to count, hold to reset';
+
+  @override
+  String get useLocationShort => 'Use my location';
 }

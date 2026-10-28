@@ -1,9 +1,10 @@
-// Minimal static server for build/web (used for local previews). Usage: node tool/serve.mjs [port]
+// Minimal static server for build/web (used for local previews). Usage: node tool/serve.mjs [port] [dir]
+// e.g. node tool/serve.mjs 8766 build/web_watch for the Wear OS preview build.
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { join, extname, normalize } from 'node:path';
 
-const root = join(process.cwd(), 'build', 'web');
+const root = normalize(join(process.cwd(), process.argv[3] ?? join('build', 'web')));
 const port = Number(process.argv[2] ?? process.env.PORT ?? 8080);
 const types = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript',

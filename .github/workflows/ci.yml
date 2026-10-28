@@ -51,14 +51,22 @@ jobs:
           keyAlias=$ANDROID_KEY_ALIAS
           keyPassword=$ANDROID_KEY_PASSWORD
           EOF
-      - run: flutter build apk --release
-      - run: flutter build appbundle --release
+      - run: flutter build apk --release --flavor phone
+      - run: flutter build appbundle --release --flavor phone
+      - run: flutter build apk --release --flavor wear
+      - run: flutter build appbundle --release --flavor wear
       - uses: actions/upload-artifact@v4
         with:
           name: mushaf-plus-android
           path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
+            build/app/outputs/flutter-apk/app-phone-release.apk
+            build/app/outputs/bundle/phoneRelease/app-phone-release.aab
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mushaf-plus-wear-os
+          path: |
+            build/app/outputs/flutter-apk/app-wear-release.apk
+            build/app/outputs/bundle/wearRelease/app-wear-release.aab
 
   ios:
     name: iOS (unsigned build check)

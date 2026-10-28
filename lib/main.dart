@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/data/latest_10y.dart' as tzdata;
 
 import 'app.dart';
+import 'data/device_form.dart';
 import 'data/storage.dart';
+import 'state/providers.dart';
 
 Future<void> main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
@@ -12,5 +14,9 @@ Future<void> main() async {
   initialRouteAtStartup = binding.platformDispatcher.defaultRouteName;
   tzdata.initializeTimeZones();
   await Storage.init();
-  runApp(const ProviderScope(child: MushafPlusApp()));
+  final form = await detectDeviceForm();
+  runApp(ProviderScope(
+    overrides: [deviceFormProvider.overrideWithValue(form)],
+    child: const MushafPlusApp(),
+  ));
 }

@@ -53,6 +53,21 @@ android {
         }
     }
 
+    // Two bundles with the same application id: "phone" goes to the normal
+    // production track, "wear" to the Wear OS form-factor track (its manifest
+    // overlay lives in src/wear). Play needs distinct version codes per form
+    // factor, hence the offset on the watch build.
+    flavorDimensions += "device"
+    productFlavors {
+        create("phone") {
+            dimension = "device"
+        }
+        create("wear") {
+            dimension = "device"
+            versionCode = flutter.versionCode + 100000
+        }
+    }
+
     buildTypes {
         release {
             // Uses android/key.properties when present, otherwise the debug key.

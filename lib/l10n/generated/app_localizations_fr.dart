@@ -2028,4 +2028,23 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'Packs texte enregistrés. Les packs audio se téléchargeront en Wi-Fi (ou touchez le bouton ci-dessus pour les télécharger maintenant).';
+
+  @override
+  String get watchNoPlace =>
+      'Définissez un lieu de prière pour voir les horaires.';
+
+  @override
+  String inDuration(String duration) {
+    return 'dans $duration';
+  }
+
+  @override
+  String get tasbih => 'Tasbih';
+
+  @override
+  String get tapToCount =>
+      'Touchez pour compter, maintenez pour remettre à zéro';
+
+  @override
+  String get useLocationShort => 'Ma position';
 }

@@ -2019,4 +2019,21 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'Paket teks tersimpan. Paket audio akan terunduh saat Anda memakai Wi-Fi (atau ketuk tombol di atas untuk mengunduh sekarang).';
+
+  @override
+  String get watchNoPlace => 'Atur lokasi salat untuk melihat jadwalnya.';
+
+  @override
+  String inDuration(String duration) {
+    return 'dalam $duration';
+  }
+
+  @override
+  String get tasbih => 'Tasbih';
+
+  @override
+  String get tapToCount => 'Ketuk untuk menghitung, tahan untuk mengatur ulang';
+
+  @override
+  String get useLocationShort => 'Lokasi saya';
 }

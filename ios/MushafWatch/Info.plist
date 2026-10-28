@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Keys the Watch App target needs beyond what Xcode generates. Either
+	     point the target at this file (Build Settings → Info.plist File) or
+	     copy these entries into the target's Info tab. -->
+	<key>CFBundleDisplayName</key>
+	<string>Mushaf+</string>
+	<key>CFBundleName</key>
+	<string>Mushaf+ Watch</string>
+	<key>WKApplication</key>
+	<true/>
+	<key>WKCompanionAppBundleIdentifier</key>
+	<string>com.salimjemai.mushafplus</string>
+	<key>WKRunsIndependentlyOfCompanionApp</key>
+	<false/>
+	<key>WKWatchOnly</key>
+	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Used to point the Qibla compass from where you are.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to listen to your recitation and check it against the Quran text.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Used to recognise the words of your recitation.</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+</dict>
+</plist>

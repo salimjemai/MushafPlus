@@ -1362,5 +1362,17 @@
         "type": "int"
       }
     }
-  }
+  },
+  "watchNoPlace": "Set a prayer location to see prayer times.",
+  "inDuration": "in {duration}",
+  "@inDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "tasbih": "Tasbih",
+  "tapToCount": "Tap to count, hold to reset",
+  "useLocationShort": "Use my location"
 }

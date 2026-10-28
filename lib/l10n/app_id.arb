@@ -576,5 +576,10 @@
   "resumeOfflineDownload": "Unduh semua yang kurang",
   "wifiOnly": "Audio hanya lewat Wi-Fi",
   "wifiOnlyHint": "Dengan data seluler hanya paket teks kecil yang terunduh sendiri.",
-  "waitingForWifi": "Paket teks tersimpan. Paket audio akan terunduh saat Anda memakai Wi-Fi (atau ketuk tombol di atas untuk mengunduh sekarang)."
+  "waitingForWifi": "Paket teks tersimpan. Paket audio akan terunduh saat Anda memakai Wi-Fi (atau ketuk tombol di atas untuk mengunduh sekarang).",
+  "watchNoPlace": "Atur lokasi salat untuk melihat jadwalnya.",
+  "inDuration": "dalam {duration}",
+  "tasbih": "Tasbih",
+  "tapToCount": "Ketuk untuk menghitung, tahan untuk mengatur ulang",
+  "useLocationShort": "Lokasi saya"
 }

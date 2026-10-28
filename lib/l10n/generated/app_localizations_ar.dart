@@ -2010,4 +2010,21 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get waitingForWifi =>
       'حُفظت حزم النصوص. ستُنزَّل حزم الصوت عند الاتصال بالواي فاي (أو اضغط الزر أعلاه للتنزيل الآن).';
+
+  @override
+  String get watchNoPlace => 'حدّد موقع الصلاة لعرض أوقات الصلاة.';
+
+  @override
+  String inDuration(String duration) {
+    return 'بعد $duration';
+  }
+
+  @override
+  String get tasbih => 'تسبيح';
+
+  @override
+  String get tapToCount => 'انقر للعدّ، واضغط مطولًا للتصفير';
+
+  @override
+  String get useLocationShort => 'استخدم موقعي';
 }

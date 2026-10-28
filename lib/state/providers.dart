@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../data/device_form.dart';
 
 import '../core/theme.dart';
 import '../data/hadith_service.dart';
@@ -492,15 +493,22 @@ class MemorizedNotifier extends Notifier<Set<int>> {
 
 final memorizedProvider = NotifierProvider<MemorizedNotifier, Set<int>>(MemorizedNotifier.new);
 
-/// Deterministic "verse of the day" (changes once per day).
-final verseOfTheDayProvider = Provider<int>((ref) {
-  final now = DateTime.now();
-  final dayOfYear = now.difference(DateTime(now.year, 1, 1)).inDays;
-  final seed = now.year * 1000 + dayOfYear;
+/// Deterministic "verse of the day" for a calendar date (global ayah number).
+int verseOfTheDayFor(DateTime day) {
+  // Counted in UTC so a daylight-saving shift cannot move the day boundary.
+  final dayOfYear = DateTime.utc(day.year, day.month, day.day).difference(DateTime.utc(day.year, 1, 1)).inDays;
+  final seed = day.year * 1000 + dayOfYear;
   // Simple LCG so the pick looks random but is stable for the whole day.
   final r = (seed * 1103515245 + 12345) & 0x7fffffff;
   return (r % QuranRepository.totalAyahs) + 1;
-});
+}
+
+/// Deterministic "verse of the day" (changes once per day).
+final verseOfTheDayProvider = Provider<int>((ref) => verseOfTheDayFor(DateTime.now()));
+
+/// The kind of device the app runs on; main() overrides it after asking the
+/// platform. Watches get the compact interface in features/watch.
+final deviceFormProvider = Provider<DeviceForm>((ref) => const DeviceForm());
 
 /// The person using the app; required to administer masjid profiles.
 class Profile {
