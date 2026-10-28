@@ -1,9 +1,9 @@
-// Minimal static server for build/web (used for local previews). Usage: node tool/serve.mjs [port]
+// Minimal static server for build/web (used for local previews). Usage: node tool/serve.mjs [port] [root]
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { join, extname, normalize } from 'node:path';
 
-const root = join(process.cwd(), 'build', 'web');
+const root = join(process.cwd(), ...(process.argv[3] ? [process.argv[3]] : ['build', 'web']));
 const port = Number(process.argv[2] ?? process.env.PORT ?? 8080);
 const types = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript',
@@ -25,4 +25,4 @@ createServer(async (req, res) => {
   } catch (e) {
     res.writeHead(404); res.end('Not found');
   }
-}).listen(port, '127.0.0.1', () => console.log(`Quran+ web preview at http://localhost:${port}`));
+}).listen(port, '127.0.0.1', () => console.log(`Serving ${root} at http://localhost:${port}`));

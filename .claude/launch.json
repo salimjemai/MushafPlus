@@ -6,6 +6,12 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["tool/serve.mjs", "8080"],
       "port": 8080
+    },
+    {
+      "name": "asr-prototype",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tool/serve.mjs", "8090", "tool/asr_prototype"],
+      "port": 8090
     }
   ]
 }
