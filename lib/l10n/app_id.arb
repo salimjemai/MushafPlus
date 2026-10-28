@@ -632,5 +632,5 @@
   "dataSourcesLicences": "Kredit",
   "dataSourcesLicencesHint": "Dari mana teks, audio dan peta berasal",
   "openSourceLicences": "Lisensi sumber terbuka",
-  "recordingCredit": "Rekaman: {author} · {license} · Wikimedia Commons"
+  "recordingCredit": "Rekaman: {author} · {license}"
 }

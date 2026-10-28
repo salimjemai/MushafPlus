@@ -2212,6 +2212,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String recordingCredit(String author, String license) {
-    return 'Recording: $author · $license · Wikimedia Commons';
+    return 'Recording: $author · $license';
   }
 }

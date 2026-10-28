@@ -1468,7 +1468,7 @@
   "dataSourcesLicences": "Credits",
   "dataSourcesLicencesHint": "Who the texts, audio and maps come from",
   "openSourceLicences": "Open-source licences",
-  "recordingCredit": "Recording: {author} · {license} · Wikimedia Commons",
+  "recordingCredit": "Recording: {author} · {license}",
   "@recordingCredit": {
     "placeholders": {
       "author": {

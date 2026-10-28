@@ -632,5 +632,5 @@
   "dataSourcesLicences": "Künye",
   "dataSourcesLicencesHint": "Metinler, sesler ve haritalar kimden geliyor",
   "openSourceLicences": "Açık kaynak lisansları",
-  "recordingCredit": "Kayıt: {author} · {license} · Wikimedia Commons"
+  "recordingCredit": "Kayıt: {author} · {license}"
 }

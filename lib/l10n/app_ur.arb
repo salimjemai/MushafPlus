@@ -632,5 +632,5 @@
   "dataSourcesLicences": "کریڈٹس",
   "dataSourcesLicencesHint": "متن، آڈیو اور نقشے کس سے آئے ہیں",
   "openSourceLicences": "اوپن سورس لائسنس",
-  "recordingCredit": "ریکارڈنگ: {author} · {license} · وکیمیڈیا کامنز"
+  "recordingCredit": "ریکارڈنگ: {author} · {license}"
 }

@@ -2211,6 +2211,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String recordingCredit(String author, String license) {
-    return 'Rekaman: $author · $license · Wikimedia Commons';
+    return 'Rekaman: $author · $license';
   }
 }

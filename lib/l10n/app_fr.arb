@@ -632,5 +632,5 @@
   "dataSourcesLicences": "Crédits",
   "dataSourcesLicencesHint": "D’où viennent les textes, l’audio et les cartes",
   "openSourceLicences": "Licences open source",
-  "recordingCredit": "Enregistrement : {author} · {license} · Wikimedia Commons"
+  "recordingCredit": "Enregistrement : {author} · {license}"
 }

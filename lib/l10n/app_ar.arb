@@ -632,5 +632,5 @@
   "dataSourcesLicences": "شكر وتقدير",
   "dataSourcesLicencesHint": "من أين تأتي النصوص والصوت والخرائط",
   "openSourceLicences": "تراخيص المصادر المفتوحة",
-  "recordingCredit": "التسجيل: {author} · {license} · ويكيميديا كومنز"
+  "recordingCredit": "التسجيل: {author} · {license}"
 }

@@ -2201,6 +2201,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String recordingCredit(String author, String license) {
-    return 'ریکارڈنگ: $author · $license · وکیمیڈیا کامنز';
+    return 'ریکارڈنگ: $author · $license';
   }
 }

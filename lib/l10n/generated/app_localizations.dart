@@ -3901,7 +3901,7 @@ abstract class AppLocalizations {
   /// No description provided for @recordingCredit.
   ///
   /// In en, this message translates to:
-  /// **'Recording: {author} · {license} · Wikimedia Commons'**
+  /// **'Recording: {author} · {license}'**
   String recordingCredit(String author, String license);
 }
 
